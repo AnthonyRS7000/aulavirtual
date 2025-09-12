@@ -8,11 +8,16 @@ interface LayoutProps {
 }
 
 const Layout = ({ children }: LayoutProps) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const onClose = () => setIsOpen(false);
+  const onToggle = () => setIsOpen(prev => !prev);
+
   return (
     <div className="layout">
-      <Sidebar />
+      <Sidebar isOpen={isOpen} onClose={onClose} onToggle={onToggle} />
       <div className="main-content">
-        <Topbar />
+        <Topbar onToggleSidebar={onToggle} isSidebarOpen={isOpen} />
         <div className="page-content">{children}</div>
       </div>
     </div>

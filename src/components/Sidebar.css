@@ -1,0 +1,217 @@
+/* Sidebar principal */
+.sidebar {
+  width: 80px;
+  background: #23243a;
+  color: #fff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 100;
+  box-shadow: 2px 0 4px rgba(0,0,0,0.1);
+}
+
+.sidebar.open {
+  width: 80px;
+}
+
+/* Logo del sidebar */
+.sidebar-logo {
+  padding: 24px 0 12px 0;
+  text-align: center;
+  border-bottom: 1px solid #444;
+  margin-bottom: 20px;
+}
+
+.logo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.logo-image {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 4px;
+}
+
+.logo-icon {
+  font-size: 32px;
+  color: #f9b233;
+}
+
+.logo-text {
+  font-size: 14px;
+  font-weight: bold;
+  color: #fff;
+  letter-spacing: 1px;
+}
+
+/* Separador */
+.sidebar-separator {
+  width: 60%;
+  border: 0;
+  border-top: 1px solid #444;
+  margin: 0 auto 12px auto;
+}
+
+/* Lista del menú */
+.menu-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  flex: 1;
+}
+
+.menu-list li {
+  margin: 12px 0;
+  width: 100%;
+  text-align: center;
+  position: relative;
+}
+
+.menu-list li.active {
+  background: #1a1b2f;
+  border-left: 4px solid #f9b233;
+}
+
+.menu-list li.active::before {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 30px;
+  background: #f9b233;
+  border-radius: 2px 0 0 2px;
+}
+
+/* Enlaces del menú */
+.menu-list a {
+  color: #fff;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  padding: 12px 8px;
+  border-radius: 8px;
+  margin: 0 8px;
+  position: relative;
+}
+
+.menu-list a:hover {
+  background: #2c2d4a;
+  transform: translateX(2px);
+}
+
+.menu-list a:hover .sidebar-icon {
+  color: #f9b233;
+  transform: scale(1.1);
+}
+
+/* Íconos del sidebar */
+.sidebar-icon {
+  font-size: 22px;
+  margin-bottom: 4px;
+  transition: all 0.2s ease;
+}
+
+/* Texto del sidebar */
+.sidebar-text {
+  font-size: 10px;
+  font-weight: 500;
+  opacity: 0.9;
+  display: block;
+  margin-top: 4px;
+  text-align: center;
+}
+
+/* Parte inferior del sidebar */
+.sidebar-bottom {
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 0 8px;
+}
+
+.sidebar-bottom a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px 8px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.sidebar-bottom a:hover {
+  background: #2c2d4a;
+  transform: translateY(-2px);
+}
+
+.ai-icon {
+  color: #f9b233 !important;
+}
+
+.tv-icon {
+  color: #f9b233 !important;
+}
+
+/* Tooltip para sidebar colapsado */
+.menu-list a::after {
+  content: attr(title);
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #333;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  margin-left: 12px;
+  z-index: 1000;
+}
+
+.menu-list a:hover::after {
+  opacity: 1;
+}
+
+/* Modo expandido (opcional) */
+@media (min-width: 1200px) {
+  .sidebar.expanded {
+    width: 250px;
+  }
+  
+  .sidebar.expanded .sidebar-text {
+    display: block;
+  }
+  
+  .sidebar.expanded .menu-list a {
+    flex-direction: row;
+    justify-content: flex-start;
+    padding-left: 16px;
+  }
+  
+  .sidebar.expanded .sidebar-icon {
+    margin-right: 12px;
+    margin-bottom: 0;
+  }
+}

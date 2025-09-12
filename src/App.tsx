@@ -1,29 +1,25 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { useState } from 'react';
-import Sidebar from './components/Sidebar';
-import Topbar from './components/Topbar'; // si tienes
-import InicioEstudiante from './features/estudiante/pages/InicioEstudiante'; // ajusta la ruta si es necesario
+import Layout from './components/Layout';
+import InicioEstudiante from './features/estudiante/pages/InicioEstudiante';
 import './App.css';
 
 function App() {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
-
   return (
     <Router>
-      <div className="app-layout">
-        <Sidebar
-          isOpen={sidebarOpen}
-          onClose={() => setSidebarOpen(false)}
-          onToggle={() => setSidebarOpen(!sidebarOpen)}
-        />
-        <div className="main-content">
-          <Topbar onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
-          <Routes>
-            <Route path="/" element={<InicioEstudiante />} />
-            {/* Puedes añadir más rutas aquí */}
-          </Routes>
-        </div>
-      </div>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<InicioEstudiante />} />
+          <Route path="/dashboard" element={<InicioEstudiante />} />
+          <Route path="/clases" element={<div className="card">Clases</div>} />
+          <Route path="/horario" element={<div className="card">Horario</div>} />
+          <Route path="/recursos" element={<div className="card">Recursos</div>} />
+          <Route path="/notas" element={<div className="card">Notas</div>} />
+          <Route path="/perfil" element={<div className="card">Perfil</div>} />
+          <Route path="/configuracion" element={<div className="card">Configuración</div>} />
+          <Route path="/ai" element={<div className="card">Asistente IA</div>} />
+          <Route path="/tv" element={<div className="card">Aula Virtual TV</div>} />
+        </Routes>
+      </Layout>
     </Router>
   );
 }
