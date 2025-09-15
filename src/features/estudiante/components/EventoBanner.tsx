@@ -23,12 +23,15 @@ export default function EventoBanner({
           </span>
         </div>
         
+          
         <div className="evento-info">
+            <div className="evento-titulo-container">
           <h2 className="evento-titulo">{titulo}</h2>
           <p className="evento-subtitulo">{subtitulo}</p>
-          
-          <div className="evento-detalles">
-            <div className="evento-fecha">
+          </div>
+
+          <div className="evento-grid">
+            <div className="evento-fecha-box">
               <span className="fecha-dia">23 Y 24</span>
               <span className="fecha-mes">de octubre</span>
             </div>
@@ -41,19 +44,19 @@ export default function EventoBanner({
                 <p className="ubicacion-auditorio">Auditorio Luis Bedoya Reyes</p>
               </div>
             </div>
-          </div>
-          
-          {enlaceInscripcion && (
-            <button className="evento-inscripcion">
-              Inscríbete AQUÍ
-            </button>
-          )}
-        </div>
-        
-        <div className="evento-imagen">
+
+          <div className="evento-imagen">
           <img src={imagen} alt={titulo} />
         </div>
       </div>
+          
+          {enlaceInscripcion && (
+            <a href={enlaceInscripcion} target="_blank" rel="noopener noreferrer">
+            <button className="evento-inscripcion">
+              Inscríbete AQUÍ
+            </button>
+            </a>
+          )}
       
       <div className="evento-indicadores">
         <span className="indicador"></span>
@@ -62,5 +65,7 @@ export default function EventoBanner({
         <span className="indicador"></span>
       </div>
     </div>
+    </div>
+      </div>
   );
 }
