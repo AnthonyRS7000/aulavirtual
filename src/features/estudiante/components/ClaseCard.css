@@ -1,0 +1,206 @@
+.clase-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-bottom: 16px;
+  border-left: 4px solid #0066cc;
+  transition: all 0.3s ease;
+}
+
+.clase-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.clase-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.clase-info {
+  flex: 1;
+}
+
+.clase-nombre {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0 0 4px 0;
+  line-height: 1.4;
+}
+
+.clase-codigo {
+  color: #6b7280;
+  font-size: 14px;
+  margin: 0;
+  font-weight: 600;
+}
+
+.clase-estado {
+  margin-left: 12px;
+}
+
+.estado-indicator {
+  padding: 4px 8px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 600;
+  color: white;
+  text-transform: capitalize;
+  display: inline-block;
+}
+
+.clase-docente {
+  margin-bottom: 12px;
+  color: #0066cc;
+  font-size: 16px;
+}
+
+.clase-descripcion {
+  margin-bottom: 16px;
+}
+
+.clase-descripcion p {
+  color: #6b7280;
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 0;
+  text-align: justify;
+}
+
+.clase-detalles {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+  padding: 12px;
+  background: #f9fafb;
+  border-radius: 8px;
+}
+
+.detalle-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #374151;
+}
+
+.detalle-icon,
+.modalidad-icon {
+  color: #0066cc;
+  font-size: 12px;
+  width: 16px;
+  text-align: center;
+}
+
+.proxima-clase {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  background: #ecfdf5;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  border: 1px solid #d1fae5;
+}
+
+.proxima-label {
+  color: #065f46;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.proxima-fecha {
+  color: #059669;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.clase-acciones {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  border-top: 1px solid #e5e7eb;
+  padding-top: 16px;
+}
+
+.btn-ver-clase,
+.btn-recursos,
+.btn-asistencia {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex: 1;
+  min-width: 80px;
+}
+
+.btn-ver-clase {
+  background: #0066cc;
+  color: white;
+}
+
+.btn-ver-clase:hover {
+  background: #0052a3;
+}
+
+.btn-recursos {
+  background: #059669;
+  color: white;
+}
+
+.btn-recursos:hover {
+  background: #047857;
+}
+
+.btn-asistencia {
+  background: #f3f4f6;
+  color: #6b7280;
+  border: 1px solid #d1d5db;
+}
+
+.btn-asistencia:hover {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .clase-card {
+    padding: 16px;
+  }
+  
+  .clase-header {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .clase-estado {
+    margin-left: 0;
+    align-self: flex-start;
+  }
+  
+  .clase-acciones {
+    flex-direction: column;
+  }
+  
+  .btn-ver-clase,
+  .btn-recursos,
+  .btn-asistencia {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .proxima-clase {
+    flex-direction: column;
+    gap: 4px;
+    text-align: center;
+  }
+}
