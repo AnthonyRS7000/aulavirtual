@@ -1,6 +1,5 @@
 import { Bars3Icon, BellIcon } from '@heroicons/react/24/outline';
-import ThemeToggle from '../components/ThemeToggle';
-import './Topbar.css';
+import ThemeToggle from './ThemeToggle';
 
 interface TopbarProps {
   onToggleSidebar: () => void;
@@ -31,8 +30,6 @@ export default function Topbar({ onToggleSidebar, isSidebarOpen }: TopbarProps) 
               <Bars3Icon style={{ width: '1.5rem', height: '1.5rem' }} />
             </button>
           )}
-
-          <h1 className="topbar-title">Aula Virtual - Estudiante</h1>
         </div>
 
         {/* Lado derecho */}

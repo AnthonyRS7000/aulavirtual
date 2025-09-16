@@ -1,27 +1,41 @@
 import { useState, type ReactNode } from "react";
-import Sidebar from '../components/Sidebar';
-import Topbar from '../components/Topbar';
+import Sidebar from './Sidebar';
+import Topbar from './Topbar';
 import './Layout.css';
 
 interface LayoutProps {
   children: ReactNode;
 }
 
-const Layout = ({ children }: LayoutProps) => {
-  const [isOpen, setIsOpen] = useState(false);
+export default function Layout({ children }: LayoutProps) {
+  const [sidebarOpen, setSidebarOpen] = useState(true);
 
-  const onClose = () => setIsOpen(false);
-  const onToggle = () => setIsOpen(prev => !prev);
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
 
   return (
-    <div className="layout">
-      <Sidebar isOpen={isOpen} onClose={onClose} onToggle={onToggle} />
-      <div className="main-content">
-        <Topbar onToggleSidebar={onToggle} isSidebarOpen={isOpen} />
-        <div className="page-content">{children}</div>
+    <div className="admin-layout">
+      {/* Sidebar */}
+      <Sidebar 
+        isOpen={sidebarOpen} 
+        onClose={() => setSidebarOpen(false)}
+        onToggle={toggleSidebar}
+      />
+      
+      {/* Main content area */}
+      <div className="admin-main-content">
+        {/* Topbar */}
+        <Topbar 
+          onToggleSidebar={toggleSidebar} 
+          isSidebarOpen={sidebarOpen}
+        />
+        
+        {/* Content */}
+        <main className="admin-content">
+          {children}
+        </main>
       </div>
     </div>
   );
-};
-
-export default Layout;
+}
