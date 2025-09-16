@@ -1,51 +1,115 @@
-/* Sidebar principal */
-.sidebar {
-  width: 80px;
-  background: #23243a;
-  color: #fff;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: fixed;
-  left: 0;
-  top: 0;
-  z-index: 100;
-  box-shadow: 2px 0 4px rgba(0,0,0,0.1);
+/* Importar estilos principales del Layout.css */
+@import './Layout.css';
+
+/* Estilos básicos para asegurar que el sidebar se vea */
+.admin-sidebar, .admin-sidebar-desktop {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 16rem !important;
+  height: 100vh !important;
+  background-color: #ffffff !important;
+  box-shadow: 2px 0px 8px rgba(0, 0, 0, 0.1) !important;
+  z-index: 30 !important;
+  padding: 1rem !important;
 }
 
-.sidebar.open {
-  width: 80px;
+.dark .admin-sidebar, .dark .admin-sidebar-desktop {
+  background-color: #1f2937 !important;
 }
 
-/* Logo del sidebar */
-.sidebar-logo {
-  padding: 24px 0 12px 0;
-  text-align: center;
-  border-bottom: 1px solid #444;
-  margin-bottom: 20px;
+.user-info-copiloto {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  margin-top: 1.5rem !important;
+  margin-bottom: 2rem !important;
 }
 
-.logo-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
+.user-avatar-copiloto {
+  width: 5rem !important;
+  height: 5rem !important;
+  border-radius: 50% !important;
+  overflow: hidden !important;
+  margin-bottom: 1rem !important;
 }
 
-.logo-image {
-  width: 48px;
-  height: 48px;
-  object-fit: contain;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.1);
-  padding: 4px;
+.user-avatar-image {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
 }
 
-.logo-icon {
-  font-size: 32px;
-  color: #f9b233;
+.user-name-copiloto {
+  font-size: 1.125rem !important;
+  font-weight: 600 !important;
+  color: #111827 !important;
+  text-align: center !important;
+  margin-bottom: 0.5rem !important;
+}
+
+.dark .user-name-copiloto {
+  color: #f9fafb !important;
+}
+
+.user-role-copiloto {
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  color: #48A6A7 !important;
+  border-bottom: 3px solid #EFB036 !important;
+  padding-bottom: 0.25rem !important;
+}
+
+.nav-section-copiloto {
+  margin-bottom: 0.5rem !important;
+}
+
+.nav-section-header-copiloto {
+  display: flex !important;
+  align-items: center !important;
+  padding: 0.75rem !important;
+  border-radius: 0.5rem !important;
+  text-decoration: none !important;
+  color: #111827 !important;
+  transition: background-color 0.15s ease !important;
+}
+
+.dark .nav-section-header-copiloto {
+  color: #f9fafb !important;
+}
+
+.nav-section-header-copiloto:hover {
+  background-color: #f3f4f6 !important;
+}
+
+.dark .nav-section-header-copiloto:hover {
+  background-color: #374151 !important;
+}
+
+.nav-section-header-copiloto.active {
+  background-color: #48A6A7 !important;
+  color: #ffffff !important;
+}
+
+.nav-section-content-copiloto {
+  display: flex !important;
+  align-items: center !important;
+  gap: 1rem !important;
+}
+
+.nav-section-icon-copiloto {
+  width: 1.5rem !important;
+  height: 1.5rem !important;
+  color: #0ea5e9 !important;
+}
+
+.dark .nav-section-icon-copiloto {
+  color: #ffffff !important;
+}
+
+.nav-section-label-copiloto {
+  font-weight: 600 !important;
+  font-size: 0.875rem !important;
 }
 
 .logo-text {
