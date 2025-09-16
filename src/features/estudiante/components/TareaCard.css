@@ -1,0 +1,264 @@
+.tarea-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-bottom: 16px;
+  border-left: 4px solid #0066cc;
+  transition: all 0.3s ease;
+}
+
+.tarea-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.tarea-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.tarea-estado {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.estado-badge,
+.prioridad-badge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 600;
+  color: white;
+  text-transform: capitalize;
+}
+
+.estado-icon {
+  font-size: 10px;
+}
+
+.tiempo-restante {
+  text-align: right;
+}
+
+.urgente {
+  color: #ef4444;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+}
+
+.proximo {
+  color: #f59e0b;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.normal {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.tarea-contenido {
+  margin-bottom: 16px;
+}
+
+.tarea-titulo {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0 0 8px 0;
+  line-height: 1.4;
+}
+
+.tarea-descripcion {
+  color: #6b7280;
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 0 0 16px 0;
+  text-align: justify;
+}
+
+.tarea-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.materia-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.materia-info strong {
+  color: #0066cc;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.profesor {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.fechas-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: right;
+}
+
+.fecha-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.fecha-icon {
+  color: #0066cc;
+  font-size: 12px;
+}
+
+.nota-tarea {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  background: #f0f9ff;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.nota-label {
+  color: #0066cc;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.nota-valor {
+  color: #059669;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.comentarios-tarea {
+  padding: 12px;
+  background: #fef3c7;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.comentarios-label {
+  color: #d97706;
+  font-weight: 600;
+  font-size: 14px;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.comentarios-texto {
+  color: #92400e;
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0;
+  font-style: italic;
+}
+
+.tarea-acciones {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  border-top: 1px solid #e5e7eb;
+  padding-top: 16px;
+}
+
+.btn-entregar,
+.btn-ver,
+.btn-detalles {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-entregar {
+  background: #059669;
+  color: white;
+}
+
+.btn-entregar:hover {
+  background: #047857;
+}
+
+.btn-ver {
+  background: #0066cc;
+  color: white;
+}
+
+.btn-ver:hover {
+  background: #0052a3;
+}
+
+.btn-detalles {
+  background: #f3f4f6;
+  color: #6b7280;
+  border: 1px solid #d1d5db;
+}
+
+.btn-detalles:hover {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .tarea-card {
+    padding: 16px;
+  }
+  
+  .tarea-header {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .tiempo-restante {
+    text-align: left;
+  }
+  
+  .tarea-meta {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .fechas-info {
+    text-align: left;
+  }
+  
+  .tarea-acciones {
+    flex-direction: column;
+  }
+  
+  .btn-entregar,
+  .btn-ver,
+  .btn-detalles {
+    width: 100%;
+    justify-content: center;
+  }
+}

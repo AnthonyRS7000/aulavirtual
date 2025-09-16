@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useTheme } from '../hooks/useTheme';
-import { FaHome, FaUser, FaBook, FaGraduationCap, FaCog, FaClipboardList, FaClock, FaChalkboardTeacher, FaRobot, FaTv } from 'react-icons/fa';
+import { FaHome, FaUser, FaBook, FaGraduationCap, FaCog, FaClipboardList, FaClock, FaChalkboardTeacher, FaRobot, FaTv, FaTasks } from 'react-icons/fa';
 import './Sidebar.css';
 
 interface SidebarProps {
@@ -57,6 +57,12 @@ const Sidebar = ({ isOpen }: SidebarProps) => {
             <Link to="/notas" title="Notas">
               <FaGraduationCap className="sidebar-icon" />
               <span className="sidebar-text">Notas</span>
+            </Link>
+          </li>
+          <li className={location.pathname === '/tareas' ? 'active' : ''}>
+            <Link to="/tareas" title="Tareas">
+              <FaTasks className="sidebar-icon" />
+              <span className="sidebar-text">Tareas</span>
             </Link>
           </li>
           <li className={location.pathname === '/perfil' ? 'active' : ''}>
