@@ -1,5 +1,6 @@
 import { useTheme } from '../hooks/useTheme';
-import { IoSunny, IoMoon } from 'react-icons/io5';
+import iconoSol from '../assets/temaClaro.svg';
+import iconoLuna from '../assets/temaOscuro.svg';
 
 export default function ThemeToggle() {
   const { theme, setTheme } = useTheme();
@@ -8,6 +9,11 @@ export default function ThemeToggle() {
     setTheme(theme === 'light' ? 'dark' : 'light');
   };
 
+  const isDark = theme === 'dark';
+  const bgColor = isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)';
+  const borderColor = isDark ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.1)';
+  const iconColor = isDark ? '#e2e8f0' : '#0f172a';
+
   return (
     <button
       onClick={toggleTheme}
@@ -15,37 +21,32 @@ export default function ThemeToggle() {
       title={`Tema actual: ${theme === 'dark' ? 'Oscuro' : 'Claro'} - Click para cambiar`}
       aria-label={`Tema actual: ${theme === 'dark' ? 'Oscuro' : 'Claro'} - Click para cambiar`}
       style={{
+        width: '36px',
+        height: '36px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        minWidth: '44px',
-        minHeight: '44px',
-        background: 'rgba(255, 255, 255, 0.1)',
-        border: '2px solid rgba(52, 152, 219, 0.5)',
-        borderRadius: '12px',
-        color: '#ffffff',
-        cursor: 'pointer'
+        borderRadius: '50%',
+        backgroundColor: bgColor,
+        border: `1px solid ${borderColor}`,
+        cursor: 'pointer',
+        transition: 'all 0.3s ease',
+        boxShadow: isDark ? '0 4px 15px rgba(0, 0, 0, 0.2)' : '0 4px 10px rgba(0,0,0,0.1)',
+        outline: 'none',
+        boxSizing: 'border-box',
+        padding: 0,
       }}
     >
-      {theme === 'dark' ? (
-        <IoMoon 
-          className="theme-icon" 
-          style={{ 
-            width: '24px', 
-            height: '24px', 
-            color: '#e2e8f0'
-          }} 
-        />
-      ) : (
-        <IoSunny 
-          className="theme-icon" 
-          style={{ 
-            width: '24px', 
-            height: '24px', 
-            color: '#fbbf24'
-          }} 
-        />
-      )}
+      <img
+        src={isDark ? iconoLuna : iconoSol}
+        alt={isDark ? 'Modo Oscuro' : 'Modo Claro'}
+        style={{
+          width: '20px',
+          height: '20px',
+          objectFit: 'contain',
+          filter: isDark ? 'invert(1)' : 'none', 
+        }}
+      />
     </button>
   );
 }

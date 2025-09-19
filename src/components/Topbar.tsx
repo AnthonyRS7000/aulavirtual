@@ -55,7 +55,6 @@ export default function Topbar({  }: TopbarProps) {
 
           {/* Selector de tema */}
           <ThemeToggle />
-          </div>
 
           {/* Usuario */}
           <div className="topbar-user" onClick={() => setPerfilOpen(!perfilOpen)} style={{ cursor: 'pointer' }}>
