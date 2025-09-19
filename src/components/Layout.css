@@ -4,14 +4,10 @@
   display: flex;
   height: 100vh;
   overflow: hidden;
-  background-color: var(--background-color, #f4f4f4);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
   font-family: 'Roboto', 'Poppins', sans-serif;
-  transition: background-color 0.1s ease;
-}
-
-/* Modo oscuro para layout */
-.dark .admin-layout {
-  background-color: #111827;
+  transition: all 0.3s ease;
 }
 
 /* Sidebar móvil: fixed */
@@ -23,9 +19,10 @@
   width: 16rem;
   height: 100vh;
   overflow-y: auto;
-  background-color: #ffffff;
-  transition: transform 0.3s ease-in-out, width 0.3s ease-in-out, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
-  box-shadow: 2px 0px 8px rgba(0, 0, 0, 0.1);
+  background-color: var(--sidebar-bg);
+  color: var(--sidebar-text);
+  transition: all 0.3s ease;
+  box-shadow: 2px 0px 8px var(--shadow);
 }
 
 /* ✅ Al colapsar: reducir ancho y ocultar texto interno */
@@ -186,6 +183,8 @@
   overflow: hidden;
   transition: margin-left 0.3s ease;
   margin-left: 240px;
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
 }
 
 .admin-main-content.collapsed {
@@ -193,30 +192,23 @@
 }
 
 .admin-topbar {
-  background-color: #ffffff;
-  border-bottom: 1px solid #e5e7eb;
+  background: var(--topbar-bg);
+  border-bottom: 1px solid var(--border-color);
   padding: 0.75rem 1rem;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  box-shadow: 0 1px 3px 0 var(--shadow);
   position: relative;
   z-index: 10;
-  transition: background-color 0.1s ease, border-color 0.1s ease, box-shadow 0.1s ease;
+  transition: all 0.3s ease;
 }
 
-.dark .admin-topbar {
-  background-color: #1f2937;
-  border-bottom: 1px solid #374151;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.2);
-}
+
 
 .admin-content {
   flex: 1;
   overflow-y: auto;
-  background-color: #f3f4f6;
-  transition: background-color 0.1s ease;
-}
-
-.dark .admin-content {
-  background-color: #111827;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: all 0.3s ease;
 }
 
 /* Topbar styles - EXACTOS COMO UDH */

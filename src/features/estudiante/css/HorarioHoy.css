@@ -1,0 +1,389 @@
+/* HorarioHoy - Estilo UDH Dark Theme con Cards Separados */
+
+/* Contenedor principal */
+.horario-hoy {
+  padding: 30px;
+  min-height: 100vh;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Poppins', sans-serif;
+  transition: all 0.3s ease;
+}
+
+/* Header mejorado */
+.horario-header {
+  background: var(--bg-secondary);
+  backdrop-filter: blur(15px);
+  border-radius: 20px;
+  padding: 35px;
+  margin-bottom: 30px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+.horario-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #3498db 0%, #2980b9 100%);
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.header-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.header-icon {
+  font-size: 2.5rem;
+  color: #3498db;
+  padding: 15px;
+  background: rgba(52, 152, 219, 0.15);
+  border-radius: 15px;
+  border: 2px solid rgba(52, 152, 219, 0.3);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { 
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(52, 152, 219, 0.4);
+  }
+  50% { 
+    transform: scale(1.05);
+    box-shadow: 0 0 0 10px rgba(52, 152, 219, 0);
+  }
+}
+
+.header-info h1 {
+  margin: 0;
+  font-size: 2.2rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -0.5px;
+}
+
+.fecha-hoy {
+  color: #bdc3c7;
+  font-size: 1.1rem;
+  font-weight: 600;
+  background: rgba(52, 73, 94, 0.8);
+  padding: 12px 20px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  text-transform: capitalize;
+}
+
+/* Lista de clases con separación forzada */
+.clases-lista {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 25px !important;
+  margin-top: 20px !important;
+}
+
+/* Cards de clase bien separados */
+.clase-card {
+  background: rgba(52, 73, 94, 0.95) !important;
+  backdrop-filter: blur(15px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 20px !important;
+  overflow: hidden !important;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4) !important;
+  transition: all 0.4s ease !important;
+  position: relative !important;
+  margin-bottom: 25px !important;
+  display: block !important;
+  width: 100% !important;
+  isolation: isolate !important;
+}
+
+.clase-card:hover {
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5) !important;
+  transform: translateY(-8px) !important;
+  background: rgba(52, 73, 94, 1) !important;
+  border-color: rgba(52, 152, 219, 0.3) !important;
+}
+
+/* Estados específicos */
+.clase-card.pendiente {
+  border-left: 5px solid #f59e0b !important;
+  background: linear-gradient(to right, rgba(245, 158, 11, 0.15), rgba(52, 73, 94, 0.95)) !important;
+}
+
+.clase-card.en-curso {
+  border-left: 5px solid #10b981 !important;
+  background: linear-gradient(to right, rgba(16, 185, 129, 0.15), rgba(52, 73, 94, 0.95)) !important;
+  animation: pulseBorder 2s infinite;
+}
+
+.clase-card.completada {
+  border-left: 5px solid #6b7280 !important;
+  background: linear-gradient(to right, rgba(107, 114, 128, 0.15), rgba(52, 73, 94, 0.95)) !important;
+  opacity: 0.8;
+}
+
+@keyframes pulseBorder {
+  0%, 100% { border-left-color: #10b981; }
+  50% { border-left-color: #34d399; }
+}
+
+/* Header de cada card */
+.clase-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 25px;
+  background: rgba(44, 62, 80, 0.8);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.clase-tiempo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.hora {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #3498db;
+  letter-spacing: -0.3px;
+}
+
+.estado-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: capitalize;
+  letter-spacing: 0.5px;
+}
+
+.estado-badge.pendiente {
+  background: rgba(245, 158, 11, 0.2);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.estado-badge.en-curso {
+  background: rgba(16, 185, 129, 0.2);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  animation: pulse 1.5s infinite;
+}
+
+.estado-badge.completada {
+  background: rgba(107, 114, 128, 0.2);
+  color: #9ca3af;
+  border: 1px solid rgba(107, 114, 128, 0.3);
+}
+
+.tipo-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.tipo-badge.virtual {
+  background: rgba(52, 152, 219, 0.2);
+  color: #3498db;
+  border: 1px solid rgba(52, 152, 219, 0.3);
+}
+
+.tipo-badge.presencial {
+  background: rgba(155, 89, 182, 0.2);
+  color: #e74c3c;
+  border: 1px solid rgba(155, 89, 182, 0.3);
+}
+
+/* Contenido del card */
+.clase-contenido {
+  padding: 25px;
+}
+
+.materia-nombre {
+  margin: 0 0 20px 0;
+  color: #ecf0f1;
+  font-size: 1.3rem;
+  font-weight: 800;
+  line-height: 1.3;
+  letter-spacing: -0.3px;
+}
+
+.clase-detalles {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.profesor,
+.aula {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #bdc3c7;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.detail-icon {
+  color: #3498db;
+  font-size: 1.1rem;
+  padding: 8px;
+  background: rgba(52, 152, 219, 0.1);
+  border-radius: 8px;
+  border: 1px solid rgba(52, 152, 219, 0.2);
+}
+
+/* Sin clases */
+.sin-clases {
+  text-align: center;
+  padding: 80px 40px;
+  background: rgba(52, 73, 94, 0.95);
+  backdrop-filter: blur(15px);
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #bdc3c7;
+}
+
+.sin-clases .icon-empty {
+  font-size: 5rem;
+  margin-bottom: 20px;
+  opacity: 0.4;
+  color: #7f8c8d;
+}
+
+.sin-clases p {
+  margin: 0 0 10px 0;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #ecf0f1;
+}
+
+.hint {
+  font-size: 1rem;
+  color: #95a5a6;
+  font-weight: 400;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .horario-hoy {
+    padding: 15px;
+  }
+  
+  .horario-header {
+    padding: 25px;
+  }
+  
+  .header-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+  
+  .header-info h1 {
+    font-size: 1.8rem;
+  }
+  
+  .header-icon {
+    font-size: 2rem;
+  }
+  
+  .clase-header {
+    flex-direction: column;
+    gap: 15px;
+    align-items: flex-start;
+  }
+  
+  .clase-contenido {
+    padding: 20px;
+  }
+  
+  .materia-nombre {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .horario-hoy {
+    padding: 10px;
+  }
+  
+  .header-info h1 {
+    font-size: 1.5rem;
+  }
+  
+  .clase-card {
+    border-radius: 15px;
+  }
+  
+  .clase-header,
+  .clase-contenido {
+    padding: 15px;
+  }
+}
+
+/* Animaciones de entrada */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.clase-card {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+/* Pseudo elementos para separación visual */
+.clase-card::after {
+  content: '';
+  display: block;
+  height: 15px;
+  width: 100%;
+  position: absolute;
+  bottom: -20px;
+  left: 0;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(52, 152, 219, 0.2) 20%, 
+    rgba(52, 152, 219, 0.4) 50%, 
+    rgba(52, 152, 219, 0.2) 80%, 
+    transparent 100%);
+  height: 2px;
+}
+
+.clase-card:last-child::after {
+  display: none;
+}

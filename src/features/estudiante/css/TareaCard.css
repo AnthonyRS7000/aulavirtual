@@ -1,16 +1,18 @@
 .tarea-card {
-  background: white;
+  background: var(--bg-secondary);
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px var(--shadow);
   padding: 20px;
   margin-bottom: 16px;
-  border-left: 4px solid #0066cc;
+  border-left: 4px solid var(--udh-accent);
   transition: all 0.3s ease;
+  color: var(--text-primary);
 }
 
 .tarea-card:hover {
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 16px var(--shadow);
   transform: translateY(-2px);
+  background: var(--bg-tertiary);
 }
 
 .tarea-header {

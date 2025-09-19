@@ -1,5 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import { Bars3Icon, BellIcon } from '@heroicons/react/24/outline';
 import ThemeToggle from './ThemeToggle';
 import NotificacionesDropdown from './NotificacionesDropdown';
@@ -19,7 +18,7 @@ const mockUser = {
   image: 'https://ui-avatars.com/api/?name=Armando+Rojas&background=39B49E&color=fff',
 };
 
-export default function Topbar({ onToggleSidebar, isSidebarOpen }: TopbarProps) {
+export default function Topbar({  }: TopbarProps) {
   const [notificacionesAbiertas, setNotificacionesAbiertas] = useState(false);
   const [tieneNotificacionesNoLeidas] = useState(true);
   const [perfilOpen, setPerfilOpen] = useState(false);
@@ -55,7 +54,6 @@ export default function Topbar({ onToggleSidebar, isSidebarOpen }: TopbarProps) 
           </button>
 
           {/* Selector de tema */}
-          <div className="theme-toggle-wrapper">
           <ThemeToggle />
           </div>
 
