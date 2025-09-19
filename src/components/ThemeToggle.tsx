@@ -1,5 +1,5 @@
 import { useTheme } from '../hooks/useTheme';
-import { SunIcon, MoonIcon } from '@heroicons/react/24/outline';
+import { IoSunny, IoMoon } from 'react-icons/io5';
 
 export default function ThemeToggle() {
   const { theme, setTheme } = useTheme();
@@ -12,12 +12,39 @@ export default function ThemeToggle() {
     <button
       onClick={toggleTheme}
       className="theme-toggle-btn"
-      title={`Cambiar a tema ${theme === 'light' ? 'oscuro' : 'claro'}`}
+      title={`Tema actual: ${theme === 'dark' ? 'Oscuro' : 'Claro'} - Click para cambiar`}
+      aria-label={`Tema actual: ${theme === 'dark' ? 'Oscuro' : 'Claro'} - Click para cambiar`}
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minWidth: '44px',
+        minHeight: '44px',
+        background: 'rgba(255, 255, 255, 0.1)',
+        border: '2px solid rgba(52, 152, 219, 0.5)',
+        borderRadius: '12px',
+        color: '#ffffff',
+        cursor: 'pointer'
+      }}
     >
-      {theme === 'light' ? (
-        <MoonIcon className="theme-icon" />
+      {theme === 'dark' ? (
+        <IoMoon 
+          className="theme-icon" 
+          style={{ 
+            width: '24px', 
+            height: '24px', 
+            color: '#e2e8f0'
+          }} 
+        />
       ) : (
-        <SunIcon className="theme-icon" />
+        <IoSunny 
+          className="theme-icon" 
+          style={{ 
+            width: '24px', 
+            height: '24px', 
+            color: '#fbbf24'
+          }} 
+        />
       )}
     </button>
   );

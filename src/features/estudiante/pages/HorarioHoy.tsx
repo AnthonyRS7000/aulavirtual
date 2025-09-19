@@ -1,4 +1,5 @@
 import { FaClock, FaMapMarkerAlt, FaChalkboardTeacher } from 'react-icons/fa';
+import '../css/HorarioHoy.css';
 
 interface ClaseHoy {
   id: number;
@@ -41,67 +42,58 @@ export default function HorarioHoy() {
     }
   ];
 
-  const obtenerColorEstado = (estado: string) => {
-    switch (estado) {
-      case 'pendiente': return '#f59e0b';
-      case 'en-curso': return '#10b981';
-      case 'completada': return '#6b7280';
-      default: return '#6b7280';
-    }
-  };
-
   return (
     <div className="horario-hoy">
       <div className="horario-header">
-        <h3>
-          <FaClock className="header-icon" />
-          Horario de Hoy
-        </h3>
-        <span className="fecha-hoy">
-          {new Date().toLocaleDateString('es-ES', { 
-            weekday: 'long', 
-            year: 'numeric', 
-            month: 'long', 
-            day: 'numeric' 
-          })}
-        </span>
+        <div className="header-content">
+          <div className="header-info">
+            <FaClock className="header-icon" />
+            <h1>Horario de Hoy</h1>
+          </div>
+          <span className="fecha-hoy">
+            {new Date().toLocaleDateString('es-ES', { 
+              weekday: 'long', 
+              year: 'numeric', 
+              month: 'long', 
+              day: 'numeric' 
+            })}
+          </span>
+        </div>
       </div>
 
       <div className="clases-lista">
         {clasesHoy.map((clase) => (
           <div 
             key={clase.id} 
-            className={`clase-item ${clase.estado}`}
-            style={{ borderLeftColor: obtenerColorEstado(clase.estado) }}
+            className={`clase-card ${clase.estado}`}
           >
-            <div className="clase-tiempo">
-              <span className="hora">{clase.hora}</span>
-              <span 
-                className="estado-badge"
-                style={{ backgroundColor: obtenerColorEstado(clase.estado) }}
-              >
-                {clase.estado}
-              </span>
-            </div>
-            
-            <div className="clase-info">
-              <h4 className="materia-nombre">{clase.materia}</h4>
-              <div className="clase-detalles">
-                <span className="profesor">
-                  <FaChalkboardTeacher className="detail-icon" />
-                  {clase.profesor}
+            <div className="clase-header">
+              <div className="clase-tiempo">
+                <span className="hora">{clase.hora}</span>
+                <span className={`estado-badge ${clase.estado}`}>
+                  {clase.estado === 'pendiente' ? '⏳' : clase.estado === 'en-curso' ? '🔴' : '✅'}
+                  {clase.estado}
                 </span>
-                <span className="aula">
-                  <FaMapMarkerAlt className="detail-icon" />
-                  {clase.aula}
+              </div>
+              <div className="clase-tipo">
+                <span className={`tipo-badge ${clase.tipo}`}>
+                  {clase.tipo === 'virtual' ? '💻' : '🏫'} {clase.tipo}
                 </span>
               </div>
             </div>
-
-            <div className="clase-tipo">
-              <span className={`tipo-badge ${clase.tipo}`}>
-                {clase.tipo === 'virtual' ? '💻' : '🏫'} {clase.tipo}
-              </span>
+            
+            <div className="clase-contenido">
+              <h3 className="materia-nombre">{clase.materia}</h3>
+              <div className="clase-detalles">
+                <div className="profesor">
+                  <FaChalkboardTeacher className="detail-icon" />
+                  <span>{clase.profesor}</span>
+                </div>
+                <div className="aula">
+                  <FaMapMarkerAlt className="detail-icon" />
+                  <span>{clase.aula}</span>
+                </div>
+              </div>
             </div>
           </div>
         ))}
@@ -109,7 +101,9 @@ export default function HorarioHoy() {
 
       {clasesHoy.length === 0 && (
         <div className="sin-clases">
+          <FaClock className="icon-empty" />
           <p>No tienes clases programadas para hoy</p>
+          <span className="hint">Disfruta tu día libre de clases</span>
         </div>
       )}
     </div>

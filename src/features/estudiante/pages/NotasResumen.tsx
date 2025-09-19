@@ -1,4 +1,5 @@
-import { FaGraduationCap, FaTrophy, FaChartLine, FaExclamationTriangle } from 'react-icons/fa';
+import { FaGraduationCap, FaTrophy, FaChartLine, FaExclamationTriangle, FaAward, FaCalculator, FaCertificate } from 'react-icons/fa';
+import '../css/NotasResumen.css';
 
 interface NotaCurso {
   id: number;
@@ -64,13 +65,6 @@ export default function NotasResumen() {
 
   const totalCreditos = notas.reduce((acc, nota) => acc + nota.creditos, 0);
 
-  const obtenerColorNota = (nota: number, estado: string) => {
-    if (estado === 'pendiente') return '#6b7280';
-    if (nota >= 17) return '#10b981';
-    if (nota >= 14) return '#f59e0b';
-    return '#ef4444';
-  };
-
   const obtenerIconoEstado = (estado: string) => {
     switch (estado) {
       case 'aprobado': return <FaTrophy className="estado-icon aprobado" />;
@@ -83,62 +77,117 @@ export default function NotasResumen() {
   return (
     <div className="notas-resumen">
       <div className="notas-header">
-        <h3>
-          <FaGraduationCap className="header-icon" />
-          Resumen de Notas
-        </h3>
-        <div className="estadisticas-generales">
-          <div className="stat">
-            <span className="stat-valor">{promedioGeneral.toFixed(1)}</span>
-            <span className="stat-label">Promedio</span>
+        <div className="header-content">
+          <div className="header-info">
+            <FaGraduationCap className="header-icon" />
+            <h1>Resumen de Notas</h1>
           </div>
-          <div className="stat">
+        </div>
+      </div>
+
+      {/* Estadísticas principales */}
+      <div className="estadisticas-principales">
+        <div className="stat-card promedio">
+          <div className="stat-icon">
+            <FaCalculator />
+          </div>
+          <div className="stat-content">
+            <span className="stat-valor">{promedioGeneral.toFixed(1)}</span>
+            <span className="stat-label">Promedio General</span>
+          </div>
+        </div>
+        
+        <div className="stat-card creditos">
+          <div className="stat-icon">
+            <FaCertificate />
+          </div>
+          <div className="stat-content">
             <span className="stat-valor">{creditosAprobados}/{totalCreditos}</span>
-            <span className="stat-label">Créditos</span>
+            <span className="stat-label">Créditos Aprobados</span>
+          </div>
+        </div>
+        
+        <div className="stat-card rendimiento">
+          <div className="stat-icon">
+            <FaAward />
+          </div>
+          <div className="stat-content">
+            <span className="stat-valor">{Math.round((creditosAprobados/totalCreditos)*100)}%</span>
+            <span className="stat-label">Rendimiento</span>
           </div>
         </div>
       </div>
 
       <div className="notas-lista">
         {notas.map((nota) => (
-          <div key={nota.id} className={`nota-item ${nota.estado}`}>
-            <div className="nota-info">
-              <div className="materia-header">
-                <h4 className="materia-nombre">{nota.materia}</h4>
-                {obtenerIconoEstado(nota.estado)}
+          <div key={nota.id} className={`nota-card ${nota.estado}`}>
+            <div className="nota-header">
+              <div className="materia-info">
+                <h3 className="materia-nombre">{nota.materia}</h3>
+                <span className="codigo-materia">{nota.codigo}</span>
               </div>
-              <span className="codigo-materia">{nota.codigo}</span>
-              <div className="creditos-info">
-                <span className="creditos">{nota.creditos} créditos</span>
+              <div className="estado-container">
+                {obtenerIconoEstado(nota.estado)}
               </div>
             </div>
             
-            <div className="nota-valor">
-              <span 
-                className={`nota-numero ${nota.estado}`}
-                style={{ color: obtenerColorNota(nota.nota, nota.estado) }}
-              >
-                {nota.estado === 'pendiente' ? '--' : nota.nota}
-              </span>
-              <span className="nota-escala">/20</span>
+            <div className="nota-contenido">
+              <div className="nota-detalles">
+                <div className="creditos-info">
+                  <span className="creditos-label">Créditos:</span>
+                  <span className="creditos-valor">{nota.creditos}</span>
+                </div>
+                <div className="estado-info">
+                  <span className="estado-label">Estado:</span>
+                  <span className={`estado-valor ${nota.estado}`}>
+                    {nota.estado === 'aprobado' ? 'Aprobado' : 
+                     nota.estado === 'desaprobado' ? 'Desaprobado' : 'Pendiente'}
+                  </span>
+                </div>
+              </div>
+              
+              <div className="nota-display">
+                <span className={`nota-numero ${nota.estado}`}>
+                  {nota.estado === 'pendiente' ? '--' : nota.nota}
+                </span>
+                <span className="nota-escala">/20</span>
+              </div>
             </div>
           </div>
         ))}
       </div>
 
       <div className="notas-footer">
-        <div className="leyenda">
-          <div className="leyenda-item">
-            <div className="color-indicator aprobado"></div>
-            <span>Aprobado (≥14)</span>
-          </div>
-          <div className="leyenda-item">
-            <div className="color-indicator desaprobado"></div>
-            <span>Desaprobado (&lt;14)</span>
-          </div>
-          <div className="leyenda-item">
-            <div className="color-indicator pendiente"></div>
-            <span>Pendiente</span>
+        <div className="leyenda-card">
+          <h3 className="leyenda-titulo">Leyenda de Estados</h3>
+          <div className="leyenda-grid">
+            <div className="leyenda-item aprobado">
+              <div className="leyenda-icon">
+                <FaTrophy />
+              </div>
+              <div className="leyenda-info">
+                <span className="leyenda-label">Aprobado</span>
+                <span className="leyenda-desc">Nota ≥ 14</span>
+              </div>
+            </div>
+            <div className="leyenda-item desaprobado">
+              <div className="leyenda-icon">
+                <FaExclamationTriangle />
+              </div>
+              <div className="leyenda-info">
+                <span className="leyenda-label">Desaprobado</span>
+                <span className="leyenda-desc">Nota &lt; 14</span>
+              </div>
+            </div>
+            <div className="leyenda-item pendiente">
+              <div className="leyenda-icon">
+                <FaChartLine />
+              </div>
+              <div className="leyenda-info">
+                <span className="leyenda-label">Pendiente</span>
+                <span className="leyenda-desc">Por evaluar</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
