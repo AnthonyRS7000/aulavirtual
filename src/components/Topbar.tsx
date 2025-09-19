@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { BellIcon } from '@heroicons/react/24/outline';
+import { Bars3Icon, BellIcon } from '@heroicons/react/24/outline';
 import ThemeToggle from './ThemeToggle';
 import NotificacionesDropdown from './NotificacionesDropdown';
+import PerfilDropdown from './PerfilDropdown';
 import './NotificacionesDropdown.css';
 
 interface TopbarProps {
@@ -11,7 +12,7 @@ interface TopbarProps {
 
 // Mock user data - EXACTO COMO UDH
 const mockUser = {
-  full_name: 'ARMANDO ROJAS LUNA',
+  full_name: '',
   email: 'armando.estudiante@udh.edu.pe',
   role: 'estudiante',
   image: 'https://ui-avatars.com/api/?name=Armando+Rojas&background=39B49E&color=fff',
@@ -20,6 +21,7 @@ const mockUser = {
 export default function Topbar({  }: TopbarProps) {
   const [notificacionesAbiertas, setNotificacionesAbiertas] = useState(false);
   const [tieneNotificacionesNoLeidas] = useState(true);
+  const [perfilOpen, setPerfilOpen] = useState(false);
 
   const toggleNotificaciones = () => {
     setNotificacionesAbiertas(!notificacionesAbiertas);
@@ -38,6 +40,7 @@ export default function Topbar({  }: TopbarProps) {
 
         {/* Lado derecho */}
         <div className="topbar-right">
+          
           {/* Notificaciones */}
           <button 
             className={`topbar-notification ${notificacionesAbiertas ? 'active' : ''}`}
@@ -45,27 +48,30 @@ export default function Topbar({  }: TopbarProps) {
             title="Notificaciones"
           >
             <BellIcon style={{ width: '1.25rem', height: '1.25rem' }} />
-            {tieneNotificacionesNoLeidas && (
+            {tieneNotificacionesNoLeidas && 
               <span className="notification-dot"></span>
-            )}
+            }
           </button>
 
-          {/* Selector de tema - DEBE APARECER AQUÍ */}
+          {/* Selector de tema */}
           <ThemeToggle />
+          </div>
 
           {/* Usuario */}
-          <div className="topbar-user">
-            <div className="topbar-user-avatar">
-              <img
-                src={mockUser.image}
-                alt={mockUser.full_name}
-                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-              />
-            </div>
-            <span className="topbar-user-name">
-              {mockUser.full_name.split(' ')[0]}
-            </span>
-          </div>
+          <div className="topbar-user" onClick={() => setPerfilOpen(!perfilOpen)} style={{ cursor: 'pointer' }}>
+  <div className="topbar-user-avatar">
+    <img
+      src={mockUser.image}
+      alt={mockUser.full_name}
+      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+    />
+  </div>
+  <span className="topbar-user-name">
+    {mockUser.full_name.split(' ')[0] }
+  </span>
+</div>
+
+<PerfilDropdown isOpen={perfilOpen} onClose={() => setPerfilOpen(false)} />
         </div>
       </div>
 

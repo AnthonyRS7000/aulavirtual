@@ -8,9 +8,11 @@ import HorarioHoy from './features/estudiante/pages/HorarioHoy';
 import Notas from './features/estudiante/pages/NotasResumen';
 import Recursos from './features/estudiante/pages/RecursosRecientes';
 import AnunciosCurso from './features/estudiante/pages/AnunciosCurso';
+import PerfilDropdown from './components/PerfilDropdown';
 import './App.css';
 import './components/ThemeOverrides.css';
 import CalendarioAgenda from './features/estudiante/pages/CalendarioAgenda';
+
 
 function App() {
   return (
@@ -32,5 +34,6 @@ function App() {
     </Router>
   );
 }
+
 
 export default App;

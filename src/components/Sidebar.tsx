@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import FlechaIcon from '../assets/flecha.svg';
 import { Link, useLocation } from 'react-router-dom';
 import './Sidebar.css';
 
@@ -64,7 +65,6 @@ export default function Sidebar({ isOpen, onClose, onToggle }: SidebarProps) {
       icon: FaHome,
       path: '/estudiante/inicio',
     },
-    
     {
       name: 'clases',
       label: 'Clases',
@@ -82,12 +82,6 @@ export default function Sidebar({ isOpen, onClose, onToggle }: SidebarProps) {
       label: 'Anuncios',
       icon: FaBullhorn,
       path: '/estudiante/anuncios',
-    },
-    {
-      name: 'perfil',
-      label: 'Perfil',
-      icon: FaUser,
-      path: '/estudiante/perfil',
     },
     {
       name: 'horario',
@@ -126,11 +120,15 @@ export default function Sidebar({ isOpen, onClose, onToggle }: SidebarProps) {
   className="sidebar-collapse-button"
   title="Colapsar sidebar"
   style={{
-    left: isOpen ? '240px' : '80px',
+    left: isOpen ? '220px' : '60px',
     transform: isOpen ? 'rotate(0deg)' : 'rotate(180deg)',
   }}
 >
-  ←
+  <img
+    src={FlechaIcon}
+    alt="Flecha"
+    className="flecha-icon"
+  />
 </button>
 
 
