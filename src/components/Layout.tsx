@@ -24,18 +24,13 @@ export default function Layout({ children }: LayoutProps) {
       />
       
       {/* Main content area */}
-      <div className="admin-main-content">
-        {/* Topbar */}
-        <Topbar 
-          onToggleSidebar={toggleSidebar} 
-          isSidebarOpen={sidebarOpen}
-        />
-        
-        {/* Content */}
-        <main className="admin-content">
-          {children}
-        </main>
-      </div>
+      <div className={`admin-main-content ${sidebarOpen ? '' : 'collapsed'}`}>
+  <Topbar onToggleSidebar={toggleSidebar} isSidebarOpen={sidebarOpen} />
+  <main className="admin-content">
+    {children}
+  </main>
+</div>
+
     </div>
   );
 }

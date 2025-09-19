@@ -4,7 +4,7 @@
   display: flex;
   height: 100vh;
   overflow: hidden;
-  background-color: #f3f4f6;
+  background-color: var(--background-color, #f4f4f4);
   font-family: 'Roboto', 'Poppins', sans-serif;
   transition: background-color 0.1s ease;
 }
@@ -26,6 +26,76 @@
   background-color: #ffffff;
   transition: transform 0.3s ease-in-out, width 0.3s ease-in-out, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
   box-shadow: 2px 0px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* ✅ Al colapsar: reducir ancho y ocultar texto interno */
+.admin-sidebar.collapsed,
+.admin-sidebar-desktop.collapsed {
+  width: 80px !important;
+}
+
+/* ✅ Ocultar nombre, rol y texto en modo colapsado */
+.admin-sidebar.collapsed .user-info-text,
+.admin-sidebar-desktop.collapsed .user-info-text,
+.admin-sidebar.collapsed .nav-section-label-copiloto,
+.admin-sidebar-desktop.collapsed .nav-section-label-copiloto {
+  display: none !important;
+}
+
+/* ✅ Centrar íconos en modo colapsado */
+.admin-sidebar.collapsed .nav-section-content-copiloto,
+.admin-sidebar-desktop.collapsed .nav-section-content-copiloto {
+  justify-content: flex-start !important;
+  align-items: flex-start !important;
+  padding-left: 0.75rem; /* Ajusta el padding si se ve desplazado */
+}
+
+/* ✅ Centrar avatar al colapsar */
+.admin-sidebar.collapsed .user-avatar-copiloto,
+.admin-sidebar-desktop.collapsed .user-avatar-copiloto {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.admin-sidebar .nav-section-copiloto,
+.admin-sidebar.collapsed .nav-section-copiloto {
+  margin-top: 2rem; /* o el margen que usas normalmente */
+}
+
+.admin-sidebar.collapsed .user-header,
+.admin-sidebar-desktop.collapsed .user-header {
+  display: none !important;
+}
+
+.admin-sidebar.collapsed .user-info-copiloto,
+.admin-sidebar-desktop.collapsed .user-info-copiloto {
+  min-height: 120px; /* conserva el espacio del bloque */
+  margin-bottom: 1rem;
+  opacity: 0;
+  height: auto;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.admin-sidebar .nav-container-copiloto,
+.admin-sidebar-desktop .nav-container-copiloto {
+  margin-top: 2rem;
+}
+
+.admin-sidebar.collapsed .nav-container-copiloto,
+.admin-sidebar-desktop.collapsed .nav-container-copiloto {
+  margin-top: 2rem !important; /* evitar que suban */
+}
+
+.admin-sidebar.collapsed .nav-section-content-copiloto,
+.admin-sidebar-desktop.collapsed .nav-section-content-copiloto {
+  justify-content: center !important;
+  padding-left: 0 !important;
+}
+
+.admin-sidebar.collapsed .nav-section-label-copiloto,
+.admin-sidebar-desktop.collapsed .nav-section-label-copiloto {
+  display: none !important;
 }
 
 /* Modo oscuro para sidebar - TRANSICIÓN RÁPIDA */
@@ -112,8 +182,14 @@
 .admin-main-content {
   display: flex;
   flex-direction: column;
-  flex: 1;
+  flex-grow: 1;
   overflow: hidden;
+  transition: margin-left 0.3s ease;
+  margin-left: 240px;
+}
+
+.admin-main-content.collapsed {
+  margin-left: 80px !important;
 }
 
 .admin-topbar {
@@ -266,23 +342,21 @@
 
 /* Botón de colapsar */
 .sidebar-collapse-button {
-  position: fixed !important;
-  top: 20px !important;
-  left: 240px !important;
-  z-index: 1000 !important;
-  width: 30px !important;
-  height: 30px !important;
-  border-radius: 50% !important;
-  background: #d1d2d3 !important;
-  border: none !important;
-  color: #374151 !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  transition: all 0.3s ease-in-out !important;
-  cursor: pointer !important;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+  position: absolute;
+  top: 1.2rem;
+  z-index: 100;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #d1d2d3;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: left 0.3s ease, transform 0.3s ease;
 }
+
 
 .sidebar-collapse-button:hover {
   background: #6b7280 !important;
@@ -318,7 +392,8 @@
   align-items: center;
   justify-content: center;
   margin-top: 1.5rem;
-  margin-bottom: 0.25rem;
+  margin-bottom: 1rem;
+  height: 175px;
   padding: 0 1rem;
 }
 

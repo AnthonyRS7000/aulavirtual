@@ -50,13 +50,10 @@ export default function Sidebar({ isOpen, onClose, onToggle }: SidebarProps) {
 
   // Detectar cambios de tamaño de pantalla
   useEffect(() => {
-    const checkScreenSize = () => {
-      setIsDesktop(window.innerWidth >= 1024);
-    };
-
-    checkScreenSize();
-    window.addEventListener('resize', checkScreenSize);
-    return () => window.removeEventListener('resize', checkScreenSize);
+    const checkSize = () => setIsDesktop(window.innerWidth >= 1024);
+    checkSize();
+    window.addEventListener('resize', checkSize);
+    return () => window.removeEventListener('resize', checkSize);
   }, []);
 
   // Secciones de navegación - Componentes del estudiante sin desglosar
@@ -110,27 +107,20 @@ export default function Sidebar({ isOpen, onClose, onToggle }: SidebarProps) {
 
       {/* Botón de colapsar */}
       <button
-        onClick={() => onToggle?.()}
-        className={`sidebar-collapse-button ${isOpen ? 'appearing' : 'disappearing'}`}
-        title="Colapsar sidebar"
-        style={{
-          position: 'fixed',
-          top: '20px',
-          left: '240px',
-          zIndex: 1000,
-          width: '30px',
-          height: '30px',
-          borderRadius: '50%',
-          background: '#d1d2d3',
-          border: 'none',
-          cursor: 'pointer'
-        }}
-      >
-        ←
-      </button>
+  onClick={onToggle}
+  className="sidebar-collapse-button"
+  title="Colapsar sidebar"
+  style={{
+    left: isOpen ? '240px' : '80px',
+    transform: isOpen ? 'rotate(0deg)' : 'rotate(180deg)',
+  }}
+>
+  ←
+</button>
+
 
       {/* Sidebar */}
-      <div className={`${sidebarClass} ${isOpen ? '' : 'closed'}`}>
+      <div className={`${sidebarClass} ${isOpen ? '' : 'collapsed'}`}>
         {/* Información del usuario - DISEÑO COPILOTO */}
         <div className="user-info-copiloto">
           <div className="user-avatar-copiloto">
