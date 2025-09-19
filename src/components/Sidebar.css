@@ -8,11 +8,12 @@
   left: 0 !important;
   width: 240px !important;
   height: 100vh !important;
-  background-color: #ffffff !important;
-  box-shadow: 2px 0px 8px rgba(0, 0, 0, 0.1) !important;
+  background-color: var(--sidebar-bg) !important;
+  color: var(--sidebar-text) !important;
+  box-shadow: 2px 0px 8px var(--shadow) !important;
   z-index: 30 !important;
   overflow: hidden;
-  transition: width 0.3s ease;
+  transition: all 0.3s ease;
   padding: 1rem !important;
 }
 

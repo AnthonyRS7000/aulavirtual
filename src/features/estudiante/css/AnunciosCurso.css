@@ -1,11 +1,12 @@
-/* Página de Anuncios del Curso - Estilo UDH Oscuro Mejorado */
+/* Página de Anuncios del Curso - Estilo UDH con tema dinámico */
 .anuncios-curso {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
   min-height: 100vh;
-  background: linear-gradient(135deg, #2c3e50 0%, #34495e 50%, #1a252f 100%);
-  color: #ecf0f1;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  transition: all 0.3s ease;
 }
 
 /* REGLAS MEGA ESPECÍFICAS PARA FORZAR SEPARACIÓN */

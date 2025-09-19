@@ -1,0 +1,139 @@
+/* Overrides CSS para asegurar que todos los elementos usen variables de tema */
+
+/* Forzar variables de tema en todos los elementos principales */
+.inicio-estudiante-container,
+.inicio-estudiante-container *,
+.stream-actividades,
+.stream-actividades *,
+.curso-card,
+.curso-card *,
+.horario-hoy,
+.horario-hoy *,
+.notas-resumen,
+.notas-resumen *,
+.recursos-recientes,
+.recursos-recientes *,
+.anuncios-curso,
+.anuncios-curso * {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease !important;
+}
+
+/* Cards principales */
+.curso-card,
+.tarea-card,
+.clase-card,
+.anuncio-card,
+.recurso-card,
+.nota-card,
+.widget {
+  background: var(--bg-secondary) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border-color) !important;
+}
+
+.curso-card:hover,
+.tarea-card:hover,
+.clase-card:hover,
+.anuncio-card:hover,
+.recurso-card:hover,
+.nota-card:hover,
+.widget:hover {
+  background: var(--bg-tertiary) !important;
+}
+
+/* Contenedores principales */
+.inicio-estudiante-container,
+.horario-hoy,
+.notas-resumen,
+.recursos-recientes,
+.anuncios-curso {
+  background: var(--bg-primary) !important;
+  color: var(--text-primary) !important;
+}
+
+/* Headers y títulos */
+.header-bienvenida,
+.horario-header,
+.notas-header,
+.recursos-header,
+.stream-header {
+  background: var(--bg-secondary) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border-color) !important;
+}
+
+/* Textos */
+.titulo-bienvenida,
+.subtitulo,
+.widget-titulo,
+.curso-titulo,
+.tarea-titulo,
+.horario-titulo,
+.notas-titulo,
+.recursos-titulo {
+  color: var(--text-primary) !important;
+}
+
+/* Stream de actividades */
+.stream-actividades {
+  background: var(--bg-secondary) !important;
+  color: var(--text-primary) !important;
+}
+
+/* Botones */
+button,
+.btn,
+.boton {
+  background: var(--bg-secondary) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border-color) !important;
+}
+
+button:hover,
+.btn:hover,
+.boton:hover {
+  background: var(--bg-tertiary) !important;
+}
+
+/* Elementos con backgrounds específicos que deben adaptarse */
+[style*="background: rgba(52, 73, 94"],
+[style*="background: rgba(44, 62, 80"],
+[style*="background: rgba(255, 255, 255"] {
+  background: var(--bg-secondary) !important;
+}
+
+/* Textos que necesitan cambiar color */
+[style*="color: white"],
+[style*="color: #ecf0f1"],
+[style*="color: #fff"] {
+  color: var(--text-primary) !important;
+}
+
+/* Asegurar que elementos específicos cambien */
+.inicio-estudiante .main-content,
+.inicio-estudiante .sidebar-widgets,
+.inicio-estudiante .content-area {
+  background: var(--bg-primary) !important;
+  color: var(--text-primary) !important;
+}
+
+/* Variables de respaldo para elementos que no usan las variables */
+:root.light {
+  --force-bg: #ffffff;
+  --force-text: #1e293b;
+  --force-card: #f8fafc;
+}
+
+:root.dark {
+  --force-bg: #0f172a;
+  --force-text: #f1f5f9;
+  --force-card: #1e293b;
+}
+
+/* Forzar colores en elementos problemáticos */
+.inicio-estudiante-container .widget,
+.inicio-estudiante-container .curso-card,
+.inicio-estudiante-container .header-bienvenida {
+  background: var(--force-card) !important;
+  color: var(--force-text) !important;
+}

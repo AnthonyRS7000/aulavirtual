@@ -9,6 +9,7 @@ import Notas from './features/estudiante/pages/NotasResumen';
 import Recursos from './features/estudiante/pages/RecursosRecientes';
 import AnunciosCurso from './features/estudiante/pages/AnunciosCurso';
 import './App.css';
+import './components/ThemeOverrides.css';
 import CalendarioAgenda from './features/estudiante/pages/CalendarioAgenda';
 
 function App() {
