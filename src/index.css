@@ -1,18 +1,65 @@
+/* Variables CSS para el sistema de temas UDH */
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Poppins', system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
-  color-scheme: light;
-  color: #213547;
-  background-color: #ffffff;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  
+  /* Tema claro por defecto */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8fafc;
+  --bg-tertiary: #e2e8f0;
+  --text-primary: #1e293b;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+  --border-color: #e2e8f0;
+  --shadow: rgba(0, 0, 0, 0.1);
+  
+  /* Colores UDH */
+  --udh-primary: #2c3e50;
+  --udh-secondary: #34495e;
+  --udh-accent: #3498db;
+  --udh-success: #27ae60;
+  --udh-warning: #f39c12;
+  --udh-error: #e74c3c;
+  
+  /* Sidebar y navegación */
+  --sidebar-bg: var(--udh-primary);
+  --sidebar-text: #ecf0f1;
+  --sidebar-hover: var(--udh-secondary);
+  --topbar-bg: linear-gradient(90deg, #143a6d 60%, #0a1a2f 100%);
+  
+  color-scheme: light;
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
 }
 
+/* Tema oscuro */
+:root.dark {
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;
+  --bg-tertiary: #334155;
+  --text-primary: #f1f5f9;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --border-color: #334155;
+  --shadow: rgba(0, 0, 0, 0.3);
+  
+  /* Sidebar y navegación para tema oscuro */
+  --sidebar-bg: #0f172a;
+  --sidebar-text: #f1f5f9;
+  --sidebar-hover: #1e293b;
+  --topbar-bg: linear-gradient(90deg, #0f172a 60%, #020617 100%);
+  
+  color-scheme: dark;
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+}
+
+/* Reset y base */
 * {
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
@@ -23,12 +70,28 @@ body {
   padding: 0;
   min-width: 320px;
   min-height: 100vh;
-  background-color: #ffffff;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 #root {
   min-height: 100vh;
   width: 100%;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+/* Transiciones suaves para el cambio de tema */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Tipografía */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-primary);
+  margin: 0;
+  line-height: 1.2;
 }
 
 h1 {
@@ -36,34 +99,116 @@ h1 {
   line-height: 1.1;
 }
 
+p {
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* Botones base */
 button {
   border-radius: 8px;
-  border: 1px solid transparent;
+  border: 1px solid var(--border-color);
   padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
   cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  transition: all 0.25s ease;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+button:hover {
+  background-color: var(--bg-tertiary);
+  border-color: var(--udh-accent);
+}
+
+button:focus,
+button:focus-visible {
+  outline: 2px solid var(--udh-accent);
+  outline-offset: 2px;
+}
+
+/* Enlaces */
+a {
+  color: var(--udh-accent);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--udh-secondary);
+}
+
+/* Inputs */
+input, textarea, select {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 0.5rem;
+  font-family: inherit;
+  transition: all 0.3s ease;
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: var(--udh-accent);
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+/* Cards y contenedores */
+.card {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px var(--shadow);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: 0 8px 25px var(--shadow);
+  transform: translateY(-2px);
+}
+
+/* Scrollbars personalizados */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* Animaciones para el cambio de tema */
+@keyframes themeTransition {
+  0% { opacity: 0.8; }
+  100% { opacity: 1; }
+}
+
+body {
+  animation: themeTransition 0.3s ease;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2.5em;
   }
-  a:hover {
-    color: #747bff;
-  }
+  
   button {
-    background-color: #f9f9f9;
+    padding: 0.5em 1em;
+    font-size: 0.9em;
   }
 }

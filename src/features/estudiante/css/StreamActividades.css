@@ -1,10 +1,11 @@
-/* Stream de Actividades - Estilo UDH Oscuro */
+/* Stream de Actividades - Estilo UDH con tema dinámico */
 .stream-actividades {
-  background: rgba(52, 73, 94, 0.9);
+  background: var(--bg-secondary);
   border-radius: 15px;
   padding: 25px;
-  color: white;
+  color: var(--text-primary);
   min-height: 600px;
+  transition: all 0.3s ease;
 }
 
 .stream-header {

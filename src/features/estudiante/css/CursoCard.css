@@ -1,21 +1,21 @@
-/* CursoCard - Estilo UDH Oscuro */
+/* CursoCard - Estilo UDH con tema dinámico */
 .curso-card {
-  background: rgba(52, 73, 94, 0.9);
+  background: var(--bg-secondary);
   backdrop-filter: blur(10px);
   border-radius: 15px;
   padding: 20px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px var(--shadow);
+  border: 1px solid var(--border-color);
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
-  color: white;
+  color: var(--text-primary);
 }
 
 .curso-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
-  background: rgba(52, 73, 94, 1);
+  box-shadow: 0 15px 40px var(--shadow);
+  background: var(--bg-tertiary);
 }
 
 .curso-card::before {

@@ -1,8 +1,9 @@
-/* Inicio Estudiante - Estilo UDH con colores del sistema */
+/* Inicio Estudiante - Estilo UDH con variables CSS dinámicas */
 .inicio-estudiante-container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #2c3e50 0%, #34495e 50%, #1a252f 100%);
+  background: var(--bg-primary);
   padding: 20px;
+  transition: all 0.3s ease;
 }
 
 .inicio-estudiante {
@@ -12,24 +13,26 @@
 
 /* Header de Bienvenida */
 .header-bienvenida {
-  background: rgba(44, 62, 80, 0.95);
+  background: var(--bg-secondary);
   backdrop-filter: blur(10px);
   border-radius: 15px;
   padding: 25px;
   margin-bottom: 30px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px var(--shadow);
+  border: 1px solid var(--border-color);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: white;
+  color: var(--text-primary);
+  transition: all 0.3s ease;
 }
 
 .titulo-bienvenida {
   font-size: 1rem;
   font-weight: 700;
+  color: var(--text-primary);
   margin-bottom: 8px;
-  background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+  background: linear-gradient(135deg, var(--udh-accent) 0%, var(--udh-secondary) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -38,7 +41,7 @@
 
 .subtitulo {
   font-size: 1.1rem;
-  color: #bdc3c7;
+  color: var(--text-secondary);
   margin: 0;
   font-weight: 500;
 }
@@ -170,23 +173,24 @@
 
 /* Sidebar Widgets */
 .widget {
-  background: rgba(52, 73, 94, 0.6);
+  background: var(--bg-secondary);
   border-radius: 12px;
   padding: 20px;
-  border: 1px solid rgba(52, 152, 219, 0.2);
+  border: 1px solid var(--border-color);
   transition: all 0.3s ease;
+  color: var(--text-primary);
 }
 
 .widget:hover {
-  background: rgba(52, 73, 94, 0.8);
+  background: var(--bg-tertiary);
   transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(52, 152, 219, 0.2);
+  box-shadow: 0 4px 15px var(--shadow);
 }
 
 .widget-titulo {
   font-size: 1.1rem;
   font-weight: 600;
-  color: #ecf0f1;
+  color: var(--text-primary);
   margin-bottom: 15px;
   display: flex;
   align-items: center;

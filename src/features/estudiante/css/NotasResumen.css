@@ -4,14 +4,15 @@
 .notas-resumen {
   padding: 30px;
   min-height: 100vh;
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-  color: #ecf0f1;
+  background: var(--bg-primary);
+  color: var(--text-primary);
   font-family: 'Poppins', sans-serif;
+  transition: all 0.3s ease;
 }
 
 /* Header mejorado */
 .notas-header {
-  background: rgba(44, 62, 80, 0.95);
+  background: var(--bg-secondary);
   backdrop-filter: blur(15px);
   border-radius: 20px;
   padding: 35px;
