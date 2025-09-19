@@ -20,16 +20,6 @@ export default function Topbar({ onToggleSidebar, isSidebarOpen }: TopbarProps) 
       <div className="topbar-container">
         {/* Lado izquierdo */}
         <div className="topbar-left">
-          {/* Botón toggle sidebar - SOLO visible cuando sidebar está cerrado */}
-          {!isSidebarOpen && (
-            <button
-              onClick={onToggleSidebar}
-              className="topbar-toggle"
-              title="Abrir barra lateral"
-            >
-              <Bars3Icon style={{ width: '1.5rem', height: '1.5rem' }} />
-            </button>
-          )}
         </div>
 
         {/* Lado derecho */}

@@ -6,12 +6,34 @@
   position: fixed !important;
   top: 0 !important;
   left: 0 !important;
-  width: 16rem !important;
+  width: 240px !important;
   height: 100vh !important;
   background-color: #ffffff !important;
   box-shadow: 2px 0px 8px rgba(0, 0, 0, 0.1) !important;
   z-index: 30 !important;
+  overflow: hidden;
+  transition: width 0.3s ease;
   padding: 1rem !important;
+}
+
+.admin-sidebar-desktop.closed,
+.admin-sidebar.closed {
+  width: 80px;
+}
+
+.admin-sidebar.closed .user-avatar-copiloto,
+.admin-sidebar-desktop.closed .user-avatar-copiloto {
+  display: flex;
+  justify-content: center;
+}
+
+.sidebar-collapse-button {
+  transition: transform 0.3s ease;
+}
+
+/* Girar la flecha al colapsar */
+.admin-sidebar.closed ~ .sidebar-collapse-button {
+  transform: rotate(180deg);
 }
 
 .dark .admin-sidebar, .dark .admin-sidebar-desktop {
