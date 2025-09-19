@@ -343,25 +343,43 @@
 /* Botón de colapsar */
 .sidebar-collapse-button {
   position: absolute;
-  top: 1.2rem;
+  top: 1.25rem;
   z-index: 100;
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  background: #d1d2d3;
   border: none;
-  cursor: pointer;
+  background-color: #576e8f; /* fondo circular azul suave */
   display: flex;
   align-items: center;
   justify-content: center;
   transition: left 0.3s ease, transform 0.3s ease;
+  box-shadow: none;  /* elimina cualquier sombra */
+  padding: 0;
 }
 
+.flecha-icon {
+  width: 20px;
+  height: 18px;
+  filter: invert(1); /* blanco */
+  transition: transform 0.3s ease;
+}
 
 .sidebar-collapse-button:hover {
-  background: #6b7280 !important;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15) !important;
-  transform: scale(1.08) !important;
+  background-color: #3e5070;
+  transform: scale(1.05);
+  box-shadow: none; /* evita contorno blanco */
+}
+
+.sidebar-collapse-button img {
+  width: 22px;
+  height: 25px;
+  filter: invert(1); /* color blanco */
+}
+
+.sidebar-collapse-button:focus {
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 .sidebar-collapse-button.appearing {
