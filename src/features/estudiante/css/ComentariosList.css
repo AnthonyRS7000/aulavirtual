@@ -1,0 +1,398 @@
+/* Sistema de Comentarios - Estilo similar a Google Classroom */
+.comentarios-container {
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  padding: 20px;
+  margin: 16px 0;
+}
+
+.comentarios-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.comentarios-header h4 {
+  margin: 0;
+  color: #1f2937;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.comentarios-header svg {
+  color: #6b7280;
+  font-size: 1.1rem;
+}
+
+/* Formulario de comentario */
+.comentario-form {
+  margin-bottom: 20px;
+}
+
+.form-input {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #f9fafb;
+  transition: all 0.2s ease;
+}
+
+.form-input:focus-within {
+  border-color: #3b82f6;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.user-icon {
+  color: #9ca3af;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.form-input input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 0.95rem;
+  color: #374151;
+}
+
+.form-input input::placeholder {
+  color: #9ca3af;
+}
+
+.btn-enviar,
+.btn-enviar-respuesta {
+  background: #3b82f6;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-size: 0.875rem;
+}
+
+.btn-enviar:hover,
+.btn-enviar-respuesta:hover {
+  background: #2563eb;
+}
+
+.btn-enviar:disabled,
+.btn-enviar-respuesta:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+}
+
+/* Lista de comentarios */
+.comentarios-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sin-comentarios {
+  text-align: center;
+  padding: 40px 20px;
+  color: #6b7280;
+}
+
+.icon-empty {
+  font-size: 3rem;
+  margin-bottom: 12px;
+  opacity: 0.5;
+}
+
+.sin-comentarios p {
+  margin: 8px 0;
+}
+
+.hint {
+  font-size: 0.875rem;
+  color: #9ca3af;
+}
+
+/* Comentario individual */
+.comentario-item {
+  display: flex;
+  gap: 12px;
+  position: relative;
+}
+
+.comentario-item.respuesta {
+  margin-left: 40px;
+  padding-left: 20px;
+  border-left: 2px solid #e5e7eb;
+  margin-top: 12px;
+}
+
+.comentario-avatar {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.comentario-avatar img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #e5e7eb;
+}
+
+.comentario-item.respuesta .comentario-avatar img {
+  width: 32px;
+  height: 32px;
+}
+
+.badge-profesor {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  background: #dc2626;
+  color: white;
+  font-size: 0.6rem;
+  padding: 1px 4px;
+  border-radius: 4px;
+  font-weight: 600;
+  border: 1px solid white;
+}
+
+.comentario-contenido {
+  flex: 1;
+  min-width: 0;
+}
+
+.comentario-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.autor-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.autor-nombre {
+  font-weight: 600;
+  color: #1f2937;
+  font-size: 0.875rem;
+}
+
+.comentario-fecha {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.comentario-fecha svg {
+  font-size: 0.7rem;
+}
+
+.btn-opciones {
+  background: none;
+  border: none;
+  color: #9ca3af;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.btn-opciones:hover {
+  background: #f3f4f6;
+  color: #6b7280;
+}
+
+.comentario-texto {
+  margin: 0 0 12px 0;
+  color: #374151;
+  line-height: 1.5;
+  font-size: 0.95rem;
+}
+
+/* Acciones del comentario */
+.comentario-acciones {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.btn-like,
+.btn-responder {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  color: #6b7280;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.btn-like:hover,
+.btn-responder:hover {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.btn-like.liked {
+  color: #dc2626;
+}
+
+.btn-like.liked svg {
+  fill: #dc2626;
+}
+
+.btn-like svg,
+.btn-responder svg {
+  font-size: 0.8rem;
+}
+
+/* Formulario de respuesta */
+.respuesta-form {
+  margin-top: 12px;
+  padding: 12px;
+  background: #f8fafc;
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+}
+
+.input-respuesta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.input-respuesta input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  background: white;
+}
+
+.input-respuesta input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+
+/* Lista de respuestas */
+.respuestas-lista {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .comentarios-container {
+    padding: 16px;
+    margin: 12px 0;
+  }
+  
+  .comentario-item.respuesta {
+    margin-left: 20px;
+    padding-left: 12px;
+  }
+  
+  .comentario-avatar img {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .comentario-item.respuesta .comentario-avatar img {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .comentario-acciones {
+    gap: 12px;
+  }
+  
+  .form-input {
+    gap: 8px;
+    padding: 10px;
+  }
+  
+  .btn-enviar,
+  .btn-enviar-respuesta {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+  }
+}
+
+/* Tema oscuro */
+.dark .comentarios-container {
+  background: var(--bg-secondary);
+  border-color: var(--border-color);
+}
+
+.dark .comentarios-header {
+  border-color: var(--border-color);
+}
+
+.dark .comentarios-header h4,
+.dark .autor-nombre,
+.dark .comentario-texto {
+  color: var(--text-primary);
+}
+
+.dark .form-input {
+  background: var(--bg-tertiary);
+  border-color: var(--border-color);
+}
+
+.dark .form-input:focus-within {
+  background: var(--bg-secondary);
+  border-color: #60a5fa;
+}
+
+.dark .form-input input {
+  color: var(--text-primary);
+}
+
+.dark .btn-opciones:hover {
+  background: var(--bg-tertiary);
+}
+
+.dark .btn-like:hover,
+.dark .btn-responder:hover {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+}
+
+.dark .respuesta-form {
+  background: var(--bg-tertiary);
+  border-color: var(--border-color);
+}
+
+.dark .input-respuesta input {
+  background: var(--bg-secondary);
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+.dark .comentario-item.respuesta {
+  border-color: var(--border-color);
+}
