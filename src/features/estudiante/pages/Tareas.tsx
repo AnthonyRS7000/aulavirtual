@@ -1,7 +1,15 @@
 import { useState } from 'react';
-import TareaCard from '../components/TareaCard';
-import { FaFilter, FaSearch, FaPlus, FaCalendarAlt } from 'react-icons/fa';
+import TareaCard from './TareaCard';
+import { FaFilter, FaSearch, FaPlus, FaCalendarAlt} from 'react-icons/fa';
 import '../css/Tareas.css';
+
+interface ArchivoEntrega {
+  id: string;
+  nombre: string;
+  tipo: string;
+  tamaño: number;
+  fechaSubida: string;
+}
 
 interface Tarea {
   id: number;
@@ -15,6 +23,11 @@ interface Tarea {
   prioridad: 'alta' | 'media' | 'baja';
   nota?: number;
   comentarios?: string;
+  archivosEntregados?: ArchivoEntrega[];
+  tipoEntrega: 'archivo' | 'texto' | 'enlace';
+  formatosPermitidos?: string[];
+  tamanosMaximo?: number; // en MB
+  permitirEntregaTardia?: boolean;
 }
 
 const tareasData: Tarea[] = [
@@ -27,7 +40,11 @@ const tareasData: Tarea[] = [
     fechaEntrega: "2024-01-20",
     fechaPublicacion: "2024-01-05",
     estado: "pendiente",
-    prioridad: "alta"
+    prioridad: "alta",
+    tipoEntrega: "archivo",
+    formatosPermitidos: [".pdf", ".docx"],
+    tamanosMaximo: 10,
+    permitirEntregaTardia: false
   },
   {
     id: 2,
@@ -38,7 +55,27 @@ const tareasData: Tarea[] = [
     fechaEntrega: "2024-01-25",
     fechaPublicacion: "2024-01-10",
     estado: "entregada",
-    prioridad: "alta"
+    prioridad: "alta",
+    tipoEntrega: "archivo",
+    formatosPermitidos: [".sql", ".pdf", ".zip"],
+    tamanosMaximo: 50,
+    permitirEntregaTardia: true,
+    archivosEntregados: [
+      {
+        id: "1",
+        nombre: "proyecto_bd_hospital.sql",
+        tipo: "application/sql",
+        tamaño: 15.2,
+        fechaSubida: "2024-01-24 18:30"
+      },
+      {
+        id: "2", 
+        nombre: "documentacion.pdf",
+        tipo: "application/pdf",
+        tamaño: 8.5,
+        fechaSubida: "2024-01-24 18:35"
+      }
+    ]
   },
   {
     id: 3,
@@ -49,7 +86,11 @@ const tareasData: Tarea[] = [
     fechaEntrega: "2024-01-30",
     fechaPublicacion: "2024-01-12",
     estado: "pendiente",
-    prioridad: "media"
+    prioridad: "media",
+    tipoEntrega: "archivo",
+    formatosPermitidos: [".py", ".pdf", ".zip"],
+    tamanosMaximo: 25,
+    permitirEntregaTardia: true
   },
   {
     id: 4,
@@ -62,7 +103,20 @@ const tareasData: Tarea[] = [
     estado: "calificada",
     prioridad: "alta",
     nota: 18,
-    comentarios: "Excelente trabajo, muy detallado el análisis. Mejorar la conclusión."
+    comentarios: "Excelente trabajo, muy detallado el análisis. Mejorar la conclusión.",
+    tipoEntrega: "archivo",
+    formatosPermitidos: [".pdf", ".docx"],
+    tamanosMaximo: 20,
+    permitirEntregaTardia: false,
+    archivosEntregados: [
+      {
+        id: "3",
+        nombre: "reporte_practica_final.pdf",
+        tipo: "application/pdf",
+        tamaño: 12.8,
+        fechaSubida: "2024-01-14 22:15"
+      }
+    ]
   },
   {
     id: 5,
@@ -73,7 +127,9 @@ const tareasData: Tarea[] = [
     fechaEntrega: "2024-01-22",
     fechaPublicacion: "2024-01-14",
     estado: "pendiente",
-    prioridad: "baja"
+    prioridad: "baja",
+    tipoEntrega: "texto",
+    permitirEntregaTardia: true
   },
   {
     id: 6,
@@ -84,7 +140,18 @@ const tareasData: Tarea[] = [
     fechaEntrega: "2024-02-05",
     fechaPublicacion: "2024-01-15",
     estado: "revision",
-    prioridad: "alta"
+    prioridad: "alta",
+    tipoEntrega: "enlace",
+    permitirEntregaTardia: true,
+    archivosEntregados: [
+      {
+        id: "4",
+        nombre: "enlace_github_proyecto.txt",
+        tipo: "text/plain",
+        tamaño: 0.1,
+        fechaSubida: "2024-02-04 16:20"
+      }
+    ]
   }
 ];
 

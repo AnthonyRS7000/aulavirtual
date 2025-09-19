@@ -1,5 +1,8 @@
+import { useState } from 'react';
 import { Bars3Icon, BellIcon } from '@heroicons/react/24/outline';
 import ThemeToggle from './ThemeToggle';
+import NotificacionesDropdown from './NotificacionesDropdown';
+import './NotificacionesDropdown.css';
 
 interface TopbarProps {
   onToggleSidebar: () => void;
@@ -15,6 +18,17 @@ const mockUser = {
 };
 
 export default function Topbar({ onToggleSidebar, isSidebarOpen }: TopbarProps) {
+  const [notificacionesAbiertas, setNotificacionesAbiertas] = useState(false);
+  const [tieneNotificacionesNoLeidas] = useState(true);
+
+  const toggleNotificaciones = () => {
+    setNotificacionesAbiertas(!notificacionesAbiertas);
+  };
+
+  const cerrarNotificaciones = () => {
+    setNotificacionesAbiertas(false);
+  };
+
   return (
     <header className="admin-topbar">
       <div className="topbar-container">
@@ -25,9 +39,15 @@ export default function Topbar({ onToggleSidebar, isSidebarOpen }: TopbarProps) 
         {/* Lado derecho */}
         <div className="topbar-right">
           {/* Notificaciones */}
-          <button className="topbar-notification" title="Notificaciones">
+          <button 
+            className={`topbar-notification ${notificacionesAbiertas ? 'active' : ''}`}
+            onClick={toggleNotificaciones}
+            title="Notificaciones"
+          >
             <BellIcon style={{ width: '1.25rem', height: '1.25rem' }} />
-            <span className="notification-dot"></span>
+            {tieneNotificacionesNoLeidas && (
+              <span className="notification-dot"></span>
+            )}
           </button>
 
           {/* Selector de tema */}
@@ -48,6 +68,12 @@ export default function Topbar({ onToggleSidebar, isSidebarOpen }: TopbarProps) 
           </div>
         </div>
       </div>
+
+      {/* Dropdown de notificaciones */}
+      <NotificacionesDropdown 
+        isOpen={notificacionesAbiertas}
+        onClose={cerrarNotificaciones}
+      />
     </header>
   );
 }

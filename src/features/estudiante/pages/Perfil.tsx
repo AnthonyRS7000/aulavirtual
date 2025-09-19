@@ -51,7 +51,7 @@ const rendimientoData: RendimientoAcademico[] = [
 ];
 
 export default function Perfil() {
-  const [estudiante, setEstudiante] = useState<EstudianteInfo>(estudianteData);
+  const [estudiante] = useState<EstudianteInfo>(estudianteData);
   const [modoEdicion, setModoEdicion] = useState(false);
 
   const porcentajeProgreso = (estudiante.creditosAprobados / estudiante.creditosTotal) * 100;
@@ -221,34 +221,6 @@ export default function Perfil() {
           </div>
         </div>
 
-        {/* Configuración de Cuenta */}
-        <div className="perfil-section configuracion">
-          <div className="section-header">
-            <h2>Configuración de Cuenta</h2>
-          </div>
-
-          <div className="config-opciones">
-            <button className="config-btn">
-              <span>Cambiar Contraseña</span>
-              <span className="arrow">→</span>
-            </button>
-            
-            <button className="config-btn">
-              <span>Configurar Notificaciones</span>
-              <span className="arrow">→</span>
-            </button>
-            
-            <button className="config-btn">
-              <span>Descargar Certificado de Estudios</span>
-              <span className="arrow">→</span>
-            </button>
-            
-            <button className="config-btn">
-              <span>Exportar Historial Académico</span>
-              <span className="arrow">→</span>
-            </button>
-          </div>
-        </div>
       </div>
     </div>
   );

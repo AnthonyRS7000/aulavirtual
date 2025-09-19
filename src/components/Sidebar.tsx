@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import './Sidebar.css';
 
 // Iconos de navegación - usar los que tengas disponibles
-import { FaHome, FaClipboardList, FaChalkboardTeacher, FaTasks, FaUser } from 'react-icons/fa';
+import { FaHome, FaClipboardList, FaChalkboardTeacher, FaTasks, FaUser, FaBullhorn, FaCalendarAlt } from 'react-icons/fa';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -64,12 +64,7 @@ export default function Sidebar({ isOpen, onClose, onToggle }: SidebarProps) {
       icon: FaHome,
       path: '/estudiante/inicio',
     },
-    {
-      name: 'dashboard',
-      label: 'Dashboard',
-      icon: FaClipboardList,
-      path: '/estudiante/dashboard',
-    },
+    
     {
       name: 'clases',
       label: 'Clases',
@@ -83,11 +78,31 @@ export default function Sidebar({ isOpen, onClose, onToggle }: SidebarProps) {
       path: '/estudiante/tareas',
     },
     {
+      name: 'anuncios',
+      label: 'Anuncios',
+      icon: FaBullhorn,
+      path: '/estudiante/anuncios',
+    },
+    {
       name: 'perfil',
       label: 'Perfil',
       icon: FaUser,
       path: '/estudiante/perfil',
     },
+    {
+      name: 'horario',
+      label: 'Horario',
+      icon: FaCalendarAlt,
+      path: '/estudiante/horario',
+    },
+    { name: 'notas', 
+      label: 'Notas', 
+      icon: FaClipboardList, 
+      path: '/estudiante/notas' },
+    { name: 'recursos', 
+      label: 'Recursos', 
+      icon: FaTasks, 
+      path: '/estudiante/recursos' }
   ];
 
   const isActive = (path: string) => location.pathname === path;
@@ -99,7 +114,7 @@ export default function Sidebar({ isOpen, onClose, onToggle }: SidebarProps) {
     <>
       {/* Backdrop para móviles */}
       {!isDesktop && (
-        <div 
+        <div
           className={`admin-sidebar-backdrop ${isOpen ? '' : 'hidden'}`}
           onClick={onClose}
         />

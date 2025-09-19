@@ -10,7 +10,7 @@ interface Clase {
   docente: string;
   horario: string;
   aula: string;
-  modalidad: 'presencial' | 'virtual' | 'hibrida';
+  modalidad: 'presencial' | 'virtual' ;
   estudiantes: number;
   color: string;
   estado: 'activa' | 'finalizada' | 'cancelada';
@@ -76,7 +76,7 @@ const clasesData: Clase[] = [
     docente: "MBA Ana Torres",
     horario: "Sábados 08:00-12:00",
     aula: "Aula C-301 / Virtual",
-    modalidad: "hibrida",
+    modalidad: "presencial",
     estudiantes: 32,
     color: "#8b5cf6",
     estado: "activa",
@@ -119,7 +119,7 @@ const clasesData: Clase[] = [
 ];
 
 export default function Clases() {
-  const [clases, setClases] = useState<Clase[]>(clasesData);
+  const [clases] = useState<Clase[]>(clasesData);
   const [filtroEstado, setFiltroEstado] = useState<string>('todas');
   const [filtroModalidad, setFiltroModalidad] = useState<string>('todas');
   const [busqueda, setBusqueda] = useState<string>('');
@@ -165,25 +165,6 @@ export default function Clases() {
               <span className="stat-label">Créditos</span>
             </div>
           </div>
-        </div>
-      </div>
-
-      <div className="clases-stats">
-        <div className="stat-card total">
-          <span className="stat-number">{estadisticas.totalClases}</span>
-          <span className="stat-label">Total de Clases</span>
-        </div>
-        <div className="stat-card activas">
-          <span className="stat-number">{estadisticas.activas}</span>
-          <span className="stat-label">Clases Activas</span>
-        </div>
-        <div className="stat-card presenciales">
-          <span className="stat-number">{estadisticas.presenciales}</span>
-          <span className="stat-label">Presenciales</span>
-        </div>
-        <div className="stat-card virtuales">
-          <span className="stat-number">{estadisticas.virtuales}</span>
-          <span className="stat-label">Virtuales</span>
         </div>
       </div>
 
@@ -238,6 +219,7 @@ export default function Clases() {
           </div>
         ) : (
           <div className="no-clases">
+            <FaBook className="no-clases-icon" />
             <p>No se encontraron clases que coincidan con los filtros aplicados.</p>
           </div>
         )}

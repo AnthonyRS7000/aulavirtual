@@ -1,12 +1,18 @@
-import CursoCard from '../components/CursoCard';
-import EventoBanner from '../components/EventoBanner';
-import CalendarioAgenda from '../components/CalendarioAgenda';
-import '../components/CursoCard.css';
-import '../components/EventoBanner.css';
-import '../components/CalendarioAgenda.css';
+import { useState } from 'react';
+import CursoCard from './CursoCard';
+import EventoBanner from './EventoBanner';
+import CalendarioAgenda from './CalendarioAgenda';
+import StreamActividades from '../components/StreamActividades';
+import '../css/CursoCard.css';
+import '../css/EventoBanner.css';
+import '../css/CalendarioAgenda.css';
+import '../css/StreamActividades.css';
 import '../css/dashboard.css';
+import '../css/inicioEstudiante.css';
 
 export default function InicioEstudiante() {
+  const [pestanaActiva, setPestanaActiva] = useState<'cursos' | 'stream'>('cursos');
+
   // Datos ficticios que replican la imagen
   const cursosData = [
     {
@@ -70,31 +76,52 @@ export default function InicioEstudiante() {
 
   return (
     <div className="inicio-estudiante">
-      <div className="dashboard-grid">
-        {/* Columna izquierda - Cursos */}
-        <div className="cursos-section">
-          {cursosData.map((curso, index) => (
-            <CursoCard key={index} {...curso} />
-          ))}
-        </div>
-
-        {/* Columna derecha - Banner y Calendario */}
-        <div className="sidebar-section">
-          <EventoBanner
-            titulo="V CONGRESO INTERNACIONAL DE INVESTIGACIÓN EN COMUNICACIÓN Y SOCIEDAD POSTDIGITAL:"
-            subtitulo="CRÍTICAS A LA POSTVERDAD Y LOS DESÓRDENES INFORMATIVOS"
-            fecha="23 Y 24 de octubre"
-            ubicacion="CAMPUS USIL GRAN ALMIRANTE MIGUEL GRAU"
-            imagen="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=300&fit=crop"
-            enlaceInscripcion="https://inscripcion.udh.edu.pe"
-          />
-          
-          <CalendarioAgenda
-            fechaActual="12 DE SEPTIEMBRE DE 2025"
-            eventos={eventosAgenda}
-          />
-        </div>
+      {/* Navegación por pestañas */}
+      <div className="pestanas-navegacion">
+        <button 
+          className={`pestana ${pestanaActiva === 'cursos' ? 'activa' : ''}`}
+          onClick={() => setPestanaActiva('cursos')}
+        >
+          📚 Mis Cursos
+        </button>
+        <button 
+          className={`pestana ${pestanaActiva === 'stream' ? 'activa' : ''}`}
+          onClick={() => setPestanaActiva('stream')}
+        >
+          📡 Stream de Actividades
+        </button>
       </div>
+
+      {/* Contenido según pestaña activa */}
+      {pestanaActiva === 'cursos' ? (
+        <div className="dashboard-grid">
+          {/* Columna izquierda - Cursos */}
+          <div className="cursos-section">
+            {cursosData.map((curso, index) => (
+              <CursoCard key={index} {...curso} />
+            ))}
+          </div>
+
+          {/* Columna derecha - Banner y Calendario */}
+          <div className="sidebar-section">
+            <EventoBanner
+              titulo="V CONGRESO INTERNACIONAL DE INVESTIGACIÓN EN COMUNICACIÓN Y SOCIEDAD POSTDIGITAL:"
+              subtitulo="CRÍTICAS A LA POSTVERDAD Y LOS DESÓRDENES INFORMATIVOS"
+              fecha="23 Y 24 de octubre"
+              ubicacion="CAMPUS USIL GRAN ALMIRANTE MIGUEL GRAU"
+              imagen="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=300&fit=crop"
+              enlaceInscripcion="https://inscripcion.udh.edu.pe"
+            />
+            
+            <CalendarioAgenda
+            />
+          </div>
+        </div>
+      ) : (
+        <div className="stream-container">
+          <StreamActividades />
+        </div>
+      )}
     </div>
   );
 }
