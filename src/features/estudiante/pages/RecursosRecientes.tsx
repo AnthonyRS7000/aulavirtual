@@ -1,4 +1,5 @@
-import { FaBook, FaFilePdf, FaVideo, FaLink, FaDownload, FaClock } from 'react-icons/fa';
+import { FaBook, FaFilePdf, FaVideo, FaLink, FaDownload, FaClock, FaFolder, FaEye, FaShare } from 'react-icons/fa';
+import '../css/RecursosRecientes.css';
 
 interface Recurso {
   id: number;
@@ -89,40 +90,70 @@ export default function RecursosRecientes() {
   return (
     <div className="recursos-recientes">
       <div className="recursos-header">
-        <h3>
-          <FaBook className="header-icon" />
-          Recursos Recientes
-        </h3>
-        <button className="ver-todos-btn">Ver todos</button>
+        <div className="header-content">
+          <div className="header-info">
+            <FaFolder className="header-icon" />
+            <h1>Recursos Recientes</h1>
+          </div>
+          <div className="header-actions">
+            <button className="ver-todos-btn">
+              <FaEye className="btn-icon" />
+              Ver todos
+            </button>
+          </div>
+        </div>
       </div>
 
       <div className="recursos-lista">
         {recursos.map((recurso) => (
-          <div key={recurso.id} className="recurso-item">
-            <div className="recurso-icono">
-              {obtenerIconoTipo(recurso.tipo)}
-            </div>
-            
-            <div className="recurso-info">
-              <h4 className="recurso-titulo">{recurso.titulo}</h4>
-              <div className="recurso-meta">
-                <span className="materia">{recurso.materia}</span>
-                <span className="profesor">Por: {recurso.profesor}</span>
+          <div key={recurso.id} className={`recurso-card tipo-${recurso.tipo}`}>
+            <div className="recurso-header">
+              <div className="recurso-icono">
+                {obtenerIconoTipo(recurso.tipo)}
               </div>
-              <div className="recurso-detalles">
-                <span className="fecha">
-                  <FaClock className="detail-icon" />
-                  {formatearFecha(recurso.fechaSubida)}
+              <div className="recurso-meta-header">
+                <span className="tipo-badge">
+                  {recurso.tipo === 'pdf' ? 'PDF' : 
+                   recurso.tipo === 'video' ? 'Video' : 
+                   recurso.tipo === 'enlace' ? 'Enlace' : 'Presentación'}
                 </span>
                 {recurso.tamaño && (
-                  <span className="tamaño">{recurso.tamaño}</span>
+                  <span className="tamaño-badge">{recurso.tamaño}</span>
                 )}
+              </div>
+            </div>
+            
+            <div className="recurso-contenido">
+              <h3 className="recurso-titulo">{recurso.titulo}</h3>
+              <div className="recurso-info">
+                <div className="materia-info">
+                  <span className="materia">{recurso.materia}</span>
+                  <span className="profesor">👨‍🏫 {recurso.profesor}</span>
+                </div>
+                <div className="fecha-info">
+                  <FaClock className="detail-icon" />
+                  <span className="fecha">{formatearFecha(recurso.fechaSubida)}</span>
+                </div>
               </div>
             </div>
 
             <div className="recurso-acciones">
               <button 
-                className="descargar-btn"
+                className="accion-btn preview-btn"
+                title="Vista previa"
+                onClick={() => console.log('Vista previa:', recurso.titulo)}
+              >
+                <FaEye />
+              </button>
+              <button 
+                className="accion-btn share-btn"
+                title="Compartir"
+                onClick={() => console.log('Compartir:', recurso.titulo)}
+              >
+                <FaShare />
+              </button>
+              <button 
+                className="accion-btn download-btn"
                 title="Descargar recurso"
                 onClick={() => window.open(recurso.url, '_blank')}
               >
@@ -134,9 +165,34 @@ export default function RecursosRecientes() {
       </div>
 
       <div className="recursos-footer">
-        <div className="recursos-stats">
-          <span>Total de recursos: {recursos.length}</span>
-          <span>Nuevos esta semana: 3</span>
+        <div className="estadisticas-card">
+          <div className="stat-item">
+            <div className="stat-icon">
+              <FaFolder />
+            </div>
+            <div className="stat-content">
+              <span className="stat-numero">{recursos.length}</span>
+              <span className="stat-label">Total recursos</span>
+            </div>
+          </div>
+          <div className="stat-item">
+            <div className="stat-icon">
+              <FaClock />
+            </div>
+            <div className="stat-content">
+              <span className="stat-numero">3</span>
+              <span className="stat-label">Esta semana</span>
+            </div>
+          </div>
+          <div className="stat-item">
+            <div className="stat-icon">
+              <FaDownload />
+            </div>
+            <div className="stat-content">
+              <span className="stat-numero">{recursos.filter(r => r.tipo === 'pdf').length}</span>
+              <span className="stat-label">Documentos PDF</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>

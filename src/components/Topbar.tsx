@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Bars3Icon, BellIcon } from '@heroicons/react/24/outline';
+import { BellIcon } from '@heroicons/react/24/outline';
 import ThemeToggle from './ThemeToggle';
 import NotificacionesDropdown from './NotificacionesDropdown';
 import './NotificacionesDropdown.css';
@@ -17,7 +17,7 @@ const mockUser = {
   image: 'https://ui-avatars.com/api/?name=Armando+Rojas&background=39B49E&color=fff',
 };
 
-export default function Topbar({ onToggleSidebar, isSidebarOpen }: TopbarProps) {
+export default function Topbar({  }: TopbarProps) {
   const [notificacionesAbiertas, setNotificacionesAbiertas] = useState(false);
   const [tieneNotificacionesNoLeidas] = useState(true);
 
@@ -50,7 +50,7 @@ export default function Topbar({ onToggleSidebar, isSidebarOpen }: TopbarProps) 
             )}
           </button>
 
-          {/* Selector de tema */}
+          {/* Selector de tema - DEBE APARECER AQUÍ */}
           <ThemeToggle />
 
           {/* Usuario */}

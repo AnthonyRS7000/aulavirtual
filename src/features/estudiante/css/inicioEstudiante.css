@@ -1,7 +1,7 @@
-/* Inicio Estudiante - Estilo Moderno UDH */
+/* Inicio Estudiante - Estilo UDH con colores del sistema */
 .inicio-estudiante-container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #2c3e50 0%, #34495e 50%, #1a252f 100%);
   padding: 20px;
 }
 
@@ -12,23 +12,24 @@
 
 /* Header de Bienvenida */
 .header-bienvenida {
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(44, 62, 80, 0.95);
   backdrop-filter: blur(10px);
-  border-radius: 20px;
-  padding: 30px;
+  border-radius: 15px;
+  padding: 25px;
   margin-bottom: 30px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
   justify-content: space-between;
   align-items: center;
+  color: white;
 }
 
 .titulo-bienvenida {
-  font-size: 2.5rem;
+  font-size: 1rem;
   font-weight: 700;
   margin-bottom: 8px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -37,21 +38,21 @@
 
 .subtitulo {
   font-size: 1.1rem;
-  color: #6b7280;
+  color: #bdc3c7;
   margin: 0;
   font-weight: 500;
 }
 
 .fecha-hora {
   text-align: right;
-  color: #6b7280;
+  color: #bdc3c7;
 }
 
 .fecha-actual {
   font-size: 1.1rem;
   font-weight: 600;
   margin-bottom: 4px;
-  color: #374151;
+  color: #ecf0f1;
 }
 
 .hora-actual {
@@ -64,12 +65,12 @@
   display: flex;
   gap: 4px;
   margin-bottom: 25px;
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(44, 62, 80, 0.95);
   backdrop-filter: blur(10px);
-  border-radius: 20px;
+  border-radius: 15px;
   padding: 6px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .pestana {
@@ -77,12 +78,12 @@
   padding: 15px 25px;
   background: transparent;
   border: none;
-  color: #6b7280;
+  color: #bdc3c7;
   font-weight: 600;
   font-size: 1rem;
   cursor: pointer;
   transition: all 0.3s ease;
-  border-radius: 15px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -92,15 +93,15 @@
 }
 
 .pestana:hover {
-  background: rgba(102, 126, 234, 0.1);
-  color: #667eea;
+  background: rgba(52, 152, 219, 0.2);
+  color: #3498db;
   transform: translateY(-2px);
 }
 
 .pestana.activa {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
   color: white;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 4px 15px rgba(52, 152, 219, 0.4);
   transform: translateY(-2px);
 }
 
@@ -111,24 +112,24 @@
 /* Contenedor Principal */
 .stream-container,
 .dashboard-grid {
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(44, 62, 80, 0.95);
   backdrop-filter: blur(10px);
-  border-radius: 20px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 15px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   overflow: hidden;
 }
 
 .stream-container {
   padding: 25px;
-  min-height: 600px;
+  min-height: 400px;
 }
 
 .dashboard-grid {
   display: grid;
   grid-template-columns: 2fr 1fr;
   gap: 30px;
-  padding: 30px;
+  padding: 25px;
 }
 
 /* Secciones del Dashboard */
@@ -147,16 +148,16 @@
   font-size: 1.4rem;
   font-weight: 700;
   margin-bottom: 20px;
-  color: #1f2937;
+  color: #ecf0f1;
   display: flex;
   align-items: center;
   gap: 12px;
   padding-bottom: 12px;
-  border-bottom: 2px solid #e5e7eb;
+  border-bottom: 2px solid #34495e;
 }
 
 .seccion-icon {
-  color: #667eea;
+  color: #3498db;
   font-size: 1.3rem;
 }
 
@@ -169,23 +170,23 @@
 
 /* Sidebar Widgets */
 .widget {
-  background: rgba(102, 126, 234, 0.05);
-  border-radius: 15px;
+  background: rgba(52, 73, 94, 0.6);
+  border-radius: 12px;
   padding: 20px;
-  border: 1px solid rgba(102, 126, 234, 0.1);
+  border: 1px solid rgba(52, 152, 219, 0.2);
   transition: all 0.3s ease;
 }
 
 .widget:hover {
-  background: rgba(102, 126, 234, 0.08);
+  background: rgba(52, 73, 94, 0.8);
   transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.1);
+  box-shadow: 0 4px 15px rgba(52, 152, 219, 0.2);
 }
 
 .widget-titulo {
   font-size: 1.1rem;
   font-weight: 600;
-  color: #374151;
+  color: #ecf0f1;
   margin-bottom: 15px;
   display: flex;
   align-items: center;
@@ -193,7 +194,7 @@
 }
 
 .widget-icon {
-  color: #667eea;
+  color: #3498db;
   font-size: 1rem;
 }
 
@@ -209,25 +210,25 @@
   align-items: center;
   gap: 12px;
   padding: 12px 15px;
-  background: white;
-  border-radius: 10px;
-  border-left: 4px solid #667eea;
+  background: rgba(52, 73, 94, 0.8);
+  border-radius: 8px;
+  border-left: 4px solid #3498db;
   transition: all 0.3s ease;
   cursor: pointer;
 }
 
 .tarea-item:hover {
-  background: #f8fafc;
+  background: rgba(52, 73, 94, 1);
   transform: translateX(5px);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3);
 }
 
 .tarea-check {
   width: 18px;
   height: 18px;
-  border: 2px solid #d1d5db;
+  border: 2px solid #7f8c8d;
   border-radius: 4px;
-  background: white;
+  background: transparent;
   flex-shrink: 0;
 }
 
@@ -237,19 +238,19 @@
 
 .tarea-titulo {
   font-weight: 600;
-  color: #374151;
+  color: #ecf0f1;
   font-size: 0.9rem;
   margin-bottom: 2px;
 }
 
 .tarea-curso {
   font-size: 0.8rem;
-  color: #6b7280;
+  color: #bdc3c7;
 }
 
 .tarea-fecha {
   font-size: 0.8rem;
-  color: #dc2626;
+  color: #e74c3c;
   font-weight: 500;
 }
 
@@ -259,7 +260,7 @@
   align-items: center;
   gap: 15px;
   padding: 12px 0;
-  border-bottom: 1px solid #f3f4f6;
+  border-bottom: 1px solid #34495e;
 }
 
 .agenda-item:last-child {
@@ -268,7 +269,7 @@
 
 .agenda-hora {
   font-weight: 600;
-  color: #667eea;
+  color: #3498db;
   font-size: 0.9rem;
   min-width: 60px;
 }
@@ -279,27 +280,27 @@
 
 .evento-titulo {
   font-weight: 600;
-  color: #374151;
+  color: #ecf0f1;
   font-size: 0.9rem;
   margin-bottom: 2px;
 }
 
 .evento-detalles {
   font-size: 0.8rem;
-  color: #6b7280;
+  color: #bdc3c7;
 }
 
 /* Estados de Prioridad */
 .prioridad-alta {
-  border-left-color: #dc2626 !important;
+  border-left-color: #e74c3c !important;
 }
 
 .prioridad-media {
-  border-left-color: #f59e0b !important;
+  border-left-color: #f39c12 !important;
 }
 
 .prioridad-baja {
-  border-left-color: #10b981 !important;
+  border-left-color: #2ecc71 !important;
 }
 
 /* Enlaces rápidos */
@@ -314,21 +315,21 @@
   align-items: center;
   gap: 10px;
   padding: 12px;
-  background: white;
-  border-radius: 10px;
+  background: rgba(52, 73, 94, 0.8);
+  border-radius: 8px;
   text-decoration: none;
-  color: #374151;
+  color: #ecf0f1;
   font-weight: 500;
   font-size: 0.9rem;
   transition: all 0.3s ease;
-  border: 1px solid #e5e7eb;
+  border: 1px solid rgba(52, 152, 219, 0.2);
 }
 
 .enlace-rapido:hover {
-  background: #667eea;
+  background: #3498db;
   color: white;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 4px 12px rgba(52, 152, 219, 0.4);
   text-decoration: none;
 }
 
@@ -339,12 +340,12 @@
 /* Estado vacío */
 .estado-vacio {
   text-align: center;
-  padding: 40px 20px;
-  color: #6b7280;
+  padding: 30px 20px;
+  color: #bdc3c7;
 }
 
 .estado-vacio-icon {
-  font-size: 3rem;
+  font-size: 2.5rem;
   margin-bottom: 15px;
   opacity: 0.5;
 }
@@ -383,7 +384,7 @@
   }
   
   .titulo-bienvenida {
-    font-size: 2rem;
+    font-size: 1.7rem;
   }
   
   .pestanas-navegacion {
@@ -449,17 +450,17 @@
 
 .stream-container::-webkit-scrollbar-track,
 .cursos-grid::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: #34495e;
   border-radius: 3px;
 }
 
 .stream-container::-webkit-scrollbar-thumb,
 .cursos-grid::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: #3498db;
   border-radius: 3px;
 }
 
 .stream-container::-webkit-scrollbar-thumb:hover,
 .cursos-grid::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: #2980b9;
 }

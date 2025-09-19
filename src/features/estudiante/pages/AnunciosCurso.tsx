@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { FaBullhorn, FaEye, FaEyeSlash, FaCalendarAlt, FaSearch, FaFilter } from 'react-icons/fa';
 import ComentariosList from '../components/ComentariosList';
 import '../css/ComentariosList.css';
+import '../css/AnunciosCurso.css';
 
 interface Anuncio {
   id: string;
@@ -280,7 +281,10 @@ export default function AnunciosCurso() {
           </div>
         ) : (
           anunciosFiltrados.map((anuncio) => (
-            <div key={anuncio.id} className={`anuncio-card ${!anuncio.leido ? 'no-leido' : ''}`}>
+            <div 
+              key={anuncio.id} 
+              className={`anuncio-card ${!anuncio.leido ? 'no-leido' : ''}`}
+            >
               {/* Header del anuncio */}
               <div className="anuncio-header">
                 <div className="anuncio-info">

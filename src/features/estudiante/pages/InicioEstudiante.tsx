@@ -7,7 +7,6 @@ import '../css/CursoCard.css';
 import '../css/EventoBanner.css';
 import '../css/CalendarioAgenda.css';
 import '../css/StreamActividades.css';
-import '../css/dashboard.css';
 import '../css/inicioEstudiante.css';
 
 export default function InicioEstudiante() {
