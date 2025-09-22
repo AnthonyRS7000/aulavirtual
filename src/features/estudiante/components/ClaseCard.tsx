@@ -1,4 +1,5 @@
 import { FaClock, FaMapMarkerAlt, FaUsers, FaVideo, FaBook } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 import './ClaseCard.css';
 
 interface Clase {
@@ -21,6 +22,8 @@ interface ClaseCardProps {
 }
 
 export default function ClaseCard({ curso }: ClaseCardProps) {
+  const navigate = useNavigate();
+  
   const obtenerIconoModalidad = (modalidad: string) => {
     switch (modalidad) {
       case 'virtual': return <FaVideo className="modalidad-icon" />;
@@ -40,7 +43,11 @@ export default function ClaseCard({ curso }: ClaseCardProps) {
   };
 
   return (
-    <div className="clase-card" style={{ borderLeftColor: curso.color }}>
+    <div 
+      className="clase-card" 
+      style={{ borderLeftColor: curso.color }}
+      onClick={() => navigate(`/estudiante/clases/${curso.id}`)} // 👉 al hacer click en toda la tarjeta
+    >
       <div className="clase-header">
         <div className="clase-info">
           <h4 className="clase-nombre">{curso.nombre}</h4>
@@ -93,7 +100,15 @@ export default function ClaseCard({ curso }: ClaseCardProps) {
       )}
 
       <div className="clase-acciones">
-        <button className="btn-ver-clase">Ver Clases</button>
+        <button 
+          className="btn-ver-clase"
+          onClick={(e) => {
+            e.stopPropagation(); // evita que dispare el click de la tarjeta
+            navigate(`/estudiante/clases/${curso.id}`);
+          }}
+        >
+          Ver Clases
+        </button>
         <button className="btn-recursos">Recursos</button>
         <button className="btn-asistencia">Asistencia</button>
       </div>

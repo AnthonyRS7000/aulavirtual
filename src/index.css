@@ -174,21 +174,21 @@ input:focus, textarea:focus, select:focus {
 
 /* Scrollbars personalizados */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--bg-secondary);
+  background-color: transparent !important;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--border-color);
-  border-radius: 4px;
+  background-color: var(--border-color) !important;
+  border-radius: 3px;             
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--text-muted);
+  background-color: var(--text-muted) !important;
 }
 
 /* Animaciones para el cambio de tema */

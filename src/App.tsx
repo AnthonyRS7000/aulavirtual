@@ -9,6 +9,7 @@ import Notas from './features/estudiante/pages/NotasResumen';
 import Recursos from './features/estudiante/pages/RecursosRecientes';
 import AnunciosCurso from './features/estudiante/pages/AnunciosCurso';
 import PerfilDropdown from './components/PerfilDropdown';
+import ClaseDetalle from './features/estudiante/components/ClaseDetalle';
 import './App.css';
 import './components/ThemeOverrides.css';
 import CalendarioAgenda from './features/estudiante/pages/CalendarioAgenda';
@@ -22,6 +23,7 @@ function App() {
           <Route path="/" element={<InicioEstudiante />} />
           <Route path="/estudiante/inicio" element={<InicioEstudiante />} />
           <Route path="/estudiante/clases" element={<Clases />} />
+          <Route path="/estudiante/clases/:id" element={<ClaseDetalle />} />
           <Route path="/estudiante/tareas" element={<Tareas />} />
           <Route path="/estudiante/perfil" element={<Perfil />} />
           <Route path="/estudiante/anuncios" element={<AnunciosCurso />} />

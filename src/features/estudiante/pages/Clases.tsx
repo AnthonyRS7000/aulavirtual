@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import ClaseCard from '../components/ClaseCard';
+import { clasesData } from '../../../data/clasesData';
 import { FaFilter, FaSearch, FaCalendarAlt, FaBook, FaClock } from 'react-icons/fa';
 import '../css/Clases.css';
 
@@ -20,109 +21,14 @@ interface Clase {
   semestre: string;
 }
 
-const clasesData: Clase[] = [
-  {
-    id: 1,
-    nombre: "Desarrollo de Software III",
-    codigo: "IS301",
-    docente: "Dr. Carlos Mendoza",
-    horario: "Lunes, Miércoles 14:00-16:00",
-    aula: "Lab A-201",
-    modalidad: "presencial",
-    estudiantes: 28,
-    color: "#0066cc",
-    estado: "activa",
-    descripcion: "Metodologías ágiles, patrones de diseño y arquitecturas de software modernas.",
-    proximaClase: "Lun, 22 Ene 14:00",
-    creditos: 4,
-    semestre: "2024-I"
-  },
-  {
-    id: 2,
-    nombre: "Inteligencia Artificial",
-    codigo: "IS402",
-    docente: "Dra. María González",
-    horario: "Martes, Jueves 16:00-18:00",
-    aula: "Aula Virtual",
-    modalidad: "virtual",
-    estudiantes: 35,
-    color: "#059669",
-    estado: "activa",
-    descripcion: "Algoritmos de IA, machine learning y redes neuronales aplicadas.",
-    proximaClase: "Mar, 23 Ene 16:00",
-    creditos: 4,
-    semestre: "2024-I"
-  },
-  {
-    id: 3,
-    nombre: "Base de Datos Avanzadas",
-    codigo: "IS304",
-    docente: "Ing. Roberto Silva",
-    horario: "Viernes 09:00-13:00",
-    aula: "Lab B-102",
-    modalidad: "presencial",
-    estudiantes: 25,
-    color: "#f59e0b",
-    estado: "activa",
-    descripcion: "Optimización de consultas, data warehousing y bases de datos NoSQL.",
-    proximaClase: "Vie, 26 Ene 09:00",
-    creditos: 5,
-    semestre: "2024-I"
-  },
-  {
-    id: 4,
-    nombre: "Gestión de Proyectos TI",
-    codigo: "IS350",
-    docente: "MBA Ana Torres",
-    horario: "Sábados 08:00-12:00",
-    aula: "Aula C-301 / Virtual",
-    modalidad: "presencial",
-    estudiantes: 32,
-    color: "#8b5cf6",
-    estado: "activa",
-    descripcion: "Metodologías de gestión, liderazgo de equipos y gestión de riesgos en TI.",
-    proximaClase: "Sáb, 27 Ene 08:00",
-    creditos: 3,
-    semestre: "2024-I"
-  },
-  {
-    id: 5,
-    nombre: "Matemática Computacional",
-    codigo: "MAT205",
-    docente: "Dr. Luis Ramírez",
-    horario: "Lunes, Miércoles 10:00-12:00",
-    aula: "Aula A-105",
-    modalidad: "presencial",
-    estudiantes: 40,
-    color: "#ef4444",
-    estado: "activa",
-    descripcion: "Algoritmos numéricos, optimización y métodos computacionales avanzados.",
-    proximaClase: "Lun, 22 Ene 10:00",
-    creditos: 4,
-    semestre: "2024-I"
-  },
-  {
-    id: 6,
-    nombre: "Ética Profesional",
-    codigo: "HUM102",
-    docente: "Lic. Patricia Vega",
-    horario: "Jueves 18:00-20:00",
-    aula: "Aula B-204",
-    modalidad: "presencial",
-    estudiantes: 45,
-    color: "#6b7280",
-    estado: "finalizada",
-    descripcion: "Principios éticos en la práctica profesional y responsabilidad social.",
-    creditos: 2,
-    semestre: "2023-II"
-  }
-];
 
 export default function Clases() {
   const [clases] = useState<Clase[]>(clasesData);
   const [filtroEstado, setFiltroEstado] = useState<string>('todas');
   const [filtroModalidad, setFiltroModalidad] = useState<string>('todas');
   const [busqueda, setBusqueda] = useState<string>('');
+
+   const [mostrarArchivadas, setMostrarArchivadas] = useState(false);
 
   const clasesFiltradas = clases.filter(clase => {
     const cumpleBusqueda = clase.nombre.toLowerCase().includes(busqueda.toLowerCase()) ||
@@ -134,6 +40,10 @@ export default function Clases() {
     
     return cumpleBusqueda && cumpleEstado && cumpleModalidad;
   });
+
+   const clasesVisibles = clasesFiltradas.filter(
+    c => mostrarArchivadas ? c.estado === 'finalizada' : c.estado === 'activa'
+  );
 
   const estadisticas = {
     totalClases: clases.length,
@@ -210,20 +120,36 @@ export default function Clases() {
         </div>
       </div>
 
+        <div className="toggle-archivadas">
+    <button 
+      onClick={() => setMostrarArchivadas(false)} 
+      className={!mostrarArchivadas ? 'active' : ''}
+    >
+      Clases Activas
+    </button>
+    <button 
+      onClick={() => setMostrarArchivadas(true)} 
+      className={mostrarArchivadas ? 'active' : ''}
+    >
+      Archivadas
+    </button>
+  </div>
+
       <div className="clases-lista">
-        {clasesFiltradas.length > 0 ? (
-          <div className="clases-grid">
-            {clasesFiltradas.map(clase => (
-              <ClaseCard key={clase.id} curso={clase} />
-            ))}
-          </div>
-        ) : (
-          <div className="no-clases">
-            <FaBook className="no-clases-icon" />
-            <p>No se encontraron clases que coincidan con los filtros aplicados.</p>
-          </div>
-        )}
-      </div>
+  {clasesVisibles.length > 0 ? (
+    <div className="clases-grid">
+      {clasesVisibles.map(clase => (
+        <ClaseCard key={clase.id} curso={clase} />
+      ))}
+    </div>
+  ) : (
+    <div className="no-clases">
+      <FaBook className="no-clases-icon" />
+      <p>No se encontraron clases que coincidan con los filtros aplicados.</p>
+    </div>
+  )}
+</div>
+
     </div>
   );
 }
