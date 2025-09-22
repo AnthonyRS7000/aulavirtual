@@ -196,6 +196,9 @@
   overflow-y: auto;
   background-color: var(--bg-primary);
   color: var(--text-primary);
+  padding: 1.5rem;
+  max-width: 100%;
+  box-sizing: border-box;
   transition: all 0.3s ease;
 }
 
@@ -204,7 +207,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 2rem; /* REDUCIDO DE 2rem A 1rem */
+  padding: 0.75rem 1.5rem; /* REDUCIDO DE 2rem A 1rem */
   height: 100%;
   width: 100%;
   max-width: 100%; /* Asegura que no se centre ni tenga restricción */
@@ -634,7 +637,7 @@
 
 .admin-sidebar::-webkit-scrollbar, 
 .admin-sidebar-desktop::-webkit-scrollbar {
-  width: 10px !important;
+  width: 6px !important;
   background: transparent !important;
 }
 

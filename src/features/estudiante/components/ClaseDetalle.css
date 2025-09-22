@@ -1,0 +1,158 @@
+.clase-detalle {
+  padding: 1.5rem;
+}
+
+/* Banner tipo Classroom */
+.clase-banner {
+  border-radius: 12px;
+  padding: 2rem;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.clase-banner h1 {
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.clase-banner .codigo {
+  background: rgba(0,0,0,0.3);
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+.clase-header {
+  display: flex;
+  justify-content: space-between;
+  background: var(--bg-secondary);
+  padding: 1.2rem;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+}
+
+.clase-info-left p,
+.clase-info-right p {
+  margin: 0.3rem 0;
+  font-size: 0.95rem;
+}
+
+/* Descripción */
+.clase-descripcion {
+  background: var(--bg-secondary);
+  padding: 1rem;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+}
+
+.clase-header .codigo {
+  font-size: 0.9rem;
+  background: #6b7280;
+  color: #fff;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  margin-left: 0.5rem;
+}
+
+.clase-tabs nav {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap; /* que no se rompa en pantallas pequeñas */
+}
+
+.clase-tabs button {
+  flex: 1;
+  min-width: 120px;
+  padding: 0.8rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+}
+
+.clase-tabs button.active {
+  background: var(--udh-accent);
+  color: #fff;
+  font-weight: 600;
+}
+
+
+.clase-estudiantes ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.clase-estudiantes li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.clase-contenido {
+  background: var(--bg-secondary);
+  padding: 1.2rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  min-height: 150px;
+}
+
+.clase-contenido p {
+  margin: 0;
+  color: var(--text-secondary);
+}
+
+/* Lista de estudiantes */
+.clase-estudiantes {
+  background: var(--bg-secondary);
+  padding: 1.2rem;
+  border-radius: 12px;
+}
+
+.clase-estudiantes h2 {
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+  color: var(--text-primary);
+}
+
+.clase-estudiantes li {
+  padding: 0.6rem;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--text-secondary);
+}
+
+.clase-estudiantes li span {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.clase-estudiantes li:last-child {
+  border-bottom: none;
+}
+
+.clase-estudiantes .avatar {
+  width: 32px;
+  height: 32px;
+  background: var(--udh-accent);
+  color: white;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0.6rem;
+  font-weight: 600;
+}
+
