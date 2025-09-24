@@ -11,7 +11,7 @@ interface Clase {
   docente: string;
   horario: string;
   aula: string;
-  modalidad: 'presencial' | 'virtual' ;
+  modalidad: 'presencial' | 'virtual' | 'hibrida';
   estudiantes: number;
   color: string;
   estado: 'activa' | 'finalizada' | 'cancelada';
@@ -19,6 +19,7 @@ interface Clase {
   proximaClase?: string;
   creditos: number;
   semestre: string;
+  linkMeet?: string;
 }
 
 

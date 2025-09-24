@@ -6,7 +6,7 @@
 .clase-banner {
   border-radius: 12px;
   padding: 2rem;
-  color: white;
+  background: var(--pantone-zomp);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -51,8 +51,8 @@
 
 .clase-header .codigo {
   font-size: 0.9rem;
-  background: #6b7280;
-  color: #fff;
+  background: var(--pantone-saffron);
+  color: var(--pantone-jet);
   padding: 0.25rem 0.5rem;
   border-radius: 6px;
   margin-left: 0.5rem;
@@ -79,11 +79,14 @@
 }
 
 .clase-tabs button.active {
-  background: var(--udh-accent);
+  background: var(--pantone-zomp);
   color: #fff;
   font-weight: 600;
 }
 
+.clase-tabs button:hover {
+  border: 1px solid var(--pantone-zomp);
+}
 
 .clase-estudiantes ul {
   list-style: none;
@@ -122,7 +125,7 @@
 .clase-estudiantes h2 {
   margin-bottom: 1rem;
   font-size: 1.3rem;
-  color: var(--text-primary);
+  color: var(--pantone-zomp);
 }
 
 .clase-estudiantes li {

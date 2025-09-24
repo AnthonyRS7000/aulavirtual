@@ -33,14 +33,7 @@ export default function ClaseCard({ curso }: ClaseCardProps) {
     }
   };
 
-  const obtenerColorEstado = (estado: string) => {
-    switch (estado) {
-      case 'activa': return '#10b981';
-      case 'finalizada': return '#6b7280';
-      case 'cancelada': return '#ef4444';
-      default: return '#6b7280';
-    }
-  };
+const linkMeet = 'https://meet.google.com/lookup/example-link';
 
   return (
     <div 
@@ -53,15 +46,19 @@ export default function ClaseCard({ curso }: ClaseCardProps) {
           <h4 className="clase-nombre">{curso.nombre}</h4>
           <p className="clase-codigo">{curso.codigo}</p>
         </div>
-        <div className="clase-estado">
-          <span 
-            className="estado-indicator"
-            style={{ backgroundColor: obtenerColorEstado(curso.estado) }}
-          >
-            {curso.estado}
-          </span>
-        </div>
-      </div>
+        {(curso.modalidad === "virtual" || curso.linkMeet) && (
+<a
+href={curso.linkMeet || "https://meet.google.com/lookup/example-link"} 
+target="_blank"
+rel="noopener noreferrer"
+className="estado-indicator"
+style={{ backgroundColor: '#10b981' }}
+title="Entrar a la clase virtual"
+>
+<FaVideo />
+</a>
+)}
+</div>
 
       <div className="clase-docente">
         <strong>Prof. {curso.docente}</strong>
@@ -109,8 +106,6 @@ export default function ClaseCard({ curso }: ClaseCardProps) {
         >
           Ver Clases
         </button>
-        <button className="btn-recursos">Recursos</button>
-        <button className="btn-asistencia">Asistencia</button>
       </div>
     </div>
   );
