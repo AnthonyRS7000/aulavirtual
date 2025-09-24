@@ -31,7 +31,8 @@ export const clasesData: Clase[] = [
     descripcion: "Metodologías ágiles, patrones de diseño y arquitecturas modernas.",
     proximaClase: "Lun, 22 Ene 14:00",
     creditos: 4,
-    semestre: "2024-I"
+    semestre: "2024-I",
+    linkMeet: "https://meet.google.com/abc-defg-hij"
   },
   {
     id: 2,
@@ -63,7 +64,8 @@ export const clasesData: Clase[] = [
     descripcion: "Optimización de consultas, data warehousing y bases de datos NoSQL.",
     proximaClase: "Vie, 26 Ene 09:00",
     creditos: 5,
-    semestre: "2024-I"
+    semestre: "2024-I",
+    linkMeet: "https://meet.google.com/abc-defg-hij"
   },
   {
     id: 4,
@@ -79,7 +81,8 @@ export const clasesData: Clase[] = [
     descripcion: "Metodologías de gestión, liderazgo de equipos y gestión de riesgos en TI.",
     proximaClase: "Sáb, 27 Ene 08:00",
     creditos: 3,
-    semestre: "2024-I"
+    semestre: "2024-I",
+    linkMeet: "https://meet.google.com/abc-defg-hij"
   },
   {
     id: 5,
@@ -95,7 +98,8 @@ export const clasesData: Clase[] = [
     descripcion: "Algoritmos numéricos, optimización y métodos computacionales avanzados.",
     proximaClase: "Lun, 22 Ene 10:00",
     creditos: 4,
-    semestre: "2024-I"
+    semestre: "2024-I",
+    linkMeet: "https://meet.google.com/abc-defg-hij"
   },
   {
     id: 6,

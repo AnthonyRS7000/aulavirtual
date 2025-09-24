@@ -9,14 +9,26 @@
   -moz-osx-font-smoothing: grayscale;
   
   /* Tema claro por defecto */
-  --bg-primary: #ffffff;
-  --bg-secondary: #f8fafc;
-  --bg-tertiary: #e2e8f0;
-  --text-primary: #1e293b;
-  --text-secondary: #475569;
-  --text-muted: #64748b;
-  --border-color: #e2e8f0;
-  --shadow: rgba(0, 0, 0, 0.1);
+--pantone-zomp: #5A9E8D;
+--pantone-zomp-light: #77B1A2;
+--pantone-saffron: #ECC138;
+--pantone-saffron-light: #f7db72;
+--pantone-jet: #3D3C3B;
+--pantone-jet-light: #5a5a5a;
+
+
+--bg-primary: #ffffff;
+--bg-secondary: #f5f5f5;
+--bg-tertiary: #ebebeb;
+--text-primary: var(--pantone-jet);
+--text-secondary: #6b7280;
+--text-muted: #9ca3af;
+--border-color: #e5e7eb;
+--shadow: rgba(0, 0, 0, 0.1);
+
+
+--accent-color: var(--pantone-zomp);
+--highlight-color: var(--pantone-saffron);
   
   /* Colores UDH */
   --udh-primary: #2c3e50;
