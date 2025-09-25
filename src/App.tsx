@@ -10,6 +10,7 @@ import Recursos from './features/estudiante/pages/RecursosRecientes';
 import AnunciosCurso from './features/estudiante/pages/AnunciosCurso';
 import PerfilDropdown from './components/PerfilDropdown';
 import ClaseDetalle from './features/estudiante/components/ClaseDetalle';
+import { ClasesProvider } from './context/ClasesContext' 
 import './App.css';
 import './components/ThemeOverrides.css';
 import CalendarioAgenda from './features/estudiante/pages/CalendarioAgenda';
@@ -18,6 +19,7 @@ import CalendarioAgenda from './features/estudiante/pages/CalendarioAgenda';
 function App() {
   return (
     <Router>
+      <ClasesProvider>
       <Layout>
         <Routes>
           <Route path="/" element={<InicioEstudiante />} />
@@ -33,6 +35,7 @@ function App() {
           <Route path="/estudiante/calendario" element={<CalendarioAgenda />} />
         </Routes>
       </Layout>
+      </ClasesProvider>
     </Router>
   );
 }
