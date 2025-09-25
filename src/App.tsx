@@ -10,10 +10,11 @@ import Recursos from './features/estudiante/pages/RecursosRecientes';
 import AnunciosCurso from './features/estudiante/pages/AnunciosCurso';
 import PerfilDropdown from './components/PerfilDropdown';
 import ClaseDetalle from './features/estudiante/components/ClaseDetalle';
+import CalendarioAgenda from './features/estudiante/pages/CalendarioAgenda';
+import DocenteRoutes from './features/docente/DocenteRoutes';
 import { ClasesProvider } from './context/ClasesContext' 
 import './App.css';
 import './components/ThemeOverrides.css';
-import CalendarioAgenda from './features/estudiante/pages/CalendarioAgenda';
 
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
           <Route path="/estudiante/notas" element={<Notas />} />
           <Route path="/estudiante/recursos" element={<Recursos />} />
           <Route path="/estudiante/calendario" element={<CalendarioAgenda />} />
+          <Route path="/docente/*" element={<DocenteRoutes />} />
         </Routes>
       </Layout>
       </ClasesProvider>
