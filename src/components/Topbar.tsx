@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Bars3Icon, BellIcon } from '@heroicons/react/24/outline';
+import { BellIcon } from '@heroicons/react/24/outline';
 import ThemeToggle from './ThemeToggle';
 import NotificacionesDropdown from './NotificacionesDropdown';
 import PerfilDropdown from './PerfilDropdown';
