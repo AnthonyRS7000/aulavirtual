@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Bars3Icon, BellIcon } from '@heroicons/react/24/outline';
+import { BellIcon } from '@heroicons/react/24/outline';
 import ThemeToggle from './ThemeToggle';
 import NotificacionesDropdown from './NotificacionesDropdown';
 import PerfilDropdown from './PerfilDropdown';
@@ -55,7 +55,6 @@ export default function Topbar({  }: TopbarProps) {
 
           {/* Selector de tema */}
           <ThemeToggle />
-          </div>
 
           {/* Usuario */}
           <div className="topbar-user" onClick={() => setPerfilOpen(!perfilOpen)} style={{ cursor: 'pointer' }}>
