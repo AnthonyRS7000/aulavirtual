@@ -52,18 +52,25 @@ useEffect(() => {
     try {
       const data = await getHorario("2020210688", "2025-2");
 
-      const mapped = data.map((c: any) => ({
-        id: c.codigo_curso.trim(),
-        nombre: c.nombre_curso,
-        codigo: c.codigo_curso.trim(),
-        docente: c.docente,
-        horario: [c.lunes, c.martes, c.miercoles, c.jueves, c.viernes, c.sabado, c.domingo]
-          .filter(Boolean)
-          .join(" | "),
-        modalidad: "presencial",
-        aula: (c.lunes.match(/->(.*) Presencial/)?.[1]) || "Aula",
-        estudiantes: Math.floor(Math.random() * 30) + 20,
-      }));
+      const mapped = data.map((c: any) => {
+        const dias = [c.lunes, c.martes, c.miercoles, c.jueves, c.viernes, c.sabado, c.domingo]
+    .filter(Boolean);
+
+  return {
+    id: c.codigo_curso.trim(),
+    nombre: c.nombre_curso,
+    codigo: c.codigo_curso.trim(),
+    docente: c.docente,
+    horario: dias.map((d: string) => d.split("->")[0].trim()).join(" | "), // día + hora
+    modalidad: "presencial",
+    aulas: dias.map((d: string) => d.match(/->(.*) Presencial/)?.[1]?.trim() || "Aula"), // array de salones
+    estudiantes: Math.floor(Math.random() * 30) + 20,
+    creditos: c.creditos,
+    semestre: "2025-2",
+    descripcion: `Clase de ${c.nombre_curso} sección ${c.seccion}`,
+    color: "#4c7c74"
+  };
+});
 
       setClases(mapped);
     setEstadisticas({
@@ -81,7 +88,22 @@ useEffect(() => {
   fetchData();
 }, []);
 
-  if (loading) return <p>Cargando...</p>;
+const Clases = () => {
+  const { clases, loading } = useClases();
+
+  if (loading) return <div>Cargando clases...</div>;
+
+  return (
+    <div>
+      {clases.map((c) => (
+        <div key={c.id}>
+          <h3>{c.nombre}</h3>
+          <p>{c.horario}</p>
+        </div>
+      ))}
+    </div>
+  );
+};
 
   return (
     <div className="clases-page">
