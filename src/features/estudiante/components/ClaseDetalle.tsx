@@ -1,7 +1,7 @@
 // src/features/estudiante/pages/ClaseDetalle.tsx
 import { useParams, Link } from 'react-router-dom';
 import { useState } from 'react';
-import { clasesData } from '../../../data/clasesData';
+import { useClases } from '../../../context/ClasesContext';
 import '../components/ClaseDetalle.css';
 
 interface Estudiante {
@@ -15,7 +15,14 @@ export default function ClaseDetalle() {
   const [activeTab, setActiveTab] = useState<'recursos' | 'tareas' | 'notas' | 'asistencia' | 'anuncios'>('recursos');
 
   // ⚡ Aquí deberías traer la info desde tu backend o contexto global
- const clase = clasesData.find(c => c.id === Number(id));
+const { clases, loading } = useClases();
+if (loading) {
+  return <p>Cargando clase...</p>;
+}
+
+const clase = clases.find((c: any) => c.id === id);
+
+
 
   if (!clase) {
   return (
@@ -37,7 +44,6 @@ export default function ClaseDetalle() {
         <div className="clase-info-left">
           <p><strong>Docente:</strong> {clase.docente}</p>
           <p><strong>Horario:</strong> {clase.horario}</p>
-          <p><strong>Aula:</strong> {clase.aula}</p>
         </div>
         <div className="clase-info-right">
           <p><strong>Créditos:</strong> {clase.creditos}</p>
@@ -45,42 +51,36 @@ export default function ClaseDetalle() {
         </div>
       </header>
 
+      {clase.aulas && clase.aulas.length > 0 && (
+        <div className="clase-aulas">
+          <strong>Salones:</strong>
+          <ul>
+            {clase.aulas.map((aula: string, i: number) => (
+              <li key={i}>{aula}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+
       <div className="clase-descripcion">
         <p>{clase.descripcion}</p>
       </div>
 
       <section className="clase-tabs">
         <nav>
-          <button 
-            className={activeTab === 'recursos' ? 'active' : ''} 
-            onClick={() => setActiveTab('recursos')}
-          >
-            📚 Recursos
-          </button>
-          <button 
-            className={activeTab === 'tareas' ? 'active' : ''} 
-            onClick={() => setActiveTab('tareas')}
-          >
-            📝 Tareas
-          </button>
-          <button 
-            className={activeTab === 'notas' ? 'active' : ''} 
-            onClick={() => setActiveTab('notas')}
-          >
-            🎯 Notas
-          </button>
-          <button 
-            className={activeTab === 'asistencia' ? 'active' : ''} 
-            onClick={() => setActiveTab('asistencia')}
-          >
-            ✅ Asistencia
-          </button>
-          <button 
-            className={activeTab === 'anuncios' ? 'active' : ''} 
-            onClick={() => setActiveTab('anuncios')}
-          >
-            📢 Anuncios
-          </button>
+          {['recursos', 'tareas', 'notas', 'asistencia', 'anuncios'].map(tab => (
+            <button
+              key={tab}
+              className={activeTab === tab ? 'active' : ''}
+              onClick={() => setActiveTab(tab as any)}
+            >
+              {tab === 'recursos' && '📚 Recursos'}
+              {tab === 'tareas' && '📝 Tareas'}
+              {tab === 'notas' && '🎯 Notas'}
+              {tab === 'asistencia' && '✅ Asistencia'}
+              {tab === 'anuncios' && '📢 Anuncios'}
+            </button>
+          ))}
         </nav>
       </section>
 

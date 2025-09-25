@@ -12,6 +12,7 @@ import PerfilDropdown from './components/PerfilDropdown';
 import ClaseDetalle from './features/estudiante/components/ClaseDetalle';
 import CalendarioAgenda from './features/estudiante/pages/CalendarioAgenda';
 import DocenteRoutes from './features/docente/DocenteRoutes';
+import { ClasesProvider } from './context/ClasesContext' 
 import './App.css';
 import './components/ThemeOverrides.css';
 
@@ -19,6 +20,7 @@ import './components/ThemeOverrides.css';
 function App() {
   return (
     <Router>
+      <ClasesProvider>
       <Layout>
         <Routes>
           <Route path="/" element={<InicioEstudiante />} />
@@ -35,6 +37,7 @@ function App() {
           <Route path="/docente/*" element={<DocenteRoutes />} />
         </Routes>
       </Layout>
+      </ClasesProvider>
     </Router>
   );
 }

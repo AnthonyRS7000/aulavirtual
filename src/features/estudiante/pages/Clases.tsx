@@ -1,58 +1,109 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ClaseCard from '../components/ClaseCard';
-import { clasesData } from '../../../data/clasesData';
+import {getHorario} from "../services/horarioService";
 import { FaFilter, FaSearch, FaCalendarAlt, FaBook, FaClock } from 'react-icons/fa';
 import '../css/Clases.css';
 
-interface Clase {
-  id: number;
+interface ClaseAPI {
+  codigo_curso: string;
+  nombre_curso: string;
+  seccion: string;
+  ciclo: number;
+  creditos: number;
+  docente: string;
+  lunes: string;
+  martes: string;
+  miercoles: string;
+  jueves: string;
+  viernes: string;
+}
+
+interface ClaseFront {
+  id: string;
   nombre: string;
   codigo: string;
   docente: string;
   horario: string;
+  modalidad: string;
   aula: string;
-  modalidad: 'presencial' | 'virtual' | 'hibrida';
   estudiantes: number;
-  color: string;
-  estado: 'activa' | 'finalizada' | 'cancelada';
-  descripcion: string;
   proximaClase?: string;
-  creditos: number;
-  semestre: string;
   linkMeet?: string;
+  descripcion?: string;
+  color?: string;
 }
 
-
 export default function Clases() {
-  const [clases] = useState<Clase[]>(clasesData);
-  const [filtroEstado, setFiltroEstado] = useState<string>('todas');
-  const [filtroModalidad, setFiltroModalidad] = useState<string>('todas');
-  const [busqueda, setBusqueda] = useState<string>('');
+  const [clases, setClases] = useState<ClaseFront[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [estadisticas, setEstadisticas] = useState({ activas: 0, totalCreditos: 0 });
 
-   const [mostrarArchivadas, setMostrarArchivadas] = useState(false);
+  const [busqueda, setBusqueda] = useState("");
+const [filtroEstado, setFiltroEstado] = useState("todas");
+const [filtroModalidad, setFiltroModalidad] = useState("todas");
+const [mostrarArchivadas, setMostrarArchivadas] = useState(false);
 
-  const clasesFiltradas = clases.filter(clase => {
-    const cumpleBusqueda = clase.nombre.toLowerCase().includes(busqueda.toLowerCase()) ||
-                          clase.codigo.toLowerCase().includes(busqueda.toLowerCase()) ||
-                          clase.docente.toLowerCase().includes(busqueda.toLowerCase());
-    
-    const cumpleEstado = filtroEstado === 'todas' || clase.estado === filtroEstado;
-    const cumpleModalidad = filtroModalidad === 'todas' || clase.modalidad === filtroModalidad;
-    
-    return cumpleBusqueda && cumpleEstado && cumpleModalidad;
-  });
+const clasesVisibles = clases.filter(c =>
+  c.nombre.toLowerCase().includes(busqueda.toLowerCase())
+);
 
-   const clasesVisibles = clasesFiltradas.filter(
-    c => mostrarArchivadas ? c.estado === 'finalizada' : c.estado === 'activa'
-  );
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const data = await getHorario("2020210688", "2025-2");
 
-  const estadisticas = {
-    totalClases: clases.length,
-    activas: clases.filter(c => c.estado === 'activa').length,
-    presenciales: clases.filter(c => c.modalidad === 'presencial').length,
-    virtuales: clases.filter(c => c.modalidad === 'virtual').length,
-    totalCreditos: clases.filter(c => c.estado === 'activa').reduce((sum, c) => sum + c.creditos, 0)
+      const mapped = data.map((c: any) => {
+        const dias = [c.lunes, c.martes, c.miercoles, c.jueves, c.viernes, c.sabado, c.domingo]
+    .filter(Boolean);
+
+  return {
+    id: c.codigo_curso.trim(),
+    nombre: c.nombre_curso,
+    codigo: c.codigo_curso.trim(),
+    docente: c.docente,
+    horario: dias.map((d: string) => d.split("->")[0].trim()).join(" | "), // día + hora
+    modalidad: "presencial",
+    aulas: dias.map((d: string) => d.match(/->(.*) Presencial/)?.[1]?.trim() || "Aula"), // array de salones
+    estudiantes: Math.floor(Math.random() * 30) + 20,
+    creditos: c.creditos,
+    semestre: "2025-2",
+    descripcion: `Clase de ${c.nombre_curso} sección ${c.seccion}`,
+    color: "#4c7c74"
   };
+});
+
+      setClases(mapped);
+    setEstadisticas({
+        activas: mapped.length,
+        totalCreditos: data.reduce((acc: number, c: any) => acc + c.creditos, 0),
+      });
+
+    } catch (error) {
+      console.error("Error cargando horario", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchData();
+}, []);
+
+const Clases = () => {
+  const { clases, loading } = useClases();
+
+  if (loading) return <div>Cargando clases...</div>;
+
+  return (
+    <div>
+      {clases.map((c) => (
+        <div key={c.id}>
+          <h3>{c.nombre}</h3>
+          <p>{c.horario}</p>
+        </div>
+      ))}
+    </div>
+  );
+};
 
   return (
     <div className="clases-page">
@@ -63,14 +114,12 @@ export default function Clases() {
         </div>
         <div className="header-stats">
           <div className="quick-stat">
-            <FaBook className="stat-icon" />
             <div>
               <span className="stat-number">{estadisticas.activas}</span>
               <span className="stat-label">Activas</span>
             </div>
           </div>
           <div className="quick-stat">
-            <FaClock className="stat-icon" />
             <div>
               <span className="stat-number">{estadisticas.totalCreditos}</span>
               <span className="stat-label">Créditos</span>
@@ -99,7 +148,7 @@ export default function Clases() {
               value={filtroEstado}
               onChange={(e) => setFiltroEstado(e.target.value)}
             >
-              <option value="todas">Todos los estados</option>
+              <option value="todas" disabled hidden>Todos los estados</option>
               <option value="activa">Activas</option>
               <option value="finalizada">Finalizadas</option>
               <option value="cancelada">Canceladas</option>
