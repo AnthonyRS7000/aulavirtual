@@ -1,11 +1,38 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { getHorario } from "../features/estudiante/services/horarioService";
 
-const ClasesContext = createContext<any>(null);
+interface ClaseFront {
+  id: string;
+  nombre: string;
+  codigo: string;
+  docente: string;
+  horario: string;
+  modalidad: string;
+  aulas: string[];
+  estudiantes: number;
+  creditos: number;
+  semestre: string;
+  descripcion: string;
+  color: string;
+}
+
+interface Estadisticas {
+  activas: number;
+  totalCreditos: number;
+}
+
+interface ClasesContextType {
+  clases: ClaseFront[];
+  loading: boolean;
+  estadisticas: Estadisticas;
+}
+
+const ClasesContext = createContext<ClasesContextType | null>(null);
 
 export const ClasesProvider = ({ children }: { children: React.ReactNode }) => {
   const [clases, setClases] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [estadisticas, setEstadisticas] = useState({ activas: 0, totalCreditos: 0 });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -31,20 +58,32 @@ export const ClasesProvider = ({ children }: { children: React.ReactNode }) => {
           };
         });
         setClases(mapped);
-      } catch (err) {
-        console.error("Error cargando clases", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, []);
+      setEstadisticas({
+        activas: mapped.length,
+        totalCreditos: data.reduce((acc: number, c: any) => acc + c.creditos, 0),
+      });
+
+    } catch (err) {
+      console.error("Error cargando clases", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchData();
+}, []);
 
   return (
-    <ClasesContext.Provider value={{ clases, loading }}>
+    <ClasesContext.Provider value={{ clases, loading,  estadisticas }}>
       {children}
     </ClasesContext.Provider>
   );
 };
 
-export const useClases = () => useContext(ClasesContext);
+export const useClases = () => {
+  const context = useContext(ClasesContext);
+  if (!context) {
+    throw new Error("useClases debe usarse dentro de ClasesProvider");
+  }
+  return context;
+};
