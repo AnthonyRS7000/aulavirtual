@@ -3,18 +3,17 @@ import { useNavigate } from 'react-router-dom';
 import './ClaseCard.css';
 
 interface Clase {
-  id: number;
-  nombre: string;
-  codigo: string;
+  codigo_curso: string;
+  nombre_curso: string;
+  seccion: string;
+  ciclo: number;
+  creditos: number;
   docente: string;
-  horario: string;
-  aula: string;
-  modalidad: 'presencial' | 'virtual' | 'hibrida';
-  estudiantes: number;
-  color: string;
-  estado: 'activa' | 'finalizada' | 'cancelada';
-  descripcion: string;
-  proximaClase?: string;
+  lunes: string;
+  martes: string;
+  miercoles: string;
+  jueves: string;
+  viernes: string;
 }
 
 interface ClaseCardProps {
