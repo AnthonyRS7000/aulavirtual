@@ -1,27 +1,32 @@
 .tareas-page {
-  padding: 24px;
-  max-width: 1200px;
+  padding: 2rem;
+  min-height: 100vh;
   margin: 0 auto;
+  color: var(--text-primary);
 }
 
 .tareas-header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   margin-bottom: 32px;
-  padding-bottom: 24px;
+  padding: 1.5rem 2rem;
   border-bottom: 2px solid #e5e7eb;
+  border-radius: 12px;
+  color: #fff;
+  
 }
 
 .header-content h1 {
   font-size: 32px;
   font-weight: 700;
-  color: #1f2937;
+  color: #fff;
   margin: 0 0 8px 0;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
 }
 
 .header-content p {
-  color: #6b7280;
+  color: #f1f5f9;
   font-size: 16px;
   margin: 0;
 }
@@ -30,8 +35,8 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  background: #0066cc;
-  color: white;
+  background: var(--pantone-saffron);
+  color: #3d3c3b;
   border: none;
   padding: 12px 24px;
   border-radius: 8px;
@@ -41,7 +46,7 @@
 }
 
 .btn-nueva-tarea:hover {
-  background: #0052a3;
+  background: var(--pantone-saffron-light);
   transform: translateY(-2px);
 }
 
@@ -53,10 +58,10 @@
 }
 
 .stat-card {
-  background: white;
+  background: var(--bg-secondary);
   padding: 24px;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px var(--shadow);
   text-align: center;
   border-left: 4px solid;
   transition: all 0.3s ease;
@@ -64,35 +69,35 @@
 
 .stat-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 16px var(--shadow);
 }
 
 .stat-card.pendientes {
-  border-left-color: #f59e0b;
+  border-left-color: var(--pantone-saffron);
 }
 
 .stat-card.entregadas {
-  border-left-color: #3b82f6;
+  border-left-color: var(--pantone-zomp);
 }
 
 .stat-card.revision {
-  border-left-color: #8b5cf6;
+  border-left-color: var(--pantone-zomp-light);
 }
 
 .stat-card.calificadas {
-  border-left-color: #10b981;
+  border-left-color: var(--udh-success);
 }
 
 .stat-number {
   display: block;
   font-size: 36px;
   font-weight: 700;
-  color: #1f2937;
+  color: var(--text-primary);
   margin-bottom: 8px;
 }
 
 .stat-label {
-  color: #6b7280;
+  color: var(--text-secondary);
   font-size: 14px;
   font-weight: 600;
   text-transform: uppercase;
@@ -105,9 +110,9 @@
   align-items: center;
   margin-bottom: 24px;
   padding: 20px;
-  background: white;
+  background: var(--bg-secondary);
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px var(--shadow);
   gap: 20px;
 }
 
@@ -126,22 +131,24 @@
   left: 12px;
   top: 50%;
   transform: translateY(-50%);
-  color: #6b7280;
+  color: var(--pantone-zomp);
   font-size: 16px;
 }
 
 .search-box input {
   width: 100%;
   padding: 12px 12px 12px 40px;
-  border: 2px solid #e5e7eb;
+  border: 2px solid var(--border-color);
   border-radius: 8px;
   font-size: 16px;
   transition: border-color 0.3s ease;
+  background: var(--bg-primary);
 }
 
 .search-box input:focus {
   outline: none;
-  border-color: #0066cc;
+  border-color: var(--pantone-zomp);
+  box-shadow: 0 0 0 2px rgba(90, 158, 141, 0.25);
 }
 
 .filtros-dropdown {
@@ -156,15 +163,15 @@
 }
 
 .filter-icon {
-  color: #6b7280;
+  color: var(--pantone-zomp);
   font-size: 14px;
 }
 
 .filter-group select {
   padding: 8px 12px;
-  border: 2px solid #e5e7eb;
+  border: 2px solid var(--border-color);
   border-radius: 6px;
-  background: white;
+  background: var(--bg-primary);
   font-size: 14px;
   cursor: pointer;
   transition: border-color 0.3s ease;
@@ -172,7 +179,7 @@
 
 .filter-group select:focus {
   outline: none;
-  border-color: #0066cc;
+  border-color: var(--pantone-zomp);
 }
 
 .tareas-lista {
@@ -184,13 +191,13 @@
 .no-tareas {
   text-align: center;
   padding: 60px 20px;
-  background: white;
+  background: var(--bg-secondary);
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px var(--shadow);
 }
 
 .no-tareas p {
-  color: #6b7280;
+  color: var(--text-secondary);
   font-size: 16px;
   margin: 0;
 }
