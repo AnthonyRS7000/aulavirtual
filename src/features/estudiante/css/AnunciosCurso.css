@@ -62,35 +62,62 @@ div.anuncios-curso div.anuncios-lista div.anuncio-card:hover {
 
 /* Header mejorado */
 .anuncios-header {
-  background: var(--bg-secondary);
-  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  padding: 1.5rem 2rem;
+  border-bottom: 3.5px solid var(--border-color);
   border-radius: 12px;
-  margin-bottom: 20px;
- border: 1px solid var(--border-color);
-  box-shadow: 0 2px 8px var(--shadow);
+  color: #fff;
   position: relative;
   overflow: hidden;
 }
 
 .anuncios-header h1 {
-  font-size: 1.8rem;
+  font-size: 2.4rem;
   font-weight: 800;
-  color: var(--pantone-zomp);
+  color: #ffffff;
+  margin: 0;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
 }
 
 .anuncios-header p {
-  margin: 5px 0 0 0;
-  color: var(--text-secondary);
+  font-weight: 500;
+  color: #f1f5f9;
+  font-size: 1rem;
+  margin: 0;
+  padding-left: 1rem;
 }
 
-.anuncios-header::before {
+.anuncios-header::after {
   content: '';
   position: absolute;
-  top: 0;
+  bottom: -1px;
   left: 0;
   right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #3498db 0%, #2980b9 50%, #1abc9c 100%);
+  height: 12px;
+  border-radius: 0 0 12px 12px;
+  background: var(--bg-primary);
+}
+
+.anuncios-header .header-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.anuncios-header .header-content h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 8px 0;
+}
+
+.anuncios-header .header-content p {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  margin: 0;
 }
 
 .header-info {
@@ -665,7 +692,6 @@ div.anuncios-curso div.anuncios-lista div.anuncio-card:hover {
 }
 
 .btn-comentarios:hover {
-  background: var(--pantone-zomp-light);
   transform: translateY(-3px);
   box-shadow: 0 8px 25px rgba(52, 152, 219, 0.4);
 }
