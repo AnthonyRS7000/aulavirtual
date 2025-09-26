@@ -1,24 +1,15 @@
-import React, { useState } from 'react';
-import { 
-  AcademicCapIcon, 
-  UserGroupIcon, 
-  ClipboardDocumentListIcon,
-  ChartBarIcon,
-  PlusIcon,
-  BookOpenIcon,
-  ClockIcon,
-  ExclamationTriangleIcon
-} from '@heroicons/react/24/outline';
+import { FaBook, FaUsers, FaTasks, FaChartBar, FaPlus, FaEye, FaEdit, FaCalendarAlt, FaBell, FaFileAlt, FaGraduationCap, FaClock, FaExclamationTriangle, FaCheckCircle } from 'react-icons/fa';
+import { useState, useEffect } from 'react';
 import '../css/DashboardDocente.css';
 
 interface Curso {
   id: number;
-  nombre: string;
   codigo: string;
+  nombre: string;
+  ciclo: string;
   estudiantes: number;
   tareasPendientes: number;
-  proximaClase: string;
-  color: string;
+  ultimaActividad: string;
 }
 
 interface TareaPendiente {
@@ -26,212 +17,209 @@ interface TareaPendiente {
   titulo: string;
   curso: string;
   fechaLimite: string;
-  entregadas: number;
-  total: number;
+  entregas: number;
+  totalEstudiantes: number;
+  urgente: boolean;
 }
 
-const DashboardDocente: React.FC = () => {
-  const [cursosActivos] = useState<Curso[]>([
+interface Alerta {
+  id: number;
+  tipo: 'urgente' | 'info' | 'exito';
+  titulo: string;
+  mensaje: string;
+  fecha: string;
+}
+
+export default function DashboardDocente() {
+  const [fechaActual, setFechaActual] = useState(new Date());
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setFechaActual(new Date());
+    }, 60000);
+    return () => clearInterval(timer);
+  }, []);
+
+  // Datos simulados
+  const cursos: Curso[] = [
     {
       id: 1,
-      nombre: 'Evaluación de Proyectos',
-      codigo: 'FC-SMVIBS-SP08C01N',
-      estudiantes: 45,
+      codigo: "IS-301",
+      nombre: "Programación Orientada a Objetos",
+      ciclo: "2025-2",
+      estudiantes: 28,
       tareasPendientes: 3,
-      proximaClase: '2025-09-26 14:00',
-      color: '#e74c3c'
+      ultimaActividad: "Hace 2 horas"
     },
     {
       id: 2,
-      nombre: 'Planeamiento y Gestión Estratégica',
-      codigo: 'FC-SMVADM-SP09B01N',
-      estudiantes: 38,
-      tareasPendientes: 2,
-      proximaClase: '2025-09-27 10:00',
-      color: '#27ae60'
+      codigo: "IS-302", 
+      nombre: "Base de Datos I",
+      ciclo: "2025-2",
+      estudiantes: 25,
+      tareasPendientes: 1,
+      ultimaActividad: "Hace 1 día"
     },
     {
       id: 3,
-      nombre: 'Investigación de Mercados',
-      codigo: 'FC-SMVMKT-SP07A01N',
-      estudiantes: 32,
-      tareasPendientes: 1,
-      proximaClase: '2025-09-28 16:00',
-      color: '#3498db'
+      codigo: "IS-303",
+      nombre: "Estructura de Datos y Algoritmos",
+      ciclo: "2025-2", 
+      estudiantes: 30,
+      tareasPendientes: 2,
+      ultimaActividad: "Hace 3 horas"
     }
-  ]);
+  ];
 
-  const [tareasPendientes] = useState<TareaPendiente[]>([
+  const tareasPendientes: TareaPendiente[] = [
     {
       id: 1,
-      titulo: 'Análisis de Viabilidad Económica',
-      curso: 'Evaluación de Proyectos',
-      fechaLimite: '2025-09-30',
-      entregadas: 35,
-      total: 45
+      titulo: "Examen Parcial - POO",
+      curso: "Programación Orientada a Objetos",
+      fechaLimite: "2025-01-15",
+      entregas: 18,
+      totalEstudiantes: 28,
+      urgente: true
     },
     {
       id: 2,
-      titulo: 'Plan Estratégico Empresarial',
-      curso: 'Planeamiento y Gestión Estratégica',
-      fechaLimite: '2025-10-02',
-      entregadas: 28,
-      total: 38
+      titulo: "Proyecto Final - Base de Datos",
+      curso: "Base de Datos I", 
+      fechaLimite: "2025-01-20",
+      entregas: 20,
+      totalEstudiantes: 25,
+      urgente: false
     }
-  ]);
+  ];
+
+  const alertas: Alerta[] = [
+    {
+      id: 1,
+      tipo: 'urgente',
+      titulo: 'Entrega próxima a vencer',
+      mensaje: 'El examen parcial de POO vence en 2 días',
+      fecha: '2025-01-13'
+    },
+    {
+      id: 2,
+      tipo: 'info',
+      titulo: 'Nueva funcionalidad disponible',
+      mensaje: 'Ya puedes crear rúbricas personalizadas',
+      fecha: '2025-01-12'
+    }
+  ];
 
   const estadisticas = {
-    cursosActivos: cursosActivos.length,
-    totalEstudiantes: cursosActivos.reduce((sum, curso) => sum + curso.estudiantes, 0),
-    tareasPorRevisar: tareasPendientes.reduce((sum, tarea) => sum + tarea.entregadas, 0),
-    proximasClases: cursosActivos.filter(curso => 
-      new Date(curso.proximaClase) <= new Date(Date.now() + 24 * 60 * 60 * 1000)
-    ).length
+    totalCursos: cursos.length,
+    totalEstudiantes: cursos.reduce((sum, curso) => sum + curso.estudiantes, 0),
+    tareasPorRevisar: tareasPendientes.reduce((sum, tarea) => sum + tarea.entregas, 0),
+    promedioGeneral: 16.5
   };
 
+  const accesosRapidos = [
+    { icono: FaPlus, titulo: 'Crear Tarea', accion: () => console.log('Crear tarea') },
+    { icono: FaUsers, titulo: 'Mis Estudiantes', accion: () => console.log('Ver estudiantes') },
+    { icono: FaFileAlt, titulo: 'Materiales', accion: () => console.log('Subir material') },
+    { icono: FaChartBar, titulo: 'Calificaciones', accion: () => console.log('Ver calificaciones') },
+    { icono: FaBell, titulo: 'Anuncios', accion: () => console.log('Crear anuncio') },
+    { icono: FaCalendarAlt, titulo: 'Calendario', accion: () => console.log('Ver calendario') }
+  ];
+
   return (
-    <div className="dashboard-docente">
+    <div className="dashboard-docente-usil">
       <div className="dashboard-container">
-        
-        {/* Header de Bienvenida */}
-        <div className="header-bienvenida-docente">
-          <div className="bienvenida-content">
-            <h1 className="titulo-bienvenida-docente">¡Bienvenido, Prof. García!</h1>
-            <p className="subtitulo-docente">Panel de Control - Docente</p>
+        {/* Header minimalista */}
+        <div className="header-docente">
+          <div className="header-content">
+            <h1>Panel Docente</h1>
+            <p>Gestiona tus cursos y estudiantes de manera eficiente</p>
           </div>
-          <div className="fecha-hora-docente">
-            <span>{new Date().toLocaleDateString('es-ES', { 
-              weekday: 'long', 
-              year: 'numeric', 
-              month: 'long', 
-              day: 'numeric' 
+          <div className="fecha-widget">
+            <FaClock className="clock-icon" />
+            <span>{fechaActual.toLocaleDateString('es-ES', { 
+              weekday: 'long',
+              day: 'numeric', 
+              month: 'long',
+              year: 'numeric'
             })}</span>
           </div>
         </div>
 
-        {/* Estadísticas Rápidas */}
-        <div className="estadisticas-grid">
+        {/* Estadísticas simples */}
+        <div className="stats-grid">
           <div className="stat-card">
             <div className="stat-icon">
-              <BookOpenIcon />
+              <FaBook />
             </div>
             <div className="stat-content">
-              <h3>{estadisticas.cursosActivos}</h3>
-              <p>Cursos Activos</p>
+              <span className="stat-number">{estadisticas.totalCursos}</span>
+              <span className="stat-label">Cursos Activos</span>
             </div>
           </div>
           
           <div className="stat-card">
             <div className="stat-icon">
-              <UserGroupIcon />
+              <FaUsers />
             </div>
             <div className="stat-content">
-              <h3>{estadisticas.totalEstudiantes}</h3>
-              <p>Total Estudiantes</p>
+              <span className="stat-number">{estadisticas.totalEstudiantes}</span>
+              <span className="stat-label">Estudiantes</span>
             </div>
           </div>
           
           <div className="stat-card">
             <div className="stat-icon">
-              <ClipboardDocumentListIcon />
+              <FaTasks />
             </div>
             <div className="stat-content">
-              <h3>{estadisticas.tareasPorRevisar}</h3>
-              <p>Tareas por Revisar</p>
+              <span className="stat-number">{estadisticas.tareasPorRevisar}</span>
+              <span className="stat-label">Por Revisar</span>
             </div>
           </div>
           
           <div className="stat-card">
             <div className="stat-icon">
-              <ClockIcon />
+              <FaChartBar />
             </div>
             <div className="stat-content">
-              <h3>{estadisticas.proximasClases}</h3>
-              <p>Clases Hoy</p>
+              <span className="stat-number">{estadisticas.promedioGeneral}</span>
+              <span className="stat-label">Promedio General</span>
             </div>
           </div>
         </div>
 
-        <div className="dashboard-grid">
-          
+        {/* Grid principal */}
+        <div className="main-grid">
           {/* Mis Cursos */}
-          <div className="dashboard-section">
+          <div className="section-card">
             <div className="section-header">
               <h2>Mis Cursos</h2>
               <button className="btn-crear">
-                <PlusIcon />
+                <FaPlus />
                 Crear Curso
               </button>
             </div>
             
-            <div className="cursos-grid">
-              {cursosActivos.map(curso => (
-                <div key={curso.id} className="curso-card-docente" style={{ borderLeftColor: curso.color }}>
-                  <div className="curso-header">
-                    <h3>{curso.nombre}</h3>
-                    <span className="curso-codigo">{curso.codigo}</span>
-                  </div>
-                  
-                  <div className="curso-stats">
-                    <div className="stat-item">
-                      <UserGroupIcon className="icon-small" />
-                      <span>{curso.estudiantes} estudiantes</span>
+            <div className="cursos-list">
+              {cursos.map(curso => (
+                <div key={curso.id} className="curso-item">
+                  <div className="curso-info">
+                    <div className="curso-titulo">
+                      <h3>{curso.nombre}</h3>
+                      <span className="curso-codigo">{curso.codigo}</span>
                     </div>
-                    
-                    <div className="stat-item">
-                      <ClipboardDocumentListIcon className="icon-small" />
-                      <span>{curso.tareasPendientes} tareas pendientes</span>
-                    </div>
-                    
-                    <div className="stat-item">
-                      <ClockIcon className="icon-small" />
-                      <span>Próxima: {new Date(curso.proximaClase).toLocaleString('es-ES')}</span>
+                    <div className="curso-stats">
+                      <span><FaUsers className="mini-icon" /> {curso.estudiantes} estudiantes</span>
+                      <span><FaTasks className="mini-icon" /> {curso.tareasPendientes} tareas pendientes</span>
+                      <span><FaClock className="mini-icon" /> {curso.ultimaActividad}</span>
                     </div>
                   </div>
-                  
                   <div className="curso-actions">
-                    <button className="btn-secundario">Ver Detalles</button>
-                    <button className="btn-primario">Gestionar</button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Tareas Pendientes de Revisión */}
-          <div className="dashboard-section">
-            <div className="section-header">
-              <h2>Tareas Pendientes de Revisión</h2>
-              <button className="btn-crear">
-                <PlusIcon />
-                Nueva Tarea
-              </button>
-            </div>
-            
-            <div className="tareas-pendientes-list">
-              {tareasPendientes.map(tarea => (
-                <div key={tarea.id} className="tarea-pendiente-card">
-                  <div className="tarea-info">
-                    <h4>{tarea.titulo}</h4>
-                    <p className="tarea-curso">{tarea.curso}</p>
-                    <p className="tarea-fecha">Fecha límite: {new Date(tarea.fechaLimite).toLocaleDateString('es-ES')}</p>
-                  </div>
-                  
-                  <div className="tarea-progreso">
-                    <div className="progreso-bar">
-                      <div 
-                        className="progreso-fill" 
-                        style={{ width: `${(tarea.entregadas / tarea.total) * 100}%` }}
-                      ></div>
-                    </div>
-                    <span className="progreso-text">
-                      {tarea.entregadas}/{tarea.total} entregadas
-                    </span>
-                  </div>
-                  
-                  <div className="tarea-actions">
-                    <button className="btn-revisar">
-                      Revisar ({tarea.entregadas})
+                    <button className="btn-accion" title="Ver curso">
+                      <FaEye />
+                    </button>
+                    <button className="btn-accion" title="Editar">
+                      <FaEdit />
                     </button>
                   </div>
                 </div>
@@ -239,60 +227,74 @@ const DashboardDocente: React.FC = () => {
             </div>
           </div>
 
-          {/* Accesos Rápidos */}
-          <div className="dashboard-section accesos-rapidos">
+          {/* Tareas por Revisar */}
+          <div className="section-card">
+            <div className="section-header">
+              <h2>Tareas por Revisar</h2>
+              <span className="badge-count">{tareasPendientes.length}</span>
+            </div>
+            
+            <div className="tareas-list">
+              {tareasPendientes.map(tarea => (
+                <div key={tarea.id} className={`tarea-item ${tarea.urgente ? 'urgente' : ''}`}>
+                  <div className="tarea-info">
+                    <h4>{tarea.titulo}</h4>
+                    <p className="tarea-curso">{tarea.curso}</p>
+                    <div className="tarea-detalles">
+                      <span>Vence: {new Date(tarea.fechaLimite).toLocaleDateString('es-ES')}</span>
+                      <span>{tarea.entregas}/{tarea.totalEstudiantes} entregas</span>
+                    </div>
+                  </div>
+                  <div className="progreso-circular">
+                    <div className="progreso-valor">
+                      {Math.round((tarea.entregas / tarea.totalEstudiantes) * 100)}%
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Accesos rápidos */}
+        <div className="section-card accesos-section">
+          <div className="section-header">
             <h2>Accesos Rápidos</h2>
-            
-            <div className="accesos-grid">
-              <button className="acceso-card">
-                <AcademicCapIcon />
-                <span>Gestionar Cursos</span>
-              </button>
-              
-              <button className="acceso-card">
-                <UserGroupIcon />
-                <span>Ver Estudiantes</span>
-              </button>
-              
-              <button className="acceso-card">
-                <ClipboardDocumentListIcon />
-                <span>Crear Tarea</span>
-              </button>
-              
-              <button className="acceso-card">
-                <ChartBarIcon />
-                <span>Calificaciones</span>
-              </button>
-            </div>
           </div>
+          
+          <div className="accesos-grid">
+            {accesosRapidos.map((acceso, index) => (
+              <div key={index} className="acceso-item" onClick={acceso.accion}>
+                <acceso.icono className="acceso-icon" />
+                <span>{acceso.titulo}</span>
+              </div>
+            ))}
+          </div>
+        </div>
 
-          {/* Alertas y Notificaciones */}
-          <div className="dashboard-section alertas-section">
-            <h2>Alertas y Recordatorios</h2>
-            
-            <div className="alertas-list">
-              <div className="alerta-item urgente">
-                <ExclamationTriangleIcon />
-                <div>
-                  <h4>Fecha límite próxima</h4>
-                  <p>La tarea "Análisis de Viabilidad Económica" vence mañana</p>
+        {/* Alertas y Notificaciones */}
+        <div className="section-card alertas-section">
+          <div className="section-header">
+            <h2>Alertas y Notificaciones</h2>
+          </div>
+          
+          <div className="alertas-list">
+            {alertas.map(alerta => (
+              <div key={alerta.id} className={`alerta-item ${alerta.tipo}`}>
+                <div className="alerta-icon">
+                  {alerta.tipo === 'urgente' ? <FaExclamationTriangle /> : 
+                   alerta.tipo === 'exito' ? <FaCheckCircle /> : <FaBell />}
+                </div>
+                <div className="alerta-content">
+                  <h4>{alerta.titulo}</h4>
+                  <p>{alerta.mensaje}</p>
+                  <span className="alerta-fecha">{alerta.fecha}</span>
                 </div>
               </div>
-              
-              <div className="alerta-item info">
-                <ClockIcon />
-                <div>
-                  <h4>Clase programada</h4>
-                  <p>Evaluación de Proyectos - Mañana a las 14:00</p>
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
-
         </div>
       </div>
     </div>
   );
-};
-
-export default DashboardDocente;
+}

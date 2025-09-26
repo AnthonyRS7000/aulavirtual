@@ -1,510 +1,959 @@
-import React, { useState } from 'react';
-import { 
-  UserGroupIcon,
-  MagnifyingGlassIcon,
-  UserPlusIcon,
-  PencilIcon,
-  EyeIcon,
-  EnvelopeIcon,
-  PhoneIcon,
-  AcademicCapIcon,
-  CalendarDaysIcon,
-  DocumentArrowDownIcon
-} from '@heroicons/react/24/outline';
+import { FaPlus, FaEye, FaEdit, FaTrash, FaSearch, FaFilter, FaDownload, FaUpload, FaUserPlus, FaEnvelope, FaPhone, FaGraduationCap, FaCalendarAlt, FaChartBar, FaTimes, FaSave, FaFileExcel, FaFilePdf, FaBook, FaClipboard, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
+import { useState } from 'react';
 import '../css/GestionEstudiantes.css';
 
 interface Estudiante {
   id: number;
-  nombre: string;
-  apellido: string;
+  codigo: string;
+  nombres: string;
+  apellidos: string;
   email: string;
   telefono: string;
   fechaNacimiento: string;
-  fechaIngreso: string;
-  curso: string;
-  estado: 'activo' | 'inactivo' | 'graduado' | 'suspendido';
+  ciclo: string;
+  carrera: string;
   promedio: number;
-  tareasCompletadas: number;
-  totalTareas: number;
-  avatar: string;
+  creditos: number;
+  estado: 'activo' | 'inactivo' | 'suspendido' | 'egresado';
+  fechaIngreso: string;
   ultimaActividad: string;
+  cursosMatriculados: number;
+  avatar?: string;
 }
 
-const GestionEstudiantes: React.FC = () => {
-  const [estudiantes] = useState<Estudiante[]>([
+interface Curso {
+  id: number;
+  codigo: string;
+  nombre: string;
+  creditos: number;
+  promedio: number;
+  asistencia: number;
+  estado: 'cursando' | 'aprobado' | 'desaprobado' | 'retirado';
+}
+
+interface FormularioEstudiante {
+  nombres: string;
+  apellidos: string;
+  email: string;
+  telefono: string;
+  fechaNacimiento: string;
+  codigo: string;
+  carrera: string;
+  ciclo: string;
+}
+
+export default function GestionEstudiantes() {
+  const [vistaActual, setVistaActual] = useState<'lista' | 'detalle'>('lista');
+  const [estudianteSeleccionado, setEstudianteSeleccionado] = useState<number | null>(null);
+  const [modalActivo, setModalActivo] = useState<'crear' | 'editar' | 'importar' | 'enviar-email' | null>(null);
+  const [pestañaActiva, setPestañaActiva] = useState<'general' | 'cursos' | 'calificaciones' | 'asistencia'>('general');
+
+  // Estados de filtros y búsqueda
+  const [busqueda, setBusqueda] = useState('');
+  const [filtroCarrera, setFiltroCarrera] = useState('todas');
+  const [filtroEstado, setFiltroEstado] = useState('todos');
+  const [filtroCiclo, setFiltroCiclo] = useState('todos');
+
+  // Estados para formularios
+  const [formularioEstudiante, setFormularioEstudiante] = useState<FormularioEstudiante>({
+    nombres: '',
+    apellidos: '',
+    email: '',
+    telefono: '',
+    fechaNacimiento: '',
+    codigo: '',
+    carrera: 'Ingeniería de Sistemas',
+    ciclo: 'I'
+  });
+
+  const [emailData, setEmailData] = useState({
+    asunto: '',
+    mensaje: '',
+    destinatarios: [] as number[],
+    enviarATodos: false
+  });
+
+  // Datos simulados
+  const [estudiantes, setEstudiantes] = useState<Estudiante[]>([
     {
       id: 1,
-      nombre: 'María',
-      apellido: 'González',
-      email: 'maria.gonzalez@udh.edu.pe',
-      telefono: '+51 987 654 321',
-      fechaNacimiento: '1999-03-15',
-      fechaIngreso: '2023-08-15',
-      curso: 'Evaluación de Proyectos',
+      codigo: "202121001",
+      nombres: "Ana María",
+      apellidos: "García Rodríguez",
+      email: "ana.garcia@udh.edu.pe",
+      telefono: "+51 987654321",
+      fechaNacimiento: "2003-05-15",
+      ciclo: "VI",
+      carrera: "Ingeniería de Sistemas",
+      promedio: 16.8,
+      creditos: 120,
       estado: 'activo',
-      promedio: 18.5,
-      tareasCompletadas: 7,
-      totalTareas: 8,
-      avatar: 'MG',
-      ultimaActividad: '2025-01-15T10:30:00'
+      fechaIngreso: "2021-03-15",
+      ultimaActividad: "Hace 2 horas",
+      cursosMatriculados: 6
     },
     {
       id: 2,
-      nombre: 'Carlos',
-      apellido: 'Rodríguez',
-      email: 'carlos.rodriguez@udh.edu.pe',
-      telefono: '+51 912 345 678',
-      fechaNacimiento: '1998-07-22',
-      fechaIngreso: '2023-08-20',
-      curso: 'Planeamiento Estratégico',
+      codigo: "202121002",
+      nombres: "Carlos Eduardo",
+      apellidos: "López Mendoza",
+      email: "carlos.lopez@udh.edu.pe",
+      telefono: "+51 987654322",
+      fechaNacimiento: "2002-08-22",
+      ciclo: "VI",
+      carrera: "Ingeniería de Sistemas",
+      promedio: 15.2,
+      creditos: 115,
       estado: 'activo',
-      promedio: 16.8,
-      tareasCompletadas: 5,
-      totalTareas: 6,
-      avatar: 'CR',
-      ultimaActividad: '2025-01-14T16:45:00'
+      fechaIngreso: "2021-03-15",
+      ultimaActividad: "Hace 1 día",
+      cursosMatriculados: 6
     },
     {
       id: 3,
-      nombre: 'Ana',
-      apellido: 'Martínez',
-      email: 'ana.martinez@udh.edu.pe',
-      telefono: '+51 956 789 012',
-      fechaNacimiento: '2000-01-10',
-      fechaIngreso: '2023-07-10',
-      curso: 'Investigación de Mercados',
-      estado: 'graduado',
-      promedio: 19.2,
-      tareasCompletadas: 10,
-      totalTareas: 10,
-      avatar: 'AM',
-      ultimaActividad: '2025-01-10T09:20:00'
+      codigo: "202121003",
+      nombres: "María José",
+      apellidos: "Fernández Torres",
+      email: "maria.fernandez@udh.edu.pe",
+      telefono: "+51 987654323",
+      fechaNacimiento: "2003-01-10",
+      ciclo: "V",
+      carrera: "Administración",
+      promedio: 17.5,
+      creditos: 100,
+      estado: 'activo',
+      fechaIngreso: "2021-08-20",
+      ultimaActividad: "Hace 3 horas",
+      cursosMatriculados: 5
     },
     {
       id: 4,
-      nombre: 'Luis',
-      apellido: 'Pérez',
-      email: 'luis.perez@udh.edu.pe',
-      telefono: '+51 934 567 890',
-      fechaNacimiento: '1999-11-05',
-      fechaIngreso: '2023-08-15',
-      curso: 'Evaluación de Proyectos',
-      estado: 'inactivo',
-      promedio: 14.2,
-      tareasCompletadas: 3,
-      totalTareas: 8,
-      avatar: 'LP',
-      ultimaActividad: '2025-01-05T14:10:00'
+      codigo: "202021004",
+      nombres: "Jorge Luis",
+      apellidos: "Martínez Silva",
+      email: "jorge.martinez@udh.edu.pe",
+      telefono: "+51 987654324",
+      fechaNacimiento: "2001-11-05",
+      ciclo: "VIII",
+      carrera: "Ingeniería Civil",
+      promedio: 14.8,
+      creditos: 160,
+      estado: 'activo',
+      fechaIngreso: "2020-03-10",
+      ultimaActividad: "Hace 5 días",
+      cursosMatriculados: 7
     }
   ]);
 
-  const [busqueda, setBusqueda] = useState('');
-  const [filtroEstado, setFiltroEstado] = useState<'todos' | 'activo' | 'inactivo' | 'graduado' | 'suspendido'>('todos');
-  const [filtroCurso, setFiltroCurso] = useState('todos');
-  const [mostrarModal, setMostrarModal] = useState(false);
-  const [estudianteSeleccionado, setEstudianteSeleccionado] = useState<Estudiante | null>(null);
-  const [vistaActual, setVistaActual] = useState<'tabla' | 'tarjetas'>('tabla');
+  const cursosEstudiante: Curso[] = [
+    {
+      id: 1,
+      codigo: "IS-301",
+      nombre: "Programación Orientada a Objetos",
+      creditos: 4,
+      promedio: 17.2,
+      asistencia: 92,
+      estado: 'cursando'
+    },
+    {
+      id: 2,
+      codigo: "IS-302",
+      nombre: "Base de Datos I",
+      creditos: 3,
+      promedio: 16.8,
+      asistencia: 88,
+      estado: 'cursando'
+    },
+    {
+      id: 3,
+      codigo: "IS-303",
+      nombre: "Análisis y Diseño de Sistemas",
+      creditos: 4,
+      promedio: 15.5,
+      asistencia: 95,
+      estado: 'cursando'
+    }
+  ];
 
-  const cursosUnicos = Array.from(new Set(estudiantes.map(e => e.curso)));
+  // Funciones de utilidad
+  const obtenerEstadoBadgeClass = (estado: string) => {
+    switch (estado) {
+      case 'activo': return 'success';
+      case 'inactivo': return 'warning';
+      case 'suspendido': return 'danger';
+      case 'egresado': return 'info';
+      default: return 'secondary';
+    }
+  };
 
+  const obtenerEstadoCursoClass = (estado: string) => {
+    switch (estado) {
+      case 'cursando': return 'primary';
+      case 'aprobado': return 'success';
+      case 'desaprobado': return 'danger';
+      case 'retirado': return 'warning';
+      default: return 'secondary';
+    }
+  };
+
+  const calcularEdad = (fechaNacimiento: string) => {
+    const hoy = new Date();
+    const nacimiento = new Date(fechaNacimiento);
+    const edad = hoy.getFullYear() - nacimiento.getFullYear();
+    return edad;
+  };
+
+  // Funciones de filtrado
   const estudiantesFiltrados = estudiantes.filter(estudiante => {
     const coincideBusqueda = 
-      estudiante.nombre.toLowerCase().includes(busqueda.toLowerCase()) ||
-      estudiante.apellido.toLowerCase().includes(busqueda.toLowerCase()) ||
+      estudiante.nombres.toLowerCase().includes(busqueda.toLowerCase()) ||
+      estudiante.apellidos.toLowerCase().includes(busqueda.toLowerCase()) ||
+      estudiante.codigo.includes(busqueda) ||
       estudiante.email.toLowerCase().includes(busqueda.toLowerCase());
-    
+
+    const coincideCarrera = filtroCarrera === 'todas' || estudiante.carrera === filtroCarrera;
     const coincideEstado = filtroEstado === 'todos' || estudiante.estado === filtroEstado;
-    const coincideCurso = filtroCurso === 'todos' || estudiante.curso === filtroCurso;
-    
-    return coincideBusqueda && coincideEstado && coincideCurso;
+    const coincideCiclo = filtroCiclo === 'todos' || estudiante.ciclo === filtroCiclo;
+
+    return coincideBusqueda && coincideCarrera && coincideEstado && coincideCiclo;
   });
 
-  const abrirDetalleEstudiante = (estudiante: Estudiante) => {
-    setEstudianteSeleccionado(estudiante);
-    setMostrarModal(true);
+  // Funciones CRUD
+  const crearEstudiante = () => {
+    setModalActivo('crear');
+  };
+
+  const editarEstudiante = (id: number) => {
+    const estudiante = estudiantes.find(e => e.id === id);
+    if (estudiante) {
+      setFormularioEstudiante({
+        nombres: estudiante.nombres,
+        apellidos: estudiante.apellidos,
+        email: estudiante.email,
+        telefono: estudiante.telefono,
+        fechaNacimiento: estudiante.fechaNacimiento,
+        codigo: estudiante.codigo,
+        carrera: estudiante.carrera,
+        ciclo: estudiante.ciclo
+      });
+      setEstudianteSeleccionado(id);
+      setModalActivo('editar');
+    }
+  };
+
+  const verDetalleEstudiante = (id: number) => {
+    setEstudianteSeleccionado(id);
+    setVistaActual('detalle');
+    setPestañaActiva('general');
+  };
+
+  const eliminarEstudiante = (id: number) => {
+    if (confirm('¿Estás seguro de eliminar este estudiante?')) {
+      setEstudiantes(estudiantes.filter(e => e.id !== id));
+    }
   };
 
   const cerrarModal = () => {
-    setMostrarModal(false);
-    setEstudianteSeleccionado(null);
-  };
-
-  const getEstadoBadge = (estado: string) => {
-    const clases = {
-      activo: 'estado-activo',
-      inactivo: 'estado-inactivo',
-      graduado: 'estado-graduado',
-      suspendido: 'estado-suspendido'
-    };
-    return clases[estado as keyof typeof clases] || 'estado-inactivo';
-  };
-
-  const formatearFecha = (fecha: string) => {
-    return new Date(fecha).toLocaleDateString('es-ES', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric'
+    setModalActivo(null);
+    setFormularioEstudiante({
+      nombres: '',
+      apellidos: '',
+      email: '',
+      telefono: '',
+      fechaNacimiento: '',
+      codigo: '',
+      carrera: 'Ingeniería de Sistemas',
+      ciclo: 'I'
+    });
+    setEmailData({
+      asunto: '',
+      mensaje: '',
+      destinatarios: [],
+      enviarATodos: false
     });
   };
 
-  const calcularDiasDesdeActividad = (fecha: string) => {
-    const hoy = new Date();
-    const ultimaActividad = new Date(fecha);
-    const diferencia = Math.floor((hoy.getTime() - ultimaActividad.getTime()) / (1000 * 3600 * 24));
-    return diferencia;
+  const guardarEstudiante = () => {
+    if (!formularioEstudiante.nombres || !formularioEstudiante.apellidos || !formularioEstudiante.email) {
+      alert('Por favor completa los campos obligatorios');
+      return;
+    }
+
+    if (modalActivo === 'crear') {
+      const nuevoEstudiante: Estudiante = {
+        id: Date.now(),
+        ...formularioEstudiante,
+        promedio: 0,
+        creditos: 0,
+        estado: 'activo',
+        fechaIngreso: new Date().toISOString().split('T')[0],
+        ultimaActividad: 'Recién registrado',
+        cursosMatriculados: 0
+      };
+      setEstudiantes([...estudiantes, nuevoEstudiante]);
+    } else if (modalActivo === 'editar' && estudianteSeleccionado) {
+      setEstudiantes(estudiantes.map(e => 
+        e.id === estudianteSeleccionado 
+          ? { ...e, ...formularioEstudiante }
+          : e
+      ));
+    }
+
+    cerrarModal();
   };
 
-  return (
-    <div className="gestion-estudiantes">
-      <div className="estudiantes-container">
-        
-        {/* Header */}
-        <div className="header-estudiantes">
-          <div>
-            <h1 className="titulo-estudiantes">Gestión de Estudiantes</h1>
-            <p className="subtitulo-estudiantes">Administra y supervisa el progreso de tus estudiantes</p>
-          </div>
-          <div className="header-acciones">
-            <button className="btn-exportar">
-              <DocumentArrowDownIcon />
-              Exportar
-            </button>
-            <button className="btn-agregar-estudiante">
-              <UserPlusIcon />
-              Agregar Estudiante
-            </button>
-          </div>
-        </div>
+  const exportarDatos = (formato: 'excel' | 'pdf') => {
+    console.log(`Exportando datos en formato ${formato}`);
+    // Implementar lógica de exportación
+  };
 
-        {/* Estadísticas */}
-        <div className="estadisticas-estudiantes">
-          <div className="stat-estudiante">
-            <UserGroupIcon />
-            <div>
-              <h3>{estudiantes.length}</h3>
-              <p>Total Estudiantes</p>
-            </div>
-          </div>
-          <div className="stat-estudiante">
-            <AcademicCapIcon />
-            <div>
-              <h3>{estudiantes.filter(e => e.estado === 'activo').length}</h3>
-              <p>Estudiantes Activos</p>
-            </div>
-          </div>
-          <div className="stat-estudiante">
-            <AcademicCapIcon />
-            <div>
-              <h3>{estudiantes.filter(e => e.estado === 'graduado').length}</h3>
-              <p>Graduados</p>
-            </div>
-          </div>
-          <div className="stat-estudiante">
-            <CalendarDaysIcon />
-            <div>
-              <h3>{estudiantes.reduce((sum, e) => sum + e.promedio, 0) / estudiantes.length || 0}</h3>
-              <p>Promedio General</p>
-            </div>
-          </div>
-        </div>
+  const enviarEmail = () => {
+    if (!emailData.asunto || !emailData.mensaje) {
+      alert('Por favor completa el asunto y mensaje');
+      return;
+    }
 
-        {/* Filtros y Búsqueda */}
-        <div className="filtros-estudiantes">
-          <div className="filtros-izquierda">
-            <div className="busqueda-estudiantes">
-              <MagnifyingGlassIcon />
-              <input
-                type="text"
-                placeholder="Buscar estudiante por nombre o email..."
-                value={busqueda}
-                onChange={(e) => setBusqueda(e.target.value)}
-              />
+    console.log('Enviando email:', emailData);
+    cerrarModal();
+  };
+
+  // Componente Modal
+  const renderModal = () => {
+    if (!modalActivo) return null;
+
+    return (
+      <div className="modal-overlay" onClick={cerrarModal}>
+        <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+          
+          {/* Modal Crear/Editar Estudiante */}
+          {(modalActivo === 'crear' || modalActivo === 'editar') && (
+            <>
+              <div className="modal-header">
+                <h2>
+                  {modalActivo === 'crear' ? 'Registrar Nuevo Estudiante' : 'Editar Estudiante'}
+                </h2>
+                <button className="btn-cerrar" onClick={cerrarModal}>
+                  <FaTimes />
+                </button>
+              </div>
+
+              <div className="modal-body">
+                <div className="form-grid">
+                  <div className="form-group">
+                    <label>Nombres *</label>
+                    <input
+                      type="text"
+                      value={formularioEstudiante.nombres}
+                      onChange={(e) => setFormularioEstudiante({
+                        ...formularioEstudiante,
+                        nombres: e.target.value
+                      })}
+                      placeholder="Nombres del estudiante"
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label>Apellidos *</label>
+                    <input
+                      type="text"
+                      value={formularioEstudiante.apellidos}
+                      onChange={(e) => setFormularioEstudiante({
+                        ...formularioEstudiante,
+                        apellidos: e.target.value
+                      })}
+                      placeholder="Apellidos del estudiante"
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label>Código de Estudiante *</label>
+                    <input
+                      type="text"
+                      value={formularioEstudiante.codigo}
+                      onChange={(e) => setFormularioEstudiante({
+                        ...formularioEstudiante,
+                        codigo: e.target.value
+                      })}
+                      placeholder="Ej: 202121001"
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label>Email Institucional *</label>
+                    <input
+                      type="email"
+                      value={formularioEstudiante.email}
+                      onChange={(e) => setFormularioEstudiante({
+                        ...formularioEstudiante,
+                        email: e.target.value
+                      })}
+                      placeholder="estudiante@udh.edu.pe"
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label>Teléfono</label>
+                    <input
+                      type="tel"
+                      value={formularioEstudiante.telefono}
+                      onChange={(e) => setFormularioEstudiante({
+                        ...formularioEstudiante,
+                        telefono: e.target.value
+                      })}
+                      placeholder="+51 987654321"
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label>Fecha de Nacimiento</label>
+                    <input
+                      type="date"
+                      value={formularioEstudiante.fechaNacimiento}
+                      onChange={(e) => setFormularioEstudiante({
+                        ...formularioEstudiante,
+                        fechaNacimiento: e.target.value
+                      })}
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label>Carrera</label>
+                    <select
+                      value={formularioEstudiante.carrera}
+                      onChange={(e) => setFormularioEstudiante({
+                        ...formularioEstudiante,
+                        carrera: e.target.value
+                      })}
+                    >
+                      <option value="Ingeniería de Sistemas">Ingeniería de Sistemas</option>
+                      <option value="Ingeniería Civil">Ingeniería Civil</option>
+                      <option value="Administración">Administración</option>
+                      <option value="Contabilidad">Contabilidad</option>
+                      <option value="Derecho">Derecho</option>
+                      <option value="Psicología">Psicología</option>
+                    </select>
+                  </div>
+
+                  <div className="form-group">
+                    <label>Ciclo Académico</label>
+                    <select
+                      value={formularioEstudiante.ciclo}
+                      onChange={(e) => setFormularioEstudiante({
+                        ...formularioEstudiante,
+                        ciclo: e.target.value
+                      })}
+                    >
+                      {Array.from({ length: 10 }, (_, i) => (
+                        <option key={i} value={`${['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'][i]}`}>
+                          {['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'][i]} Ciclo
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div className="modal-footer">
+                <button className="btn-cancelar" onClick={cerrarModal}>
+                  Cancelar
+                </button>
+                <button className="btn-guardar" onClick={guardarEstudiante}>
+                  <FaSave />
+                  {modalActivo === 'crear' ? 'Registrar Estudiante' : 'Guardar Cambios'}
+                </button>
+              </div>
+            </>
+          )}
+
+          {/* Modal Enviar Email */}
+          {modalActivo === 'enviar-email' && (
+            <>
+              <div className="modal-header">
+                <h2>Enviar Email a Estudiantes</h2>
+                <button className="btn-cerrar" onClick={cerrarModal}>
+                  <FaTimes />
+                </button>
+              </div>
+
+              <div className="modal-body">
+                <div className="form-grid">
+                  <div className="form-group full-width">
+                    <label>
+                      <input
+                        type="checkbox"
+                        checked={emailData.enviarATodos}
+                        onChange={(e) => setEmailData({
+                          ...emailData,
+                          enviarATodos: e.target.checked
+                        })}
+                      />
+                      Enviar a todos los estudiantes filtrados ({estudiantesFiltrados.length})
+                    </label>
+                  </div>
+
+                  <div className="form-group full-width">
+                    <label>Asunto *</label>
+                    <input
+                      type="text"
+                      value={emailData.asunto}
+                      onChange={(e) => setEmailData({
+                        ...emailData,
+                        asunto: e.target.value
+                      })}
+                      placeholder="Asunto del mensaje"
+                    />
+                  </div>
+
+                  <div className="form-group full-width">
+                    <label>Mensaje *</label>
+                    <textarea
+                      value={emailData.mensaje}
+                      onChange={(e) => setEmailData({
+                        ...emailData,
+                        mensaje: e.target.value
+                      })}
+                      placeholder="Escribe tu mensaje aquí..."
+                      rows={6}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="modal-footer">
+                <button className="btn-cancelar" onClick={cerrarModal}>
+                  Cancelar
+                </button>
+                <button className="btn-guardar" onClick={enviarEmail}>
+                  <FaEnvelope />
+                  Enviar Email
+                </button>
+              </div>
+            </>
+          )}
+
+        </div>
+      </div>
+    );
+  };
+
+  // Vista detalle del estudiante
+  if (vistaActual === 'detalle' && estudianteSeleccionado) {
+    const estudiante = estudiantes.find(e => e.id === estudianteSeleccionado)!;
+    
+    return (
+      <div className="gestion-estudiantes-usil">
+        <div className="estudiante-detalle">
+          {/* Header del estudiante */}
+          <div className="estudiante-header">
+            <div className="estudiante-info">
+              <button 
+                className="btn-volver"
+                onClick={() => setVistaActual('lista')}
+              >
+                ← Volver a Estudiantes
+              </button>
+              
+              <div className="estudiante-perfil">
+                <div className="avatar">
+                  <FaGraduationCap />
+                </div>
+                <div className="info">
+                  <h1>{estudiante.nombres} {estudiante.apellidos}</h1>
+                  <div className="meta">
+                    <span className="codigo">{estudiante.codigo}</span>
+                    <span className="carrera">{estudiante.carrera}</span>
+                    <span className={`estado-badge ${obtenerEstadoBadgeClass(estudiante.estado)}`}>
+                      {estudiante.estado}
+                    </span>
+                  </div>
+                </div>
+              </div>
             </div>
             
-            <select 
-              value={filtroEstado} 
-              onChange={(e) => setFiltroEstado(e.target.value as any)}
-              className="select-filtro"
+            <div className="estudiante-acciones">
+              <button className="btn-accion" onClick={() => editarEstudiante(estudiante.id)}>
+                <FaEdit />
+                Editar
+              </button>
+              <button className="btn-accion" onClick={() => setModalActivo('enviar-email')}>
+                <FaEnvelope />
+                Enviar Email
+              </button>
+            </div>
+          </div>
+
+          {/* Navegación por pestañas */}
+          <div className="pestañas-nav">
+            {[
+              { key: 'general', label: 'Información General', icon: FaEye },
+              { key: 'cursos', label: 'Cursos', icon: FaBook },
+              { key: 'calificaciones', label: 'Calificaciones', icon: FaClipboard },
+              { key: 'asistencia', label: 'Asistencia', icon: FaCheckCircle }
+            ].map(pestaña => (
+              <button
+                key={pestaña.key}
+                className={`pestaña ${pestañaActiva === pestaña.key ? 'activa' : ''}`}
+                onClick={() => setPestañaActiva(pestaña.key as any)}
+              >
+                <pestaña.icon />
+                {pestaña.label}
+              </button>
+            ))}
+          </div>
+
+          {/* Contenido de pestañas */}
+          <div className="pestaña-contenido">
+            {pestañaActiva === 'general' && (
+              <div className="general-content">
+                <div className="info-cards">
+                  <div className="info-card">
+                    <h3>Información Personal</h3>
+                    <div className="info-grid">
+                      <div className="info-item">
+                        <label>Email:</label>
+                        <span>{estudiante.email}</span>
+                      </div>
+                      <div className="info-item">
+                        <label>Teléfono:</label>
+                        <span>{estudiante.telefono}</span>
+                      </div>
+                      <div className="info-item">
+                        <label>Edad:</label>
+                        <span>{calcularEdad(estudiante.fechaNacimiento)} años</span>
+                      </div>
+                      <div className="info-item">
+                        <label>Fecha de Nacimiento:</label>
+                        <span>{new Date(estudiante.fechaNacimiento).toLocaleDateString()}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="info-card">
+                    <h3>Información Académica</h3>
+                    <div className="info-grid">
+                      <div className="info-item">
+                        <label>Carrera:</label>
+                        <span>{estudiante.carrera}</span>
+                      </div>
+                      <div className="info-item">
+                        <label>Ciclo Actual:</label>
+                        <span>{estudiante.ciclo}</span>
+                      </div>
+                      <div className="info-item">
+                        <label>Créditos Acumulados:</label>
+                        <span>{estudiante.creditos}</span>
+                      </div>
+                      <div className="info-item">
+                        <label>Promedio General:</label>
+                        <span className="promedio">{estudiante.promedio.toFixed(1)}</span>
+                      </div>
+                      <div className="info-item">
+                        <label>Fecha de Ingreso:</label>
+                        <span>{new Date(estudiante.fechaIngreso).toLocaleDateString()}</span>
+                      </div>
+                      <div className="info-item">
+                        <label>Última Actividad:</label>
+                        <span>{estudiante.ultimaActividad}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="stats-estudiante">
+                  <div className="stat-card">
+                    <div className="stat-icon">
+                      <FaBook />
+                    </div>
+                    <div className="stat-info">
+                      <span className="stat-numero">{estudiante.cursosMatriculados}</span>
+                      <span className="stat-label">Cursos Matriculados</span>
+                    </div>
+                  </div>
+                  <div className="stat-card">
+                    <div className="stat-icon">
+                      <FaChartBar />
+                    </div>
+                    <div className="stat-info">
+                      <span className="stat-numero">{estudiante.promedio.toFixed(1)}</span>
+                      <span className="stat-label">Promedio Ponderado</span>
+                    </div>
+                  </div>
+                  <div className="stat-card">
+                    <div className="stat-icon">
+                      <FaGraduationCap />
+                    </div>
+                    <div className="stat-info">
+                      <span className="stat-numero">{estudiante.creditos}</span>
+                      <span className="stat-label">Créditos Acumulados</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {pestañaActiva === 'cursos' && (
+              <div className="cursos-content">
+                <h3>Cursos Matriculados - Ciclo Actual</h3>
+                <div className="cursos-estudiante">
+                  {cursosEstudiante.map(curso => (
+                    <div key={curso.id} className="curso-estudiante-card">
+                      <div className="curso-info">
+                        <h4>{curso.nombre}</h4>
+                        <span className="codigo">{curso.codigo}</span>
+                        <div className="curso-stats">
+                          <span>Créditos: {curso.creditos}</span>
+                          <span>Promedio: {curso.promedio.toFixed(1)}</span>
+                          <span>Asistencia: {curso.asistencia}%</span>
+                        </div>
+                      </div>
+                      <div className="curso-estado">
+                        <span className={`estado-badge ${obtenerEstadoCursoClass(curso.estado)}`}>
+                          {curso.estado}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {pestañaActiva === 'calificaciones' && (
+              <div className="calificaciones-content">
+                <h3>Historial de Calificaciones</h3>
+                <div className="calificaciones-tabla">
+                  <div className="tabla-header">
+                    <span>Curso</span>
+                    <span>Parcial</span>
+                    <span>Final</span>
+                    <span>Promedio</span>
+                    <span>Estado</span>
+                  </div>
+                  {cursosEstudiante.map(curso => (
+                    <div key={curso.id} className="tabla-row">
+                      <span>{curso.nombre}</span>
+                      <span>16.5</span>
+                      <span>17.8</span>
+                      <span className="promedio">{curso.promedio.toFixed(1)}</span>
+                      <span className={`estado-badge ${obtenerEstadoCursoClass(curso.estado)}`}>
+                        {curso.estado}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {pestañaActiva === 'asistencia' && (
+              <div className="asistencia-content">
+                <h3>Registro de Asistencia</h3>
+                <div className="asistencia-resumen">
+                  {cursosEstudiante.map(curso => (
+                    <div key={curso.id} className="asistencia-card">
+                      <h4>{curso.nombre}</h4>
+                      <div className="asistencia-stats">
+                        <div className="asistencia-porcentaje">
+                          <span className="numero">{curso.asistencia}%</span>
+                          <span className="label">Asistencia</span>
+                        </div>
+                        <div className="asistencia-bar">
+                          <div 
+                            className="asistencia-fill"
+                            style={{ width: `${curso.asistencia}%` }}
+                          ></div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Modales en vista detalle */}
+        {renderModal()}
+      </div>
+    );
+  }
+
+  // Vista lista de estudiantes
+  return (
+    <div className="gestion-estudiantes-usil">
+      <div className="estudiantes-container">
+        {/* Header */}
+        <div className="estudiantes-header">
+          <div className="header-content">
+            <h1>Gestión de Estudiantes</h1>
+            <p>Administra la información de todos los estudiantes</p>
+          </div>
+          <div className="header-acciones">
+            <button className="btn-secundario" onClick={() => exportarDatos('excel')}>
+              <FaFileExcel />
+              Exportar Excel
+            </button>
+            <button className="btn-secundario" onClick={() => exportarDatos('pdf')}>
+              <FaFilePdf />
+              Exportar PDF
+            </button>
+            <button className="btn-crear-principal" onClick={crearEstudiante}>
+              <FaUserPlus />
+              Nuevo Estudiante
+            </button>
+          </div>
+        </div>
+
+        {/* Filtros y búsqueda */}
+        <div className="filtros-container">
+          <div className="busqueda">
+            <FaSearch className="search-icon" />
+            <input
+              type="text"
+              placeholder="Buscar por nombre, código, email..."
+              value={busqueda}
+              onChange={(e) => setBusqueda(e.target.value)}
+            />
+          </div>
+          
+          <div className="filtros">
+            <select
+              value={filtroCarrera}
+              onChange={(e) => setFiltroCarrera(e.target.value)}
+            >
+              <option value="todas">Todas las carreras</option>
+              <option value="Ingeniería de Sistemas">Ingeniería de Sistemas</option>
+              <option value="Ingeniería Civil">Ingeniería Civil</option>
+              <option value="Administración">Administración</option>
+              <option value="Contabilidad">Contabilidad</option>
+              <option value="Derecho">Derecho</option>
+            </select>
+
+            <select
+              value={filtroEstado}
+              onChange={(e) => setFiltroEstado(e.target.value)}
             >
               <option value="todos">Todos los estados</option>
               <option value="activo">Activos</option>
               <option value="inactivo">Inactivos</option>
-              <option value="graduado">Graduados</option>
               <option value="suspendido">Suspendidos</option>
+              <option value="egresado">Egresados</option>
             </select>
-            
-            <select 
-              value={filtroCurso} 
-              onChange={(e) => setFiltroCurso(e.target.value)}
-              className="select-filtro"
+
+            <select
+              value={filtroCiclo}
+              onChange={(e) => setFiltroCiclo(e.target.value)}
             >
-              <option value="todos">Todos los cursos</option>
-              {cursosUnicos.map(curso => (
-                <option key={curso} value={curso}>{curso}</option>
+              <option value="todos">Todos los ciclos</option>
+              {['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'].map(ciclo => (
+                <option key={ciclo} value={ciclo}>{ciclo} Ciclo</option>
               ))}
             </select>
-          </div>
-          
-          <div className="vista-toggle">
-            <button 
-              className={vistaActual === 'tabla' ? 'activo' : ''}
-              onClick={() => setVistaActual('tabla')}
-            >
-              Tabla
-            </button>
-            <button 
-              className={vistaActual === 'tarjetas' ? 'activo' : ''}
-              onClick={() => setVistaActual('tarjetas')}
-            >
-              Tarjetas
+
+            <button className="btn-email" onClick={() => setModalActivo('enviar-email')}>
+              <FaEnvelope />
+              Enviar Email
             </button>
           </div>
         </div>
 
-        {/* Resultados */}
-        <div className="resultados-info">
-          <p>Mostrando {estudiantesFiltrados.length} de {estudiantes.length} estudiantes</p>
-        </div>
-
-        {/* Vista de Tabla */}
-        {vistaActual === 'tabla' && (
-          <div className="tabla-estudiantes">
-            <div className="tabla-container">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Estudiante</th>
-                    <th>Email</th>
-                    <th>Curso</th>
-                    <th>Estado</th>
-                    <th>Promedio</th>
-                    <th>Progreso</th>
-                    <th>Última Actividad</th>
-                    <th>Acciones</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {estudiantesFiltrados.map(estudiante => (
-                    <tr key={estudiante.id}>
-                      <td>
-                        <div className="estudiante-info">
-                          <div className="avatar">{estudiante.avatar}</div>
-                          <div>
-                            <div className="nombre">{estudiante.nombre} {estudiante.apellido}</div>
-                            <div className="telefono">{estudiante.telefono}</div>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <div className="email-cell">
-                          <EnvelopeIcon />
-                          {estudiante.email}
-                        </div>
-                      </td>
-                      <td>{estudiante.curso}</td>
-                      <td>
-                        <span className={`estado-badge ${getEstadoBadge(estudiante.estado)}`}>
-                          {estudiante.estado.charAt(0).toUpperCase() + estudiante.estado.slice(1)}
-                        </span>
-                      </td>
-                      <td>
-                        <div className="promedio-cell">
-                          <span className="promedio-numero">{estudiante.promedio.toFixed(1)}</span>
-                        </div>
-                      </td>
-                      <td>
-                        <div className="progreso-cell">
-                          <div className="progreso-bar">
-                            <div 
-                              className="progreso-fill"
-                              style={{ width: `${(estudiante.tareasCompletadas / estudiante.totalTareas) * 100}%` }}
-                            />
-                          </div>
-                          <span>{estudiante.tareasCompletadas}/{estudiante.totalTareas}</span>
-                        </div>
-                      </td>
-                      <td>
-                        <div className="actividad-cell">
-                          <span>Hace {calcularDiasDesdeActividad(estudiante.ultimaActividad)} días</span>
-                        </div>
-                      </td>
-                      <td>
-                        <div className="acciones-cell">
-                          <button 
-                            className="btn-accion-tabla"
-                            onClick={() => abrirDetalleEstudiante(estudiante)}
-                            title="Ver detalles"
-                          >
-                            <EyeIcon />
-                          </button>
-                          <button className="btn-accion-tabla" title="Editar">
-                            <PencilIcon />
-                          </button>
-                          <button className="btn-accion-tabla" title="Enviar mensaje">
-                            <EnvelopeIcon />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+        {/* Estadísticas rápidas */}
+        <div className="stats-rapidas">
+          <div className="stat-item">
+            <div className="stat-icon">
+              <FaGraduationCap />
+            </div>
+            <div>
+              <span className="stat-numero">{estudiantes.length}</span>
+              <span className="stat-label">Total Estudiantes</span>
             </div>
           </div>
-        )}
+          <div className="stat-item">
+            <div className="stat-icon success">
+              <FaCheckCircle />
+            </div>
+            <div>
+              <span className="stat-numero">{estudiantes.filter(e => e.estado === 'activo').length}</span>
+              <span className="stat-label">Activos</span>
+            </div>
+          </div>
+          <div className="stat-item">
+            <div className="stat-icon info">
+              <FaChartBar />
+            </div>
+            <div>
+              <span className="stat-numero">{(estudiantes.reduce((acc, e) => acc + e.promedio, 0) / estudiantes.length).toFixed(1)}</span>
+              <span className="stat-label">Promedio General</span>
+            </div>
+          </div>
+        </div>
 
-        {/* Vista de Tarjetas */}
-        {vistaActual === 'tarjetas' && (
-          <div className="tarjetas-estudiantes">
-            {estudiantesFiltrados.map(estudiante => (
-              <div key={estudiante.id} className="tarjeta-estudiante">
-                <div className="tarjeta-header">
-                  <div className="avatar-grande">{estudiante.avatar}</div>
-                  <div className="estudiante-nombre">
-                    <h3>{estudiante.nombre} {estudiante.apellido}</h3>
-                    <p>{estudiante.email}</p>
-                    <span className={`estado-badge ${getEstadoBadge(estudiante.estado)}`}>
-                      {estudiante.estado.charAt(0).toUpperCase() + estudiante.estado.slice(1)}
-                    </span>
-                  </div>
+        {/* Tabla de estudiantes */}
+        <div className="estudiantes-tabla">
+          <div className="tabla-header">
+            <span>Estudiante</span>
+            <span>Código</span>
+            <span>Carrera</span>
+            <span>Ciclo</span>
+            <span>Promedio</span>
+            <span>Estado</span>
+            <span>Última Actividad</span>
+            <span>Acciones</span>
+          </div>
+          
+          {estudiantesFiltrados.map(estudiante => (
+            <div key={estudiante.id} className="tabla-row">
+              <div className="estudiante-info">
+                <div className="avatar-small">
+                  <FaGraduationCap />
                 </div>
-                
-                <div className="tarjeta-info">
-                  <div className="info-item">
-                    <AcademicCapIcon />
-                    <span>{estudiante.curso}</span>
-                  </div>
-                  <div className="info-item">
-                    <PhoneIcon />
-                    <span>{estudiante.telefono}</span>
-                  </div>
-                  <div className="info-item">
-                    <CalendarDaysIcon />
-                    <span>Ingresó: {formatearFecha(estudiante.fechaIngreso)}</span>
-                  </div>
-                </div>
-                
-                <div className="tarjeta-estadisticas">
-                  <div className="stat-tarjeta">
-                    <span className="stat-valor">{estudiante.promedio.toFixed(1)}</span>
-                    <span className="stat-label">Promedio</span>
-                  </div>
-                  <div className="stat-tarjeta">
-                    <span className="stat-valor">{estudiante.tareasCompletadas}/{estudiante.totalTareas}</span>
-                    <span className="stat-label">Tareas</span>
-                  </div>
-                  <div className="stat-tarjeta">
-                    <span className="stat-valor">{calcularDiasDesdeActividad(estudiante.ultimaActividad)}d</span>
-                    <span className="stat-label">Última actividad</span>
-                  </div>
-                </div>
-                
-                <div className="tarjeta-acciones">
-                  <button 
-                    className="btn-ver-detalle"
-                    onClick={() => abrirDetalleEstudiante(estudiante)}
-                  >
-                    Ver Perfil
-                  </button>
-                  <button className="btn-enviar-mensaje">
-                    <EnvelopeIcon />
-                    Mensaje
-                  </button>
+                <div>
+                  <span className="nombre">{estudiante.nombres} {estudiante.apellidos}</span>
+                  <small className="email">{estudiante.email}</small>
                 </div>
               </div>
-            ))}
-          </div>
-        )}
+              <span className="codigo">{estudiante.codigo}</span>
+              <span>{estudiante.carrera}</span>
+              <span>{estudiante.ciclo}</span>
+              <span className="promedio">{estudiante.promedio.toFixed(1)}</span>
+              <span className={`estado-badge ${obtenerEstadoBadgeClass(estudiante.estado)}`}>
+                {estudiante.estado}
+              </span>
+              <span className="ultima-actividad">{estudiante.ultimaActividad}</span>
+              <div className="row-acciones">
+                <button 
+                  className="btn-accion"
+                  onClick={() => verDetalleEstudiante(estudiante.id)}
+                  title="Ver detalles"
+                >
+                  <FaEye />
+                </button>
+                <button 
+                  className="btn-accion"
+                  onClick={() => editarEstudiante(estudiante.id)}
+                  title="Editar"
+                >
+                  <FaEdit />
+                </button>
+                <button 
+                  className="btn-accion danger"
+                  onClick={() => eliminarEstudiante(estudiante.id)}
+                  title="Eliminar"
+                >
+                  <FaTrash />
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
 
-        {/* Sin resultados */}
         {estudiantesFiltrados.length === 0 && (
-          <div className="sin-resultados">
-            <UserGroupIcon />
-            <h3>No se encontraron estudiantes</h3>
-            <p>Ajusta los filtros o términos de búsqueda para ver más resultados.</p>
+          <div className="no-resultados">
+            <p>No se encontraron estudiantes con los filtros aplicados</p>
           </div>
         )}
       </div>
 
-      {/* Modal de Detalle */}
-      {mostrarModal && estudianteSeleccionado && (
-        <div className="modal-overlay" onClick={cerrarModal}>
-          <div className="modal-detalle" onClick={(e) => e.stopPropagation()}>
-            <div className="modal-header-detalle">
-              <div className="estudiante-header-modal">
-                <div className="avatar-modal">{estudianteSeleccionado.avatar}</div>
-                <div>
-                  <h2>{estudianteSeleccionado.nombre} {estudianteSeleccionado.apellido}</h2>
-                  <p>{estudianteSeleccionado.email}</p>
-                  <span className={`estado-badge ${getEstadoBadge(estudianteSeleccionado.estado)}`}>
-                    {estudianteSeleccionado.estado.charAt(0).toUpperCase() + estudianteSeleccionado.estado.slice(1)}
-                  </span>
-                </div>
-              </div>
-              <button className="btn-cerrar" onClick={cerrarModal}>×</button>
-            </div>
-            
-            <div className="modal-contenido">
-              <div className="detalle-seccion">
-                <h3>Información Personal</h3>
-                <div className="info-grid">
-                  <div className="info-campo">
-                    <label>Teléfono:</label>
-                    <span>{estudianteSeleccionado.telefono}</span>
-                  </div>
-                  <div className="info-campo">
-                    <label>Fecha de Nacimiento:</label>
-                    <span>{formatearFecha(estudianteSeleccionado.fechaNacimiento)}</span>
-                  </div>
-                  <div className="info-campo">
-                    <label>Fecha de Ingreso:</label>
-                    <span>{formatearFecha(estudianteSeleccionado.fechaIngreso)}</span>
-                  </div>
-                  <div className="info-campo">
-                    <label>Curso Actual:</label>
-                    <span>{estudianteSeleccionado.curso}</span>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="detalle-seccion">
-                <h3>Rendimiento Académico</h3>
-                <div className="rendimiento-grid">
-                  <div className="rendimiento-item">
-                    <div className="rendimiento-numero">{estudianteSeleccionado.promedio.toFixed(1)}</div>
-                    <div className="rendimiento-label">Promedio General</div>
-                  </div>
-                  <div className="rendimiento-item">
-                    <div className="rendimiento-numero">{estudianteSeleccionado.tareasCompletadas}</div>
-                    <div className="rendimiento-label">Tareas Completadas</div>
-                  </div>
-                  <div className="rendimiento-item">
-                    <div className="rendimiento-numero">{Math.round((estudianteSeleccionado.tareasCompletadas / estudianteSeleccionado.totalTareas) * 100)}%</div>
-                    <div className="rendimiento-label">Porcentaje Completado</div>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="detalle-acciones">
-                <button className="btn-editar-estudiante">
-                  <PencilIcon />
-                  Editar Información
-                </button>
-                <button className="btn-mensaje-estudiante">
-                  <EnvelopeIcon />
-                  Enviar Mensaje
-                </button>
-                <button className="btn-ver-progreso">
-                  <AcademicCapIcon />
-                  Ver Progreso Detallado
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Modales en vista lista */}
+      {renderModal()}
     </div>
   );
-};
-
-export default GestionEstudiantes;
+}
