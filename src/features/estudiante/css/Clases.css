@@ -1,33 +1,37 @@
 /* Página de Clases - Estilo basado en gestion-matricula */
 .clases-page {
   min-height: 100vh;
-  background-color: var(--bg-secondary);
   padding: 2rem;
   font-family: 'Poppins', sans-serif;
   color: var(--text-primary);
 }
 
 .clases-header {
-  background: linear-gradient(90deg, #4c7c74 0%, #d4b24c 100%);
-  backdrop-filter: blur(10px);
-  border-radius: 12px;
-  padding: 1rem 2rem;
-  margin-bottom: 1.5rem;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 32px;
+  padding: 1.5rem 2rem;
+  border-bottom: 2px solid var(--border-color);
+  border-radius: 12px;
   color: #fff;
 }
 
 .header-content h1 {
-  font-size: 2.4rem;
-  font-weight: 800;
-  color: #ffffff !important; 
+   font-size: 32px;
+  font-weight: 700;
+  color: #fff;
   margin: 0 0 8px 0;
-  text-shadow: 0 3px 6px rgba(0,0,0,0.8);
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
   -webkit-background-clip: initial !important;
   -webkit-text-fill-color: initial !important;
+}
+
+.clases-header .header-content p {
+  color: #f1f5f9;
+  font-size: 16px;
+  margin: 0;
+  font-weight: 500;
 }
 
 .header-content p {

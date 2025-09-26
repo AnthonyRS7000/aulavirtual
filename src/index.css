@@ -9,12 +9,20 @@
   -moz-osx-font-smoothing: grayscale;
   
   /* Tema claro por defecto */
---pantone-zomp: #5A9E8D;
---pantone-zomp-light: #77B1A2;
---pantone-saffron: #ECC138;
---pantone-saffron-light: #f7db72;
---pantone-jet: #3D3C3B;
---pantone-jet-light: #5a5a5a;
+  --pantone-zomp: #5A9E8D;
+  --pantone-zomp-rgb: 90, 158, 141;
+
+  --pantone-zomp-light: #77B1A2;
+  --pantone-zomp-light-rgb: 119, 177, 162;
+
+  --pantone-saffron: #ECC138;
+  --pantone-saffron-rgb: 236, 193, 56;
+
+  --pantone-saffron-light: #f7db72;
+  --pantone-saffron-light-rgb: 247, 219, 114;
+
+  --pantone-jet: #3D3C3B;
+  --pantone-jet-rgb: 61, 60, 59;
 
 
 --bg-primary: #ffffff;
@@ -35,8 +43,10 @@
   --udh-secondary: #34495e;
   --udh-accent: #3498db;
   --udh-success: #27ae60;
+  --udh-success-rgb: 39, 174, 96;
   --udh-warning: #f39c12;
   --udh-error: #e74c3c;
+  --udh-error-rgb: 231, 76, 60;
   
   /* Sidebar y navegación */
   --sidebar-bg: var(--udh-primary);

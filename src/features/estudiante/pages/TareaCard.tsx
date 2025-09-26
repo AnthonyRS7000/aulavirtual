@@ -39,20 +39,20 @@ export default function TareaCard({ tarea }: TareaCardProps) {
 
   const obtenerColorEstado = (estado: string) => {
     switch (estado) {
-      case 'pendiente': return '#f59e0b';
-      case 'entregada': return '#3b82f6';
-      case 'revision': return '#8b5cf6';
-      case 'calificada': return '#10b981';
-      default: return '#6b7280';
+      case 'pendiente': return 'var(--pantone-saffron)';
+      case 'entregada': return 'var(--pantone-zomp)';
+      case 'revision': return 'var(--pantone-zomp-light)';
+      case 'calificada': return 'var(--udh-success)';
+      default: return 'var(--text-secondary)';
     }
   };
 
   const obtenerColorPrioridad = (prioridad: string) => {
     switch (prioridad) {
-      case 'alta': return '#ef4444';
-      case 'media': return '#f59e0b';
-      case 'baja': return '#10b981';
-      default: return '#6b7280';
+      case 'alta': return 'var(--udh-error)';
+      case 'media': return 'var(--pantone-saffron)';
+      case 'baja': return 'var(--pantone-zomp)';
+      default: return 'var(--text-secondary)';
     }
   };
 
@@ -129,19 +129,13 @@ export default function TareaCard({ tarea }: TareaCardProps) {
     <div className="tarea-card">
       <div className="tarea-header">
         <div className="tarea-estado">
-          <span 
-            className="estado-badge"
-            style={{ backgroundColor: obtenerColorEstado(tarea.estado) }}
-          >
-            {obtenerIconoEstado(tarea.estado)}
-            {tarea.estado}
-          </span>
-          <span 
-            className="prioridad-badge"
-            style={{ backgroundColor: obtenerColorPrioridad(tarea.prioridad) }}
-          >
-            {tarea.prioridad}
-          </span>
+          <span className={`estado-badge ${tarea.estado}`}>
+  {obtenerIconoEstado(tarea.estado)}
+  {tarea.estado}
+</span>
+          <span className={`prioridad-badge ${tarea.prioridad}`}>
+  {tarea.prioridad}
+</span>
         </div>
         
         {diasRestantes >= 0 && tarea.estado === 'pendiente' && (

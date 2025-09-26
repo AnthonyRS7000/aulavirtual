@@ -308,12 +308,10 @@ export default function AnunciosCurso() {
                 </div>
                 
                 <div className="anuncio-controles-header">
-                  <span 
-                    className="prioridad-badge"
-                    style={{ backgroundColor: getColorPrioridad(anuncio.prioridad) }}
-                  >
+                  <span className={`prioridad-badge prioridad-${anuncio.prioridad}`}>
                     {anuncio.prioridad.toUpperCase()}
                   </span>
+
                   <button
                     className="btn-leido"
                     onClick={(e) => {
