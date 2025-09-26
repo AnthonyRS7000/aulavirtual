@@ -17,6 +17,11 @@
   
 }
 
+.tareas-header .header-content p {
+  color: var(--text-secondary); /* Usa tu variable global de texto secundario */
+  font-weight: 500;
+}
+
 .header-content h1 {
   font-size: 32px;
   font-weight: 700;
@@ -52,6 +57,7 @@
 
 .tareas-stats {
   display: grid;
+  padding: 0 1rem;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 20px;
   margin-bottom: 32px;
@@ -69,7 +75,7 @@
 
 .stat-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 4px 16px var(--shadow);
+  filter: brightness(0.9);
 }
 
 .stat-card.pendientes {
@@ -186,6 +192,46 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
+}
+
+.light .stat-card {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  /* No redefinir border-radius aquí si ya lo definiste antes */
+  box-shadow: 0 2px 8px var(--shadow); /* igual que en modo oscuro */
+  border-left: 4px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.light .stat-card.pendientes {
+  border-left-color: var(--pantone-saffron);
+}
+
+.light .stat-card.entregadas {
+  border-left-color: var(--pantone-zomp);
+}
+
+.light .stat-card.revision {
+  border-left-color: var(--pantone-zomp-light);
+}
+
+.light .stat-card.calificadas {
+  border-left-color: var(--udh-success);
+}
+
+.light .stat-card:hover {
+  background-color: var(--bg-secondary); /* sin cambio de color */
+  box-shadow: 0 2px 8px var(--shadow); /* misma sombra */
+  transform: translateY(-4px); 
+}
+
+.light .stat-card .stat-number {
+  color: var(--text-primary); /* color principal del texto en modo claro */
+
+}
+
+.light .stat-card .stat-label {
+  color: var(--text-secondary); /* color secundario para etiquetas */
 }
 
 .no-tareas {
