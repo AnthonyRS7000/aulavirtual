@@ -31,6 +31,7 @@
 --text-primary: var(--pantone-jet);
 --text-secondary: #6b7280;
 --text-muted: #9ca3af;
+  --text-title: #3c3c3c;
 --border-color: #e5e7eb;
 --shadow: rgba(0, 0, 0, 0.1);
 

@@ -12,36 +12,53 @@
   align-items: center;
   margin-bottom: 32px;
   padding: 1.5rem 2rem;
-  border-bottom: 2px solid var(--border-color);
-  border-radius: 12px;
-  color: #fff;
+  border-bottom: 1px solid var(--border-color);
+  border-bottom-right-radius: 12px;
+  color: var(--text-primary); 
+  background-color: var(--bg-secondary); 
+  border-radius:12px ;
+  position: relative;
+}
+
+.clases-header::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 20px;
+  border-bottom: 1px solid var(--border-color);
+  border-bottom-right-radius: 12px;
+  border-bottom-left-radius: 12px;
+  pointer-events: none;
 }
 
 .header-content h1 {
-   font-size: 32px;
-  font-weight: 700;
-  color: #fff;
+   font-size: 2rem;
+  font-weight: 800;
+  color: var(--text-primary);
   margin: 0 0 8px 0;
-  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
-  -webkit-background-clip: initial !important;
-  -webkit-text-fill-color: initial !important;
+  text-shadow: none;
+}
+
+.light .header-content h1 {
+  color: #3c3c3c;
+  text-shadow: none !important;
 }
 
 .clases-header .header-content p {
-  color: #f1f5f9;
-  font-size: 16px;
+  color: var(--text-secondary); 
+  font-size: 1rem;
   margin: 0;
   font-weight: 500;
 }
 
 .header-content p {
   font-size: 1.2rem;
-  color: #fff !important; 
+  color: var(--text-secondary);
   margin: 0;
-  font-weight: 600;
-  text-shadow: 
-    0 2px 4px rgba(0,0,0,0.9),   /* sombra más oscura */
-    0 0 6px rgba(0,0,0,0.6);    /* brillo de contraste */
+  font-weight: 500;
+  text-shadow: none;   /* brillo de contraste */
   letter-spacing: 0.5px; 
 }
 
@@ -59,17 +76,16 @@
   gap: 4px;
   min-width: 95px;
   padding: 1rem 1.3rem;
-  background: rgba(255, 255, 255, 0.15);
-  border: 1px solid rgba(255,255,255,0.25);
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
   border-radius: 14px;
   transition: transform 0.2s ease, background 0.2s ease;
-  color: #fff;
   position: relative;
 }
 
 .quick-stat:hover {
-  transform: translateY(-3px);
-  background: rgba(255, 255, 255, 0.25);
+  background: var(--bg-secondary);
 }
 
 .stat-icon {
@@ -81,9 +97,9 @@
 .stat-number {
   font-size: 2.6rem;
   font-weight: 800;
-  color: #4c7c74;
+  color: var(--pantone-zomp);
   letter-spacing: 1px;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+  text-shadow: none; 
 }
 
 .stat-label {
@@ -91,10 +107,9 @@
   font-size: 1rem;
   font-weight: 700;
   opacity: 1;
-  color: #ffffff;
+  color: var(--text-secondary);
   text-transform: uppercase;
   letter-spacing: 1px;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.8);
 }
 
 /* Filtros */
