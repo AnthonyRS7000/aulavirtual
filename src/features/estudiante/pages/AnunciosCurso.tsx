@@ -238,14 +238,11 @@ export default function AnunciosCurso() {
     <div className="anuncios-curso">
       {/* Header */}
       <div className="anuncios-header">
-        <div className="header-info">
-          <FaBullhorn className="header-icon" />
-          <div>
-            <h1>Anuncios del Curso</h1>
-            <p>{anunciosNoLeidos} anuncios no leídos</p>
-          </div>
-        </div>
-      </div>
+  <div className="header-content">
+    <h1>Anuncios del Curso</h1>
+    <p>{anunciosNoLeidos} anuncios no leídos</p>
+  </div>
+</div>
 
       {/* Controles */}
       <div className="anuncios-controles">

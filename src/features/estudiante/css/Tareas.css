@@ -102,9 +102,15 @@
   margin-bottom: 8px;
 }
 
+
+.dark .stat-card .stat-number {
+  color: #ffffff; /* Mejorar visibilidad en modo oscuro */
+  font-size: 20px;
+}
+
 .stat-label {
   color: var(--text-secondary);
-  font-size: 14px;
+  font-size: 20px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -227,7 +233,7 @@
 
 .light .stat-card .stat-number {
   color: var(--text-primary); /* color principal del texto en modo claro */
-
+  font-size: 20px;
 }
 
 .light .stat-card .stat-label {
