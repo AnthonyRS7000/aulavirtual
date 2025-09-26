@@ -7,7 +7,7 @@ import GestionEstudiantes from './pages/GestionEstudiantes';
 const DocenteRoutes: React.FC = () => {
   return (
     <Routes>
-      <Route path="/" element={<DashboardDocente />} />
+      <Route path="/dashboard" element={<DashboardDocente />} />
       <Route path="/cursos" element={<GestionCursos />} />
       <Route path="/estudiantes" element={<GestionEstudiantes />} />
     </Routes>
