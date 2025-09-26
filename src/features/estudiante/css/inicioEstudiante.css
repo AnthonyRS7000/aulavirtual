@@ -1,4 +1,4 @@
-/* Inicio Estudiante - Estilo UDH con variables CSS dinámicas */
+/* Inicio Estudiante - Estilo UDH con nueva paleta de colores */
 .inicio-estudiante-container {
   min-height: 100vh;
   background: var(--bg-primary);
@@ -28,11 +28,11 @@
 }
 
 .titulo-bienvenida {
-  font-size: 1rem;
+  font-size: 2rem;
   font-weight: 700;
   color: var(--text-primary);
   margin-bottom: 8px;
-  background: linear-gradient(135deg, var(--udh-accent) 0%, var(--udh-secondary) 100%);
+  background: linear-gradient(135deg, var(--pantone-zomp) 0%, var(--pantone-zomp-light) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -48,18 +48,19 @@
 
 .fecha-hora {
   text-align: right;
-  color: #bdc3c7;
+  color: var(--text-secondary);
 }
 
 .fecha-actual {
   font-size: 1.1rem;
   font-weight: 600;
   margin-bottom: 4px;
-  color: #ecf0f1;
+  color: var(--text-primary);
 }
 
 .hora-actual {
   font-size: 0.95rem;
+  color: var(--text-muted);
   opacity: 0.8;
 }
 
@@ -68,12 +69,12 @@
   display: flex;
   gap: 4px;
   margin-bottom: 25px;
-  background: rgba(44, 62, 80, 0.95);
+  background: var(--bg-secondary);
   backdrop-filter: blur(10px);
   border-radius: 15px;
   padding: 6px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px var(--shadow);
+  border: 1px solid var(--border-color);
 }
 
 .pestana {
@@ -81,7 +82,7 @@
   padding: 15px 25px;
   background: transparent;
   border: none;
-  color: #bdc3c7;
+  color: var(--text-secondary);
   font-weight: 600;
   font-size: 1rem;
   cursor: pointer;
@@ -96,15 +97,15 @@
 }
 
 .pestana:hover {
-  background: rgba(52, 152, 219, 0.2);
-  color: #3498db;
+  background: rgba(var(--pantone-zomp-rgb), 0.2);
+  color: var(--pantone-zomp);
   transform: translateY(-2px);
 }
 
 .pestana.activa {
-  background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+  background: linear-gradient(135deg, var(--pantone-zomp) 0%, var(--pantone-zomp-light) 100%);
   color: white;
-  box-shadow: 0 4px 15px rgba(52, 152, 219, 0.4);
+  box-shadow: 0 4px 15px rgba(var(--pantone-zomp-rgb), 0.4);
   transform: translateY(-2px);
 }
 
@@ -115,11 +116,11 @@
 /* Contenedor Principal */
 .stream-container,
 .dashboard-grid {
-  background: rgba(44, 62, 80, 0.95);
+  background: var(--bg-secondary);
   backdrop-filter: blur(10px);
   border-radius: 15px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px var(--shadow);
+  border: 1px solid var(--border-color);
   overflow: hidden;
 }
 
@@ -151,16 +152,16 @@
   font-size: 1.4rem;
   font-weight: 700;
   margin-bottom: 20px;
-  color: #ecf0f1;
+  color: var(--text-primary);
   display: flex;
   align-items: center;
   gap: 12px;
   padding-bottom: 12px;
-  border-bottom: 2px solid #34495e;
+  border-bottom: 2px solid var(--border-color);
 }
 
 .seccion-icon {
-  color: #3498db;
+  color: var(--pantone-zomp);
   font-size: 1.3rem;
 }
 
@@ -173,7 +174,7 @@
 
 /* Sidebar Widgets */
 .widget {
-  background: var(--bg-secondary);
+  background: var(--bg-tertiary);
   border-radius: 12px;
   padding: 20px;
   border: 1px solid var(--border-color);
@@ -182,9 +183,10 @@
 }
 
 .widget:hover {
-  background: var(--bg-tertiary);
+  background: var(--bg-secondary);
   transform: translateY(-2px);
   box-shadow: 0 4px 15px var(--shadow);
+  border-color: var(--pantone-zomp);
 }
 
 .widget-titulo {
@@ -198,7 +200,7 @@
 }
 
 .widget-icon {
-  color: #3498db;
+  color: var(--pantone-zomp);
   font-size: 1rem;
 }
 
@@ -214,23 +216,23 @@
   align-items: center;
   gap: 12px;
   padding: 12px 15px;
-  background: rgba(52, 73, 94, 0.8);
+  background: var(--bg-secondary);
   border-radius: 8px;
-  border-left: 4px solid #3498db;
+  border-left: 4px solid var(--pantone-zomp);
   transition: all 0.3s ease;
   cursor: pointer;
 }
 
 .tarea-item:hover {
-  background: rgba(52, 73, 94, 1);
+  background: var(--bg-tertiary);
   transform: translateX(5px);
-  box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3);
+  box-shadow: 0 2px 8px rgba(var(--pantone-zomp-rgb), 0.3);
 }
 
 .tarea-check {
   width: 18px;
   height: 18px;
-  border: 2px solid #7f8c8d;
+  border: 2px solid var(--text-muted);
   border-radius: 4px;
   background: transparent;
   flex-shrink: 0;
@@ -242,19 +244,19 @@
 
 .tarea-titulo {
   font-weight: 600;
-  color: #ecf0f1;
+  color: var(--text-primary);
   font-size: 0.9rem;
   margin-bottom: 2px;
 }
 
 .tarea-curso {
   font-size: 0.8rem;
-  color: #bdc3c7;
+  color: var(--text-secondary);
 }
 
 .tarea-fecha {
   font-size: 0.8rem;
-  color: #e74c3c;
+  color: var(--udh-error);
   font-weight: 500;
 }
 
@@ -264,7 +266,7 @@
   align-items: center;
   gap: 15px;
   padding: 12px 0;
-  border-bottom: 1px solid #34495e;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .agenda-item:last-child {
@@ -273,7 +275,7 @@
 
 .agenda-hora {
   font-weight: 600;
-  color: #3498db;
+  color: var(--pantone-zomp);
   font-size: 0.9rem;
   min-width: 60px;
 }
@@ -284,27 +286,27 @@
 
 .evento-titulo {
   font-weight: 600;
-  color: #ecf0f1;
+  color: var(--text-primary);
   font-size: 0.9rem;
   margin-bottom: 2px;
 }
 
 .evento-detalles {
   font-size: 0.8rem;
-  color: #bdc3c7;
+  color: var(--text-secondary);
 }
 
 /* Estados de Prioridad */
 .prioridad-alta {
-  border-left-color: #e74c3c !important;
+  border-left-color: var(--udh-error) !important;
 }
 
 .prioridad-media {
-  border-left-color: #f39c12 !important;
+  border-left-color: var(--pantone-saffron) !important;
 }
 
 .prioridad-baja {
-  border-left-color: #2ecc71 !important;
+  border-left-color: var(--udh-success) !important;
 }
 
 /* Enlaces rápidos */
@@ -319,21 +321,21 @@
   align-items: center;
   gap: 10px;
   padding: 12px;
-  background: rgba(52, 73, 94, 0.8);
+  background: var(--bg-secondary);
   border-radius: 8px;
   text-decoration: none;
-  color: #ecf0f1;
+  color: var(--text-primary);
   font-weight: 500;
   font-size: 0.9rem;
   transition: all 0.3s ease;
-  border: 1px solid rgba(52, 152, 219, 0.2);
+  border: 1px solid rgba(var(--pantone-zomp-rgb), 0.2);
 }
 
 .enlace-rapido:hover {
-  background: #3498db;
+  background: var(--pantone-zomp);
   color: white;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(52, 152, 219, 0.4);
+  box-shadow: 0 4px 12px rgba(var(--pantone-zomp-rgb), 0.4);
   text-decoration: none;
 }
 
@@ -345,18 +347,20 @@
 .estado-vacio {
   text-align: center;
   padding: 30px 20px;
-  color: #bdc3c7;
+  color: var(--text-secondary);
 }
 
 .estado-vacio-icon {
   font-size: 2.5rem;
   margin-bottom: 15px;
+  color: var(--pantone-zomp);
   opacity: 0.5;
 }
 
 .estado-vacio p {
   font-size: 1rem;
   margin: 0;
+  color: var(--text-muted);
 }
 
 /* Responsive Design */
@@ -373,6 +377,10 @@
   .pestana {
     min-width: 120px;
   }
+  
+  .titulo-bienvenida {
+    font-size: 1.7rem;
+  }
 }
 
 @media (max-width: 768px) {
@@ -388,7 +396,7 @@
   }
   
   .titulo-bienvenida {
-    font-size: 1.7rem;
+    font-size: 1.8rem;
   }
   
   .pestanas-navegacion {
@@ -411,7 +419,7 @@
 
 @media (max-width: 480px) {
   .titulo-bienvenida {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
   }
   
   .seccion-titulo {
@@ -454,17 +462,56 @@
 
 .stream-container::-webkit-scrollbar-track,
 .cursos-grid::-webkit-scrollbar-track {
-  background: #34495e;
+  background: var(--bg-tertiary);
   border-radius: 3px;
 }
 
 .stream-container::-webkit-scrollbar-thumb,
 .cursos-grid::-webkit-scrollbar-thumb {
-  background: #3498db;
+  background: var(--pantone-zomp);
   border-radius: 3px;
 }
 
 .stream-container::-webkit-scrollbar-thumb:hover,
 .cursos-grid::-webkit-scrollbar-thumb:hover {
-  background: #2980b9;
+  background: var(--pantone-zomp-light);
+}
+
+/* Efectos especiales con la nueva paleta */
+.header-bienvenida::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--pantone-zomp) 0%, var(--pantone-saffron) 50%, var(--pantone-zomp-light) 100%);
+  border-radius: 15px 15px 0 0;
+}
+
+.header-bienvenida {
+  position: relative;
+}
+
+/* Hover effects mejorados */
+.widget:hover .widget-icon {
+  color: var(--pantone-saffron);
+  transform: scale(1.1);
+}
+
+.tarea-item:hover .tarea-check {
+  border-color: var(--pantone-zomp);
+  background: rgba(var(--pantone-zomp-rgb), 0.1);
+}
+
+/* Estados de hover para pestañas */
+.pestana:not(.activa):hover {
+  background: linear-gradient(135deg, rgba(var(--pantone-zomp-rgb), 0.1) 0%, rgba(var(--pantone-zomp-light-rgb), 0.1) 100%);
+}
+
+/* Efectos de enfoque mejorados */
+.pestana:focus,
+.enlace-rapido:focus {
+  outline: 2px solid var(--pantone-saffron);
+  outline-offset: 2px;
 }

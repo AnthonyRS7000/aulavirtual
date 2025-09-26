@@ -26,8 +26,8 @@ export default function InicioEstudiante() {
         foto: "https://ui-avatars.com/api/?name=Dacio+Duran&background=c53030&color=fff"
       },
       horarios: [
-        { dia: "MIÉRCOLES", hora: "21:00 - 22:40", color: "#6b7280" },
-        { dia: "VIERNES", hora: "21:00 - 22:40", color: "#10b981" }
+        { dia: "MIÉRCOLES", hora: "21:00 - 22:40", color: "#ECC138" },
+        { dia: "VIERNES", hora: "21:00 - 22:40", color: "#ECC138" }
       ],
       estadisticas: {
         silabo: true,
@@ -35,7 +35,7 @@ export default function InicioEstudiante() {
         notas: true,
         inasistencia: "0%"
       },
-      color: "#dc2626",
+      color: "#ECC138",
       favorito: true
     },
     {
@@ -50,8 +50,8 @@ export default function InicioEstudiante() {
         foto: "https://ui-avatars.com/api/?name=Ulises+Perla&background=059669&color=fff"
       },
       horarios: [
-        { dia: "MARTES", hora: "19:00 - 22:40", color: "#6b7280" },
-        { dia: "JUEVES", hora: "19:00 - 20:40", color: "#6b7280" }
+        { dia: "MARTES", hora: "19:00 - 22:40", color: "#5A9E8D" },
+        { dia: "JUEVES", hora: "19:00 - 20:40", color: "#5A9E8D" }
       ],
       estadisticas: {
         silabo: true,
@@ -59,7 +59,7 @@ export default function InicioEstudiante() {
         notas: true,
         inasistencia: "0%"
       },
-      color: "#059669",
+      color: "#5A9E8D",
       favorito: true
     }
   ];
