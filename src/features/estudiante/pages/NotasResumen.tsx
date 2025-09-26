@@ -1,4 +1,4 @@
-import { FaGraduationCap, FaTrophy, FaChartLine, FaExclamationTriangle, FaAward, FaCalculator, FaCertificate } from 'react-icons/fa';
+import { FaTrophy, FaChartLine, FaExclamationTriangle, FaCalculator, FaCertificate, FaAward } from 'react-icons/fa';
 import '../css/NotasResumen.css';
 
 interface NotaCurso {
@@ -75,19 +75,15 @@ export default function NotasResumen() {
   };
 
   return (
-    <div className="notas-resumen">
-      <div className="notas-header">
-        <div className="header-content">
-          <div className="header-info">
-            <FaGraduationCap className="header-icon" />
-            <h1>Resumen de Notas</h1>
-          </div>
-        </div>
+    <div className="notas-resumen-usil">
+      {/* Header simple */}
+      <div className="header-simple">
+        <h1>Resumen de Notas</h1>
       </div>
 
       {/* Estadísticas principales */}
       <div className="estadisticas-principales">
-        <div className="stat-card promedio">
+        <div className="estadistica-card">
           <div className="stat-icon">
             <FaCalculator />
           </div>
@@ -97,7 +93,7 @@ export default function NotasResumen() {
           </div>
         </div>
         
-        <div className="stat-card creditos">
+        <div className="estadistica-card">
           <div className="stat-icon">
             <FaCertificate />
           </div>
@@ -107,7 +103,7 @@ export default function NotasResumen() {
           </div>
         </div>
         
-        <div className="stat-card rendimiento">
+        <div className="estadistica-card">
           <div className="stat-icon">
             <FaAward />
           </div>
@@ -118,78 +114,78 @@ export default function NotasResumen() {
         </div>
       </div>
 
-      <div className="notas-lista">
-        {notas.map((nota) => (
-          <div key={nota.id} className={`nota-card ${nota.estado}`}>
-            <div className="nota-header">
-              <div className="materia-info">
-                <h3 className="materia-nombre">{nota.materia}</h3>
-                <span className="codigo-materia">{nota.codigo}</span>
+      {/* Tabla de notas */}
+      <div className="tabla-notas-container">
+        <div className="tabla-header">
+          <h2>Registro de Calificaciones - Periodo 2025-02</h2>
+        </div>
+        
+        <div className="tabla-notas">
+          <div className="tabla-head">
+            <div className="col-materia">Materia</div>
+            <div className="col-codigo">Código</div>
+            <div className="col-creditos">Créditos</div>
+            <div className="col-nota">Nota</div>
+            <div className="col-estado">Estado</div>
+          </div>
+          
+          {notas.map((nota) => (
+            <div key={nota.id} className={`tabla-row ${nota.estado}`}>
+              <div className="col-materia">
+                <div className="materia-nombre">{nota.materia}</div>
               </div>
-              <div className="estado-container">
-                {obtenerIconoEstado(nota.estado)}
+              <div className="col-codigo">
+                <span className="codigo-texto">{nota.codigo}</span>
               </div>
-            </div>
-            
-            <div className="nota-contenido">
-              <div className="nota-detalles">
-                <div className="creditos-info">
-                  <span className="creditos-label">Créditos:</span>
-                  <span className="creditos-valor">{nota.creditos}</span>
+              <div className="col-creditos">
+                <span className="creditos-numero">{nota.creditos}</span>
+              </div>
+              <div className="col-nota">
+                <div className="nota-display">
+                  <span className={`nota-valor ${nota.estado}`}>
+                    {nota.estado === 'pendiente' ? '--' : nota.nota}
+                  </span>
+                  <span className="nota-base">/20</span>
                 </div>
-                <div className="estado-info">
-                  <span className="estado-label">Estado:</span>
-                  <span className={`estado-valor ${nota.estado}`}>
+              </div>
+              <div className="col-estado">
+                <div className={`estado-badge ${nota.estado}`}>
+                  <div className="estado-icon-badge">
+                    {obtenerIconoEstado(nota.estado)}
+                  </div>
+                  <span className="estado-texto">
                     {nota.estado === 'aprobado' ? 'Aprobado' : 
                      nota.estado === 'desaprobado' ? 'Desaprobado' : 'Pendiente'}
                   </span>
                 </div>
               </div>
-              
-              <div className="nota-display">
-                <span className={`nota-numero ${nota.estado}`}>
-                  {nota.estado === 'pendiente' ? '--' : nota.nota}
-                </span>
-                <span className="nota-escala">/20</span>
-              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
 
-      <div className="notas-footer">
-        <div className="leyenda-card">
-          <h3 className="leyenda-titulo">Leyenda de Estados</h3>
-          <div className="leyenda-grid">
-            <div className="leyenda-item aprobado">
-              <div className="leyenda-icon">
-                <FaTrophy />
-              </div>
-              <div className="leyenda-info">
-                <span className="leyenda-label">Aprobado</span>
-                <span className="leyenda-desc">Nota ≥ 14</span>
-              </div>
-            </div>
-            <div className="leyenda-item desaprobado">
-              <div className="leyenda-icon">
-                <FaExclamationTriangle />
-              </div>
-              <div className="leyenda-info">
-                <span className="leyenda-label">Desaprobado</span>
-                <span className="leyenda-desc">Nota &lt; 14</span>
-              </div>
-            </div>
-            <div className="leyenda-item pendiente">
-              <div className="leyenda-icon">
-                <FaChartLine />
-              </div>
-              <div className="leyenda-info">
-                <span className="leyenda-label">Pendiente</span>
-                <span className="leyenda-desc">Por evaluar</span>
-              </div>
-            </div>
+      {/* Leyenda */}
+      <div className="leyenda-simple">
+        <div className="leyenda-titulo">Escala de Calificación</div>
+        <div className="leyenda-items">
+          <div className="leyenda-item aprobado">
+            {obtenerIconoEstado('aprobado')}
+            <span>Aprobado (≥ 14)</span>
+          </div>
+          <div className="leyenda-item desaprobado">
+            {obtenerIconoEstado('desaprobado')}
+            <span>Desaprobado (&lt; 14)</span>
+          </div>
+          <div className="leyenda-item pendiente">
+            {obtenerIconoEstado('pendiente')}
+            <span>Pendiente (Por evaluar)</span>
           </div>
         </div>
+      </div>
+
+      {/* Footer */}
+      <div className="footer-simple">
+        <p>© 2025-2018 UNIVERSIDAD DE HUÁNUCO</p>
       </div>
     </div>
   );
