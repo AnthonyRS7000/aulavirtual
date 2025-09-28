@@ -3,26 +3,121 @@ import FlechaIcon from '../assets/flecha.svg';
 import { Link, useLocation } from 'react-router-dom';
 import './Sidebar.css';
 
-// Iconos de navegación - usar los que tengas disponibles
-import { FaHome, FaClipboardList, FaChalkboardTeacher, FaTasks, FaUser, FaBullhorn, FaCalendarAlt } from 'react-icons/fa';
+// Iconos de navegación
+import { 
+  FaHome, 
+  FaClipboardList, 
+  FaChalkboardTeacher, 
+  FaTasks, 
+  FaBullhorn, 
+  FaCalendarAlt,
+  FaBook,
+  FaUsers
+} from 'react-icons/fa';
 
 interface SidebarProps {
   isOpen: boolean;
   onClose: () => void;
   onToggle: () => void;
+  userCase?: 'estudiante' | 'docente';
 }
 
 // Mock user data - EXACTO COMO UDH
-const mockUser = {
-  full_name: 'ARMANDO ROJAS LUNA',
-  role: 'Estudiante',
-  image: 'https://ui-avatars.com/api/?name=Armando+Rojas&background=39B49E&color=fff',
+const getUserData = (userCase: 'estudiante' | 'docente') => {
+  if (userCase === 'docente') {
+    return {
+      full_name: 'DR. CARLOS MENDOZA SILVA',
+      role: 'Docente',
+      department: 'Ing. de Sistemas',
+      image: 'https://ui-avatars.com/api/?name=Carlos+Mendoza&background=4A9B8E&color=fff',
+    };
+  }
+  
+  return {
+    full_name: 'ARMANDO ROJAS LUNA',
+    role: 'Estudiante',
+    image: 'https://ui-avatars.com/api/?name=Armando+Rojas&background=39B49E&color=fff',
+  };
 };
 
-export default function Sidebar({ isOpen, onClose, onToggle }: SidebarProps) {
+// Obtener secciones según el case
+const getSections = (userCase: 'estudiante' | 'docente') => {
+  if (userCase === 'docente') {
+    return [
+      {
+        name: 'dashboard',
+        label: 'Dashboard',
+        icon: FaHome,
+        path: '/docente/dashboard',
+      },
+      {
+        name: 'cursos',
+        label: 'Mis Cursos',
+        icon: FaBook,
+        path: '/docente/cursos',
+      },
+      {
+        name: 'estudiantes',
+        label: 'Estudiantes',
+        icon: FaUsers,
+        path: '/docente/estudiantes',
+      }
+    ];
+  }
+
+  return [
+    {
+      name: 'inicio',
+      label: 'Inicio',
+      icon: FaHome,
+      path: '/estudiante/inicio',
+    },
+    {
+      name: 'clases',
+      label: 'Clases',
+      icon: FaChalkboardTeacher,
+      path: '/estudiante/clases',
+    },
+    {
+      name: 'tareas',
+      label: 'Tareas',
+      icon: FaTasks,
+      path: '/estudiante/tareas',
+    },
+    {
+      name: 'anuncios',
+      label: 'Anuncios',
+      icon: FaBullhorn,
+      path: '/estudiante/anuncios',
+    },
+    {
+      name: 'horario',
+      label: 'Horario',
+      icon: FaCalendarAlt,
+      path: '/estudiante/horario',
+    },
+    {
+      name: 'notas',
+      label: 'Notas',
+      icon: FaClipboardList,
+      path: '/estudiante/notas'
+    },
+    {
+      name: 'recursos',
+      label: 'Recursos',
+      icon: FaTasks,
+      path: '/estudiante/recursos'
+    }
+  ];
+};
+
+export default function Sidebar({ isOpen, onClose, onToggle, userCase = 'estudiante' }: SidebarProps) {
   const location = useLocation();
   const [isDesktop, setIsDesktop] = useState(false);
   const [currentTheme, setCurrentTheme] = useState<'light' | 'dark'>('light');
+
+  const userData = getUserData(userCase);
+  const sections = getSections(userCase);
 
   // Detectar cambios de tema
   useEffect(() => {
@@ -57,56 +152,12 @@ export default function Sidebar({ isOpen, onClose, onToggle }: SidebarProps) {
     return () => window.removeEventListener('resize', checkSize);
   }, []);
 
-  // Secciones de navegación - Componentes del estudiante sin desglosar
-  const sections = [
-    {
-      name: 'inicio',
-      label: 'Inicio',
-      icon: FaHome,
-      path: '/estudiante/inicio',
-    },
-    {
-      name: 'clases',
-      label: 'Clases',
-      icon: FaChalkboardTeacher,
-      path: '/estudiante/clases',
-    },
-    {
-      name: 'tareas',
-      label: 'Tareas',
-      icon: FaTasks,
-      path: '/estudiante/tareas',
-    },
-    {
-      name: 'anuncios',
-      label: 'Anuncios',
-      icon: FaBullhorn,
-      path: '/estudiante/anuncios',
-    },
-    {
-      name: 'horario',
-      label: 'Horario',
-      icon: FaCalendarAlt,
-      path: '/estudiante/horario',
-    },
-    { name: 'notas', 
-      label: 'Notas', 
-      icon: FaClipboardList, 
-      path: '/estudiante/notas' },
-    { name: 'recursos', 
-      label: 'Recursos', 
-      icon: FaTasks, 
-      path: '/estudiante/recursos' }
-  ];
-
   const isActive = (path: string) => location.pathname === path;
 
-  // Determinar la clase del sidebar según el tamaño de pantalla y tema
-  const sidebarClass = `${isDesktop ? 'admin-sidebar-desktop' : 'admin-sidebar'} ${currentTheme === 'dark' ? 'theme-dark' : 'theme-light'}`;
+  const sidebarClass = `${isDesktop ? 'admin-sidebar-desktop' : 'admin-sidebar'} ${currentTheme === 'dark' ? 'theme-dark' : 'theme-light'} ${userCase === 'docente' ? 'docente-mode' : 'estudiante-mode'}`;
 
   return (
     <>
-      {/* Backdrop para móviles */}
       {!isDesktop && (
         <div
           className={`admin-sidebar-backdrop ${isOpen ? '' : 'hidden'}`}
@@ -114,47 +165,51 @@ export default function Sidebar({ isOpen, onClose, onToggle }: SidebarProps) {
         />
       )}
 
-      {/* Botón de colapsar */}
       <button
-  onClick={onToggle}
-  className="sidebar-collapse-button"
-  title="Colapsar sidebar"
-  style={{
-    left: isOpen ? '220px' : '60px',
-    transform: isOpen ? 'rotate(0deg)' : 'rotate(180deg)',
-  }}
->
-  <img
-    src={FlechaIcon}
-    alt="Flecha"
-    className="flecha-icon"
-  />
-</button>
+        onClick={onToggle}
+        className="sidebar-collapse-button"
+        title="Colapsar sidebar"
+        style={{
+          left: isOpen ? '220px' : '60px',
+          transform: isOpen ? 'rotate(0deg)' : 'rotate(180deg)',
+        }}
+      >
+        <img
+          src={FlechaIcon}
+          alt="Flecha"
+          className="flecha-icon"
+        />
+      </button>
 
-
-      {/* Sidebar */}
       <div className={`${sidebarClass} ${isOpen ? '' : 'collapsed'}`}>
-        {/* Información del usuario - DISEÑO COPILOTO */}
         <div className="user-info-copiloto">
           <div className="user-avatar-copiloto">
             <img
-              src={mockUser.image}
-              alt={mockUser.full_name}
+              src={userData.image}
+              alt={userData.full_name}
               className="user-avatar-image"
             />
           </div>
           <div className="user-info-text">
             <div className="user-name-copiloto">
-              {mockUser.full_name}
+              {userData.full_name}
             </div>
             <div className="user-role-copiloto">
-              {mockUser.role}
+              {userData.role}
             </div>
+            {userCase === 'docente' && 'department' in userData && (
+              <div className="user-department-copiloto">
+                {userData.department}
+              </div>
+            )}
           </div>
         </div>
 
-        {/* Navegación - DISEÑO COPILOTO */}
         <div className="nav-container-copiloto">
+          {userCase === 'docente' && (
+            <div className="nav-group-title">Gestión Docente</div>
+          )}
+          
           {sections.map((section) => (
             <div key={section.name} className="nav-section-copiloto">
               <Link

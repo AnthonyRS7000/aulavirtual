@@ -5,9 +5,10 @@ import './Layout.css';
 
 interface LayoutProps {
   children: ReactNode;
+  userCase?: 'estudiante' | 'docente';
 }
 
-export default function Layout({ children }: LayoutProps) {
+export default function Layout({ children, userCase = 'estudiante' }: LayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const toggleSidebar = () => {
@@ -17,20 +18,22 @@ export default function Layout({ children }: LayoutProps) {
   return (
     <div className="admin-layout">
       {/* Sidebar */}
-      <Sidebar 
-        isOpen={sidebarOpen} 
+      <Sidebar
+        isOpen={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
         onToggle={toggleSidebar}
+        userCase={userCase}
       />
-      
+
       {/* Main content area */}
       <div className={`admin-main-content ${sidebarOpen ? '' : 'collapsed'}`}>
-  <Topbar onToggleSidebar={toggleSidebar} isSidebarOpen={sidebarOpen} />
-  <main className="admin-content">
-    {children}
-  </main>
-</div>
-
+        <Topbar onToggleSidebar={toggleSidebar}
+          isSidebarOpen={sidebarOpen}
+          userCase={userCase} />
+        <main className="admin-content">
+          {children}
+        </main>
+      </div>
     </div>
   );
 }

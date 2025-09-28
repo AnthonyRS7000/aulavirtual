@@ -8,20 +8,36 @@ import './NotificacionesDropdown.css';
 interface TopbarProps {
   onToggleSidebar: () => void;
   isSidebarOpen: boolean;
+  userCase?: 'estudiante' | 'docente';
 }
 
-// Mock user data - EXACTO COMO UDH
-const mockUser = {
-  full_name: '',
-  email: 'armando.estudiante@udh.edu.pe',
-  role: 'estudiante',
-  image: 'https://ui-avatars.com/api/?name=Armando+Rojas&background=39B49E&color=fff',
+// FUNCIÓN DINÁMICA - cambia según el userCase
+const getUserData = (userCase: 'estudiante' | 'docente') => {
+  if (userCase === 'docente') {
+    return {
+      full_name: 'DR. CARLOS MENDOZA SILVA',
+      email: 'carlos.docente@udh.edu.pe',
+      role: 'Docente',
+      image: 'https://ui-avatars.com/api/?name=Carlos+Mendoza&background=4A9B8E&color=fff',
+    };
+  }
+  
+  // Para estudiantes
+  return {
+    full_name: 'ARMANDO ROJAS LUNA', 
+    email: 'armando.estudiante@udh.edu.pe',
+    role: 'Estudiante',
+    image: 'https://ui-avatars.com/api/?name=Armando+Rojas&background=39B49E&color=fff',
+  };
 };
 
-export default function Topbar({  }: TopbarProps) {
+export default function Topbar({ onToggleSidebar, isSidebarOpen, userCase = 'estudiante' }: TopbarProps) {
   const [notificacionesAbiertas, setNotificacionesAbiertas] = useState(false);
   const [tieneNotificacionesNoLeidas] = useState(true);
   const [perfilOpen, setPerfilOpen] = useState(false);
+
+  // ✅ OBTENER datos según el case actual
+  const userData = getUserData(userCase);
 
   const toggleNotificaciones = () => {
     setNotificacionesAbiertas(!notificacionesAbiertas);
@@ -34,11 +50,9 @@ export default function Topbar({  }: TopbarProps) {
   return (
     <header className="admin-topbar">
       <div className="topbar-container">
-        {/* Lado izquierdo */}
         <div className="topbar-left">
         </div>
 
-        {/* Lado derecho */}
         <div className="topbar-right">
           
           {/* Notificaciones */}
@@ -53,28 +67,26 @@ export default function Topbar({  }: TopbarProps) {
             }
           </button>
 
-          {/* Selector de tema */}
           <ThemeToggle />
 
-          {/* Usuario */}
+          {/* Usuario - AHORA ES DINÁMICO */}
           <div className="topbar-user" onClick={() => setPerfilOpen(!perfilOpen)} style={{ cursor: 'pointer' }}>
-  <div className="topbar-user-avatar">
-    <img
-      src={mockUser.image}
-      alt={mockUser.full_name}
-      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-    />
-  </div>
-  <span className="topbar-user-name">
-    {mockUser.full_name.split(' ')[0] }
-  </span>
-</div>
+            <div className="topbar-user-avatar">
+              <img
+                src={userData.image} 
+                alt={userData.full_name}
+                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+              />
+            </div>
+            <span className="topbar-user-name">
+              {userData.full_name.split(' ')[0]} 
+            </span>
+          </div>
 
-<PerfilDropdown isOpen={perfilOpen} onClose={() => setPerfilOpen(false)} />
+          <PerfilDropdown isOpen={perfilOpen} onClose={() => setPerfilOpen(false)} />
         </div>
       </div>
 
-      {/* Dropdown de notificaciones */}
       <NotificacionesDropdown 
         isOpen={notificacionesAbiertas}
         onClose={cerrarNotificaciones}
