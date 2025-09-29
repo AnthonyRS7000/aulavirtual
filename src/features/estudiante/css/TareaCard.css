@@ -1,12 +1,30 @@
 .tarea-card {
+  display: flex;
+  flex-direction: column;
   background: var(--bg-secondary);
   border-radius: 12px;
   box-shadow: 0 2px 8px var(--shadow);
-  padding: 20px;
-  margin-bottom: 16px;
+  padding: 24px;
+  margin: 32px 0; /* <-- centrado horizontal */
   border-left: 4px solid var(--pantone-zomp);
-  transition: all 0.3s ease;
   color: var(--text-primary);
+  width: 100%;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+  justify-content: space-between;
+  min-height: 520px;
+}
+
+.tarea-card > * {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.tarea-contenido,
+.tarea-meta,
+.seccion-entrega,
+.archivos-entregados {
+  width: 100%;
 }
 
 .tarea-card:hover {
@@ -18,9 +36,26 @@
 .tarea-header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
   margin-bottom: 16px;
+  gap: 12px;
 }
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.tarea-header-superior {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
 
 .tarea-estado {
   display: flex;
@@ -28,11 +63,23 @@
   flex-wrap: wrap;
 }
 
+.tarea-acciones {
+  display: flex;
+  justify-content: center; /* ahora sí se verá centrado */
+  align-items: center;
+  gap: 12px;
+  margin-top: auto;
+  width: 100%;
+  border-top: 1.5px solid rgba(255, 255, 255, 0.3);
+  padding-top: 20px;
+}
+
+
 .estado-badge,
 .prioridad-badge {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   padding: 4px 12px;
   border-radius: 16px;
   border: 1.5px solid transparent;
@@ -44,6 +91,12 @@
 .estado-badge {
   background: var(--pantone-zomp);
   color: #fff;
+}
+
+.estado-prioridad {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
 .estado-badge.pendiente {
@@ -98,7 +151,9 @@
 }
 
 .tiempo-restante {
+  min-width: 160px;
   text-align: right;
+  font-size: 14px;
 }
 
 .urgente {
@@ -122,7 +177,9 @@
 }
 
 .tarea-contenido {
-  margin-bottom: 16px;
+  margin-bottom: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .tarea-titulo {
@@ -139,6 +196,7 @@
   line-height: 1.6;
   margin: 0 0 16px 0;
   text-align: justify;
+  
 }
 
 .tarea-meta {
@@ -146,8 +204,9 @@
   justify-content: space-between;
   align-items: flex-start;
   flex-wrap: wrap;
-  gap: 16px;
+  gap: 48px;
   margin-bottom: 16px;
+  width: 100%;
 }
 
 .materia-info {
@@ -189,6 +248,7 @@
 
 .nota-tarea {
   display: flex;
+  min-height: 60px;
   align-items: center;
   gap: 8px;
   padding: 12px;
@@ -231,14 +291,6 @@
   line-height: 1.5;
   margin: 0;
   font-style: italic;
-}
-
-.tarea-acciones {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  border-top: 1px solid var(--border-color);
-  padding-top: 16px;
 }
 
 .btn-entregar,
@@ -376,19 +428,21 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 12px 20px;
+  padding: 10px 16px;
+  min-height: 50px;
   border: 2px dashed var(--pantone-zomp-light);
   border-radius: 8px;
   background: var(--bg-primary);
   color: var(--pantone-zomp);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
   font-weight: 500;
+  font-size: 0.95rem;
 }
 
 .upload-button:hover {
   border-color: var(--pantone-zomp);
-  background: #eaf5f3;
+  background: var(--bg-primary);
 }
 
 .archivo-seleccionado {
@@ -482,6 +536,18 @@
   border: 1px solid var(--border-color);
   border-radius: 6px;
   margin-bottom: 8px;
+}
+
+.archivos-entregados,
+.seccion-entrega,
+.nota-tarea,
+.comentarios-tarea {
+  margin-top: 16px;
+}
+
+.archivos-entregados,
+.seccion-entrega {
+  min-height: 120px;
 }
 
 .archivo-entregado:last-child {

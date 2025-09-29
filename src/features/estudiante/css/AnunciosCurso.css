@@ -15,7 +15,7 @@ div.anuncios-curso div.anuncios-lista div.anuncio-card {
   width: 100% !important;
   margin: 0 0 40px 0 !important;
   padding: 0 !important;
-  background: rgba(52, 73, 94, 0.95) !important;
+  background: var(--bg-secondary);
   backdrop-filter: blur(15px) !important;
   border: 2px solid rgba(255, 255, 255, 0.15) !important;
   border-radius: 20px !important;
@@ -34,7 +34,7 @@ div.anuncios-curso div.anuncios-lista div.anuncio-card + div.anuncio-card {
 div.anuncios-curso div.anuncios-lista div.anuncio-card:hover {
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5) !important;
   transform: translateY(-8px) !important;
-  background: rgba(52, 73, 94, 1) !important;
+  background: var(--bg-secondary);
   border-color: rgba(52, 152, 219, 0.3) !important;
   z-index: 10 !important;
 }
@@ -49,7 +49,7 @@ div.anuncios-curso div.anuncios-lista div.anuncio-card:hover {
   display: block !important;
   width: 100% !important;
   margin-bottom: 30px !important;
-  background: rgba(52, 73, 94, 0.95) !important;
+  background: var(--bg-secondary);
   backdrop-filter: blur(15px) !important;
   border: 1px solid rgba(255, 255, 255, 0.15) !important;
   border-radius: 20px !important;
@@ -66,39 +66,47 @@ div.anuncios-curso div.anuncios-lista div.anuncio-card:hover {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 32px;
-  padding: 1.5rem 2rem;
-  border-bottom: 3.5px solid var(--border-color);
+  padding: 30px 32px;
   border-radius: 12px;
-  color: #fff;
+  background: var(--bg-secondary);
+  border-left: none;
+  box-shadow: 0 2px 8px var(--shadow);
+  color: var(--text-primary);
   position: relative;
+  gap: 20px;
+  border-left: none;
+  border-bottom: none;
   overflow: hidden;
 }
 
 .anuncios-header h1 {
-  font-size: 2.4rem;
+  font-size: 2.2rem;
   font-weight: 800;
-  color: #ffffff;
+  background: linear-gradient(135deg, #4C7C74, #6ca895);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
   margin: 0;
-  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+  line-height: 1.2;
 }
 
 .anuncios-header p {
-  font-weight: 500;
-  color: #f1f5f9;
-  font-size: 1rem;
+  color: var(--text-secondary);
   margin: 0;
-  padding-left: 1rem;
 }
 
 .anuncios-header::after {
   content: '';
   position: absolute;
-  bottom: -1px;
+  bottom: 0;
   left: 0;
   right: 0;
-  height: 12px;
-  border-radius: 0 0 12px 12px;
-  background: var(--bg-primary);
+  width: 100%;
+  height: 3px;
+  background: white; 
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  border-radius: inherit;
 }
 
 .anuncios-header .header-content {
@@ -158,130 +166,227 @@ div.anuncios-curso div.anuncios-lista div.anuncio-card:hover {
 /* Controles mejorados */
 .anuncios-controles {
   display: flex;
-  gap: 15px;
-  margin-bottom: 20px;
+   flex-wrap: wrap;
+  justify-content: space-between;
   align-items: center;
-  background: var(--bg-secondary);
-  padding: 16px;
+  margin-bottom: 24px;
+  padding: 20px;
+  background: var(--bg-secondary); /* mismo fondo que tareas */
   border-radius: 12px;
-  border: 1px solid var(--border-color);
+  box-shadow: 0 2px 8px var(--shadow);
+  gap: 16px;
 }
 
-.busqueda {
-  position: relative;
+.filtros-busqueda {
   flex: 1;
+  max-width: 400px;
+}
+
+.search-box {
+  position: relative;
+  width: 100%;
 }
 
 .search-icon {
   position: absolute;
-  left: 18px;
+  left: 12px;
   top: 50%;
   transform: translateY(-50%);
-  color: #3498db;
-  font-size: 1.1rem;
-  z-index: 2;
+  color: var(--pantone-zomp);
+  font-size: 16px;
 }
 
-.busqueda input {
+.search-box input {
   width: 100%;
-  padding: 10px 14px;
-  border: 1px solid var(--border-color);
+  padding: 12px 12px 12px 40px;
+  border: 2px solid var(--border-color);
   border-radius: 8px;
-  font-size: 0.95rem;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
   background: var(--bg-primary);
   color: var(--text-primary);
-  transition: all 0.3s ease;
-  font-weight: 500;
 }
 
-.busqueda input:focus {
+.search-box input:focus {
   outline: none;
-  border-color: #3498db;
-  background: rgba(44, 62, 80, 1);
-  box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.2);
-  transform: translateY(-2px);
+  border-color: var(--pantone-zomp);
+  box-shadow: 0 0 0 2px rgba(90, 158, 141, 0.25);
 }
 
-.busqueda input::placeholder {
-  color: #7f8c8d;
-  font-weight: 400;
+.filtros-dropdown {
+  display: flex;
+  gap: 16px;
 }
 
-.filtros {
+.filter-group {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 8px;
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  outline: none;
 }
 
-.filter-icon {
-  color: #3498db;
-  font-size: 1.2rem;
-  padding: 10px;
-  background: rgba(52, 152, 219, 0.1);
+.filter-group select {
+  padding: 10px 16px;
+  font-size: 14.5px;
+  font-weight: 600;
+  background: #0f1422;
+  color: var(--text-primary);
+  border: 1.5px solid rgba(255, 255, 255, 0.07);
   border-radius: 10px;
-  border: 2px solid rgba(52, 152, 219, 0.3);
+  appearance: none;
+  outline: none;
+  box-shadow: none;
+  transition: border-color 0.3s ease;
+  cursor: pointer;
 }
 
-.filtros select {
-  padding: 10px 14px;
-  border: 1px solid var(--border-color);
+.filter-group select:focus {
+  border-color: var(--pantone-zomp);
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.filter-group:focus-within,
+.filter-group:hover {
+  background: transparent !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.anuncios-controles .busqueda {
+  flex: 1;
+  max-width: 400px;
+  position: relative;
+}
+
+.anuncios-controles .search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--pantone-zomp);
+  font-size: 16px;
+}
+
+
+.anuncios-controles .busqueda input {
+  width: 100%;
+  padding: 12px 12px 12px 40px;
+  border: 2px solid var(--border-color);
   border-radius: 8px;
+  font-size: 16px;
   background: var(--bg-primary);
   color: var(--text-primary);
-  font-size: 0.85rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-weight: 500;
+  transition: border-color 0.3s ease;
 }
 
-.filtros select:focus {
+
+.anuncios-controles input:focus {
   outline: none;
-  border-color: #3498db;
-  background: rgba(44, 62, 80, 1);
-  box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.2);
-  transform: translateY(-2px);
+  border-color: #4C7C74;
+  box-shadow: 0 0 0 3px rgba(112, 169, 154, 0.3);
 }
 
-.filtros select option {
-  background: #2c3e50;
-  color: #ecf0f1;
-  padding: 10px;
+.anuncios-controles .busqueda input:focus {
+  outline: none;
+  border-color: var(--pantone-zomp);
+  box-shadow: 0 0 0 2px rgba(90, 158, 141, 0.25);
 }
+
+.anuncios-controles .busqueda input::placeholder {
+  color: var(--text-secondary);
+  opacity: 0.8;
+}
+
+.anuncios-controles .filtros {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  max-width: 400px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.anuncios-controles .filtros .filter-icon {
+  font-size: 16px;
+  padding: 8px;
+  border-radius: 10px;
+  background: transparent;
+  border: none;
+  color: #adbfc7;
+}
+
+.anuncios-controles .filtros select {
+  padding: 10px 16px;
+  font-size: 14.5px;
+  font-weight: 600;
+  background: #0f1422;
+  color: var(--text-primary);
+  border: 1.5px solid rgba(255, 255, 255, 0.07);
+  border-radius: 10px;
+  appearance: none;
+  outline: none;
+  box-shadow: none;
+  transition: border-color 0.3s ease;
+  cursor: pointer;
+}
+
+.anuncios-controles .filtros select:focus {
+  border-color: var(--pantone-zomp);
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.anuncios-controles .filtros select:hover {
+  background: #0f1422 !important;
+  border-color: var(--pantone-zomp) !important;
+}
+
+.anuncios-controles .filtros select option {
+  background: #1f2430 !important;
+  color: var(--text-primary) !important;
+}
+
+.anuncios-controles .filtros option {
+  background: #0f1422 !important;
+  color: var(--text-primary) !important;
+}
+
 
 /* Lista de anuncios mejorada - FORZADA */
 .anuncios-lista {
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 30px !important;
-  margin-top: 20px !important;
-  width: 100% !important;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  margin-top: 20px;
+  width: 100%;
 }
 
 /* Cada anuncio debe ser un card separado */
-.anuncios-lista > * {
-  background: rgba(52, 73, 94, 0.95) !important;
-  backdrop-filter: blur(15px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.15) !important;
-  border-radius: 20px !important;
-  overflow: hidden !important;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4) !important;
-  transition: all 0.4s ease !important;
-  position: relative !important;
-  margin-bottom: 25px !important;
-  display: block !important;
-  width: 100% !important;
+.anuncios-lista > .anuncio-card {
+  background: var(--bg-secondary);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+  transition: all 0.4s ease;
+  padding: 20px;
 }
 
-.anuncios-lista > *:hover {
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5) !important;
-  transform: translateY(-8px) !important;
-  background: rgba(52, 73, 94, 1) !important;
-  border-color: rgba(52, 152, 219, 0.3) !important;
+.anuncios-lista > .anuncio-card:hover {
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  transform: translateY(-8px);
+  background: rgba(52, 73, 94, 1);
+  border-color: rgba(52, 152, 219, 0.3);
 }
 
 /* Contenedor individual de cada anuncio */
 .anuncio-item {
-  background: rgba(52, 73, 94, 0.95);
+  background: var(--bg-secondary) !important;
   backdrop-filter: blur(15px);
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 20px;
@@ -305,20 +410,21 @@ div.anuncios-curso div.anuncios-lista div.anuncio-card:hover {
   box-shadow: 0 10px 40px rgba(52, 152, 219, 0.2);
 }
 
-.anuncio-item.no-leido::before {
+.anuncio-card.no-leido::before {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, #3498db 0%, #2980b9 100%);
+  display: none !important;
+  background: transparent !important;
 }
 
 .sin-anuncios {
   text-align: center;
   padding: 80px 40px;
-  background: rgba(52, 73, 94, 0.95);
+  background: var(--bg-secondary);
   backdrop-filter: blur(15px);
   border-radius: 20px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
@@ -348,16 +454,15 @@ div.anuncios-curso div.anuncios-lista div.anuncio-card:hover {
 
 /* Card de anuncio mejorado - LEGACY SUPPORT */
 .anuncio-card {
-  background: var(--bg-secondary);
-  border-left: 4px solid var(--pantone-zomp);
-  border: 1px solid rgba(255, 255, 255, 0.15) !important;
-  border-radius: 12px !important;
+  background: var(--bg-secondary) !important;
+  border: 1.5px solid var(--border-color) !important;
+  border-left: 4px solid var(--pantone-zomp) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3) !important;
+  transition: all 0.3s ease !important;
   overflow: hidden !important;
-  box-shadow: 0 2px 8px var(--shadow);
-  transition: all 0.4s ease !important;
   position: relative !important;
-  margin-bottom: 20px !important;
-  display: block !important;
+  animation: fadeInUp 0.4s ease-out !important;
 }
 
 .anuncio-card + .anuncio-card {
@@ -365,9 +470,9 @@ div.anuncios-curso div.anuncios-lista div.anuncio-card:hover {
 }
 
 .anuncio-card:hover {
-  background: var(--bg-tertiary);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 16px var(--shadow);
+  transform: translateY(-6px) !important;
+  background: var(--bg-tertiary) !important;
+  border-color: var(--pantone-zomp) !important;
 }
 
 .anuncio-card.no-leido {
@@ -427,8 +532,8 @@ div.anuncios-curso div.anuncios-lista div.anuncio-card:hover {
   height: 55px;
   border-radius: 50%;
   object-fit: cover;
-  border: 3px solid #3498db;
-  box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+  border: 2px solid var(--pantone-zomp) !important;
+  box-shadow: 0 4px 15px rgba(76, 124, 116, 0.3) !important;
 }
 
 .autor-detalles h3 {
@@ -439,14 +544,13 @@ div.anuncios-curso div.anuncios-lista div.anuncio-card:hover {
 }
 
 .autor-rol {
-  background: var(--udh-error);
-  color: #fff;
-  font-size: 0.75rem;
-  padding: 4px 8px;
-  border-radius: 15px;
+  background: transparent !important;
+  color: var(--pantone-zomp) !important;
+  border: 1.5px solid var(--pantone-zomp) !important;
   font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 15px;
   text-transform: uppercase;
-  letter-spacing: 0.8px;
 }
 
 .anuncio-meta {
@@ -473,14 +577,14 @@ div.anuncios-curso div.anuncios-lista div.anuncio-card:hover {
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #bdc3c7;
+  color: var(--text-secondary) !important;
   font-size: 0.9rem;
   font-weight: 500;
 }
 
 .fecha-info svg {
   font-size: 0.9rem;
-  color: #3498db;
+  color: var(--pantone-zomp) !important;
 }
 
 .modificado {
@@ -502,24 +606,27 @@ div.anuncios-curso div.anuncios-lista div.anuncio-card:hover {
   font-weight: 700;
   letter-spacing: 0.5px;
   text-transform: uppercase;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3)  border: 1.5px solid transparent;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  border: 1.5px solid transparent;
 }
 
+
 .prioridad-alta {
-  background: rgba(var(--udh-error-rgb), 0.15);
-  border-color: var(--udh-error);
+  background: rgba(var(--udh-error-rgb), 0.2);
+  border: 1.5px solid var(--udh-error);
   color: var(--udh-error);
 }
 
 .prioridad-media {
-  background: rgba(var(--pantone-saffron-rgb), 0.15);
-  border-color: var(--pantone-saffron);
+  background: rgba(var(--pantone-saffron-rgb), 0.2);
+  border: 1.5px solid var(--pantone-saffron);
   color: var(--pantone-saffron);
 }
 
 .prioridad-baja {
-  background: rgba(var(--pantone-zomp-rgb), 0.15);
-  border-color: var(--pantone-zomp);
+  background: rgba(var(--pantone-zomp-rgb), 0.2);
+  border: 1.5px solid var(--pantone-zomp);
   color: var(--pantone-zomp);
 }
 
@@ -544,6 +651,7 @@ div.anuncios-curso div.anuncios-lista div.anuncio-card:hover {
 /* Contenido del anuncio mejorado */
 .anuncio-contenido {
   padding: 25px;
+  background: transparent;
   cursor: pointer;
   position: relative;
 }
@@ -579,23 +687,25 @@ div.anuncios-curso div.anuncios-lista div.anuncio-card:hover {
   bottom: 0;
   left: 0;
   right: 0;
-  height: 25px;
-  background: linear-gradient(transparent, rgba(52, 73, 94, 0.95));
+  height: 60px;
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent, transparent) !important;
+  transition: background 0.3s ease;
+  z-index: 1;
 }
 
 .indicador-no-leido {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background: var(--pantone-zomp);
-  color: #fff;
-  font-size: 0.75rem;
-  padding: 6px 12px;
-  border-radius: 15px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  animation: pulse 2s infinite;
+  position: absolute !important;
+  top: 20px !important;
+  right: 20px !important;
+  background: var(--pantone-zomp) !important;
+  color: #fff !important;
+  font-size: 0.75rem !important;
+  padding: 6px 14px !important;
+  border-radius: 20px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  animation: pulse 2s infinite !important;
 }
 
 @keyframes pulse {
@@ -605,14 +715,14 @@ div.anuncios-curso div.anuncios-lista div.anuncio-card:hover {
 
 /* Archivos adjuntos mejorados */
 .archivos-adjuntos {
-  background: var(--bg-tertiary);
-  padding: 20px 25px;
-  border-top: 1px solid var(--border-color);
+  background: var(--bg-primary) !important;
+  padding: 20px !important;
+  border-top: 1px solid var(--border-color) !important;
 }
 
 .archivos-adjuntos h4 {
   margin: 0 0 12px 0;
-  color: #ecf0f1;
+  color: var(--text-primary) !important;
   font-size: 1rem;
   font-weight: 700;
   display: flex;
@@ -626,25 +736,19 @@ div.anuncios-curso div.anuncios-lista div.anuncio-card:hover {
 }
 
 .archivo-link {
-  display: block;
+  display: flex;
   align-items: center;
-  gap: 12px;
-  color: var(--pantone-zomp);
-  text-decoration: none;
-  font-size: 1rem;
-  margin: 8px 0;
-  padding: 12px 15px;
-  border-radius: 12px;
-  transition: all 0.3s ease;
+  gap: 10px;
+  color: var(--pantone-zomp) !important;
   font-weight: 600;
+  padding: 10px 0;
+  transition: all 0.3s;
+  text-decoration: none;
 }
 
 .archivo-link:hover {
-  color: #2980b9;
-  background: rgba(52, 152, 219, 0.25);
-  transform: translateX(8px);
-  text-decoration: none;
-  box-shadow: 0 4px 15px rgba(52, 152, 219, 0.2);
+  color: var(--pantone-saffron) !important;
+  transform: translateX(5px);
 }
 
 .archivo-link::before {
@@ -657,18 +761,23 @@ div.anuncios-curso div.anuncios-lista div.anuncio-card:hover {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 25px;
-  background: rgba(44, 62, 80, 0.8);
-  border-top: 1px solid var(--border-color);
+  background: var(--bg-secondary) !important;
+  padding: 16px 24px;
+  border-top: 1px solid var(--border-color) !important;
 }
 
 .comentarios-info {
-  color: #bdc3c7;
+  color: var(--text-secondary) !important;
   font-size: 1rem;
   font-weight: 600;
   display: flex;
   align-items: center;
   gap: 8px;
+}
+.comentarios-container {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  transition: all 0.3s ease;
 }
 
 .comentarios-info::before {
@@ -678,22 +787,18 @@ div.anuncios-curso div.anuncios-lista div.anuncio-card:hover {
 
 .btn-comentarios {
   background: var(--pantone-zomp);
-  color: #fff;
-  border: none;
-  padding: 8px 25px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 1rem;
+  color: white;
   font-weight: 700;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  border: none;
+  transition: background 0.3s ease;
 }
 
 .btn-comentarios:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(52, 152, 219, 0.4);
+  background: var(--pantone-saffron);
+  transform: translateY(-2px);
 }
 
 .btn-comentarios::before {
@@ -846,7 +951,7 @@ div.anuncios-curso div.anuncios-lista div.anuncio-card:hover {
 }
 
 .anuncios-curso .anuncios-lista > div {
-  background: rgba(44, 62, 80, 0.95) !important;
+  background: var(--bg-secondary) !important;
   border: 2px solid rgba(52, 73, 94, 0.8) !important;
   border-radius: 20px !important;
   padding: 0 !important;
@@ -895,7 +1000,7 @@ div.anuncios-curso div.anuncios-lista div.anuncio-card:hover {
 
 /* MEGA ESPECÍFICO PARA ANUNCIO-CARD */
 .anuncios-curso .anuncios-lista div.anuncio-card {
-  background: rgba(44, 62, 80, 0.95) !important;
+  background: var(--bg-secondary) !important;
   border: 2px solid rgba(52, 73, 94, 0.8) !important;
   border-radius: 20px !important;
   padding: 0 !important;
@@ -943,6 +1048,6 @@ div.anuncios-curso div.anuncios-lista div.anuncio-card:hover {
   box-shadow: 
     0 20px 80px rgba(0, 0, 0, 0.6),
     0 10px 40px rgba(52, 152, 219, 0.3) !important;
-  background: rgba(52, 73, 94, 1) !important;
-  border-color: rgba(52, 152, 219, 0.6) !important;
+  background: var(--bg-tertiary) !important;
+  border-color: var(--pantone-zomp) !important;
 }

@@ -240,31 +240,34 @@ export default function AnunciosCurso() {
       <div className="anuncios-header">
   <div className="header-content">
     <h1>Anuncios del Curso</h1>
-    <p>{anunciosNoLeidos} anuncios no leídos</p>
   </div>
+  <p>{anunciosNoLeidos} anuncios no leídos</p>
 </div>
 
       {/* Controles */}
       <div className="anuncios-controles">
-        <div className="busqueda">
-          <FaSearch className="search-icon" />
-          <input
-            type="text"
-            value={busqueda}
-            onChange={(e) => setBusqueda(e.target.value)}
-            placeholder="Buscar anuncios..."
-          />
-        </div>
-        
-        <div className="filtros">
-          <FaFilter className="filter-icon" />
-          <select value={filtro} onChange={(e) => setFiltro(e.target.value as any)}>
-            <option value="todos">Todos ({anuncios.length})</option>
-            <option value="no-leidos">No leídos ({anunciosNoLeidos})</option>
-            <option value="prioritarios">Prioritarios ({anuncios.filter(a => a.prioridad === 'alta').length})</option>
-          </select>
-        </div>
-      </div>
+  <div className="filtros-busqueda">
+    <div className="search-box">
+      <FaSearch className="search-icon" />
+      <input
+        type="text"
+        value={busqueda}
+        onChange={(e) => setBusqueda(e.target.value)}
+        placeholder="Buscar anuncios..."
+      />
+    </div>
+  </div>
+
+  <div className="filtros-dropdown">
+    <div className="filter-group">
+      <select value={filtro} onChange={(e) => setFiltro(e.target.value)}>
+        <option value="todos">Todos ({anuncios.length})</option>
+        <option value="no-leidos">No leídos ({anunciosNoLeidos})</option>
+        <option value="prioritarios">Prioritarios ({anuncios.filter(a => a.prioridad === 'alta').length})</option>
+      </select>
+    </div>
+  </div>
+</div>
 
       {/* Lista de anuncios */}
       <div className="anuncios-lista">

@@ -56,7 +56,6 @@ const clasesVisibles = clases.filter(c =>
 
         <div className="filtros-dropdown">
           <div className="filter-group">
-            <FaFilter className="filter-icon" />
             <select
               value={filtroEstado}
               onChange={(e) => setFiltroEstado(e.target.value)}
@@ -69,7 +68,6 @@ const clasesVisibles = clases.filter(c =>
           </div>
 
           <div className="filter-group">
-            <FaCalendarAlt className="filter-icon" />
             <select
               value={filtroModalidad}
               onChange={(e) => setFiltroModalidad(e.target.value)}

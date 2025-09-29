@@ -38,7 +38,7 @@ export const ClasesProvider = ({ children }: { children: React.ReactNode }) => {
     const fetchData = async () => {
       try {
         const token = localStorage.getItem("token");
-        const data = await getHorario("2020210688", "2025-2");
+        const data = await getHorario("2021210351", "2025-2");
         const mapped = data.map((c: any) => {
           const dias = [c.lunes, c.martes, c.miercoles, c.jueves, c.viernes, c.sabado, c.domingo]
             .filter(Boolean);

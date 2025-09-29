@@ -92,7 +92,6 @@ export default function RecursosRecientes() {
       <div className="recursos-header">
         <div className="header-content">
           <div className="header-info">
-            <FaFolder className="header-icon" />
             <h1>Recursos Recientes</h1>
           </div>
           <div className="header-actions">
