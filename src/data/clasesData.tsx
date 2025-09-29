@@ -14,6 +14,7 @@ export interface Clase {
   proximaClase?: string;
   creditos: number;
   semestre: string;
+  linkMeet?: string;
 }
 
 export const clasesData: Clase[] = [
