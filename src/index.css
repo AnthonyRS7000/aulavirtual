@@ -26,6 +26,7 @@
 
 
 --bg-primary: #ffffff;
+  --bg-tertiary: rgba(37, 50, 66, 1);
 --bg-secondary: #f5f5f5;
 --bg-tertiary: #ebebeb;
 --text-primary: var(--pantone-jet);
@@ -70,6 +71,11 @@
   --text-muted: #94a3b8;
   --border-color: #334155;
   --shadow: rgba(0, 0, 0, 0.3);
+
+    --color-pdf: #f9b233;
+  --color-video: #4c7c74;
+  --color-enlace: #f67c54;
+  --color-ppt: #5e9fc8;
   
   /* Sidebar y navegación para tema oscuro */
   --sidebar-bg: #0f172a;
@@ -80,6 +86,13 @@
   color-scheme: dark;
   color: var(--text-primary);
   background-color: var(--bg-primary);
+}
+
+:root.light {
+  --color-pdf: #f9b233;
+  --color-video: #4c7c74;
+  --color-enlace: #f67c54;
+  --color-ppt: #5e9fc8;
 }
 
 /* Reset y base */

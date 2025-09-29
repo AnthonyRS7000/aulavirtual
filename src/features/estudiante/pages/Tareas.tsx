@@ -225,7 +225,6 @@ export default function Tareas() {
 
         <div className="filtros-dropdown">
           <div className="filter-group">
-            <FaFilter className="filter-icon" />
             <select
               value={filtroEstado}
               onChange={(e) => setFiltroEstado(e.target.value)}
@@ -239,7 +238,7 @@ export default function Tareas() {
           </div>
 
           <div className="filter-group">
-            <FaCalendarAlt className="filter-icon" />
+          
             <select
               value={filtroPrioridad}
               onChange={(e) => setFiltroPrioridad(e.target.value)}
