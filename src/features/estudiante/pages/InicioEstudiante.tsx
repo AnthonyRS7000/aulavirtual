@@ -50,8 +50,8 @@ export default function InicioEstudiante() {
         foto: "https://ui-avatars.com/api/?name=Ulises+Perla&background=059669&color=fff"
       },
       horarios: [
-        { dia: "MARTES", hora: "19:00 - 22:40", color: "#5A9E8D" },
-        { dia: "JUEVES", hora: "19:00 - 20:40", color: "#5A9E8D" }
+        { dia: "MARTES", hora: "19:00 - 22:40", color: "#58ababff" },
+        { dia: "JUEVES", hora: "19:00 - 20:40", color: "#58ababff" }
       ],
       estadisticas: {
         silabo: true,

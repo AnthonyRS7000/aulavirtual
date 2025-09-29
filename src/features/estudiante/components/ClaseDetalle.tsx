@@ -1,45 +1,91 @@
-// src/features/estudiante/pages/ClaseDetalle.tsx
 import { useParams, Link } from 'react-router-dom';
 import { useState } from 'react';
-import { useClases } from '../../../context/ClasesContext';
 import '../components/ClaseDetalle.css';
 
-interface Estudiante {
-  id: number;
+// 🔹 Mismo tipo que en Clases.tsx
+interface Clase {
+  id: string;
   nombre: string;
-  email: string;
+  codigo: string;
+  docente: string;
+  horario: string;
+  creditos: number;
+  semestre: string;
+  descripcion: string;
+  modalidad: string;
+  estado: string;
+  color: string;
+  aulas?: string[];
 }
 
 export default function ClaseDetalle() {
   const { id } = useParams<{ id: string }>();
   const [activeTab, setActiveTab] = useState<'recursos' | 'tareas' | 'notas' | 'asistencia' | 'anuncios'>('recursos');
 
-  // ⚡ Aquí deberías traer la info desde tu backend o contexto global
-const { clases, loading } = useClases();
-if (loading) {
-  return <p>Cargando clase...</p>;
-}
+  // 🔹 Clases "mockeadas" (idénticas a Clases.tsx)
+  const clases: Clase[] = [
+    {
+      id: "1",
+      nombre: "Programación Web",
+      codigo: "INF-301",
+      docente: "Ing. Juan Pérez",
+      horario: "Lun y Mié 10:00 - 12:00",
+      creditos: 4,
+      semestre: "2025-2",
+      descripcion: "Curso orientado al desarrollo de aplicaciones web modernas.",
+      modalidad: "virtual",
+      estado: "activa",
+      color: "#4CAF50",
+      aulas: ["Aula Virtual 1"]
+    },
+    {
+      id: "2",
+      nombre: "Base de Datos",
+      codigo: "INF-210",
+      docente: "MSc. Rosa Gómez",
+      horario: "Mar y Jue 14:00 - 16:00",
+      creditos: 3,
+      semestre: "2025-2",
+      descripcion: "Fundamentos y práctica de modelado y gestión de bases de datos.",
+      modalidad: "presencial",
+      estado: "activa",
+      color: "#2196F3",
+      aulas: ["Laboratorio 2"]
+    },
+    {
+      id: "3",
+      nombre: "Matemática Discreta",
+      codigo: "MAT-110",
+      docente: "Dr. Carlos Ruiz",
+      horario: "Vie 08:00 - 11:00",
+      creditos: 3,
+      semestre: "2024-2",
+      descripcion: "Curso archivado para fundamentos de lógica matemática y estructuras discretas.",
+      modalidad: "hibrida",
+      estado: "archivada",
+      color: "#9C27B0",
+      aulas: ["Aula 305", "Aula Virtual 3"]
+    }
+  ];
 
-const clase = clases.find((c: any) => c.id === id);
-
-
+  const clase = clases.find(c => c.id === id);
 
   if (!clase) {
-  return (
-    <div className="clase-no-encontrada">
-      <p>⚠️ Clase no encontrada</p>
-      <Link to="/estudiante/clases">Volver a mis clases</Link>
-    </div>
-  );
-}
-
+    return (
+      <div className="clase-no-encontrada">
+        <p>⚠️ Clase no encontrada</p>
+        <Link to="/estudiante/clases">Volver a mis clases</Link>
+      </div>
+    );
+  }
 
   return (
     <div className="clase-detalle">
-        <div className="clase-banner" style={{ backgroundColor: clase.color }}>
+      <div className="clase-banner" style={{ backgroundColor: clase.color }}>
         <h1>{clase.nombre}</h1>
         <span className="codigo">{clase.codigo}</span>
       </div>
+
       <header className="clase-header">
         <div className="clase-info-left">
           <p><strong>Docente:</strong> {clase.docente}</p>
@@ -55,7 +101,7 @@ const clase = clases.find((c: any) => c.id === id);
         <div className="clase-aulas">
           <strong>Salones:</strong>
           <ul>
-            {clase.aulas.map((aula: string, i: number) => (
+            {clase.aulas.map((aula, i) => (
               <li key={i}>{aula}</li>
             ))}
           </ul>
@@ -66,6 +112,7 @@ const clase = clases.find((c: any) => c.id === id);
         <p>{clase.descripcion}</p>
       </div>
 
+      {/* 🔹 Tabs */}
       <section className="clase-tabs">
         <nav>
           {['recursos', 'tareas', 'notas', 'asistencia', 'anuncios'].map(tab => (
@@ -93,6 +140,7 @@ const clase = clases.find((c: any) => c.id === id);
         {activeTab === 'anuncios' && <p>📢 Comunicados y novedades de la clase.</p>}
       </section>
 
+      {/* 🔹 Estudiantes */}
       <section className="clase-estudiantes">
         <h2>Lista de Estudiantes</h2>
         <ul>
