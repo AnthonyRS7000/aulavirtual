@@ -1,234 +1,131 @@
-.clase-card {
-  background: var(--bg-secondary);
-  border-radius: 14px;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
-  padding: 1.5rem;
-  margin-bottom: 16px;
-  border-left: 5px solid var(--pantone-zomp);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  color: var(--text-primary);
-}
-
-.clase-card:hover {
-  box-shadow: 0 6px 16px rgba(0,0,0,0.12);
-  transform: translateY(-4px);
-  background: var(--bg-tertiary);
-}
-
-.clase-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 12px;
-}
-
-.clase-info {
-  flex: 1;
-}
-
-.clase-nombre {
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin: 0 0 4px 0;
-  line-height: 1.4;
-}
-
-.clase-codigo {
-  background: var(--pantone-saffron);
-  color: var(--pantone-jet);
-  font-size: 0.8rem;
-  padding: 2px 10px;
-  border-radius: 8px;
-  font-weight: 600;
-}
-
-.clase-estado {
-  margin-left: 12px;
-}
-
-.estado-indicator {
-  padding: 6px;
-  border-radius: 8px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: white;
-  background-color: #10b981;
-  text-transform: uppercase;
-  display: inline-block;
-}
-
-.estado-indicator svg {
-  color: white;
-  font-size: 16px;
-}
-.clase-docente {
-  margin-bottom: 12px;
-  margin-top: 8px;
-  margin: 8px 0 12px 0;
-  color: var(--text-secondary);
-  font-size: 0.95rem;
-  font-weight: 500;
-}
-
-.clase-descripcion {
-  margin: 12px 0;
-  padding: 10px 12px;
-  border-left: 3px solid var(--pantone-zomp);
-  background: var(--bg-tertiary);
-  border-radius: 10px;
-  color: var(--text-secondary);
-  font-size: 0.95rem;
-  line-height: 1.6;
-  text-align: justify;
-}
-
-.clase-descripcion p {
-  color: #6b7280;
-  font-size: 14px;
-  line-height: 1.6;
-  margin: 0;
-  text-align: justify;
-}
-
-.clase-detalles {
+.clase-card-min {
+  background: var(--panel-bg);
+  border-radius: 12px;
+  box-shadow: 0 12px 34px rgba(2,8,20,0.24);
+  overflow: visible;
+  cursor: pointer;
+  transition: transform .18s ease, box-shadow .18s ease;
+  position: relative;
+  aspect-ratio: 4 / 4; /* forma más cuadrada */
+  min-height: 190px; /* un poco más compactas para permitir 3 por fila */
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  margin-bottom: 16px;
-  padding: 10px;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-color);
-  border-radius: 10px;
 }
 
-.detalle-item {
+.card-banner {
+  height: 64px;
+  background: linear-gradient(90deg, #5A9E8D 0%, #5A9E8D 100%);
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  position: relative;
+  padding: 10px 16px;
   display: flex;
+  align-items: flex-start;
+}
+
+.banner-text { display:flex; flex-direction:column; gap:4px; max-width: calc(100% - 80px); }
+.banner-title { margin:0; font-size:1rem; color: #072227; font-weight:800; line-height:1.05; text-transform: none; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.banner-sub { margin:0; font-size:0.88rem; color: rgba(7,34,39,0.75); font-weight:600; }
+
+.card-body { display:flex; gap:12px; align-items:center; padding:12px 16px 16px 16px; flex: 1 1 auto; }
+.avatar { width:72px; height:72px; border-radius:50%; background:var(--panel-contrast); display:flex; align-items:center; justify-content:center; font-weight:800; color:var(--title-color); font-size:1.05rem; position:absolute; right:14px; top:14px; box-shadow: 0 8px 26px rgba(2,8,20,0.22); border:4px solid rgba(255,255,255,0.8); }
+.titulo { margin:0; font-size:1.05rem; font-weight:800; color:var(--title-color); line-height:1.1; }
+.sub { margin:6px 0 0 0; font-size:0.88rem; color:var(--muted); }
+.card-middle { flex:1; max-width: calc(100% - 96px); display:flex; flex-direction:column; justify-content:center; }
+.meet-btn { display:inline-flex; align-items:center; justify-content:center; width:36px; height:36px; border-radius:8px; background:var(--button-green); color:#fff; }
+.meet-btn svg { width:14px; height:14px; }
+
+/* línea divisoria (siempre visible) y footer */
+
+.card-divider { display:block; height: 1px; background: linear-gradient(90deg, rgba(0,0,0,0.06), rgba(0,0,0,0.04)); margin: 0 12px; border-radius: 1px; }
+.card-footer {
+  padding: 12px 12px;
+  display: grid;
+  grid-template-columns: 1fr auto; /* left / right */
   align-items: center;
-  gap: 6px;
-  font-size: 0.95rem;
-  color: var(--text-secondary);
-}
-
-.detalle-icon,
-.modalidad-icon {
-  color: var(--pantone-zomp);
-  font-size: 14px;
-  width: 16px;
-  text-align: center;
-}
-
-.proxima-clase {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px;
-  background: linear-gradient(
-    90deg,
-    var(--pantone-zomp) 0%,
-    var(--pantone-saffron) 100%
-  );
-  color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-  border: none;
-  margin-bottom: 16px;
-  margin: 1rem 0 16px 0;
-  font-size: 0.9rem;
-  font-weight: 600;
-}
-
-.proxima-label {
-  color: #ffffff !important; 
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.proxima-fecha {
-  color: #ffffff;
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.clase-acciones {
-  display: flex;
   gap: 8px;
-  flex-wrap: wrap;
-  border-top: 1px solid #e5e7eb;
-  padding-top: 16px;
+  min-height:44px;
+}
+.footer-left { justify-self: start; }
+.footer-center { display: none; }
+.footer-right { justify-self: end; display: flex; align-items: center; gap: 6px; }
+
+.meet-btn { display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px; border-radius:6px; background:transparent; color: var(--button-green); margin: 0; border: none; padding:6px; }
+.meet-btn svg { width:18px; height:18px; }
+
+/* placeholder style when no link */
+.meet-btn.placeholder { opacity: 0.6; color: rgba(47,64,83,0.6); }
+
+/* Truncar título largo */
+.titulo { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.clase-card-min:focus { outline: none; box-shadow: 0 16px 40px rgba(2,8,20,0.28); transform: translateY(-3px); }
+
+@media (max-width: 640px) {
+  .clase-card-min { aspect-ratio: auto; min-height: 120px; }
+  .avatar { position: static; width:44px; height:44px; box-shadow:none; border: none; }
+  .card-body { padding:10px; gap:10px; }
+  .card-banner { height:48px; padding:8px 12px; }
+  .card-middle { max-width: calc(100% - 64px); }
+  .titulo { font-size:0.98rem; }
 }
 
-.btn-ver-clase{
-  margin-top: 1rem;
-  display: block;
-  width: 100%;
-  padding: 0.8rem;
-  border: none;
-  border-radius: 10px;
-  font-size: 14px;
-  font-weight: 700;
+/* Estilos para el botón de tres puntos: sin recuadro, color sutil, SVG visible */
+.dots-btn {
+  /* Forzar apariencia plana: anular reglas globales */
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: transparent !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 4px !important;
+  margin: 0 !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(47,64,83,0.8);
   cursor: pointer;
-  transition: all 0.2s ease;
-  flex: 1;
-  background: var(--pantone-saffron);
-  color: var(--pantone-jet);
+  border-radius: 0 !important;
+  width: 28px;
+  height: 28px;
+  line-height: 1;
+  vertical-align: middle;
+}
+.dots-btn svg { width: 18px; height: 18px; display: block; fill: currentColor; }
+.dots-btn:focus, .dots-btn:focus-visible { outline: none; box-shadow: 0 0 0 4px rgba(47,64,83,0.06); }
+.dots-btn:hover { color: rgba(47,64,83,0.95); }
+
+/* Mejoras para modo oscuro: asegurar contraste de los iconos */
+.dark .clase-card-min .dots-btn {
+  color: rgba(255,255,255,0.65);
+}
+.dark .clase-card-min .dots-btn:hover {
+  color: rgba(255,255,255,0.95);
 }
 
-.btn-ver-clase:hover {
-  background: #d4aa2d;
-  color: var(--pantone-jet);
+/* Asegurar que el SVG del botón de meeting herede el color y sea visible en dark */
+.meet-btn svg { fill: currentColor; }
+.dark .clase-card-min .meet-btn.placeholder {
+  color: rgba(255,255,255,0.55);
 }
 
-.btn-recursos {
-  background: var(--pantone-saffron);
-  color: var(--pantone-jet);
+/* Más contraste para el botón de meeting en modo oscuro */
+.dark .clase-card-min .meet-btn {
+  color: rgba(255,255,255,0.95);
+  background: transparent;
+}
+.dark .clase-card-min .meet-btn:hover {
+  color: rgba(255,255,255,1);
 }
 
-.btn-recursos:hover {
-  background: #047857;
+/* Asegurar texto del banner legible en modo oscuro */
+.dark .clase-card-min .banner-title,
+.dark .clase-card-min .banner-sub {
+  color: rgba(255,255,255,0.95);
 }
 
-.btn-asistencia {
-  background: var(--bg-secondary);
-color: var(--text-secondary);
-border: 1px solid var(--border-color);
-}
-
-.btn-asistencia:hover {
-  background: #e5e7eb;
-  color: #374151;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .clase-card {
-    padding: 16px;
-  }
-  
-  .clase-header {
-    flex-direction: column;
-    gap: 8px;
-  }
-  
-  .clase-estado {
-    margin-left: 0;
-    align-self: flex-start;
-  }
-  
-  .clase-acciones {
-    flex-direction: column;
-  }
-  
-  .btn-ver-clase,
-  .btn-recursos,
-  .btn-asistencia {
-    width: 100%;
-    justify-content: center;
-  }
-  
-  .proxima-clase {
-    flex-direction: column;
-    gap: 4px;
-    text-align: center;
-  }
+/* Divider más claro en modo oscuro */
+.dark .clase-card-min .card-divider {
+  background: linear-gradient(90deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
 }

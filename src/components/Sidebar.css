@@ -8,12 +8,12 @@
   left: 0 !important;
   width: 240px !important;
   height: 100vh !important;
-  background-color: var(--sidebar-bg) !important;
-  color: var(--sidebar-text) !important;
-  box-shadow: 2px 0px 8px var(--shadow) !important;
+  background-color: #f3fbf9 !important; /* tono claro tipo intranet */
+  color: #0f172a !important; /* texto oscuro */
+  box-shadow: 1px 0px 8px rgba(15,23,42,0.06) !important;
   z-index: 30 !important;
   overflow: hidden;
-  transition: all 0.3s ease;
+  transition: all 0.22s ease;
   padding: 1rem !important;
 }
 
@@ -38,7 +38,7 @@
 }
 
 .dark .admin-sidebar, .dark .admin-sidebar-desktop {
-  background-color: #1f2937 !important;
+  background-color: #071022 !important;
 }
 
 .user-info-copiloto {
@@ -54,7 +54,9 @@
   height: 5rem !important;
   border-radius: 50% !important;
   overflow: hidden !important;
-  margin-bottom: 1rem !important;
+  margin-bottom: 0.6rem !important;
+  box-shadow: 0 8px 22px rgba(11,22,34,0.06) !important;
+  border: 2px solid rgba(43,154,143,0.12) !important;
 }
 
 .user-avatar-image {
@@ -64,11 +66,11 @@
 }
 
 .user-name-copiloto {
-  font-size: 1.125rem !important;
-  font-weight: 600 !important;
-  color: #111827 !important;
+  font-size: 1.05rem !important;
+  font-weight: 700 !important;
+  color: #0f172a !important;
   text-align: center !important;
-  margin-bottom: 0.5rem !important;
+  margin-bottom: 0.25rem !important;
 }
 
 .dark .user-name-copiloto {
@@ -76,11 +78,11 @@
 }
 
 .user-role-copiloto {
-  font-size: 1rem !important;
+  font-size: 0.9rem !important;
   font-weight: 600 !important;
-  color: #48A6A7 !important;
-  border-bottom: 3px solid #EFB036 !important;
-  padding-bottom: 0.25rem !important;
+  color: #256e6b !important;
+  border-bottom: 2px solid rgba(37,110,107,0.06) !important;
+  padding-bottom: 0.18rem !important;
 }
 
 .nav-section-copiloto {
@@ -90,11 +92,13 @@
 .nav-section-header-copiloto {
   display: flex !important;
   align-items: center !important;
-  padding: 0.75rem !important;
-  border-radius: 0.5rem !important;
+  justify-content: space-between !important;
+  padding: 0.6rem 0.6rem !important;
+  border-radius: 0.6rem !important;
   text-decoration: none !important;
-  color: #111827 !important;
-  transition: background-color 0.15s ease !important;
+  color: #0f172a !important;
+  transition: background-color 0.14s ease, transform 0.12s ease !important;
+  gap: 8px;
 }
 
 .dark .nav-section-header-copiloto {
@@ -102,7 +106,8 @@
 }
 
 .nav-section-header-copiloto:hover {
-  background-color: #f3f4f6 !important;
+  background-color: rgba(43,154,143,0.06) !important;
+  transform: translateX(4px);
 }
 
 .dark .nav-section-header-copiloto:hover {
@@ -110,20 +115,30 @@
 }
 
 .nav-section-header-copiloto.active {
-  background-color: #48A6A7 !important;
-  color: #ffffff !important;
+  background-color: #e6f6f4 !important; /* pill claro */
+  color: #083532 !important;
+  box-shadow: 0 8px 20px rgba(43,154,143,0.06) !important;
+}
+
+/* Ajustes para modo oscuro: el item activo debe verse como hover suave, no como pill brillante */
+.dark .nav-section-header-copiloto.active {
+  /* Usar el mismo fondo que el hover en modo oscuro para mantener consistencia y legibilidad */
+  background-color: #374151 !important;
+  color: #f9fafb !important;
+  box-shadow: none !important;
+  border-left: none !important;
 }
 
 .nav-section-content-copiloto {
   display: flex !important;
   align-items: center !important;
-  gap: 1rem !important;
+  gap: 0.75rem !important;
 }
 
 .nav-section-icon-copiloto {
-  width: 1.5rem !important;
-  height: 1.5rem !important;
-  color: #0ea5e9 !important;
+  width: 1.8rem !important;
+  height: 1.8rem !important;
+  color: #2b9a8f !important;
 }
 
 .dark .nav-section-icon-copiloto {
@@ -132,7 +147,47 @@
 
 .nav-section-label-copiloto {
   font-weight: 600 !important;
-  font-size: 0.875rem !important;
+  font-size: 0.95rem !important;
+}
+
+/* Cheurón a la derecha (usado por los iconos ChevronRight/Down en el JSX) */
+.nav-chevron-copiloto {
+  font-size: 16px;
+  color: rgba(15,23,42,0.4);
+  margin-left: 8px;
+}
+
+/* Submenús: estilo compacto y alineado a la izquierda (como lista dentro del sidebar) */
+.nav-submenu-copiloto {
+  overflow: hidden;
+}
+
+.nav-submenu-list {
+  list-style: none;
+  padding: 6px 8px 6px 36px; /* indent subitems under icon */
+  margin: 6px 0 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.nav-submenu-link-copiloto {
+  display: block;
+  color: #083532;
+  text-decoration: none;
+  padding: 6px 8px;
+  border-radius: 6px;
+  transition: background 0.12s ease, transform 0.12s ease;
+}
+
+.nav-submenu-link-copiloto:hover {
+  background: rgba(43,154,143,0.06);
+  transform: translateX(6px);
+}
+
+.nav-submenu-link-copiloto.active {
+  background: rgba(43,154,143,0.12);
+  color: #083532;
 }
 
 .logo-text {

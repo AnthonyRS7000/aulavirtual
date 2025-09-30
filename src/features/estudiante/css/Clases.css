@@ -1,7 +1,73 @@
+/* TramitePage theme (copied/adapted) - fondo oscuro, tarjetas con franja izquierda cyan, botones verdes, aviso naranja */
+:root {
+  /* Tema claro (valores por defecto) */
+  --page-bg: linear-gradient(180deg,#f3f4f6 0%, #eef2f7 100%);
+  --page-title-space-above: 12px;
+  --page-title-space-below: 20px;
+  --page-bg-solid: #f6f7f9;
+  --panel-bg: #ffffff;
+  --panel-contrast: #f3f4f6;
+  --accent-stripe-width: 6px;
+  --accent-stripe-gap: 12px;
+  --accent-stripe-radius: 8px;
+  --accent-stripe-color-start: #3ac5aa;
+  --accent-stripe-color-end: #5a9e8d;
+  --card-content-left-padding: 20px;
+  --accent-cyan: #3ac5aa;
+  --button-green: #5a9e8d;
+  --button-green-2: #4a8e7d;
+  --warning-bg: #fef3c7;
+  --warning-text: #92400e;
+  --muted: #6b7280;
+  --text: #0f1724;
+  --title-color: #0b1726;
+  --border-soft: rgba(15,23,36,0.04);
+  --shadow-lg: 0 12px 30px rgba(2,6,23,0.06);
+}
+
+.dark {
+  --page-bg: linear-gradient(180deg,#0b1220 0%, #0f1724 60%, #0f1724 100%);
+  --page-bg-solid: #0f1724;
+  --panel-bg: #374151;
+  --panel-contrast: #27303a;
+  --accent-cyan: #3ac5aa;
+  --button-green: #5a9e8d;
+  --button-green-2: #4a8e7d;
+  --warning-bg: #6b2f00;
+  --warning-text: #ffc874;
+  --muted: #9aa6ae;
+  --text: #dbeef7;
+  --title-color: #cfe8f5;
+  --border-soft: rgba(255,255,255,0.04);
+  --shadow-lg: 0 12px 30px rgba(2,8,20,0.45);
+}
+
+.tramites-root {
+  max-width: 1180px;
+  /* reducir espacio superior para acercar el título al TopBar */
+  margin: 6px auto 0 auto;
+  padding: 12px 24px;
+  font-family: 'Roboto', Inter, system-ui, -apple-system, 'Segoe UI', Arial;
+  color: var(--text);
+  background: transparent;
+  padding-bottom: 120px;
+}
+
+.tramites-title { font-size: 2.2rem; font-weight:700; text-align:center; margin-bottom: var(--page-title-space-below); color:var(--title-color); }
+
+.tramites-card { background: var(--panel-bg); border-radius:12px; padding:22px; margin-bottom:22px; box-shadow:var(--shadow-lg); position:relative; border:1px solid var(--border-soft); border-left:7px solid var(--accent-cyan); overflow:hidden; }
+.tramites-card-header { padding-left: calc(var(--accent-stripe-gap) + var(--accent-stripe-width) + var(--card-content-left-padding)); }
+.tramites-card-body { padding-left: calc(var(--accent-stripe-gap) + var(--accent-stripe-width) + var(--card-content-left-padding)); margin-top:12px; color:var(--muted); }
+.btn-primary { background: linear-gradient(180deg,var(--button-green), var(--button-green-2)); color:#fff; padding:10px 18px; border-radius:10px; border:none; font-weight:700; box-shadow: 0 8px 20px rgba(47,180,143,0.16); cursor:pointer; }
+.aviso { display:flex; align-items:center; gap:12px; background:var(--warning-bg); color:var(--warning-text); padding:12px 16px; border-radius:8px; font-weight:700; margin-top:8px; }
+
+/* End TramitePage adapted rules */
+
 /* Página de Clases - Estilo basado en gestion-matricula */
 .clases-page {
   min-height: 100vh;
-  padding: 2rem;
+  /* reducir padding-top para que el título quede más cerca del TopBar */
+  padding: 0.75rem 2rem;
   font-family: 'Poppins', sans-serif;
   color: var(--text-primary);
 }
@@ -279,8 +345,15 @@
 
 .clases-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 2rem;
+  /* Permite que las tarjetas se adapten y quepan 3 por fila en pantallas de escritorio.
+     min width 220-260px dará suficiente espacio para tarjetas cuadradas con gap. */
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.25rem;
+}
+
+/* For larger desktops prefer exactly 3 columns to avoid overly large cards */
+@media (min-width: 1200px) {
+  .clases-grid { grid-template-columns: repeat(3, 1fr); }
 }
 
 .clase-card {

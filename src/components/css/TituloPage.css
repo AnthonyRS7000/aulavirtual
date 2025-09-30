@@ -1,0 +1,22 @@
+.titulo-page-container {
+  margin-top: var(--page-title-space-above, 12px);
+  margin-bottom: var(--page-title-space-below, 20px);
+  text-align: center;
+}
+
+.titulo-page {
+  font-size: 2.2rem;
+  font-weight: 700;
+  text-align: center;
+  color: var(--title-color, #3D3C3B);
+  letter-spacing: -0.5px;
+  line-height: 1.15;
+  transition: color 0.18s ease;
+}
+
+/* Soporte para tema oscuro: si el body o root tiene la clase .dark, cambia el color del título */
+body.dark .titulo-page,
+html.dark .titulo-page,
+:root.dark .titulo-page {
+  color: var(--title-color, #cfe8f5);
+}

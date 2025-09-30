@@ -1,0 +1,36 @@
+.tabla-container {
+  width: 100%;
+  overflow-x: auto; /* Habilitar scroll horizontal si la tabla es muy ancha */
+  margin: 20px 0;
+}
+
+.tabla {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.tabla th {
+  background-color: #5A9E8D;
+  color: #fff;
+  padding: 10px;
+  text-align: center;
+}
+
+.tabla td {
+  padding: 10px;
+  text-align: center;
+}
+
+.tabla tr:nth-child(even) {
+  background-color: #f2f9f7;
+}
+
+.tabla tr:nth-child(odd) {
+  background-color: #ffffff;
+}
+
+.tabla tr:hover {
+  background-color: #eaf4f1;
+}
