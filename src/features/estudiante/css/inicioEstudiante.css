@@ -1,9 +1,13 @@
-/* Inicio Estudiante - Estilo UDH con nueva paleta de colores */
+/* ===========================
+   INICIO ESTUDIANTE - DASHBOARD
+   Compatible con Light & Dark
+=========================== */
 .inicio-estudiante-container {
   min-height: 100vh;
   background: var(--bg-primary);
   padding: 20px;
   transition: all 0.3s ease;
+  color: var(--text-primary);
 }
 
 .inicio-estudiante {
@@ -11,27 +15,39 @@
   margin: 0 auto;
 }
 
-/* Header de Bienvenida */
+/* ===========================
+   HEADER DE BIENVENIDA
+=========================== */
 .header-bienvenida {
   background: var(--bg-secondary);
   backdrop-filter: blur(10px);
   border-radius: 15px;
   padding: 25px;
   margin-bottom: 30px;
-  box-shadow: 0 8px 32px var(--shadow);
+  box-shadow: 0 2px 8px var(--shadow);
   border: 1px solid var(--border-color);
   display: flex;
   justify-content: space-between;
   align-items: center;
   color: var(--text-primary);
   transition: all 0.3s ease;
+  position: relative;
+}
+
+.header-bienvenida::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--pantone-zomp) 0%, var(--pantone-saffron) 50%, var(--pantone-zomp-light) 100%);
+  border-radius: 15px 15px 0 0;
 }
 
 .titulo-bienvenida {
   font-size: 2rem;
   font-weight: 700;
-  color: var(--text-primary);
-  margin-bottom: 8px;
   background: linear-gradient(135deg, var(--pantone-zomp) 0%, var(--pantone-zomp-light) 100%);
   -webkit-background-clip: text;
   background-clip: text;
@@ -64,22 +80,23 @@
   opacity: 0.8;
 }
 
-/* Navegación por Pestañas */
+/* ===========================
+   NAVEGACIÓN POR PESTAÑAS
+=========================== */
 .pestanas-navegacion {
   display: flex;
-  gap: 4px;
+  gap: 6px;
   margin-bottom: 25px;
   background: var(--bg-secondary);
-  backdrop-filter: blur(10px);
-  border-radius: 15px;
+  border-radius: 12px;
   padding: 6px;
-  box-shadow: 0 8px 32px var(--shadow);
+  box-shadow: 0 2px 8px var(--shadow);
   border: 1px solid var(--border-color);
 }
 
 .pestana {
   flex: 1;
-  padding: 15px 25px;
+  padding: 14px 22px;
   background: transparent;
   border: none;
   color: var(--text-secondary);
@@ -91,35 +108,28 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  position: relative;
-  min-height: 50px;
+  gap: 8px;
 }
 
 .pestana:hover {
-  background: rgba(var(--pantone-zomp-rgb), 0.2);
+  background: rgba(var(--pantone-zomp-rgb), 0.15);
   color: var(--pantone-zomp);
-  transform: translateY(-2px);
 }
 
 .pestana.activa {
-  background: linear-gradient(135deg, var(--pantone-zomp) 0%, var(--pantone-zomp-light) 100%);
-  color: white;
-  box-shadow: 0 4px 15px rgba(var(--pantone-zomp-rgb), 0.4);
-  transform: translateY(-2px);
+  background: transparent;
+  color: #fff;
+  box-shadow: none;
 }
 
-.pestana-icon {
-  font-size: 1.1rem;
-}
-
-/* Contenedor Principal */
+/* ===========================
+   CONTENEDOR PRINCIPAL
+=========================== */
 .stream-container,
 .dashboard-grid {
   background: var(--bg-secondary);
-  backdrop-filter: blur(10px);
   border-radius: 15px;
-  box-shadow: 0 8px 32px var(--shadow);
+  box-shadow: 0 2px 8px var(--shadow);
   border: 1px solid var(--border-color);
   overflow: hidden;
 }
@@ -136,7 +146,6 @@
   padding: 25px;
 }
 
-/* Secciones del Dashboard */
 .cursos-section,
 .sidebar-section {
   display: flex;
@@ -144,67 +153,28 @@
   gap: 20px;
 }
 
-.seccion {
-  margin-bottom: 25px;
-}
-
-.seccion-titulo {
-  font-size: 1.4rem;
-  font-weight: 700;
-  margin-bottom: 20px;
-  color: var(--text-primary);
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding-bottom: 12px;
-  border-bottom: 2px solid var(--border-color);
-}
-
-.seccion-icon {
-  color: var(--pantone-zomp);
-  font-size: 1.3rem;
-}
-
-/* Grid de Cursos */
-.cursos-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-/* Sidebar Widgets */
+/* ===========================
+   WIDGETS
+=========================== */
 .widget {
   background: var(--bg-tertiary);
   border-radius: 12px;
   padding: 20px;
   border: 1px solid var(--border-color);
-  transition: all 0.3s ease;
   color: var(--text-primary);
+  transition: all 0.3s ease;
 }
 
 .widget:hover {
   background: var(--bg-secondary);
   transform: translateY(-2px);
-  box-shadow: 0 4px 15px var(--shadow);
+  box-shadow: 0 4px 12px var(--shadow);
   border-color: var(--pantone-zomp);
 }
 
-.widget-titulo {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 15px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.widget-icon {
-  color: var(--pantone-zomp);
-  font-size: 1rem;
-}
-
-/* Lista de Tareas */
+/* ===========================
+   LISTAS Y TAREAS
+=========================== */
 .tareas-lista {
   display: flex;
   flex-direction: column;
@@ -226,51 +196,30 @@
 .tarea-item:hover {
   background: var(--bg-tertiary);
   transform: translateX(5px);
-  box-shadow: 0 2px 8px rgba(var(--pantone-zomp-rgb), 0.3);
-}
-
-.tarea-check {
-  width: 18px;
-  height: 18px;
-  border: 2px solid var(--text-muted);
-  border-radius: 4px;
-  background: transparent;
-  flex-shrink: 0;
-}
-
-.tarea-info {
-  flex: 1;
+  box-shadow: 0 2px 6px rgba(var(--pantone-zomp-rgb), 0.3);
 }
 
 .tarea-titulo {
   font-weight: 600;
   color: var(--text-primary);
   font-size: 0.9rem;
-  margin-bottom: 2px;
 }
 
-.tarea-curso {
+.tarea-curso,
+.tarea-fecha {
   font-size: 0.8rem;
   color: var(--text-secondary);
 }
 
-.tarea-fecha {
-  font-size: 0.8rem;
-  color: var(--udh-error);
-  font-weight: 500;
-}
-
-/* Agenda Widget */
+/* ===========================
+   AGENDA
+=========================== */
 .agenda-item {
   display: flex;
   align-items: center;
   gap: 15px;
   padding: 12px 0;
   border-bottom: 1px solid var(--border-color);
-}
-
-.agenda-item:last-child {
-  border-bottom: none;
 }
 
 .agenda-hora {
@@ -280,106 +229,27 @@
   min-width: 60px;
 }
 
-.agenda-evento {
-  flex: 1;
-}
-
 .evento-titulo {
   font-weight: 600;
   color: var(--text-primary);
   font-size: 0.9rem;
-  margin-bottom: 2px;
 }
 
-.evento-detalles {
-  font-size: 0.8rem;
-  color: var(--text-secondary);
-}
-
-/* Estados de Prioridad */
-.prioridad-alta {
-  border-left-color: var(--udh-error) !important;
-}
-
-.prioridad-media {
-  border-left-color: var(--pantone-saffron) !important;
-}
-
-.prioridad-baja {
-  border-left-color: var(--udh-success) !important;
-}
-
-/* Enlaces rápidos */
-.enlaces-rapidos {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-
-.enlace-rapido {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 12px;
-  background: var(--bg-secondary);
-  border-radius: 8px;
-  text-decoration: none;
-  color: var(--text-primary);
-  font-weight: 500;
-  font-size: 0.9rem;
-  transition: all 0.3s ease;
-  border: 1px solid rgba(var(--pantone-zomp-rgb), 0.2);
-}
-
-.enlace-rapido:hover {
-  background: var(--pantone-zomp);
-  color: white;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(var(--pantone-zomp-rgb), 0.4);
-  text-decoration: none;
-}
-
-.enlace-icon {
-  font-size: 1rem;
-}
-
-/* Estado vacío */
-.estado-vacio {
-  text-align: center;
-  padding: 30px 20px;
-  color: var(--text-secondary);
-}
-
-.estado-vacio-icon {
-  font-size: 2.5rem;
-  margin-bottom: 15px;
-  color: var(--pantone-zomp);
-  opacity: 0.5;
-}
-
-.estado-vacio p {
-  font-size: 1rem;
-  margin: 0;
-  color: var(--text-muted);
-}
-
-/* Responsive Design */
+/* ===========================
+   RESPONSIVE
+=========================== */
 @media (max-width: 1024px) {
   .dashboard-grid {
     grid-template-columns: 1fr;
     gap: 25px;
   }
-  
+
   .pestanas-navegacion {
     flex-wrap: wrap;
   }
-  
+
   .pestana {
     min-width: 120px;
-  }
-  
-  .titulo-bienvenida {
-    font-size: 1.7rem;
   }
 }
 
@@ -387,131 +257,19 @@
   .inicio-estudiante-container {
     padding: 15px;
   }
-  
-  .header-bienvenida {
-    flex-direction: column;
-    text-align: center;
-    gap: 20px;
-    padding: 25px;
-  }
-  
-  .titulo-bienvenida {
-    font-size: 1.8rem;
-  }
-  
-  .pestanas-navegacion {
-    flex-direction: column;
-    gap: 8px;
-  }
-  
-  .pestana {
-    padding: 12px 20px;
-  }
-  
+
   .dashboard-grid {
     padding: 20px;
-  }
-  
-  .enlaces-rapidos {
-    grid-template-columns: 1fr;
   }
 }
 
 @media (max-width: 480px) {
-  .titulo-bienvenida {
-    font-size: 1.5rem;
-  }
-  
-  .seccion-titulo {
-    font-size: 1.2rem;
-  }
-  
   .dashboard-grid {
     padding: 15px;
     gap: 20px;
   }
-  
+
   .stream-container {
     padding: 15px;
   }
-}
-
-/* Animaciones suaves */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.widget,
-.tarea-item,
-.agenda-item {
-  animation: fadeInUp 0.3s ease-out;
-}
-
-/* Scrollbar personalizado */
-.stream-container::-webkit-scrollbar,
-.cursos-grid::-webkit-scrollbar {
-  width: 6px;
-}
-
-.stream-container::-webkit-scrollbar-track,
-.cursos-grid::-webkit-scrollbar-track {
-  background: var(--bg-tertiary);
-  border-radius: 3px;
-}
-
-.stream-container::-webkit-scrollbar-thumb,
-.cursos-grid::-webkit-scrollbar-thumb {
-  background: var(--pantone-zomp);
-  border-radius: 3px;
-}
-
-.stream-container::-webkit-scrollbar-thumb:hover,
-.cursos-grid::-webkit-scrollbar-thumb:hover {
-  background: var(--pantone-zomp-light);
-}
-
-/* Efectos especiales con la nueva paleta */
-.header-bienvenida::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, var(--pantone-zomp) 0%, var(--pantone-saffron) 50%, var(--pantone-zomp-light) 100%);
-  border-radius: 15px 15px 0 0;
-}
-
-.header-bienvenida {
-  position: relative;
-}
-
-/* Hover effects mejorados */
-.widget:hover .widget-icon {
-  color: var(--pantone-saffron);
-  transform: scale(1.1);
-}
-
-.tarea-item:hover .tarea-check {
-  border-color: var(--pantone-zomp);
-  background: rgba(var(--pantone-zomp-rgb), 0.1);
-}
-
-/* Estados de hover para pestañas */
-.pestana:not(.activa):hover {
-  background: linear-gradient(135deg, rgba(var(--pantone-zomp-rgb), 0.1) 0%, rgba(var(--pantone-zomp-light-rgb), 0.1) 100%);
-}
-
-/* Efectos de enfoque mejorados */
-.pestana:focus,
-.enlace-rapido:focus {
-  outline: 2px solid var(--pantone-saffron);
-  outline-offset: 2px;
 }

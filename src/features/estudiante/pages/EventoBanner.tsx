@@ -16,19 +16,24 @@ export default function EventoBanner({
   return (
     <div className="evento-banner">
       <div className="evento-contenido">
-        <div className="evento-logo">
-          <img src="/logo-udh-png.png" alt="UDH Logo" />
-          <span className="evento-universidad">
-            Ciencias Empresariales
-          </span>
-        </div>
-        
-          
-        <div className="evento-info">
-            <div className="evento-titulo-container">
-          <h2 className="evento-titulo">{titulo}</h2>
-          <p className="evento-subtitulo">{subtitulo}</p>
+        <div className="evento-header">
+          <div className="evento-logo">
+            <img src="/logo-udh-png.png" alt="UDH Logo" />
+            <span className="evento-universidad">
+              Ciencias Empresariales
+            </span>
           </div>
+
+          <div className="evento-info">
+            <div className="evento-titulo-container">
+              <h2 className="evento-titulo">{titulo}</h2>
+              <p className="evento-subtitulo">{subtitulo}</p>
+            </div>
+            <div className="evento-imagen">
+          <img src={imagen} alt={titulo} />
+        </div>
+          </div>
+        </div>
 
           <div className="evento-grid">
             <div className="evento-fecha-box">
@@ -44,10 +49,6 @@ export default function EventoBanner({
                 <p className="ubicacion-auditorio">Auditorio Luis Bedoya Reyes</p>
               </div>
             </div>
-
-          <div className="evento-imagen">
-          <img src={imagen} alt={titulo} />
-        </div>
       </div>
           
           {enlaceInscripcion && (
@@ -66,6 +67,5 @@ export default function EventoBanner({
       </div>
     </div>
     </div>
-      </div>
   );
 }

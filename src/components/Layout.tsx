@@ -1,14 +1,14 @@
-import { useState, type ReactNode } from "react";
+import { useState } from "react";
+import { Outlet } from "react-router-dom";
 import Sidebar from './Sidebar';
 import Topbar from './Topbar';
 import './Layout.css';
 
 interface LayoutProps {
-  children: ReactNode;
   userCase?: 'estudiante' | 'docente';
 }
 
-export default function Layout({ children, userCase = 'estudiante' }: LayoutProps) {
+export default function Layout({ userCase = 'estudiante' }: LayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const toggleSidebar = () => {
@@ -27,11 +27,14 @@ export default function Layout({ children, userCase = 'estudiante' }: LayoutProp
 
       {/* Main content area */}
       <div className={`admin-main-content ${sidebarOpen ? '' : 'collapsed'}`}>
-        <Topbar onToggleSidebar={toggleSidebar}
+        <Topbar
+          onToggleSidebar={toggleSidebar}
           isSidebarOpen={sidebarOpen}
-          userCase={userCase} />
+          userCase={userCase}
+        />
         <main className="admin-content">
-          {children}
+          {/* 👇 Aquí se renderizan las rutas hijas */}
+          <Outlet />
         </main>
       </div>
     </div>
