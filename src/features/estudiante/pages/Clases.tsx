@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import TituloPage from '../../../components/pages/TituloPage';
 import ClaseCard from '../components/ClaseCard';
 import { FaFilter, FaSearch, FaBook } from 'react-icons/fa';
 import '../css/Clases.css';
@@ -15,7 +16,8 @@ interface Clase {
   modalidad: 'presencial' | 'virtual' | 'hibrida';
   estado: 'activa' | 'archivada';
   color: string;
-  aulas?: string[];
+  estudiantes: number;
+  aulas: string[];
 }
 
 export default function Clases() {
@@ -33,7 +35,8 @@ export default function Clases() {
       modalidad: "virtual",
       estado: "activa",
       color: "#4CAF50",
-      aulas: ["Aula Virtual 1"]
+      aulas: ["Aula Virtual 1"],
+      estudiantes: 120,
     },
     {
       id: "2",
@@ -47,7 +50,8 @@ export default function Clases() {
       modalidad: "presencial",
       estado: "activa",
       color: "#2196F3",
-      aulas: ["Laboratorio 2"]
+      aulas: ["Laboratorio 2"],
+      estudiantes: 85,
     },
     {
       id: "3",
@@ -61,7 +65,8 @@ export default function Clases() {
       modalidad: "hibrida",
       estado: "archivada",
       color: "#9C27B0",
-      aulas: ["Aula 305", "Aula Virtual 3"]
+      aulas: ["Aula 305", "Aula Virtual 3"],
+      estudiantes: 32,
     }
   ]);
 
@@ -85,79 +90,9 @@ export default function Clases() {
   });
 
   return (
-    <div className="clases-page">
-      <div className="clases-header">
-        <div className="header-content">
-          <h1>Mis Clases</h1>
-          <p>Gestiona tus cursos y consulta la información académica</p>
-        </div>
-        <div className="header-stats">
-          <div className="quick-stat">
-            <span className="stat-number">
-              {clases.filter(c => c.estado === "activa").length}
-            </span>
-            <span className="stat-label">Activas</span>
-          </div>
-          <div className="quick-stat">
-            <span className="stat-number">
-              {clases.reduce((acc, c) => acc + c.creditos, 0)}
-            </span>
-            <span className="stat-label">Créditos</span>
-          </div>
-        </div>
-      </div>
-
-      {/* 🔹 Filtros */}
-      <div className="clases-filtros">
-        <div className="filtros-busqueda">
-          <div className="search-box">
-            <FaSearch className="search-icon" />
-            <input
-              type="text"
-              placeholder="Buscar clases..."
-              value={busqueda}
-              onChange={(e) => setBusqueda(e.target.value)}
-            />
-          </div>
-        </div>
-
-        <div className="filtros-dropdown">
-          <select
-            value={filtroEstado}
-            onChange={(e) => setFiltroEstado(e.target.value)}
-          >
-            <option value="todas">Todos los estados</option>
-            <option value="activa">Activas</option>
-            <option value="archivada">Archivadas</option>
-          </select>
-
-          <select
-            value={filtroModalidad}
-            onChange={(e) => setFiltroModalidad(e.target.value)}
-          >
-            <option value="todas">Todas las modalidades</option>
-            <option value="presencial">Presencial</option>
-            <option value="virtual">Virtual</option>
-            <option value="hibrida">Híbrida</option>
-          </select>
-        </div>
-      </div>
-
-      {/* 🔹 Toggle activas / archivadas */}
-      <div className="toggle-archivadas">
-        <button
-          onClick={() => setMostrarArchivadas(false)}
-          className={!mostrarArchivadas ? "active" : ""}
-        >
-          Clases Activas
-        </button>
-        <button
-          onClick={() => setMostrarArchivadas(true)}
-          className={mostrarArchivadas ? "active" : ""}
-        >
-          Archivadas
-        </button>
-      </div>
+    <div className="tramites-root">
+      <div className="clases-page">
+        <TituloPage titulo="Mis Clases" />
 
       {/* 🔹 Lista de clases */}
       <div className="clases-lista">
@@ -175,5 +110,6 @@ export default function Clases() {
         )}
       </div>
     </div>
+  </div>
   );
 }

@@ -1,4 +1,4 @@
-import { FaClock, FaMapMarkerAlt, FaUsers, FaVideo, FaBook } from 'react-icons/fa';
+import { FaVideo, FaEllipsisV } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import './ClaseCard.css';
 
@@ -7,16 +7,13 @@ interface Clase {
   codigo: string;
   nombre: string;
   docente: string;
-  horario: string;
-  modalidad: string;
-  aulas: string[];
-  estudiantes: number;
-  creditos: number;
-  semestre: string;
-  descripcion: string;
-  color: string;
+  horario?: string;
+  modalidad?: string;
+  aulas?: string[];
+  estudiantes?: number;
+  descripcion?: string;
+  color?: string;
   linkMeet?: string;
-  proximaClase?: string;
 }
 
 interface ClaseCardProps {
@@ -26,93 +23,78 @@ interface ClaseCardProps {
 export default function ClaseCard({ curso }: ClaseCardProps) {
   const navigate = useNavigate();
 
-  const obtenerIconoModalidad = (modalidad: string) => {
-    switch (modalidad) {
-      case 'virtual': return <FaVideo className="modalidad-icon" />;
-      case 'presencial': return <FaMapMarkerAlt className="modalidad-icon" />;
-      case 'hibrida': return <FaBook className="modalidad-icon" />;
-      default: return <FaBook className="modalidad-icon" />;
+  // Generar iniciales para avatar si no hay imagen
+  const iniciales = curso.nombre
+    ? curso.nombre.split(' ').slice(0,2).map(s=>s[0]).join('').toUpperCase()
+    : 'CL';
+
+  const handleKey = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      navigate(`/estudiante/clases/${curso.id}`);
     }
   };
 
   return (
-    <div 
-      className="clase-card" 
-      style={{ borderLeftColor: curso.color }}
+    <article
+      className="clase-card-min"
+      role="button"
+      tabIndex={0}
       onClick={() => navigate(`/estudiante/clases/${curso.id}`)}
+      onKeyDown={handleKey}
+      style={{ borderLeftColor: curso.color || 'var(--accent-cyan)'}}
+      aria-label={`${curso.nombre} - ${curso.docente}`}
     >
-      <div className="clase-header">
-        <div className="clase-info">
-          <h4 className="clase-nombre">{curso.nombre}</h4>
-          <p className="clase-codigo">{curso.codigo}</p>
+      <div className="card-banner" style={{ background: curso.color || '' }}>
+        <div className="banner-text">
+          <h3 className="banner-title" title={curso.nombre}>{curso.nombre}</h3>
+          <p className="banner-sub">{curso.docente}</p>
         </div>
-        {(curso.modalidad === "virtual" || curso.linkMeet) && (
-          <a
-            href={curso.linkMeet || "https://meet.google.com/lookup/example-link"} 
-            target="_blank"
-            rel="noopener noreferrer"
-            className="estado-indicator"
-            style={{ backgroundColor: '#10b981' }}
-            title="Entrar a la clase virtual"
+
+        {/* avatar superpuesto en la esquina derecha (sale del banner) */}
+        <div className="avatar" aria-hidden>{iniciales}</div>
+      </div>
+
+      <div className="card-body">
+        <div className="card-middle">
+          {/* espacio para contenido secundario: descripción, horario, etc. */}
+        </div>
+      </div>
+
+      {/* l linea divisoria y footer con el botn (meet centrado, tres puntos a la derecha) */}
+      <div className="card-divider" aria-hidden />
+      <div className="card-footer">
+        <div className="footer-left" aria-hidden />
+
+        <div className="footer-right">
+          {/* Mostrar el icono de video y el botón de acciones juntos a la derecha (placeholder cuando no hay enlace) */}
+          { (curso.modalidad === 'virtual' || curso.linkMeet) ? (
+            <a
+              className="meet-btn"
+              href={curso.linkMeet || '#'}
+              onClick={(e)=> { e.stopPropagation(); }}
+              target="_blank"
+              rel="noopener noreferrer"
+              title="Entrar a la clase virtual"
+              aria-label="Entrar a la clase virtual"
+            >
+              <FaVideo />
+            </a>
+          ) : (
+            <button className="meet-btn placeholder" aria-hidden title="Sin enlace" onClick={(e)=> e.stopPropagation()}>
+              <FaVideo />
+            </button>
+          )}
+
+          <button
+            className="dots-btn"
+            aria-label="Más acciones"
+            title="Más acciones"
+            onClick={(e) => { e.stopPropagation(); /* abrir menu placeholder */ }}
           >
-            <FaVideo />
-          </a>
-        )}
-      </div>
-
-      <div className="clase-docente">
-        <strong>Prof. {curso.docente}</strong>
-      </div>
-
-      <div className="clase-descripcion">
-        <p>{curso.descripcion}</p>
-      </div>
-
-      <div className="clase-detalles">
-        <div className="detalle-item">
-          <FaClock className="detalle-icon" />
-          <span>{curso.horario}</span>
-        </div>
-        <div className="detalle-item">
-          {obtenerIconoModalidad(curso.modalidad)}
-          <span>{curso.modalidad === 'presencial' ? 'Presencial' : 'Virtual'}</span>
-        </div>
-        <div className="detalle-item">
-          <FaUsers className="detalle-icon" />
-          <span>{curso.estudiantes} estudiantes</span>
+            <FaEllipsisV />
+          </button>
         </div>
       </div>
-
-      {/* 🔹 Lista de salones */}
-      {curso.aulas && curso.aulas.length > 0 && (
-        <div className="clase-aulas">
-          <strong>Salones:</strong>
-          <ul>
-            {curso.aulas.map((aula: string, i: number) => (
-              <li key={i}>{aula}</li>
-            ))}
-          </ul>
-        </div>
-      )}
-
-      {curso.proximaClase && (
-        <div className="proxima-clase">
-          <span className="proxima-label">Próxima clase:</span>
-          <span className="proxima-fecha">{curso.proximaClase}</span>
-        </div>
-      )}
-
-      <div className="clase-acciones">
-        <button 
-          className="btn-ver-clase"
-          onClick={(e) => {
-            e.stopPropagation();
-            navigate(`/estudiante/clases/${curso.id}`);
-          }}
-        >
-          Ver Clases
-        </button>
-      </div>
-    </div>
+    </article>
   );
 }
