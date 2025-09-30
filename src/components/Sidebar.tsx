@@ -3,17 +3,16 @@ import FlechaIcon from '../assets/flecha.svg';
 import { Link, useLocation } from 'react-router-dom';
 import './Sidebar.css';
 
-// Iconos de navegación
-import { 
-  FaHome, 
-  FaClipboardList, 
-  FaChalkboardTeacher, 
-  FaTasks, 
-  FaBullhorn, 
-  FaCalendarAlt,
-  FaBook,
-  FaUsers
-} from 'react-icons/fa';
+// Iconos de navegación (heroicons wrappers)
+import {
+  IconUniversidad,
+  IconAcademico,
+  IconServicio,
+  IconProyecto,
+  IconInforme,
+  IconEjecucion,
+  IconTitulacion,
+} from './icons/LmsIcons';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -47,19 +46,19 @@ const getSections = (userCase: 'estudiante' | 'docente') => {
       {
         name: 'dashboard',
         label: 'Dashboard',
-        icon: FaHome,
+        icon: IconProyecto,
         path: '/docente/dashboard',
       },
       {
         name: 'cursos',
         label: 'Mis Cursos',
-        icon: FaBook,
+        icon: IconAcademico,
         path: '/docente/cursos',
       },
       {
         name: 'estudiantes',
         label: 'Estudiantes',
-        icon: FaUsers,
+        icon: IconServicio,
         path: '/docente/estudiantes',
       }
     ];
@@ -69,43 +68,43 @@ const getSections = (userCase: 'estudiante' | 'docente') => {
     {
       name: 'inicio',
       label: 'Inicio',
-      icon: FaHome,
+      icon: IconUniversidad,
       path: '/estudiante/inicio',
     },
     {
       name: 'clases',
       label: 'Clases',
-      icon: FaChalkboardTeacher,
+      icon: IconAcademico,
       path: '/estudiante/clases',
     },
     {
       name: 'tareas',
       label: 'Tareas',
-      icon: FaTasks,
+      icon: IconProyecto,
       path: '/estudiante/tareas',
     },
     {
       name: 'anuncios',
       label: 'Anuncios',
-      icon: FaBullhorn,
+      icon: IconInforme,
       path: '/estudiante/anuncios',
     },
     {
       name: 'horario',
       label: 'Horario',
-      icon: FaCalendarAlt,
+      icon: IconEjecucion,
       path: '/estudiante/horario',
     },
     {
       name: 'notas',
       label: 'Notas',
-      icon: FaClipboardList,
+      icon: IconTitulacion,
       path: '/estudiante/notas'
     },
     {
       name: 'recursos',
       label: 'Recursos',
-      icon: FaTasks,
+      icon: IconServicio,
       path: '/estudiante/recursos'
     }
   ];

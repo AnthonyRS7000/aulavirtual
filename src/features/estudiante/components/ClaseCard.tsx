@@ -40,11 +40,10 @@ export default function ClaseCard({ curso }: ClaseCardProps) {
       role="button"
       tabIndex={0}
       onClick={() => navigate(`/estudiante/clases/${curso.id}`)}
-      onKeyDown={handleKey}
-      style={{ borderLeftColor: curso.color || 'var(--accent-cyan)'}}
+  onKeyDown={handleKey}
       aria-label={`${curso.nombre} - ${curso.docente}`}
     >
-      <div className="card-banner" style={{ background: curso.color || '' }}>
+  <div className="card-banner">
         <div className="banner-text">
           <h3 className="banner-title" title={curso.nombre}>{curso.nombre}</h3>
           <p className="banner-sub">{curso.docente}</p>

@@ -5,7 +5,6 @@
   overflow: visible;
   cursor: pointer;
   transition: transform .18s ease, box-shadow .18s ease;
-  /* se eliminó la franja lateral para evitar la línea inesperada */
   position: relative;
   aspect-ratio: 4 / 4; /* forma más cuadrada */
   min-height: 190px; /* un poco más compactas para permitir 3 por fila */
@@ -15,7 +14,7 @@
 
 .card-banner {
   height: 64px;
-  background: linear-gradient(90deg,var(--accent-cyan), var(--button-green));
+  background: linear-gradient(90deg, #5A9E8D 0%, #5A9E8D 100%);
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
   position: relative;
@@ -96,3 +95,37 @@
 .dots-btn svg { width: 18px; height: 18px; display: block; fill: currentColor; }
 .dots-btn:focus, .dots-btn:focus-visible { outline: none; box-shadow: 0 0 0 4px rgba(47,64,83,0.06); }
 .dots-btn:hover { color: rgba(47,64,83,0.95); }
+
+/* Mejoras para modo oscuro: asegurar contraste de los iconos */
+.dark .clase-card-min .dots-btn {
+  color: rgba(255,255,255,0.65);
+}
+.dark .clase-card-min .dots-btn:hover {
+  color: rgba(255,255,255,0.95);
+}
+
+/* Asegurar que el SVG del botón de meeting herede el color y sea visible en dark */
+.meet-btn svg { fill: currentColor; }
+.dark .clase-card-min .meet-btn.placeholder {
+  color: rgba(255,255,255,0.55);
+}
+
+/* Más contraste para el botón de meeting en modo oscuro */
+.dark .clase-card-min .meet-btn {
+  color: rgba(255,255,255,0.95);
+  background: transparent;
+}
+.dark .clase-card-min .meet-btn:hover {
+  color: rgba(255,255,255,1);
+}
+
+/* Asegurar texto del banner legible en modo oscuro */
+.dark .clase-card-min .banner-title,
+.dark .clase-card-min .banner-sub {
+  color: rgba(255,255,255,0.95);
+}
+
+/* Divider más claro en modo oscuro */
+.dark .clase-card-min .card-divider {
+  background: linear-gradient(90deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+}
