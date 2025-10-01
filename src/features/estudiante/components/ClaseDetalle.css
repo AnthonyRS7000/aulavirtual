@@ -1,17 +1,250 @@
-.clase-detalle {
-  padding: 1.5rem;
+.clase-detalle-viewport {
+  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  color: #243043;
+  padding: 18px 24px;
 }
 
-/* Banner tipo Classroom */
+.clase-top-tabs {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.clase-top-tabs button {
+  background: transparent;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #566574;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.clase-top-tabs button.active {
+  /* Se elimina el recuadro azul; solo texto en azul */
+  background: transparent;
+  color: #0b5cff;
+  box-shadow: none;
+}
+
+.clase-main {
+  display: block;
+}
+
 .clase-banner {
-  border-radius: 12px;
-  padding: 2rem;
-  background: var(--pantone-zomp);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 18px;
+  height: 160px;
+  background: linear-gradient(90deg, #394a53 0%, #2b3a41 60%);
+  color: white;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  margin-bottom: 1.5rem;
 }
+
+.banner-media {
+  width: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 18px 28px;
+}
+
+.banner-overlay {
+  position: absolute;
+  inset: 0;
+  background-image: url('/src/assets/temaOscuro.svg');
+  background-size: cover;
+  background-position: right center;
+  opacity: 0.07;
+}
+
+.banner-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Avatar del docente en el banner (lado derecho) */
+.banner-avatar {
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+}
+
+.banner-avatar-img {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--panel-contrast);
+  color: var(--text);
+  font-weight: 700;
+  box-shadow: 0 10px 30px rgba(2,6,23,0.35);
+  border: 3px solid rgba(255,255,255,0.06);
+}
+
+/* pequeño ajuste: en modo claro usar borde oscuro tenue para contraste */
+.light .banner-avatar-img {
+  border: 3px solid rgba(0,0,0,0.06);
+}
+
+@media (max-width: 900px) {
+  .banner-avatar-img { width: 48px; height: 48px; border-width: 2px; }
+  .banner-avatar { right: 12px; }
+  .banner-media { padding-right: 72px; }
+}
+
+.curso-nombre {
+  font-size: 28px;
+  margin: 0 0 6px 0;
+  letter-spacing: 0.6px;
+}
+
+/* Mejor contraste del título del curso: blanco con sombra por defecto (funciona en banner oscuro).
+   Si el layout aplica la clase .light en un ancestro, hacemos el texto oscuro para lectura en temas claros. */
+.clase-banner .curso-nombre {
+  color: rgba(255,255,255,0.95);
+  text-shadow: none;
+}
+
+.light .clase-banner .curso-nombre {
+  color: #eaeaeb; /* texto oscuro en modo claro */
+  text-shadow: none;
+}
+
+.curso-meta {
+  display: flex;
+  gap: 12px;
+  font-size: 13px;
+  color: #d6e0ea;
+}
+
+.clase-body {
+  display: grid;
+  /* Reducimos el ancho de la columna lateral para dar más espacio al feed */
+  grid-template-columns: 260px minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.clase-sidebar .card {
+  /* Usar variables de tema para adaptar a light/dark */
+  background: var(--panel-bg);
+  border-radius: 8px;
+  padding: 14px;
+  box-shadow: var(--shadow-lg, 0 6px 18px rgba(20,38,50,0.06));
+  margin-bottom: 12px;
+  /* Forzamos un ancho máximo coherente con la columna lateral */
+  max-width: 260px;
+  border: 1px solid var(--border-soft, rgba(15,23,36,0.04));
+  color: var(--text);
+}
+
+.proximas-entregas h3 { margin: 0 0 8px 0 }
+.proximas-entregas p { color: #4b5b66; margin: 0 0 8px 0 }
+.ver-todo { color: #0b5cff; text-decoration: none; font-weight: 600 }
+
+.clase-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  /* Aseguramos que el feed ocupe todo el ancho disponible */
+  width: 100%;
+}
+
+/* Pestañas dentro del feed, encima del input */
+.clase-tabs {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 12px; /* un poco más de espacio respecto al input */
+  /* Alineamos las pestañas hacia la derecha del feed */
+  justify-content: flex-end;
+  /* Limitamos su anchura para que coincida con el input visualmente */
+  max-width: 760px; /* ajustable según diseño */
+  margin-left: auto;
+}
+
+.clase-tabs button {
+  background: transparent;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #566574;
+  font-weight: 600;
+  position: relative;
+  transition: color 160ms ease, background 160ms ease;
+  font-size: 0.95rem;
+}
+
+.clase-tabs button:hover {
+  background: rgba(11,92,255,0.02);
+}
+
+.clase-tabs button.active {
+  color: #0b5cff;
+  background: transparent; /* asegurar sin fondo */
+  box-shadow: none;
+}
+
+/* Evitar que focus/active muestre fondo o sombra rectangular */
+.clase-tabs button:focus,
+.clase-tabs button:active,
+.clase-top-tabs button:focus,
+.clase-top-tabs button:active {
+  outline: none;
+  background: transparent;
+  box-shadow: none;
+}
+
+/* indicador azul fino directamente debajo de la pestaña activa (estilo imagen) */
+.clase-tabs button.active::after {
+  content: '';
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  height: 3px;
+  background: #0b5cff;
+  bottom: -10px;
+  border-radius: 4px;
+  transition: all 220ms cubic-bezier(.2,.9,.2,1);
+}
+
+.feed-post {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  background: var(--panel-bg);
+  border-radius: 8px;
+  padding: 12px 16px;
+  box-shadow: var(--shadow-lg, 0 6px 18px rgba(20,38,50,0.04));
+  border: 1px solid var(--border-soft, rgba(15,23,36,0.04));
+  color: var(--text);
+}
+
+.crear-post { align-items: center }
+.crear-post .avatar { width: 44px; height: 44px; border-radius: 50%; background:#0b5cff; color: white; display:flex; align-items:center; justify-content:center; font-weight:700 }
+.crear-post input { flex: 1; border: none; background: var(--panel-contrast); padding: 12px 14px; border-radius: 8px; color: var(--text); }
+
+.feed-icon { width: 44px; height: 44px; border-radius: 8px; background: var(--panel-contrast); display:flex; align-items:center; justify-content:center; font-size:18px; color: var(--text); }
+.feed-body { flex: 1 }
+.feed-title { font-weight:500; color: var(--text); line-height:1.2; font-size: 0.92rem; }
+.feed-meta { font-size:12px; color: var(--muted); }
+.feed-actions { color: var(--muted); }
+
+/* Responsive */
+@media (max-width: 900px) {
+  .clase-body { grid-template-columns: 1fr; }
+  .clase-banner { height: 120px }
+}
+
 
 .clase-banner h1 {
   font-size: 1.8rem;
@@ -58,35 +291,7 @@
   margin-left: 0.5rem;
 }
 
-.clase-tabs nav {
-  display: flex;
-  gap: 1rem;
-  margin-bottom: 1rem;
-  flex-wrap: wrap; /* que no se rompa en pantallas pequeñas */
-}
-
-.clase-tabs button {
-  flex: 1;
-  min-width: 120px;
-  padding: 0.8rem;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-  font-weight: 500;
-  background: var(--bg-tertiary);
-  color: var(--text-primary);
-  transition: all 0.3s ease;
-}
-
-.clase-tabs button.active {
-  background: var(--pantone-zomp);
-  color: #fff;
-  font-weight: 600;
-}
-
-.clase-tabs button:hover {
-  border: 1px solid var(--pantone-zomp);
-}
+/* Las reglas de .clase-tabs se definen arriba (underline style). Se eliminó la versión conflictiva tipo "píldora" que causaba el aspecto no deseado. */
 
 .clase-estudiantes ul {
   list-style: none;
