@@ -166,7 +166,7 @@
 .admin-sidebar-backdrop {
   position: fixed;
   inset: 0;
-  z-index: 20;
+  z-index: 50; /* asegurar que el backdrop quede sobre el contenido */
   background-color: rgba(0, 0, 0, 0.5);
   transition: opacity 0.3s ease-in-out;
 }
@@ -182,13 +182,20 @@
   flex-grow: 1;
   overflow: hidden;
   transition: margin-left 0.3s ease;
-  margin-left: 240px;
+  margin-left: 0; /* por defecto no desplazamos el contenido (mobile-first) */
   background-color: var(--bg-secondary);
   color: var(--text-primary);
 }
 
-.admin-main-content.collapsed {
-  margin-left: 80px !important;
+/* En desktop reservamos espacio para el sidebar desplazando el contenido */
+@media (min-width: 1024px) {
+  .admin-main-content {
+    margin-left: 240px;
+  }
+
+  .admin-main-content.collapsed {
+    margin-left: 80px !important;
+  }
 }
 
 .admin-content {
@@ -246,6 +253,13 @@
 .topbar-toggle:focus {
   outline: 2px solid #39B49E;
   outline-offset: 2px;
+}
+
+/* Forzar ocultar el toggle de topbar en pantallas grandes para evitar duplicidad con el botón de colapso */
+@media (min-width: 1024px) {
+  .topbar-toggle {
+    display: none !important;
+  }
 }
 
 .topbar-right {

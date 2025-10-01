@@ -29,6 +29,7 @@
   padding: 8px;
   border-radius: 6px;
   transition: background 0.2s ease;
+  display: none; /* hidden by default; shown only in mobile via media query */
 }
 
 .topbar-toggle:hover {
@@ -179,21 +180,50 @@
   color: #3498db !important;
 }
 
-/* Responsivo */
+/* Responsivo básico */
 @media (max-width: 768px) {
   .topbar-container {
     padding: 0 1rem;
   }
-  
+
   .topbar-title {
     font-size: 1rem;
   }
-  
+
   .topbar-left {
     gap: 0.5rem;
   }
-  
+
   .topbar-right {
     gap: 0.5rem;
+  }
+}
+
+/* Mostrar el toggle (hamburguesa) en mobile y ocultarlo en desktop
+   El toggle desaparece en >=1024px (donde existe el botón de colapso del sidebar) */
+@media (max-width: 1023px) {
+  .topbar-toggle {
+    display: inline-flex;
+    color: #0f172a;
+    background: rgba(255,255,255,0.95);
+    border: 1px solid rgba(0,0,0,0.05);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  }
+
+  /* Cuando el sidebar está overlay, aseguramos que el topbar quede sobre el contenido */
+  .admin-topbar {
+    left: 0 !important;
+    z-index: 80;
+  }
+}
+
+@media (min-width: 1024px) {
+  /* Ocultar el toggle en desktop, porque allí se usa el botón de colapso del sidebar */
+  .topbar-toggle {
+    display: none;
+  }
+
+  .admin-topbar {
+    left: 240px; /* reservar espacio cuando el sidebar está visible */
   }
 }

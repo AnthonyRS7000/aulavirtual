@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { BellIcon } from '@heroicons/react/24/outline';
+import { BellIcon, Bars3Icon } from '@heroicons/react/24/outline';
 import ThemeToggle from './ThemeToggle';
 import NotificacionesDropdown from './NotificacionesDropdown';
 import PerfilDropdown from './PerfilDropdown';
@@ -51,6 +51,16 @@ export default function Topbar({ onToggleSidebar, isSidebarOpen, userCase = 'est
     <header className="admin-topbar">
       <div className="topbar-container">
         <div className="topbar-left">
+          {/* Botón hamburguesa: visible en mobile para abrir/ocultar el sidebar */}
+          <button
+            className="topbar-toggle"
+            onClick={onToggleSidebar}
+            aria-label={isSidebarOpen ? 'Cerrar menú lateral' : 'Abrir menú lateral'}
+            aria-controls="app-sidebar"
+            aria-expanded={isSidebarOpen}
+          >
+            <Bars3Icon style={{ width: '1.25rem', height: '1.25rem' }} />
+          </button>
         </div>
 
         <div className="topbar-right">

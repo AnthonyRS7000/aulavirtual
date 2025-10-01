@@ -165,7 +165,11 @@ export default function Sidebar({ isOpen, onClose, onToggle, userCase = 'estudia
       )}
 
       <button
-        onClick={onToggle}
+        onClick={() => {
+          // En pantallas desktop colapsamos a icons, en mobile cerramos (overlay)
+          if (isDesktop) onToggle();
+          else onClose();
+        }}
         className="sidebar-collapse-button"
         title="Colapsar sidebar"
         style={{
@@ -180,7 +184,7 @@ export default function Sidebar({ isOpen, onClose, onToggle, userCase = 'estudia
         />
       </button>
 
-      <div className={`${sidebarClass} ${isOpen ? '' : 'collapsed'}`}>
+  <div id="app-sidebar" className={`${sidebarClass} ${isOpen ? '' : 'collapsed'}`}>
         <div className="user-info-copiloto">
           <div className="user-avatar-copiloto">
             <img
