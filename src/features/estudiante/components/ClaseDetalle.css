@@ -4,6 +4,19 @@
   padding: 18px 24px;
 }
 
+/* Ajustes para contraste en modo claro: fondo general apagado y tarjetas más blancas */
+.light .clase-detalle-viewport {
+  background: #f6f7f9; /* blanco apagado para la vista */
+}
+
+.light .clase-feed .feed-post,
+.light .clase-sidebar .card,
+.light .crear-post input {
+  background: #ffffff; /* tarjetas/input más brillantes */
+  box-shadow: 0 10px 30px rgba(16,24,40,0.06);
+  border: 1px solid rgba(15,23,36,0.04);
+}
+
 .clase-top-tabs {
   display: flex;
   gap: 12px;
@@ -230,7 +243,7 @@
 }
 
 .crear-post { align-items: center }
-.crear-post .avatar { width: 44px; height: 44px; border-radius: 50%; background:#0b5cff; color: white; display:flex; align-items:center; justify-content:center; font-weight:700 }
+.crear-post .avatar { display: none !important; }
 .crear-post input { flex: 1; border: none; background: var(--panel-contrast); padding: 12px 14px; border-radius: 8px; color: var(--text); }
 
 .feed-icon { width: 44px; height: 44px; border-radius: 8px; background: var(--panel-contrast); display:flex; align-items:center; justify-content:center; font-size:18px; color: var(--text); }

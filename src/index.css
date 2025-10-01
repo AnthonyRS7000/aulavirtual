@@ -89,6 +89,13 @@
 }
 
 :root.light {
+  /* Light theme overrides: fondo general apagado y tarjetas más blancas para contraste */
+  --bg-primary: #f6f7f9;    /* fondo de la página (apagado) */
+  --bg-secondary: #ffffff;  /* tarjetas e inputs (blanco brillante) */
+  --bg-tertiary: #f0f2f5;   /* tonos intermedios si se usan */
+  --border-color: rgba(15,23,36,0.04);
+  --shadow: rgba(16,24,40,0.06);
+
   --color-pdf: #f9b233;
   --color-video: #4c7c74;
   --color-enlace: #f67c54;
