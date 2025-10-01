@@ -19,7 +19,6 @@ interface Tarea {
   fechaEntrega: string;
   fechaPublicacion: string;
   estado: 'pendiente' | 'entregada' | 'revision' | 'calificada';
-  prioridad: 'alta' | 'media' | 'baja';
   nota?: number;
   comentarios?: string;
   archivosEntregados?: ArchivoEntrega[];
@@ -47,15 +46,6 @@ export default function TareaCard({ tarea }: TareaCardProps) {
     }
   };
 
-  const obtenerColorPrioridad = (prioridad: string) => {
-    switch (prioridad) {
-      case 'alta': return 'var(--udh-error)';
-      case 'media': return 'var(--pantone-saffron)';
-      case 'baja': return 'var(--pantone-zomp)';
-      default: return 'var(--text-secondary)';
-    }
-  };
-
   const obtenerIconoEstado = (estado: string) => {
     switch (estado) {
       case 'pendiente': return <FaClock className="estado-icon" />;
@@ -66,13 +56,7 @@ export default function TareaCard({ tarea }: TareaCardProps) {
     }
   };
 
-  const calcularDiasRestantes = (fechaEntrega: string) => {
-    const hoy = new Date();
-    const entrega = new Date(fechaEntrega);
-    const diferencia = entrega.getTime() - hoy.getTime();
-    const dias = Math.ceil(diferencia / (1000 * 3600 * 24));
-    return dias;
-  };
+  
 
     const formatearTamaño = (bytes: number) => {
     if (bytes === 0) return '0 Bytes';
@@ -128,37 +112,6 @@ export default function TareaCard({ tarea }: TareaCardProps) {
   return (
     <div className="tarea-card">
       <div className="tarea-header">
-        <div className="tarea-estado">
-          <span className={`estado-badge ${tarea.estado}`}>
-  {obtenerIconoEstado(tarea.estado)}
-  {tarea.estado}
-</span>
-          <span className={`prioridad-badge ${tarea.prioridad}`}>
-  {tarea.prioridad}
-</span>
-        </div>
-        
-        {diasRestantes >= 0 && tarea.estado === 'pendiente' && (
-          <div className="tiempo-restante">
-            {diasRestantes === 0 && (
-              <span className="urgente">
-                <FaExclamationTriangle /> ¡Vence hoy!
-              </span>
-            )}
-            {diasRestantes === 1 && (
-              <span className="proximo">Vence mañana</span>
-            )}
-            {diasRestantes > 1 && (
-              <span className="normal">{diasRestantes} días restantes</span>
-            )}
-          </div>
-        )}
-      </div>
-
-      <div className="tarea-contenido">
-        <h4 className="tarea-titulo">{tarea.titulo}</h4>
-        <p className="tarea-descripcion">{tarea.descripcion}</p>
-        
         <div className="tarea-meta">
           <div className="materia-info">
             <strong>{tarea.materia}</strong>
@@ -175,6 +128,14 @@ export default function TareaCard({ tarea }: TareaCardProps) {
             </div>
           </div>
         </div>
+      </div>
+
+      <div className="tarea-contenido">
+        
+        
+        <h4 className="tarea-titulo">{tarea.titulo}</h4>
+        <p className="tarea-descripcion">{tarea.descripcion}</p>
+        
 
         {tarea.nota && (
           <div className="nota-tarea">

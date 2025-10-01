@@ -98,7 +98,7 @@
   border-radius: 12px;
   box-shadow: 0 2px 8px var(--shadow);
   text-align: center;
-  border-left: 4px solid;
+  border-left: 7px solid; /* aumentado a 7px para diseño intranet */
   transition: all 0.3s ease;
 }
 
@@ -108,19 +108,19 @@
 }
 
 .stat-card.pendientes {
-  border-left-color: var(--pantone-saffron);
+  border-left-color: #F59E0B; /* Pendientes - naranja */
 }
 
 .stat-card.entregadas {
-  border-left-color: var(--pantone-zomp);
+  border-left-color: #10B981; /* Entregadas - verde claro */
 }
 
 .stat-card.revision {
-  border-left-color: var(--pantone-zomp-light);
+  border-left-color: #FCD34D; /* En Revisión - amarillo */
 }
 
 .stat-card.calificadas {
-  border-left-color: var(--udh-success);
+  border-left-color: #3B82F6; /* Calificadas - azul */
 }
 
 .stat-number {
@@ -135,6 +135,27 @@
 .dark .stat-card .stat-number {
   color: #ffffff; /* Mejorar visibilidad en modo oscuro */
   font-size: 20px;
+}
+
+/* En modo oscuro mostrar la franja izquierda de 7px y aplicar color base + variantes */
+.dark .stat-card {
+  border-left: 7px solid #5A9E8D; /* color base en oscuro, las variantes lo sobreescriben */
+}
+
+.dark .stat-card.pendientes {
+  border-left-color: #F59E0B;
+}
+
+.dark .stat-card.entregadas {
+  border-left-color: #10B981;
+}
+
+.dark .stat-card.revision {
+  border-left-color: #FCD34D;
+}
+
+.dark .stat-card.calificadas {
+  border-left-color: #3B82F6;
 }
 
 .stat-label {
@@ -246,24 +267,24 @@
   color: var(--text-primary);
   /* No redefinir border-radius aquí si ya lo definiste antes */
   box-shadow: 0 2px 8px var(--shadow); /* igual que en modo oscuro */
-  border-left: 4px solid transparent;
+  border-left: 7px solid transparent; /* mantener la anchura de 7px en modo claro */
   transition: all 0.3s ease;
 }
 
 .light .stat-card.pendientes {
-  border-left-color: var(--pantone-saffron);
+  border-left-color: #F59E0B;
 }
 
 .light .stat-card.entregadas {
-  border-left-color: var(--pantone-zomp);
+  border-left-color: #10B981;
 }
 
 .light .stat-card.revision {
-  border-left-color: var(--pantone-zomp-light);
+  border-left-color: #FCD34D;
 }
 
 .light .stat-card.calificadas {
-  border-left-color: var(--udh-success);
+  border-left-color: #3B82F6;
 }
 
 .light .stat-card:hover {
