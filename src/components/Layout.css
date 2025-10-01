@@ -56,7 +56,7 @@
 
 .admin-sidebar .nav-section-copiloto,
 .admin-sidebar.collapsed .nav-section-copiloto {
-  margin-top: 2rem; /* o el margen que usas normalmente */
+  margin-top: 1rem; /* reducir espacio superior del nav */
 }
 
 .admin-sidebar.collapsed .user-header,
@@ -76,7 +76,7 @@
 
 .admin-sidebar .nav-container-copiloto,
 .admin-sidebar-desktop .nav-container-copiloto {
-  margin-top: 2rem;
+  margin-top: 1rem;
 }
 
 .admin-sidebar.collapsed .nav-container-copiloto,

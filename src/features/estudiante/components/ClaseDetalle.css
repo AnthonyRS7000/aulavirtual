@@ -106,16 +106,52 @@
   border: 3px solid rgba(0,0,0,0.06);
 }
 
-@media (max-width: 900px) {
+@media (max-width: 910px) {
   .banner-avatar-img { width: 48px; height: 48px; border-width: 2px; }
   .banner-avatar { right: 12px; }
   .banner-media { padding-right: 72px; }
+}
+
+/* Ocultar la columna lateral de detalles en pantallas medianas/pequeñas
+   y hacer que el feed ocupe todo el ancho a partir de 910px hacia abajo. */
+@media (max-width: 910px) {
+  .clase-body {
+    grid-template-columns: 1fr; /* solo una columna: el feed */
+  }
+
+  .clase-sidebar {
+    display: none !important;
+  }
+
+  .clase-feed {
+    width: 100%;
+  }
 }
 
 .curso-nombre {
   font-size: 28px;
   margin: 0 0 6px 0;
   letter-spacing: 0.6px;
+}
+
+/* Forzar que el nombre del curso quede en una sola línea con ellipsis
+   y reservar espacio a la derecha para el avatar. Ajustes por breakpoint. */
+.curso-nombre {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* Por defecto dejar espacio para avatar (72px) + margen (36px) */
+  max-width: calc(100% - 112px);
+}
+
+@media (max-width: 910px) {
+  /* avatar se reduce a 48px, ajustar espacio reservado */
+  .curso-nombre { max-width: calc(100% - 72px); }
+}
+
+@media (max-width: 480px) {
+  /* en móviles más estrechos ajustar aún más */
+  .curso-nombre { max-width: calc(100% - 64px); }
 }
 
 /* Mejor contraste del título del curso: blanco con sombra por defecto (funciona en banner oscuro).
@@ -249,11 +285,29 @@
 .feed-icon { width: 44px; height: 44px; border-radius: 8px; background: var(--panel-contrast); display:flex; align-items:center; justify-content:center; font-size:18px; color: var(--text); }
 .feed-body { flex: 1 }
 .feed-title { font-weight:500; color: var(--text); line-height:1.2; font-size: 0.92rem; }
+
+/* Truncado: asegurar que títulos largos no rompan el layout.
+   - .feed-title: una sola línea con ellipsis (usado en posts, tareas y nombres en la lista de personas)
+   - .feed-description: permitir hasta 2 líneas con ellipsis para descripciones de trabajo de clase */
+.feed-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.feed-description {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2; /* 2 líneas máximo */
+  line-clamp: 2; /* estándar propuesta */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .feed-meta { font-size:12px; color: var(--muted); }
 .feed-actions { color: var(--muted); }
 
 /* Responsive */
-@media (max-width: 900px) {
+@media (max-width: 910px) {
   .clase-body { grid-template-columns: 1fr; }
   .clase-banner { height: 120px }
 }
@@ -358,6 +412,15 @@
 .clase-estudiantes li span {
   font-size: 0.85rem;
   color: var(--text-muted);
+}
+
+/* truncar nombres largos de personas en la lista y en los elementos de feed */
+.clase-estudiantes li .nombre-usuario,
+.feed-body .feed-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }
 
 .clase-estudiantes li:last-child {
