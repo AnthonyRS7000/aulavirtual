@@ -20,3 +20,21 @@ html.dark .titulo-page,
 :root.dark .titulo-page {
   color: var(--title-color, #cfe8f5);
 }
+
+/* Subtítulo ligero que acompaña al título principal */
+.page-subtitle {
+  margin-top: 8px;
+  margin-bottom: 18px;
+  color: #6b7280; /* gris suave */
+  font-size: 1rem;
+  max-width: 960px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+:root.dark .page-subtitle,
+body.dark .page-subtitle,
+html.dark .page-subtitle {
+  color: #cbd5e1; /* gris claro para modo oscuro */
+}

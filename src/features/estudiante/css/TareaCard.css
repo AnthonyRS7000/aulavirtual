@@ -1,18 +1,20 @@
 .tarea-card {
   display: flex;
   flex-direction: column;
-  background: var(--bg-secondary);
-  border-radius: 12px;
-  box-shadow: 0 2px 8px var(--shadow);
-  padding: 24px;
-  margin: 32px 0; /* <-- centrado horizontal */
-  border-left: 4px solid var(--pantone-zomp);
-  color: var(--text-primary);
+  background: #ffffff; /* blanco puro por defecto */
+  border-radius: 16px; /* bordes más suaves */
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.10), 0 6px 18px rgba(0, 0, 0, 0.06); /* sombra más marcada por defecto */
+  padding: 28px;
+  margin: 32px 0;
+  border-left: 6px solid var(--pantone-zomp); /* franja más gruesa */
+  color: #1f2937; /* texto oscuro para contraste en fondo blanco */
   width: 100%;
   box-sizing: border-box;
-  transition: all 0.3s ease;
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
   justify-content: space-between;
   min-height: 520px;
+  position: relative;
+  overflow: hidden;
 }
 
 .tarea-card > * {
@@ -28,9 +30,10 @@
 }
 
 .tarea-card:hover {
-  background: var(--bg-tertiary);
-  box-shadow: 0 4px 16px var(--shadow);
-  transform: translateY(-2px);
+  /* Mantener mismo fondo, sólo variar elevación */
+  background: #ffffff;
+  box-shadow: 0 14px 48px rgba(0, 0, 0, 0.14), 0 8px 22px rgba(0, 0, 0, 0.08);
+  transform: translateY(-4px); /* elevación más pronunciada */
 }
 
 .tarea-header {
@@ -38,8 +41,10 @@
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  margin-bottom: 16px;
+  margin-bottom: 0; /* eliminar espacio debajo del header */
+  padding-bottom: 0; /* eliminar padding para pegar la línea */
   gap: 12px;
+  border-bottom: 2px solid rgba(145, 153, 162, 0.55); /* separador visible */
 }
 
 .header-top {
@@ -65,13 +70,22 @@
 
 .tarea-acciones {
   display: flex;
-  justify-content: center; /* ahora sí se verá centrado */
+  justify-content: center;
   align-items: center;
   gap: 12px;
   margin-top: auto;
   width: 100%;
-  border-top: 1.5px solid rgba(255, 255, 255, 0.3);
+  border-top: 1px solid rgba(209, 213, 219, 0.4); /* separador sutil en gris */
   padding-top: 20px;
+  background: rgba(249, 250, 251, 0.6); /* fondo ligeramente diferente para los botones */
+  margin-left: -28px;
+  margin-right: -28px;
+  margin-bottom: -28px;
+  padding-left: 28px;
+  padding-right: 28px;
+  padding-bottom: 28px;
+  border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 16px;
 }
 
 
@@ -93,11 +107,6 @@
   color: #fff;
 }
 
-.estado-prioridad {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-}
 
 .estado-badge.pendiente {
   background: rgba(var(--pantone-saffron-rgb), 0.15);
@@ -123,28 +132,7 @@
   color: var(--udh-success);
 }
 
-.prioridad-badge {
-  background: var(--pantone-saffron);
-  color: var(--pantone-jet);
-}
-
-.prioridad-badge.alta {
-  background: rgba(var(--udh-error-rgb), 0.15);
-  border: 1.5px solid var(--udh-error);
-  color: var(--udh-error);
-}
-
-.prioridad-badge.media {
-  background: rgba(var(--pantone-saffron-rgb), 0.15);
-  border: 1.5px solid var(--pantone-saffron);
-  color: var(--pantone-saffron);
-}
-
-.prioridad-badge.baja {
-  background: rgba(var(--pantone-zomp-rgb), 0.15);
-  border: 1.5px solid var(--pantone-zomp);
-  color: var(--pantone-zomp);
-}
+/* prioridad removida: estilos eliminados */
 
 .estado-icon {
   font-size: 10px;
@@ -177,26 +165,26 @@
 }
 
 .tarea-contenido {
+  margin-top: 6px; /* pequeño espacio después del separador */
   margin-bottom: 0;
   display: flex;
   flex-direction: column;
 }
 
 .tarea-titulo {
-  font-size: 18px;
+  font-size: 18px; /* ligeramente menor para priorizar el curso */
   font-weight: 700;
-  color: var(--pantone-zomp);
-  margin: 0 0 8px 0;
-  line-height: 1.4;
+  color: #111827; /* color fuerte pero menos prominente que el curso */
+  margin: 2px 0 12px 0; /* mantener pequeño espacio visual tras la línea */
+  line-height: 1.15; /* ajustar para que ocupe menos espacio vertical */
 }
 
 .tarea-descripcion {
-  color: var(--text-secondary);
+  color: #6b7280; /* gris medio para descripción */
   font-size: 14px;
   line-height: 1.6;
-  margin: 0 0 16px 0;
+  margin: 0 0 20px 0;
   text-align: justify;
-  
 }
 
 .tarea-meta {
@@ -204,26 +192,41 @@
   justify-content: space-between;
   align-items: flex-start;
   flex-wrap: wrap;
-  gap: 48px;
-  margin-bottom: 16px;
+  gap: 20px; /* reducir gap para compactar */
+  margin-bottom: 0; /* eliminar separación adicional */
   width: 100%;
 }
 
 .materia-info {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 0; /* pegar materia y profesor */
+}
+
+/* Mantener un pequeño espaciado visual en móviles para legibilidad */
+@media (max-width: 480px) {
+  .materia-info { gap: 4px; }
+  .tarea-titulo { margin-top: 6px; }
 }
 
 .materia-info strong {
   color: var(--pantone-zomp);
-  font-size: 16px;
-  font-weight: 700;
+  font-size: 20px; /* ahora más grande para destacar el curso */
+  font-weight: 800;
+  letter-spacing: 0.2px;
+}
+
+/* Responsivo: reducir ligeramente en móviles para no romper el layout */
+@media (max-width: 768px) {
+  .materia-info strong {
+    font-size: 18px;
+  }
 }
 
 .profesor {
-  color: var(--text-secondary);
-  font-size: 14px;
+  color: #9ca3af; /* más tenue para el profesor */
+  font-size: 13px;
+  font-weight: 500;
 }
 
 .fechas-info {
@@ -237,8 +240,8 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  font-size: 14px;
-  color: var(--text-secondary);
+  font-size: 13px; /* ligeramente más pequeño */
+  color: #94a3b8; /* gris atenuado */
 }
 
 .fecha-icon {
@@ -251,10 +254,11 @@
   min-height: 60px;
   align-items: center;
   gap: 8px;
-  padding: 12px;
-  background: var(--bg-tertiary);
-  border-radius: 8px;
-  margin-bottom: 12px;
+  padding: 16px;
+  background: rgba(16, 185, 129, 0.08); /* verde muy sutil */
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  border-radius: 12px;
+  margin-bottom: 16px;
 }
 
 .nota-label {
@@ -270,11 +274,11 @@
 }
 
 .comentarios-tarea {
-  padding: 12px;
- background: rgba(244, 180, 0, 0.15); /* dorado translúcido */
-  border: 1px solid var(--pantone-saffron);
-  border-radius: 8px;
-  margin-bottom: 12px;
+  padding: 16px;
+  background: rgba(244, 180, 0, 0.08); /* dorado muy sutil */
+  border: 1px solid rgba(244, 180, 0, 0.3);
+  border-radius: 12px;
+  margin-bottom: 16px;
 }
 
 .comentarios-label {
@@ -286,7 +290,7 @@
 }
 
 .comentarios-texto {
-  color: var(--text-primary);    
+  color: #374151; /* gris oscuro para mejor contraste */
   font-size: 14px;
   line-height: 1.5;
   margin: 0;
@@ -376,11 +380,11 @@
 
 /* Estilos para entrega de archivos */
 .seccion-entrega {
-  background: var(--bg-primary);
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  padding: 16px;
-  margin: 16px 0;
+  background: rgba(249, 250, 251, 0.8); /* fondo gris muy claro */
+  border: 1px solid rgba(209, 213, 219, 0.5);
+  border-radius: 12px;
+  padding: 20px;
+  margin: 20px 0;
 }
 
 .entrega-header {
@@ -392,7 +396,7 @@
 
 .entrega-header h5 {
   margin: 0;
-  color: var(--text-primary);
+  color: #1f2937; /* gris oscuro para contraste */
   font-size: 1rem;
   font-weight: 600;
 }
@@ -513,16 +517,16 @@
 
 /* Archivos entregados */
 .archivos-entregados {
-  background: var(--bg-tertiary);
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  padding: 16px;
-  margin: 16px 0;
+  background: rgba(249, 250, 251, 0.8); /* fondo gris muy claro */
+  border: 1px solid rgba(209, 213, 219, 0.5);
+  border-radius: 12px;
+  padding: 20px;
+  margin: 20px 0;
 }
 
 .archivos-entregados h5 {
   margin: 0 0 12px 0;
-  color: var(--text-primary); 
+  color: #1f2937; /* gris oscuro para contraste */
   font-size: 1rem;
   font-weight: 600;
 }
@@ -608,6 +612,68 @@
 
 .btn-entregar:disabled:hover {
   background: #9ca3af;
+}
+
+/* Tema oscuro */
+.dark .tarea-card {
+  background: #1f2937; /* fondo oscuro */
+  color: #f9fafb; /* texto claro */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.dark .tarea-card:hover {
+  background: #111827; /* más oscuro en hover */
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.dark .tarea-header {
+  border-bottom: 1px solid rgba(75, 85, 99, 0.4);
+}
+
+.dark .tarea-titulo {
+  color: #f9fafb; /* título claro en oscuro */
+}
+
+.dark .tarea-descripcion {
+  color: #d1d5db; /* descripción en gris claro */
+}
+
+.dark .profesor {
+  color: #9ca3af; /* profesor en gris medio */
+}
+
+.dark .fecha-item {
+  color: #9ca3af; /* fechas en gris medio */
+}
+
+.dark .tarea-acciones {
+  background: rgba(17, 24, 39, 0.6);
+  border-top: 1px solid rgba(75, 85, 99, 0.4);
+}
+
+.dark .nota-tarea {
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.dark .comentarios-tarea {
+  background: rgba(244, 180, 0, 0.15);
+  border: 1px solid rgba(244, 180, 0, 0.4);
+}
+
+.dark .comentarios-texto {
+  color: #e5e7eb;
+}
+
+.dark .seccion-entrega,
+.dark .archivos-entregados {
+  background: rgba(17, 24, 39, 0.8);
+  border: 1px solid rgba(75, 85, 99, 0.5);
+}
+
+.dark .entrega-header h5,
+.dark .archivos-entregados h5 {
+  color: #f9fafb;
 }
 
 /* Responsive para entrega */

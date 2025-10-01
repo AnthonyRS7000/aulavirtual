@@ -2,6 +2,7 @@ import { useState } from 'react';
 import TareaCard from './TareaCard';
 import { FaFilter, FaSearch, FaPlus, FaCalendarAlt} from 'react-icons/fa';
 import '../css/Tareas.css';
+import TituloPage from '../../../components/pages/TituloPage';
 
 interface ArchivoEntrega {
   id: string;
@@ -20,7 +21,7 @@ interface Tarea {
   fechaEntrega: string;
   fechaPublicacion: string;
   estado: 'pendiente' | 'entregada' | 'revision' | 'calificada';
-  prioridad: 'alta' | 'media' | 'baja';
+  // prioridad eliminada por petición de diseño
   nota?: number;
   comentarios?: string;
   archivosEntregados?: ArchivoEntrega[];
@@ -40,7 +41,7 @@ const tareasData: Tarea[] = [
     fechaEntrega: "2024-01-20",
     fechaPublicacion: "2024-01-05",
     estado: "pendiente",
-    prioridad: "alta",
+    
     tipoEntrega: "archivo",
     formatosPermitidos: [".pdf", ".docx"],
     tamanosMaximo: 10,
@@ -55,7 +56,7 @@ const tareasData: Tarea[] = [
     fechaEntrega: "2024-01-25",
     fechaPublicacion: "2024-01-10",
     estado: "entregada",
-    prioridad: "alta",
+    
     tipoEntrega: "archivo",
     formatosPermitidos: [".sql", ".pdf", ".zip"],
     tamanosMaximo: 50,
@@ -86,7 +87,7 @@ const tareasData: Tarea[] = [
     fechaEntrega: "2024-01-30",
     fechaPublicacion: "2024-01-12",
     estado: "pendiente",
-    prioridad: "media",
+    
     tipoEntrega: "archivo",
     formatosPermitidos: [".py", ".pdf", ".zip"],
     tamanosMaximo: 25,
@@ -101,7 +102,7 @@ const tareasData: Tarea[] = [
     fechaEntrega: "2024-01-15",
     fechaPublicacion: "2024-01-01",
     estado: "calificada",
-    prioridad: "alta",
+    
     nota: 18,
     comentarios: "Excelente trabajo, muy detallado el análisis. Mejorar la conclusión.",
     tipoEntrega: "archivo",
@@ -127,7 +128,7 @@ const tareasData: Tarea[] = [
     fechaEntrega: "2024-01-22",
     fechaPublicacion: "2024-01-14",
     estado: "pendiente",
-    prioridad: "baja",
+    
     tipoEntrega: "texto",
     permitirEntregaTardia: true
   },
@@ -140,7 +141,7 @@ const tareasData: Tarea[] = [
     fechaEntrega: "2024-02-05",
     fechaPublicacion: "2024-01-15",
     estado: "revision",
-    prioridad: "alta",
+    
     tipoEntrega: "enlace",
     permitirEntregaTardia: true,
     archivosEntregados: [
@@ -158,7 +159,6 @@ const tareasData: Tarea[] = [
 export default function Tareas() {
   const [tareas, setTareas] = useState<Tarea[]>(tareasData);
   const [filtroEstado, setFiltroEstado] = useState<string>('todas');
-  const [filtroPrioridad, setFiltroPrioridad] = useState<string>('todas');
   const [busqueda, setBusqueda] = useState<string>('');
 
   const tareasFiltradas = tareas.filter(tarea => {
@@ -167,9 +167,7 @@ export default function Tareas() {
                           tarea.profesor.toLowerCase().includes(busqueda.toLowerCase());
     
     const cumpleEstado = filtroEstado === 'todas' || tarea.estado === filtroEstado;
-    const cumplePrioridad = filtroPrioridad === 'todas' || tarea.prioridad === filtroPrioridad;
-    
-    return cumpleBusqueda && cumpleEstado && cumplePrioridad;
+  return cumpleBusqueda && cumpleEstado;
   });
 
   const contadores = {
@@ -181,16 +179,11 @@ export default function Tareas() {
 
   return (
     <div className="tareas-page">
-      <div className="tareas-header">
-        <div className="header-content">
-          <h1>Mis Tareas</h1>
-          <p>Gestiona y sigue el progreso de tus asignaciones académicas</p>
-        </div>
-        <button className="btn-nueva-tarea">
-          <FaPlus /> Nueva Consulta
-        </button>
-      </div>
 
+          <TituloPage titulo="Mis Tareas" />
+
+          <p className="page-subtitle">Gestiona y sigue el progreso de tus asignaciones académicas</p>
+      
       <div className="tareas-stats">
         <div className="stat-card pendientes">
           <span className="stat-number">{contadores.pendientes}</span>
@@ -237,18 +230,7 @@ export default function Tareas() {
             </select>
           </div>
 
-          <div className="filter-group">
-          
-            <select
-              value={filtroPrioridad}
-              onChange={(e) => setFiltroPrioridad(e.target.value)}
-            >
-              <option value="todas">Todas las prioridades</option>
-              <option value="alta">Alta</option>
-              <option value="media">Media</option>
-              <option value="baja">Baja</option>
-            </select>
-          </div>
+          {/* prioridad removida: no mostrar select */}
         </div>
       </div>
 

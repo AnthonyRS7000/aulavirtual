@@ -11,10 +11,11 @@
   background-color: #f3fbf9 !important; /* tono claro tipo intranet */
   color: #0f172a !important; /* texto oscuro */
   box-shadow: 1px 0px 8px rgba(15,23,42,0.06) !important;
-  z-index: 30 !important;
+  z-index: 60 !important; /* encima del contenido */
   overflow: hidden;
-  transition: all 0.22s ease;
+  transition: transform 0.22s ease, opacity 0.22s ease;
   padding: 1rem !important;
+  transform: translateX(0); /* por defecto visible */
 }
 
 .admin-sidebar-desktop.closed,
@@ -203,6 +204,44 @@
   border: 0;
   border-top: 1px solid #444;
   margin: 0 auto 12px auto;
+}
+
+/* Backdrop para mobile overlay */
+.admin-sidebar-backdrop {
+  position: fixed;
+  inset: 0; /* top:0;right:0;bottom:0;left:0 */
+  background: rgba(11,22,34,0.42);
+  z-index: 50; /* debajo del sidebar pero encima del contenido */
+  transition: opacity 0.2s ease;
+}
+
+.admin-sidebar-backdrop.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Modo overlay: cuando no es desktop, controlar aparición con transform y clase .collapsed */
+@media (max-width: 1023px) {
+  .admin-sidebar, .admin-sidebar-desktop {
+    /* arrancar oculto hacia la izquierda cuando collapsed */
+    transform: translateX(-100%);
+    opacity: 0;
+    pointer-events: none;
+    width: 260px; /* ancho modal */
+  }
+
+  .admin-sidebar:not(.collapsed), .admin-sidebar-desktop:not(.collapsed) {
+    transform: translateX(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* Ajustar el botón collapse para que quede flotando encima */
+  .sidebar-collapse-button {
+    position: fixed;
+    z-index: 70;
+    top: 16px;
+  }
 }
 
 /* Lista del menú */
