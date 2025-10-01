@@ -356,6 +356,54 @@
   .clases-grid { grid-template-columns: repeat(3, 1fr); }
 }
 
+/* Forzar ancho fijo de tarjeta (430px) para pantallas >= 430px.
+   El grid usará columnas de 430px (repeat auto-fit) y centrará los items.
+   Por debajo de 430px, las tarjetas vuelven a ser responsivas (max-width:92%). */
+/* Tarjeta más compacta para permitir 3 por fila en escritorio
+   — ancho base fijo a 320px en todas las pantallas >=360px. */
+@media (min-width: 360px) {
+  .clases-grid {
+    grid-template-columns: repeat(auto-fit, 320px);
+    justify-content: center;
+    gap: 1.25rem;
+  }
+
+  .clase-card,
+  .clase-card-min {
+    /* Mantener ancho fijo de 320px siempre.
+       El escalado visual se maneja con transform en la tarjeta. */
+    width: 320px;
+    max-width: 320px;
+    box-sizing: border-box;
+  }
+}
+
+/* Forzar exactamente 3 columnas en pantallas suficientemente anchas (evita 4 en pantallas enormes)
+   3 * 320px + gap ≈ 1000-1100px, así que este breakpoint asegura 3 columnas en desktop */
+@media (min-width: 1100px) {
+  .clases-grid {
+    grid-template-columns: repeat(3, 320px);
+    justify-content: center;
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 359px) {
+  /* Móviles muy pequeños: una sola tarjeta centrada con ancho fijo de 320px.
+     El transform: scale() en la tarjeta se encargará de reducirla visualmente. */
+  .clase-card,
+  .clase-card-min {
+    width: 320px;
+    max-width: 320px;
+  }
+
+  .clases-grid {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    gap: 1rem;
+  }
+}
+
 .clase-card {
   background: var(--bg-secondary);
   backdrop-filter: blur(10px);
@@ -556,9 +604,6 @@ color: #991b1b;
     justify-content: center;
   }
   
-  .clases-grid {
-    grid-template-columns: 1fr;
-  }
   
   .clase-detalles {
     grid-template-columns: 1fr;

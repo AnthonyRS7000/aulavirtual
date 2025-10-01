@@ -68,6 +68,22 @@ export default function Clases() {
       aulas: ["Aula 305", "Aula Virtual 3"],
       estudiantes: 32,
     }
+    ,
+    {
+      id: "4",
+      nombre: "Inteligencia Artificial",
+      codigo: "INF-410",
+      docente: "Dra. Laura Méndez",
+      horario: "Lun y Vie 16:00 - 18:00",
+      creditos: 4,
+      semestre: "2025-2",
+      descripcion: "Introducción a técnicas modernas de IA y aprendizaje automático.",
+      modalidad: "virtual",
+      estado: "activa",
+      color: "#FF7043",
+      aulas: ["Aula Virtual 2"],
+      estudiantes: 140,
+    }
   ]);
 
   const [busqueda, setBusqueda] = useState("");
