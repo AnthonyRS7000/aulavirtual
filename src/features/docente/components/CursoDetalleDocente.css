@@ -1,0 +1,817 @@
+/* Variables institucionales UDH - Mantener solo las específicas del componente */
+:root {
+  --color-primario: #107ca0;      /* prim color */
+  --color-secundario: #2EBAA0;    /* secu color */
+  --color-terciario: #FBBE1D;     /* terc color */
+}
+
+/* Contenedor principal - Usando variables del sistema de temas */
+.classroom-container {
+  min-height: 100vh;
+  background: var(--bg-primary); /* ✅ Variable del sistema */
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+  width: 100%;
+  overflow-x: hidden;
+  color: var(--text-primary); /* ✅ Variable del sistema */
+}
+
+/* Header exacto como Google Classroom */
+.classroom-header {
+  height: 240px;
+  position: relative;
+  padding: 1.5rem;
+  color: white;
+  overflow: hidden;
+  background: var(--color-primario);
+}
+
+.classroom-header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  position: relative;
+  z-index: 2;
+}
+
+.curso-title-area {
+  flex: 1;
+}
+
+.curso-nombre-classroom {
+  font-size: 2.25rem;
+  font-weight: 400;
+  margin: 0 0 0.25rem 0;
+  letter-spacing: 0;
+  line-height: 1.2;
+  color: white;
+}
+
+.curso-codigo-classroom {
+  font-size: 1rem;
+  margin: 0 0 0.25rem 0;
+  opacity: 0.9;
+  color: white;
+}
+
+.curso-seccion-classroom {
+  font-size: 0.875rem;
+  margin: 0;
+  opacity: 0.8;
+  color: white;
+}
+
+.classroom-header-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.btn-volver-classroom {
+  background: rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  transition: background 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn-volver-classroom:hover {
+  background: rgba(255, 255, 255, 0.5);
+  transform: scale(1.05);
+}
+
+.classroom-icon-btn {
+  background: rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.classroom-icon-btn:hover {
+  background: rgba(255, 255, 255, 0.5);
+  transform: scale(1.05);
+}
+
+/* Decoración graduación */
+.graduation-decoration {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  opacity: 0.2;
+}
+
+.graduation-cap-1,
+.graduation-cap-2 {
+  position: absolute;
+  background: var(--color-terciario);
+  transform: rotate(45deg);
+  border-radius: 0.25rem;
+}
+
+.graduation-cap-1 {
+  width: 3.75rem;
+  height: 3.75rem;
+}
+
+.graduation-cap-2 {
+  top: 2.5rem;
+  left: 5rem;
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+/* Pestañas usando variables del sistema */
+.classroom-tabs {
+  background: var(--bg-secondary); /* ✅ Variable del sistema */
+  border-bottom: 1px solid var(--border-color); /* ✅ Variable del sistema */
+  display: flex;
+  padding: 0 1.5rem;
+  box-shadow: 0 1px 2px var(--shadow); /* ✅ Variable del sistema */
+}
+
+.classroom-tab {
+  background: none;
+  border: none;
+  padding: 1rem 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-secondary); /* ✅ Variable del sistema */
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.classroom-tab.active {
+  color: var(--color-primario);
+  border-bottom-color: var(--color-primario);
+}
+
+.classroom-tab:hover:not(.active) {
+  background: var(--bg-tertiary); /* ✅ Variable del sistema */
+  color: var(--text-primary); /* ✅ Variable del sistema */
+}
+
+/* Contenido principal */
+.classroom-content {
+  background: var(--bg-secondary); /* ✅ Variable del sistema */
+  min-height: calc(100vh - 300px);
+}
+
+.classroom-main-layout {
+  display: flex;
+  max-width: 90rem;
+  margin: 0 auto;
+  padding: 1.5rem;
+  gap: 1.5rem;
+}
+
+/* Sidebar */
+.classroom-sidebar {
+  width: 18.75rem;
+  flex-shrink: 0;
+}
+
+.meet-card,
+.upcoming-card {
+  background: var(--bg-secondary); /* ✅ Variable del sistema */
+  border: 1px solid var(--border-color); /* ✅ Variable del sistema */
+  border-radius: 0.75rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 6px var(--shadow); /* ✅ Variable del sistema */
+  transition: box-shadow 0.2s ease;
+}
+
+.meet-card:hover,
+.upcoming-card:hover {
+  box-shadow: 0 20px 25px var(--shadow); /* ✅ Variable del sistema */
+}
+
+.meet-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.meet-icon {
+  width: 2rem;
+  height: 2rem;
+  background: var(--color-primario);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.meet-menu {
+  background: none;
+  border: none;
+  padding: 0.25rem;
+  border-radius: 50%;
+  cursor: pointer;
+  color: var(--text-secondary); /* ✅ Variable del sistema */
+  margin-left: auto;
+  transition: background 0.15s ease;
+}
+
+.meet-menu:hover {
+  background: var(--bg-tertiary); /* ✅ Variable del sistema */
+}
+
+.meet-join-btn {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  background: var(--color-primario);
+  color: white;
+  border: none;
+  border-radius: 0.375rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  box-shadow: 0 1px 2px var(--shadow); /* ✅ Variable del sistema */
+}
+
+.meet-join-btn:hover {
+  background: #1a1d3a;
+}
+
+.meet-join-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-primario);
+}
+
+.upcoming-card h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 1rem 0;
+  color: var(--text-primary); /* ✅ Variable del sistema */
+}
+
+.no-assignments p {
+  color: var(--text-secondary); /* ✅ Variable del sistema */
+  font-size: 0.875rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.4;
+}
+
+.ver-todo-btn {
+  background: none;
+  border: none;
+  color: var(--color-primario);
+  font-weight: 500;
+  cursor: pointer;
+  font-size: 0.875rem;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.ver-todo-btn:hover {
+  text-decoration: underline;
+  color: #1a1d3a;
+}
+
+/* Feed principal */
+.classroom-feed {
+  flex: 1;
+  max-width: 37.5rem;
+}
+
+.create-announcement {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: var(--bg-secondary); /* ✅ Variable del sistema */
+  border: 1px solid var(--border-color); /* ✅ Variable del sistema */
+  border-radius: 0.75rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 6px var(--shadow); /* ✅ Variable del sistema */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.create-announcement:hover {
+  box-shadow: 0 20px 25px var(--shadow); /* ✅ Variable del sistema */
+  transform: scale(1.01);
+}
+
+.teacher-avatar,
+.student-avatar,
+.person-avatar {
+  flex-shrink: 0;
+}
+
+.avatar-circle {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: var(--color-primario);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.avatar-circle.student {
+  background: var(--color-secundario);
+}
+
+.announcement-input {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border-color); /* ✅ Variable del sistema */
+  border-radius: 1.5rem;
+  background: var(--bg-tertiary); /* ✅ Variable del sistema */
+  color: var(--text-secondary); /* ✅ Variable del sistema */
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: background-color 0.15s ease;
+}
+
+.announcement-input:hover {
+  background: var(--bg-primary); /* ✅ Variable del sistema */
+}
+
+/* Botones de acción del docente */
+.teacher-actions {
+  margin-bottom: 1.5rem;
+}
+
+.action-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: var(--bg-secondary); /* ✅ Variable del sistema */
+  border: 1px solid var(--border-color); /* ✅ Variable del sistema */
+  border-radius: 0.375rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-primary); /* ✅ Variable del sistema */
+  box-shadow: 0 1px 2px var(--shadow); /* ✅ Variable del sistema */
+  transition: background-color 0.15s ease, box-shadow 0.2s ease;
+}
+
+.action-btn:hover {
+  background: var(--bg-tertiary); /* ✅ Variable del sistema */
+  box-shadow: 0 4px 6px var(--shadow); /* ✅ Variable del sistema */
+}
+
+.action-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-primario);
+}
+
+.create-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: var(--bg-secondary); /* ✅ Variable del sistema */
+  border: 1px solid var(--border-color); /* ✅ Variable del sistema */
+  border-radius: 0.375rem;
+  box-shadow: 0 20px 25px var(--shadow); /* ✅ Variable del sistema */
+  min-width: 9.375rem;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-0.5rem);
+  transition: all 0.2s ease;
+  z-index: 100;
+}
+
+.action-btn:hover .create-dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.create-dropdown button {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: none;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-primary); /* ✅ Variable del sistema */
+  font-size: 0.875rem;
+  transition: background-color 0.15s ease;
+}
+
+.create-dropdown button:hover {
+  background: var(--bg-tertiary); /* ✅ Variable del sistema */
+}
+
+/* Posts del feed */
+.classroom-post {
+  background: var(--bg-secondary); /* ✅ Variable del sistema */
+  border: 1px solid var(--border-color); /* ✅ Variable del sistema */
+  border-radius: 0.75rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 6px var(--shadow); /* ✅ Variable del sistema */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.classroom-post:hover {
+  box-shadow: 0 20px 25px var(--shadow); /* ✅ Variable del sistema */
+  transform: scale(1.01);
+}
+
+.post-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.post-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.teacher-name,
+.student-name {
+  font-weight: 500;
+  color: var(--text-primary); /* ✅ Variable del sistema */
+  font-size: 0.875rem;
+}
+
+.post-action {
+  font-size: 0.8125rem;
+  color: var(--text-secondary); /* ✅ Variable del sistema */
+  line-height: 1.3;
+}
+
+.post-date {
+  font-size: 0.75rem;
+  color: var(--text-muted); /* ✅ Variable del sistema */
+}
+
+.post-menu {
+  background: none;
+  border: none;
+  padding: 0.25rem;
+  border-radius: 50%;
+  cursor: pointer;
+  color: var(--text-secondary); /* ✅ Variable del sistema */
+  transition: background-color 0.15s ease;
+}
+
+.post-menu:hover {
+  background: var(--bg-tertiary); /* ✅ Variable del sistema */
+}
+
+.post-content {
+  margin-left: 3.25rem;
+  color: var(--text-primary); /* ✅ Variable del sistema */
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+/* Posts de tareas específicos */
+.assignment-post .post-header {
+  align-items: center;
+}
+
+.assignment-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  background: var(--color-primario);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.assignment-preview {
+  margin-left: 3.25rem;
+}
+
+.assignment-preview h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1rem;
+  color: var(--color-primario);
+  cursor: pointer;
+  font-weight: 500;
+  transition: color 0.15s ease;
+}
+
+.assignment-preview h4:hover {
+  text-decoration: underline;
+  color: #1a1d3a;
+}
+
+.assignment-preview p {
+  margin: 0 0 0.5rem 0;
+  color: var(--text-secondary); /* ✅ Variable del sistema */
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+.assignment-stats {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  font-size: 0.8125rem;
+  color: var(--text-muted); /* ✅ Variable del sistema */
+}
+
+.whatsapp-link {
+  color: var(--color-primario);
+  text-decoration: none;
+  font-size: 0.875rem;
+  word-break: break-all;
+  transition: color 0.15s ease;
+}
+
+.whatsapp-link:hover {
+  text-decoration: underline;
+  color: #1a1d3a;
+}
+
+/* Pestaña Trabajo de clase */
+.classroom-work {
+  padding: 1.5rem;
+  max-width: 50rem;
+  margin: 0 auto;
+}
+
+.work-header {
+  margin-bottom: 1.5rem;
+}
+
+.create-work-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: var(--color-primario);
+  color: white;
+  border: none;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.875rem;
+  transition: background-color 0.15s ease;
+  box-shadow: 0 1px 2px var(--shadow); /* ✅ Variable del sistema */
+}
+
+.create-work-btn:hover {
+  background: #1a1d3a;
+}
+
+.create-work-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-primario);
+}
+
+.work-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background: var(--border-color); /* ✅ Variable del sistema */
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 4px 6px var(--shadow); /* ✅ Variable del sistema */
+}
+
+.work-item {
+  background: var(--bg-secondary); /* ✅ Variable del sistema */
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: background-color 0.15s ease;
+}
+
+.work-item:hover {
+  background: var(--bg-tertiary); /* ✅ Variable del sistema */
+}
+
+.work-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: var(--color-primario);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  flex-shrink: 0;
+}
+
+.work-content {
+  flex: 1;
+}
+
+.work-content h4 {
+  margin: 0 0 0.25rem 0;
+  font-size: 0.875rem;
+  color: var(--color-primario);
+  cursor: pointer;
+  font-weight: 500;
+  transition: color 0.15s ease;
+}
+
+.work-content h4:hover {
+  text-decoration: underline;
+  color: #1a1d3a;
+}
+
+.work-content p {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--text-secondary); /* ✅ Variable del sistema */
+  line-height: 1.3;
+}
+
+.work-stats {
+  font-size: 0.8125rem;
+  color: var(--text-muted); /* ✅ Variable del sistema */
+  flex-shrink: 0;
+}
+
+/* Pestaña Personas */
+.classroom-people {
+  padding: 1.5rem;
+  max-width: 50rem;
+  margin: 0 auto;
+}
+
+.teachers-section,
+.students-section {
+  margin-bottom: 2rem;
+}
+
+.teachers-section h3,
+.students-section h3 {
+  font-size: 1.25rem;
+  font-weight: 400;
+  margin: 0 0 1rem 0;
+  color: var(--text-primary); /* ✅ Variable del sistema */
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border-color); /* ✅ Variable del sistema */
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.count {
+  font-size: 1rem;
+  color: var(--text-secondary); /* ✅ Variable del sistema */
+  font-weight: 400;
+}
+
+.person-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--border-color); /* ✅ Variable del sistema */
+  transition: background-color 0.15s ease;
+}
+
+.person-item:hover {
+  background: var(--bg-tertiary); /* ✅ Variable del sistema */
+  border-radius: 0.375rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+.person-item:last-child {
+  border-bottom: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .classroom-header {
+    height: 200px;
+    padding: 1rem;
+  }
+  
+  .curso-nombre-classroom {
+    font-size: 1.5rem;
+  }
+  
+  .classroom-main-layout {
+    flex-direction: column;
+    padding: 1rem;
+    gap: 1rem;
+  }
+  
+  .classroom-sidebar {
+    width: 100%;
+  }
+  
+  .classroom-tabs {
+    padding: 0 1rem;
+    overflow-x: auto;
+  }
+  
+  .classroom-tab {
+    padding: 1rem;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  
+  .classroom-work,
+  .classroom-people {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .classroom-header {
+    height: 180px;
+  }
+  
+  .curso-nombre-classroom {
+    font-size: 1.25rem;
+  }
+  
+  .classroom-header-actions {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  
+  .create-announcement {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .announcement-input {
+    width: 100%;
+  }
+  
+  .post-content {
+    margin-left: 0;
+    margin-top: 0.5rem;
+  }
+  
+  .assignment-preview {
+    margin-left: 0;
+    margin-top: 0.5rem;
+  }
+}
+
+/* Estados de carga y empty states */
+.empty-state {
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-secondary); /* ✅ Variable del sistema */
+}
+
+.empty-state p {
+  margin: 0.5rem 0;
+  font-size: 0.875rem;
+}
+
+/* Focus states para accesibilidad */
+.classroom-tab:focus,
+.meet-join-btn:focus,
+.action-btn:focus,
+.create-work-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-primario);
+}
+
+/* Transiciones siguiendo tu guía */
+.transition-card {
+  transition-property: transform, box-shadow, border-color;
+  transition-duration: 200ms;
+  transition-timing-function: ease-in-out;
+}
+
+.transition-button {
+  transition-property: background-color, color;
+  transition-duration: 150ms;
+  transition-timing-function: ease-in-out;
+}
