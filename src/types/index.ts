@@ -1,4 +1,47 @@
 // Tipos para autenticación
+export interface Curso {
+  id: number;
+  codigo: string;
+  nombre: string;
+  descripcion: string;
+  ciclo: string;
+  creditos: number;
+  estudiantes: number;
+  estado: 'activo' | 'inactivo' | 'archivado';
+  fechaCreacion: string;
+  ultimaActividad: string;
+  codigoAcceso: string;
+}
+
+export interface Material {
+  id: number;
+  titulo: string;
+  tipo: 'documento' | 'video' | 'enlace' | 'presentacion';
+  fechaSubida: string;
+  descargas: number;
+  cursoId: number;
+}
+
+export interface Tarea {
+  id: number;
+  titulo: string;
+  descripcion: string;
+  fechaLimite: string;
+  puntuacion: number;
+  entregas: number;
+  totalEstudiantes: number;
+  estado: 'publicada' | 'borrador' | 'cerrada';
+  cursoId: number;
+}
+
+export interface Anuncio {
+  id: number;
+  titulo: string;
+  contenido: string;
+  fecha: string;
+  fijado: boolean;
+  cursoId: number;
+}
 export interface User {
   id: string;
   full_name: string;
