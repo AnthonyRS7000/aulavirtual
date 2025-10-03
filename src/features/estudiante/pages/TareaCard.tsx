@@ -250,7 +250,7 @@ export default function TareaCard({ tarea }: TareaCardProps) {
               onClick={manejarEntrega}
               disabled={tarea.tipoEntrega === 'archivo' && !archivoSeleccionado}
             >
-              Entregar Tarea
+              Entregar
             </button>
           </>
         )}

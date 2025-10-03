@@ -4,15 +4,15 @@
   background: #ffffff; /* blanco puro por defecto */
   border-radius: 16px; /* bordes más suaves */
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.10), 0 6px 18px rgba(0, 0, 0, 0.06); /* sombra más marcada por defecto */
-  padding: 28px;
-  margin: 32px 0;
+  padding: 20px; /* menos padding para tarjeta más compacta */
+  margin: 20px 0;
   border-left: 6px solid var(--pantone-zomp); /* franja más gruesa */
   color: #1f2937; /* texto oscuro para contraste en fondo blanco */
   width: 100%;
   box-sizing: border-box;
   transition: box-shadow 0.25s ease, transform 0.25s ease;
-  justify-content: space-between;
-  min-height: 520px;
+  /* No forzamos altura mínima: dejamos que el contenido determine la altura */
+  min-height: auto;
   position: relative;
   overflow: hidden;
 }
@@ -72,20 +72,22 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 12px;
-  margin-top: auto;
+  gap: 8px;
+  /* reducir separación hacia la sección anterior */
+  margin-top: 6px;
   width: 100%;
-  border-top: 1px solid rgba(209, 213, 219, 0.4); /* separador sutil en gris */
-  padding-top: 20px;
+  /* eliminar border-top para ahorrar espacio visual; usar padding reducido */
+  padding-top: 6px;
   background: rgba(249, 250, 251, 0.6); /* fondo ligeramente diferente para los botones */
-  margin-left: -28px;
-  margin-right: -28px;
-  margin-bottom: -28px;
-  padding-left: 28px;
-  padding-right: 28px;
-  padding-bottom: 28px;
-  border-bottom-left-radius: 16px;
-  border-bottom-right-radius: 16px;
+  /* alinear la barra con el resto de la tarjeta */
+  margin-left: 0;
+  margin-right: 0;
+  margin-bottom: 0;
+  padding-left: 12px;
+  padding-right: 12px;
+  padding-bottom: 8px;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
 }
 
 
@@ -187,6 +189,13 @@
   text-align: justify;
 }
 
+/* Truncado para descripción: una sola línea en pantallas grandes */
+.tarea-descripcion {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .tarea-meta {
   display: flex;
   justify-content: space-between;
@@ -207,6 +216,29 @@
 @media (max-width: 480px) {
   .materia-info { gap: 4px; }
   .tarea-titulo { margin-top: 6px; }
+}
+
+/* Ocultar advertencias de entrega en pantallas pequeñas para ahorrar espacio */
+@media (max-width: 480px) {
+  .entrega-vencida,
+  .entrega-tardia {
+    display: none !important;
+  }
+}
+
+/* Ocultar metadatos de entrega (tipo, formatos, tamaño) en móviles */
+@media (max-width: 480px) {
+  .tipo-entrega { display: none !important; }
+  .info-entrega { display: none !important; }
+  .upload-area { padding: 0; }
+  .upload-button { padding: 8px 10px; font-size: 0.92rem; }
+}
+
+/* Ocultar la segunda .fecha-item (Publicado) en móviles para ahorrar espacio */
+@media (max-width: 480px) {
+  .fechas-info .fecha-item:nth-child(2) {
+    display: none;
+  }
 }
 
 .materia-info strong {
@@ -347,6 +379,17 @@
   .tarea-card {
     padding: 16px;
   }
+
+  /* En móviles mostrar hasta 2 líneas para la descripción */
+  .tarea-descripcion {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+  }
   
   .tarea-header {
     flex-direction: column;
@@ -367,6 +410,8 @@
   }
   
   .tarea-acciones {
+    /* En anchos móviles intermedios seguir en columna, pero en pantallas muy pequeñas (<=480px)
+       mostramos los botones principales en una sola fila con mismo ancho */
     flex-direction: column;
   }
   
@@ -378,13 +423,111 @@
   }
 }
 
+/* For very small screens keep the two main actions in one row */
+@media (max-width: 480px) {
+  .tarea-acciones {
+    flex-direction: row; /* poner en fila */
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+    padding-left: 12px; /* ajustar padding para no sobresalir */
+    padding-right: 12px;
+    padding-bottom: 12px;
+  }
+
+  /* Entregar Tarea y Ver Detalles deben compartir el espacio (flex-basis) */
+  .tarea-acciones .btn-entregar,
+  .tarea-acciones .btn-detalles {
+    width: auto;
+    flex: 1 1 48%; /* ambos crecen y ocupan ~48% cada uno */
+    min-width: 0; /* permitir truncado interno si hace falta */
+  }
+
+  /* Si aparece btn-ver (para estado entregada/calificada), darle un tamaño más pequeño */
+  .tarea-acciones .btn-ver {
+    flex: 1 1 48%;
+    min-width: 0;
+  }
+
+  /* Mantener la jerarquía visual: sombreado/bordes iguales pero centrados */
+  .tarea-acciones .btn-detalles {
+    text-align: center;
+  }
+}
+
+/* Compact layout tweaks for very small screens */
+@media (max-width: 480px) {
+  .tarea-card {
+    padding: 14px; /* reducir padding general */
+    margin: 20px 0;
+    min-height: auto; /* eliminar min-height para ahorrar espacio vertical */
+    border-radius: 12px;
+  }
+
+  .tarea-header {
+    gap: 8px;
+    border-bottom-width: 1px;
+    padding-bottom: 6px;
+  }
+
+  .tarea-titulo {
+    font-size: 16px;
+    margin-bottom: 8px;
+  }
+
+  .tarea-descripcion {
+    font-size: 13px;
+    margin-bottom: 10px;
+  }
+
+  .seccion-entrega {
+    padding: 12px;
+    margin: 12px 0;
+    border-radius: 10px;
+    min-height: auto;
+  }
+
+  .upload-button {
+    padding: 8px 10px;
+    min-height: 40px;
+    font-size: 0.9rem;
+  }
+
+  .archivo-seleccionado {
+    padding: 6px 8px;
+    font-size: 0.85rem;
+  }
+
+  .tarea-acciones {
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-bottom: 8px;
+    gap: 6px;
+  }
+
+  .btn-entregar,
+  .btn-ver,
+  .btn-detalles {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+
+  .materia-info strong {
+    font-size: 18px;
+  }
+
+  .fechas-info .fecha-item {
+    font-size: 12px;
+  }
+}
+
 /* Estilos para entrega de archivos */
 .seccion-entrega {
   background: rgba(249, 250, 251, 0.8); /* fondo gris muy claro */
   border: 1px solid rgba(209, 213, 219, 0.5);
   border-radius: 12px;
-  padding: 20px;
-  margin: 20px 0;
+  padding: 10px; /* reducir padding para acercar a la barra de acciones */
+  margin: 0 0 6px 0; /* eliminar margen superior y dejar poco espacio inferior */
 }
 
 .entrega-header {
@@ -459,6 +602,33 @@
   color: var(--text-primary);
   border-radius: 6px;
   font-size: 0.875rem;
+}
+
+/* Mobile: truncar nombre de archivo y ocultar el tamaño para ahorrar espacio */
+@media (max-width: 480px) {
+  .archivo-seleccionado {
+    padding: 6px 8px;
+    gap: 6px;
+  }
+
+  .archivo-seleccionado .file-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    max-width: 100%;
+  }
+
+  .archivo-seleccionado .file-size {
+    display: none; /* ocultar peso en pantallas pequeñas */
+  }
+}
+
+/* Ocultar la sección de comentarios del profesor en pantallas pequeñas */
+@media (max-width: 480px) {
+  .comentarios-tarea {
+    display: none !important;
+  }
 }
 
 .file-icon {
@@ -589,6 +759,41 @@
   background: var(--pantone-zomp-light);
 }
 
+/* Mobile: truncar nombre de archivos entregados y ocultar detalles (fecha, tamaño) */
+@media (max-width: 480px) {
+  .archivos-entregados {
+    padding: 12px;
+    margin: 12px 0;
+  }
+
+  .archivo-entregado {
+    gap: 8px;
+    padding: 8px;
+    align-items: center;
+  }
+
+  .archivo-info {
+    min-width: 0; /* para permitir overflow controlado */
+  }
+
+  .archivo-nombre {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    max-width: 100%;
+  }
+
+  .archivo-detalles {
+    display: none; /* ocultar fecha y tamaño en dispositivos pequeños */
+  }
+
+  .btn-ver-archivo {
+    padding: 6px 8px;
+    flex: 0 0 auto;
+  }
+}
+
 /* Botones adicionales */
 .btn-preparar {
   background: var(--pantone-saffron);
@@ -691,5 +896,37 @@
   
   .btn-ver-archivo {
     align-self: flex-end;
+  }
+}
+
+/* Asegurar que en pantallas muy pequeñas los archivos entregados queden en UNA sola fila
+   (ícono, nombre truncado, botón ver) — este bloque va después del @media 768 para tener prioridad */
+@media (max-width: 480px) {
+  .archivo-entregado {
+    flex-direction: row; /* icono - info - botón en fila */
+    align-items: center;
+    gap: 8px;
+    padding: 8px;
+  }
+
+  .archivo-info {
+    flex-direction: row; /* nombre y posibles metadatos en fila (aunque detalles están ocultos) */
+    align-items: center;
+    gap: 8px;
+    flex: 1 1 auto;
+    min-width: 0; /* permitir truncado */
+  }
+
+  .archivo-nombre {
+    flex: 1 1 auto;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .btn-ver-archivo {
+    margin-left: 8px;
+    flex: 0 0 auto;
   }
 }
