@@ -337,7 +337,7 @@
   }
   
   .tareas-stats {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 1fr); /* 2 columnas en pantallas medianas */
     gap: 16px;
   }
   
@@ -357,6 +357,43 @@
   
   .filter-group select {
     min-width: 120px;
+  }
+}
+
+/* Para pantallas pequeñas móviles: 2 tarjetas por fila, mejorar ancho y margen */
+@media (max-width: 480px) {
+  .tareas-stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .stat-card {
+    padding: 18px;
+    border-radius: 10px;
+  }
+  .stat-number { font-size: 22px; }
+  .stat-label { font-size: 14px; }
+}
+
+/* Reglas de mayor especificidad para forzar 2 columnas en móviles cuando otras hojas intenten forzar 1 columna */
+@media (max-width: 600px) {
+  .tareas-page .tareas-stats {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+    align-items: start !important;
+  }
+
+  .tareas-page .tareas-stats .stat-card {
+    width: 100% !important;
+    max-width: none !important;
+    display: block !important;
+  }
+}
+
+@media (max-width: 420px) {
+  .tareas-page .tareas-stats {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
   }
 }
 

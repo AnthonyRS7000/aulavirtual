@@ -33,8 +33,9 @@ interface TareaCardProps {
 }
 
 export default function TareaCard({ tarea }: TareaCardProps) {
-  const [mostrarEntrega, setMostrarEntrega] = useState(false);
+  // (Se eliminó el estado mostrarEntrega porque la UI de subida se muestra siempre)
   const [archivoSeleccionado, setArchivoSeleccionado] = useState<File | null>(null);
+  const [verDetalles, setVerDetalles] = useState(false);
 
   const obtenerColorEstado = (estado: string) => {
     switch (estado) {
@@ -97,8 +98,9 @@ export default function TareaCard({ tarea }: TareaCardProps) {
     // Aquí iría la lógica para enviar el archivo al servidor
     console.log('Entregando tarea:', tarea.id, archivoSeleccionado);
     alert('Tarea entregada exitosamente');
-    setMostrarEntrega(false);
     setArchivoSeleccionado(null);
+    // cerrar modal si estaba abierto
+    setVerDetalles(false);
   };
 
   const esFechaVencida = () => {
@@ -250,14 +252,6 @@ export default function TareaCard({ tarea }: TareaCardProps) {
             >
               Entregar Tarea
             </button>
-            {!mostrarEntrega && (
-              <button 
-                className="btn-preparar"
-                onClick={() => setMostrarEntrega(true)}
-              >
-                Preparar Entrega
-              </button>
-            )}
           </>
         )}
         {tarea.estado === 'entregada' && (
@@ -266,8 +260,75 @@ export default function TareaCard({ tarea }: TareaCardProps) {
         {tarea.estado === 'calificada' && (
           <button className="btn-ver">Ver Calificación</button>
         )}
-        <button className="btn-detalles">Ver Detalles</button>
+        <button className="btn-detalles" onClick={() => setVerDetalles(true)}>Ver Detalles</button>
       </div>
+
+      {verDetalles && (
+        <div
+          className="tarea-modal-overlay"
+          role="dialog"
+          aria-modal="true"
+          aria-label={`Detalles de la tarea ${tarea.titulo}`}
+          style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.45)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1200 }}
+          onClick={() => setVerDetalles(false)}
+        >
+          <div
+            className="tarea-modal"
+            style={{ background: 'var(--bg-secondary)', padding: 20, borderRadius: 12, maxWidth: 800, width: '92%', boxShadow: '0 10px 40px rgba(2,6,23,0.4)' }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12 }}>
+              <h3 style={{ margin: 0 }}>{tarea.titulo}</h3>
+              <div style={{ display: 'flex', gap: 8 }}>
+                <button className="btn-detalles" onClick={() => setVerDetalles(false)}>Cerrar</button>
+              </div>
+            </div>
+
+            <div style={{ marginTop: 12 }}>
+              <p><strong>Materia:</strong> {tarea.materia}</p>
+              <p><strong>Profesor:</strong> {tarea.profesor}</p>
+              <p><strong>Fecha de entrega:</strong> {new Date(tarea.fechaEntrega).toLocaleString('es-ES')}</p>
+              <p style={{ marginTop: 12 }}>{tarea.descripcion}</p>
+
+              {tarea.formatosPermitidos && (
+                <p>Formatos permitidos: {tarea.formatosPermitidos.join(', ')}</p>
+              )}
+
+              {tarea.tamanosMaximo && (
+                <p>Tamaño máximo: {tarea.tamanosMaximo}MB</p>
+              )}
+
+              {tarea.archivosEntregados && tarea.archivosEntregados.length > 0 && (
+                <div style={{ marginTop: 12 }}>
+                  <h4>Archivos entregados</h4>
+                  {tarea.archivosEntregados.map(a => (
+                    <div key={a.id} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <FaFile />
+                      <div>
+                        <div style={{ fontWeight: 700 }}>{a.nombre}</div>
+                        <div style={{ fontSize: 12, color: 'var(--text-secondary)' }}>{a.fechaSubida} • {formatearTamaño(a.tamaño * 1024 * 1024)}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8, marginTop: 18 }}>
+              {tarea.estado === 'pendiente' && (
+                <button
+                  className="btn-entregar"
+                  onClick={manejarEntrega}
+                  disabled={tarea.tipoEntrega === 'archivo' && !archivoSeleccionado}
+                >
+                  Entregar Tarea
+                </button>
+              )}
+              <button className="btn-detalles" onClick={() => setVerDetalles(false)}>Cerrar</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
