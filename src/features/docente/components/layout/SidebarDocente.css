@@ -1,49 +1,9 @@
 /* Variables para diseño limpio - ANCHO OPTIMIZADO */
 :root {
-  --sidebar-width: 260px; /* Reducido de 320px */
-  --sidebar-collapsed-width: 70px; /* Reducido de 80px */
+  --sidebar-width: 260px;
+  --sidebar-collapsed-width: 70px;
   --topbar-height: 64px;
 }
-
-/* Variables para tema claro */
-:root[data-theme="light"] {
-  --sidebar-bg: #f8fafc;
-  --sidebar-header-bg: #e2e8f0;
-  --sidebar-active: #3b82f6;
-  --sidebar-hover: rgba(0, 0, 0, 0.05);
-  --sidebar-text: #334155;
-  --sidebar-text-secondary: #64748b;
-  --sidebar-border: #cbd5e1;
-  --sidebar-shadow: rgba(0, 0, 0, 0.1);
-}
-
-/* Variables para tema oscuro */
-:root[data-theme="dark"] {
-  --sidebar-bg: #1e293b;
-  --sidebar-header-bg: #0f172a;
-  --sidebar-active: #3b82f6;
-  --sidebar-hover: rgba(255, 255, 255, 0.1);
-  --sidebar-text: #e2e8f0;
-  --sidebar-text-secondary: #94a3b8;
-  --sidebar-border: #334155;
-  --sidebar-shadow: rgba(0, 0, 0, 0.4);
-}
-
-/* Variables por defecto (tema claro) */
-:root {
-  --sidebar-bg: #f8fafc;
-  --sidebar-header-bg: #e2e8f0;
-  --sidebar-active: #3b82f6;
-  --sidebar-hover: rgba(0, 0, 0, 0.05);
-  --sidebar-text: #334155;
-  --sidebar-text-secondary: #64748b;
-  --sidebar-border: #cbd5e1;
-  --sidebar-shadow: rgba(0, 0, 0, 0.1);
-}
-
-/* =====================================
-   SIDEBAR PRINCIPAL - ANCHO OPTIMIZADO
-   ===================================== */
 
 .sidebar-docente {
   position: fixed;
@@ -51,15 +11,15 @@
   left: 0;
   width: var(--sidebar-width);
   height: calc(100vh - var(--topbar-height));
-  background: var(--sidebar-bg);
-  color: var(--sidebar-text);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
   display: flex;
   flex-direction: column;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 30;
-  box-shadow: 4px 0 12px var(--sidebar-shadow);
+  box-shadow: 4px 0 12px var(--shadow);
   overflow: hidden;
-  border-right: 1px solid var(--sidebar-border);
+  border-right: 1px solid var(--border-color);
 }
 
 /* Estado colapsado */
@@ -67,28 +27,57 @@
   width: var(--sidebar-collapsed-width);
 }
 
-/* =====================================
-   HEADER DEL DOCENTE - COMPACTO
-   ===================================== */
-
 .sidebar-header {
-  background: var(--sidebar-header-bg);
-  padding: 1.5rem 1rem; /* Reducido padding */
-  border-bottom: 1px solid var(--sidebar-border);
+  background: var(--bg-tertiary);
+  padding: 1.5rem 1rem;
+  border-bottom: 1px solid var(--border-color);
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 0.75rem; /* Reducido gap */
-  min-height: 150px; /* Reducido altura */
+  gap: 0.75rem;
+  min-height: 150px;
+  position: relative;
 }
 
+/* BOTÓN HAMBURGUESA - LIMPIO */
+.sidebar-toggle-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: var(--accent-color);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  z-index: 10;
+}
+
+.sidebar-toggle-btn:hover {
+  background: var(--highlight-color);
+  transform: scale(1.1);
+}
+
+/* CUANDO ESTÁ COLAPSADO - CENTRAR BOTÓN */
+.sidebar-docente.sidebar-collapsed .sidebar-toggle-btn {
+  right: calc(50% - 16px); /* Centrar perfectamente */
+  top: 1rem;
+}
+
+/* Avatar */
 .user-avatar {
-  width: 60px; /* Reducido de 80px */
+  width: 60px;
   height: 60px;
   border-radius: 50%;
   overflow: hidden;
-  border: 3px solid #2EBAA0;
+  border: 3px solid var(--accent-color);
   box-shadow: 0 4px 12px rgba(46, 186, 160, 0.2);
   transition: all 0.3s ease;
 }
@@ -104,9 +93,9 @@
 }
 
 .user-name {
-  font-size: 0.85rem; /* Reducido */
+  font-size: 0.85rem;
   font-weight: 700;
-  color: var(--sidebar-text);
+  color: var(--text-primary);
   margin: 0 0 0.25rem 0;
   line-height: 1.2;
   text-transform: uppercase;
@@ -114,59 +103,58 @@
 }
 
 .user-role {
-  font-size: 0.75rem; /* Reducido */
-  color: #2EBAA0;
+  font-size: 0.75rem;
+  color: var(--accent-color);
   margin: 0 0 0.25rem 0;
   font-weight: 600;
 }
 
 .user-department {
-  font-size: 0.7rem; /* Reducido */
-  color: var(--sidebar-text-secondary);
+  font-size: 0.7rem;
+  color: var(--text-secondary);
   margin: 0;
   font-weight: 400;
 }
 
-/* =====================================
-   NAVEGACIÓN - MÁS COMPACTA
-   ===================================== */
-
+/* Navegación */
 .sidebar-nav {
   flex: 1;
-  padding: 1rem 0; /* Reducido padding */
+  padding: 1rem 0;
   display: flex;
   flex-direction: column;
-  gap: 0.25rem; /* Reducido gap */
+  gap: 0.25rem;
   overflow-y: auto;
 }
 
 .nav-item {
   display: flex;
   align-items: center;
-  gap: 0.75rem; /* Reducido gap */
-  padding: 0.75rem 1rem; /* Reducido padding */
-  color: var(--sidebar-text);
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  color: var(--text-primary);
   text-decoration: none;
-  border-radius: 0;
+  border-radius: 6px;
   transition: all 0.2s ease;
   position: relative;
-  min-height: 48px; /* Reducido altura */
-  margin: 0 0.5rem; /* Reducido margen */
-  border-radius: 6px;
+  min-height: 48px;
+  margin: 0 0.5rem;
+  cursor: pointer;
+  border: none;
+  background: none;
+  width: calc(100% - 1rem);
+  text-align: left;
 }
 
 .nav-item:hover {
-  background: var(--sidebar-hover);
-  color: var(--sidebar-text);
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
   transform: translateX(4px);
 }
 
-/* Estado activo - con temas */
 .nav-item.active {
-  background: var(--sidebar-active);
+  background: var(--accent-color);
   color: white;
   font-weight: 600;
-  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
 }
 
 .nav-item.active::before {
@@ -176,37 +164,34 @@
   top: 0;
   bottom: 0;
   width: 3px;
-  background: #60a5fa;
+  background: var(--highlight-color);
   border-radius: 0 4px 4px 0;
 }
 
 .nav-icon {
-  width: 18px; /* Reducido */
+  width: 18px;
   height: 18px;
   flex-shrink: 0;
   color: currentColor;
-  font-size: 1.125rem; /* Reducido */
+  font-size: 1.125rem;
 }
 
 .nav-label {
-  font-size: 0.8rem; /* Reducido */
+  font-size: 0.8rem;
   font-weight: 500;
   color: currentColor;
   white-space: nowrap;
   letter-spacing: 0.025em;
 }
 
-/* =====================================
-   ESTADO COLAPSADO - MÁS COMPACTO
-   ===================================== */
-
+/* Estado colapsado */
 .sidebar-docente.sidebar-collapsed .sidebar-header {
   padding: 1rem 0.5rem;
   min-height: 120px;
 }
 
 .sidebar-docente.sidebar-collapsed .user-avatar {
-  width: 40px; /* Reducido */
+  width: 40px;
   height: 40px;
 }
 
@@ -230,81 +215,7 @@
   font-size: 1.25rem;
 }
 
-/* =====================================
-   BOTÓN DE COLAPSO - CON TEMAS
-   ===================================== */
-
-.sidebar-toggle-btn {
-  position: fixed;
-  top: calc(var(--topbar-height) + 20px); /* Ajustado */
-  background: #2EBAA0;
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 30px; /* Reducido */
-  height: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  z-index: 40;
-  box-shadow: 0 4px 12px rgba(46, 186, 160, 0.3);
-}
-
-.sidebar-toggle-btn:hover {
-  background: #26a085;
-  transform: scale(1.1);
-  box-shadow: 0 6px 16px rgba(46, 186, 160, 0.4);
-}
-
-.toggle-icon {
-  width: 12px; /* Reducido */
-  height: 12px;
-  transition: transform 0.3s ease;
-  filter: brightness(0) invert(1);
-}
-
-/* =====================================
-   BACKDROP MÓVIL
-   ===================================== */
-
-.sidebar-backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 25;
-}
-
-/* =====================================
-   SCROLLBAR LIMPIO - CON TEMAS
-   ===================================== */
-
-.sidebar-nav::-webkit-scrollbar {
-  width: 4px;
-}
-
-.sidebar-nav::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.sidebar-nav::-webkit-scrollbar-thumb {
-  background: var(--sidebar-text-secondary);
-  border-radius: 2px;
-  opacity: 0.3;
-}
-
-.sidebar-nav::-webkit-scrollbar-thumb:hover {
-  opacity: 0.5;
-}
-
-/* =====================================
-   RESPONSIVE - MÓVIL AJUSTADO
-   ===================================== */
-
+/* Responsive */
 @media (max-width: 1024px) {
   .sidebar-docente {
     transform: translateX(-100%);
@@ -314,15 +225,11 @@
   .sidebar-docente.sidebar-open {
     transform: translateX(0);
   }
-  
-  .sidebar-toggle-btn {
-    display: none;
-  }
 }
 
 @media (max-width: 768px) {
   .sidebar-docente {
-    width: 240px; /* Reducido para móviles */
+    width: 240px;
   }
   
   .sidebar-header {
@@ -348,37 +255,4 @@
   .nav-label {
     font-size: 0.75rem;
   }
-}
-
-/* =====================================
-   TEMA ESPECÍFICO PARA SIDEBAR
-   ===================================== */
-
-/* Tema claro específico */
-[data-theme="light"] .sidebar-docente .user-name {
-  color: #0f172a;
-}
-
-[data-theme="light"] .sidebar-docente .nav-item:hover {
-  background: rgba(59, 130, 246, 0.1);
-  color: #0f172a;
-}
-
-/* Tema oscuro específico */
-[data-theme="dark"] .sidebar-docente .user-name {
-  color: #f0f6fc;
-}
-
-[data-theme="dark"] .sidebar-docente .nav-item:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: #f0f6fc;
-}
-
-/* Ajustes para el avatar en tema oscuro */
-[data-theme="dark"] .sidebar-docente .user-avatar {
-  box-shadow: 0 4px 12px rgba(46, 186, 160, 0.3);
-}
-
-[data-theme="light"] .sidebar-docente .user-avatar {
-  box-shadow: 0 4px 12px rgba(46, 186, 160, 0.2);
 }

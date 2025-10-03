@@ -10,27 +10,25 @@ interface TopbarDocenteProps {
 export default function TopbarDocente(props: TopbarDocenteProps) {
   const [isDarkTheme, setIsDarkTheme] = useState(false);
 
-  const toggleTheme = () => {
-    setIsDarkTheme(!isDarkTheme);
-    
-    // Cambiar el tema en el documento
-    if (!isDarkTheme) {
-      document.documentElement.setAttribute('data-theme', 'dark');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      document.documentElement.setAttribute('data-theme', 'light');
-      localStorage.setItem('theme', 'light');
-    }
-  };
+const toggleTheme = () => {
+  setIsDarkTheme(!isDarkTheme);
+  
+  if (!isDarkTheme) {
+    document.documentElement.className = 'dark';  // Cambiar a clase
+    localStorage.setItem('theme', 'dark');
+  } else {
+    document.documentElement.className = 'light'; // Cambiar a clase
+    localStorage.setItem('theme', 'light');
+  }
+};
 
-  // Cargar tema desde localStorage al inicializar
-  useEffect(() => {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-      setIsDarkTheme(savedTheme === 'dark');
-      document.documentElement.setAttribute('data-theme', savedTheme);
-    }
-  }, []);
+useEffect(() => {
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme) {
+    setIsDarkTheme(savedTheme === 'dark');
+    document.documentElement.className = savedTheme; // Cambiar a clase
+  }
+}, []);
 
   return (
     <header className="topbar-docente">
