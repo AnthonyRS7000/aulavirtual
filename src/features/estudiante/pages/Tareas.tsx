@@ -35,7 +35,7 @@ const tareasData: Tarea[] = [
   {
     id: 1,
     titulo: "Ensayo sobre Inteligencia Artificial",
-    descripcion: "Desarrollar un ensayo de 2000 palabras sobre el impacto de la Inteligencia Artificial en la sociedad moderna, incluyendo aspectos éticos y tecnológicos.",
+    descripcion: "Desarrollar un ensayo de 2000 palabras sobre el impacto de la Inteligencia Artificial en la sociedad moderna, incluyendo aspectos éticos y tecnológicos. Desarrollar un ensayo de 2000 palabras sobre el impacto de la Inteligencia Artificial en la sociedad moderna, incluyendo aspectos éticos y tecnológicos.",
     materia: "Tecnologías Emergentes",
     profesor: "Dr. Carlos Mendoza",
     fechaEntrega: "2024-01-20",
