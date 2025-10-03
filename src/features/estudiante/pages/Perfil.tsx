@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaCalendarAlt, FaEdit, FaCamera, FaBook, FaTrophy, FaCertificate } from 'react-icons/fa';
+import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaCalendarAlt, FaEdit, FaCamera } from 'react-icons/fa';
 import '../css/Perfil.css';
 
 interface EstudianteInfo {
@@ -18,13 +18,6 @@ interface EstudianteInfo {
   creditosTotal: number;
 }
 
-interface RendimientoAcademico {
-  semestre: string;
-  creditos: number;
-  promedio: number;
-  materias: number;
-}
-
 const estudianteData: EstudianteInfo = {
   nombre: "María Fernanda",
   apellidos: "González Rodríguez",
@@ -41,26 +34,10 @@ const estudianteData: EstudianteInfo = {
   creditosTotal: 220
 };
 
-const rendimientoData: RendimientoAcademico[] = [
-  { semestre: "2024-I", creditos: 22, promedio: 17.2, materias: 6 },
-  { semestre: "2023-II", creditos: 24, promedio: 16.8, materias: 6 },
-  { semestre: "2023-I", creditos: 26, promedio: 16.5, materias: 7 },
-  { semestre: "2022-II", creditos: 28, promedio: 16.9, materias: 7 },
-  { semestre: "2022-I", creditos: 25, promedio: 16.3, materias: 6 },
-  { semestre: "2021-II", creditos: 27, promedio: 16.1, materias: 7 },
-];
-
 export default function Perfil() {
   const [estudiante] = useState<EstudianteInfo>(estudianteData);
   const [modoEdicion, setModoEdicion] = useState(false);
 
-  const porcentajeProgreso = (estudiante.creditosAprobados / estudiante.creditosTotal) * 100;
-
-  const obtenerColorPromedio = (promedio: number) => {
-    if (promedio >= 17) return '#059669';
-    if (promedio >= 14) return '#f59e0b';
-    return '#ef4444';
-  };
 
   return (
     <div className="perfil-page">
@@ -133,93 +110,7 @@ export default function Perfil() {
           </div>
         </div>
 
-        {/* Rendimiento Académico */}
-        <div className="perfil-section rendimiento-academico">
-          <div className="section-header">
-            <h2>Rendimiento Académico</h2>
-          </div>
-
-          <div className="stats-resumen">
-            <div className="stat-card promedio">
-              <div className="stat-icon-container">
-                <FaTrophy className="stat-icon" />
-              </div>
-              <div className="stat-content">
-                <span className="stat-number" style={{ color: obtenerColorPromedio(estudiante.promedioGeneral) }}>
-                  {estudiante.promedioGeneral}
-                </span>
-                <span className="stat-label">Promedio General</span>
-              </div>
-            </div>
-
-            <div className="stat-card creditos">
-              <div className="stat-icon-container">
-                <FaBook className="stat-icon" />
-              </div>
-              <div className="stat-content">
-                <span className="stat-number">
-                  {estudiante.creditosAprobados}/{estudiante.creditosTotal}
-                </span>
-                <span className="stat-label">Créditos</span>
-              </div>
-            </div>
-
-            <div className="stat-card progreso">
-              <div className="stat-icon-container">
-                <FaCertificate className="stat-icon" />
-              </div>
-              <div className="stat-content">
-                <span className="stat-number">{Math.round(porcentajeProgreso)}%</span>
-                <span className="stat-label">Progreso</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="progreso-carrera">
-            <h3>Progreso de Carrera</h3>
-            <div className="progreso-bar">
-              <div 
-                className="progreso-fill"
-                style={{ width: `${porcentajeProgreso}%` }}
-              ></div>
-            </div>
-            <p>{estudiante.creditosAprobados} de {estudiante.creditosTotal} créditos completados</p>
-          </div>
-        </div>
-
-        {/* Historial por Semestre */}
-        <div className="perfil-section historial-semestres">
-          <div className="section-header">
-            <h2>Historial por Semestre</h2>
-          </div>
-
-          <div className="semestres-lista">
-            {rendimientoData.map((semestre, index) => (
-              <div key={index} className="semestre-card">
-                <div className="semestre-header">
-                  <h4>{semestre.semestre}</h4>
-                  <span 
-                    className="promedio-badge"
-                    style={{ backgroundColor: obtenerColorPromedio(semestre.promedio) }}
-                  >
-                    {semestre.promedio}
-                  </span>
-                </div>
-                
-                <div className="semestre-stats">
-                  <div className="stat-item">
-                    <span className="stat-value">{semestre.creditos}</span>
-                    <span className="stat-name">Créditos</span>
-                  </div>
-                  <div className="stat-item">
-                    <span className="stat-value">{semestre.materias}</span>
-                    <span className="stat-name">Materias</span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+        {/* Rendimiento Académico e Historial eliminados por petición */}
 
       </div>
     </div>

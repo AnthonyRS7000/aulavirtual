@@ -36,15 +36,69 @@
   transform: translateY(-4px); /* elevación más pronunciada */
 }
 
+/* FORCE: evitar que reglas globales cambien el fondo/sombra de la tarjeta en hover/focus */
+.tarea-card.tarea-card:hover,
+.tarea-card.tarea-card:focus-within {
+  background: #ffffff !important; /* mantener fondo claro */
+  box-shadow: 0 14px 48px rgba(0, 0, 0, 0.14), 0 8px 22px rgba(0, 0, 0, 0.08) !important;
+  transform: translateY(-4px) !important;
+}
+
+/* Dark mode: mantener el fondo y sombra originales (no oscurecer al hover) */
+.dark .tarea-card.tarea-card:hover,
+.dark .tarea-card.tarea-card:focus-within {
+  background: #1f2937 !important; /* mismo fondo que .dark .tarea-card */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+  transform: none !important;
+}
+
+/* Evitar que al hacer hover/focus la sección del header cambie su color */
+.tarea-card:hover .tarea-header,
+.tarea-card:focus-within .tarea-header {
+  background: #e6eef2 !important; /* modo claro: mantener gris */
+}
+
+/* Dark mode: mantener color del header al hacer hover/focus */
+.dark .tarea-card:hover .tarea-header,
+.dark .tarea-card:focus-within .tarea-header {
+  background: #1f2a36 !important; /* modo oscuro: gris oscuro */
+}
+
 .tarea-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
   margin-bottom: 0; /* eliminar espacio debajo del header */
-  padding-bottom: 0; /* eliminar padding para pegar la línea */
   gap: 12px;
-  border-bottom: 2px solid rgba(145, 153, 162, 0.55); /* separador visible */
+  /* Nuevo: fondo gris claro sólo para el header y esquinas redondeadas.
+     No tocamos el resto de la tarjeta para evitar regresiones visuales. */
+  background: #e6eef2; /* gris claro más oscuro para mejor separación */
+  padding: 12px 16px;
+  border-radius: 12px; /* redondear el bloque del header */
+  border-bottom: none; /* quitar la línea fuerte porque el fondo ya separa */
+}
+
+/* Ajuste para modo oscuro: usar gris oscuro (no negro) que mantenga contraste */
+.dark .tarea-card .tarea-header {
+  /* fondo del header en modo oscuro: ligeramente más claro que la tarjeta para distinguirlo */
+  background: rgba(255,255,255,0.03); /* sutil overlay claro sobre el fondo oscuro */
+  border-radius: 12px;
+}
+
+/* Force header appearance in case global overrides use broad selectors or !important */
+.tarea-card.tarea-card .tarea-header,
+.tarea-card .tarea-header.tarea-header {
+  background: #e6eef2 !important;
+  padding: 12px 16px !important;
+  border-radius: 12px !important;
+  border-bottom: none !important;
+}
+
+/* Dark mode forced variant */
+.dark .tarea-card.tarea-card .tarea-header,
+.dark .tarea-card .tarea-header.tarea-header {
+  background: rgba(255,255,255,0.03) !important;
 }
 
 .header-top {
@@ -174,11 +228,11 @@
 }
 
 .tarea-titulo {
-  font-size: 18px; /* ligeramente menor para priorizar el curso */
+  font-size: 20px; /* tamaño base más comedido */
   font-weight: 700;
   color: #111827; /* color fuerte pero menos prominente que el curso */
   margin: 2px 0 12px 0; /* mantener pequeño espacio visual tras la línea */
-  line-height: 1.15; /* ajustar para que ocupe menos espacio vertical */
+  line-height: 1.12; /* ajustar para que ocupe menos espacio vertical */
 }
 
 .tarea-descripcion {
@@ -218,6 +272,36 @@
   .tarea-titulo { margin-top: 6px; }
 }
 
+/* Móvil: alinear materia/profesor a la izquierda y fechas a la derecha en la misma fila */
+@media (max-width: 480px) {
+  .tarea-meta {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    gap: 8px;
+  }
+
+  .materia-info {
+    text-align: left !important;
+    flex: 1 1 auto;
+    align-items: flex-start;
+  }
+
+  .fechas-info {
+    text-align: right !important;
+    flex: 0 0 auto;
+    margin-left: 8px;
+    margin-right: 0 !important;
+    padding-right: 6px !important; /* pegado al borde derecho */
+  }
+}
+
+/* Reducir padding del header en móviles para pegar contenido al borde */
+@media (max-width: 480px) {
+  .tarea-header { padding-left: 8px !important; padding-right: 8px !important; }
+}
+
 /* Ocultar advertencias de entrega en pantallas pequeñas para ahorrar espacio */
 @media (max-width: 480px) {
   .entrega-vencida,
@@ -243,9 +327,35 @@
 
 .materia-info strong {
   color: var(--pantone-zomp);
-  font-size: 20px; /* ahora más grande para destacar el curso */
+  font-size: 18px; /* tamaño base más equilibrado */
   font-weight: 800;
   letter-spacing: 0.2px;
+}
+
+/* Responsivo: ajustar tamaños para diferentes pantallas */
+@media (max-width: 1024px) {
+  .tarea-titulo { font-size: 20px !important; }
+  .materia-info strong { font-size: 16px !important; }
+  .tarea-descripcion { font-size: 13px !important; }
+}
+
+@media (max-width: 768px) {
+  .tarea-titulo { font-size: 18px !important; }
+  .materia-info strong { font-size: 15px !important; }
+  .tarea-descripcion { font-size: 13px !important; }
+}
+
+@media (max-width: 480px) {
+  .tarea-titulo { font-size: 16px !important; }
+  .materia-info strong { font-size: 15px !important; }
+  .tarea-descripcion { font-size: 12px !important; }
+}
+
+/* Forzar tamaños en pantallas grandes para evitar overrides que aumenten tipografía */
+@media (min-width: 1280px) {
+  .tarea-card .tarea-titulo { font-size: 22px !important; }
+  .tarea-card .materia-info strong { font-size: 18px !important; }
+  .tarea-card .tarea-descripcion { font-size: 14px !important; }
 }
 
 /* Responsivo: reducir ligeramente en móviles para no romper el layout */
@@ -829,10 +939,18 @@
 .dark .tarea-card:hover {
   background: #111827; /* más oscuro en hover */
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 4px 12px rgba(0, 0, 0, 0.2);
+  transform: translateY(-4px); /* elevar / zoom en modo oscuro */
 }
 
 .dark .tarea-header {
   border-bottom: 1px solid rgba(75, 85, 99, 0.4);
+}
+
+/* Forzar efecto hover (elevación) en modo oscuro si hay overrides globales */
+.dark .tarea-card.tarea-card:hover,
+.dark .tarea-card.tarea-card:focus-within {
+  transform: translateY(-4px) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 4px 12px rgba(0, 0, 0, 0.2) !important;
 }
 
 .dark .tarea-titulo {

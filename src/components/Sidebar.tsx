@@ -101,12 +101,12 @@ const getSections = (userCase: 'estudiante' | 'docente') => {
       icon: IconTitulacion,
       path: '/estudiante/notas'
     },
-    {
-      name: 'recursos',
-      label: 'Recursos',
-      icon: IconServicio,
-      path: '/estudiante/recursos'
-    }
+    // {
+    //   name: 'recursos',
+    //   label: 'Recursos',
+    //   icon: IconServicio,
+    //   path: '/estudiante/recursos'
+    // }
   ];
 };
 

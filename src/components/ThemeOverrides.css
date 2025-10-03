@@ -71,7 +71,7 @@
 .horario-titulo,
 .notas-titulo,
 .recursos-titulo {
-  color: var(--text-primary) !important;
+  color: var(--text-primary)
 }
 
 /* Stream de actividades */
