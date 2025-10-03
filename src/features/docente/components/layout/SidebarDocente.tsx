@@ -8,10 +8,7 @@ import {
   FaTh,
   FaFileAlt,
   FaUserFriends,
-  FaClipboardCheck,
-  FaChartLine,
-  FaCalculator,
-  FaGraduationCap
+  FaTimes // Agregar este icono para el botón hamburguesa
 } from 'react-icons/fa';
 
 interface SidebarDocenteProps {
@@ -51,8 +48,6 @@ const getDocenteSections = () => {
       icon: FaUserFriends,
       path: '/docente/estudiantes',
     },
-    
- 
   ];
 };
 
@@ -102,47 +97,40 @@ export default function SidebarDocente({ isOpen, onClose, onToggle }: SidebarDoc
   // Clases CSS limpias
   const sidebarClass = `sidebar-docente ${isOpen ? 'sidebar-open' : 'sidebar-collapsed'} ${currentTheme}`;
 
-  return (
+ return (
     <>
       {/* Backdrop para móvil */}
       {!isDesktop && isOpen && (
-        <div
-          className="sidebar-backdrop"
-          onClick={onClose}
-        />
-      )}
-
-      {/* Botón de colapso */}
-      {isDesktop && (
-        <button
-          onClick={onToggle}
-          className="sidebar-toggle-btn"
-          style={{
-            left: isOpen ? '304px' : '64px',
-            transform: isOpen ? 'rotate(0deg)' : 'rotate(180deg)',
-          }}
-        >
-          <img src={FlechaIcon} alt="Toggle" className="toggle-icon" />
-        </button>
+        <div className="sidebar-backdrop" onClick={onClose} />
       )}
 
       {/* Sidebar principal */}
-      <aside className={sidebarClass}>
+      <aside className={`sidebar-docente ${isOpen ? 'sidebar-open' : 'sidebar-collapsed'}`}>
         
         {/* Header del docente */}
         <div className="sidebar-header">
+          {/* BOTÓN HAMBURGUESA - AGREGARLO AQUÍ */}
+          <button 
+            className="sidebar-toggle-btn" 
+            onClick={onToggle}
+            title="Colapsar sidebar"
+          >
+            <FaTimes />
+          </button>
+
+          {/* Avatar del usuario */}
           <div className="user-avatar">
-            <img
-              src={userData.image}
-              alt={userData.full_name}
-              className="avatar-img"
-            />
+            <div className="avatar-circle">AR</div>
           </div>
-          <div className="user-info">
-            <h3 className="user-name">{userData.full_name}</h3>
-            <p className="user-role">{userData.role}</p>
-            <p className="user-department">{userData.department}</p>
-          </div>
+          
+          {/* Info del usuario (solo cuando está expandido) */}
+          {isOpen && (
+            <div className="user-info">
+              <h3 className="user-name">ALDO ENRIQUE RAMIREZ CHAUPIS</h3>
+              <p className="user-role">Docente</p>
+              <p className="user-department">Ing. de Sistemas</p>
+            </div>
+          )}
         </div>
 
         {/* Navegación */}
@@ -156,7 +144,7 @@ export default function SidebarDocente({ isOpen, onClose, onToggle }: SidebarDoc
               title={section.label}
             >
               <section.icon className="nav-icon" />
-              <span className="nav-label">{section.label}</span>
+              {isOpen && <span className="nav-label">{section.label}</span>}
             </Link>
           ))}
         </nav>
