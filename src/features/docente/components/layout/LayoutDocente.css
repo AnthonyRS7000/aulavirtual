@@ -1,0 +1,133 @@
+/* Variables UDH siguiendo la guía de estilos */
+:root {
+  --sidebar-width-open: 16rem;
+  --sidebar-width-closed: 4rem;
+  --topbar-height: 4rem; /* Volver a 4rem como especifica la guía */
+  --color-primario: #0C0E2B;
+  --color-secundario: #2EBAA0;
+  --color-terciario: #FBBE1D;
+}
+
+/* Layout principal del docente */
+.layout-docente {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  background: #f8fafc; /* Fondo claro por defecto */
+  color: #1f2937;
+  font-family: 'Roboto', 'Poppins', sans-serif;
+  transition: all 0.3s ease;
+}
+
+/* Modo oscuro */
+.layout-docente.dark-theme {
+  background: #1e293b;
+  color: white;
+}
+
+/* Contenido del layout */
+.layout-content {
+  display: flex;
+  flex: 1;
+  height: calc(100vh - var(--topbar-height));
+  margin-top: var(--topbar-height);
+  overflow: hidden;
+}
+
+/* Contenido principal */
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: margin-left 0.3s ease-in-out;
+  background: #ffffff; /* Fondo blanco para contenido */
+}
+
+.main-content.dark-theme {
+  background: #1e293b;
+}
+
+/* Estados del sidebar - siguiendo la guía */
+.main-content.sidebar-expanded {
+  margin-left: var(--sidebar-width-open);
+}
+
+.main-content.sidebar-collapsed {
+  margin-left: var(--sidebar-width-closed);
+}
+
+/* Wrapper del contenido */
+.content-wrapper {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 2rem;
+  background: #ffffff;
+  color: #1f2937;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.content-wrapper.dark-theme {
+  background: #1e293b;
+  color: white;
+}
+
+/* RESPONSIVE - Sidebar se superpone en móvil */
+@media (max-width: 1024px) {
+  .main-content.sidebar-expanded,
+  .main-content.sidebar-collapsed {
+    margin-left: 0; /* Sin margen - sidebar se superpone */
+  }
+  
+  .content-wrapper {
+    padding: 1rem;
+  }
+  
+  .layout-content {
+    margin-top: var(--topbar-height);
+  }
+}
+
+@media (max-width: 768px) {
+  .content-wrapper {
+    padding: 0.75rem;
+  }
+}
+
+/* Scrollbar personalizado siguiendo la guía */
+.content-wrapper::-webkit-scrollbar {
+  width: 6px;
+}
+
+.content-wrapper::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+.content-wrapper::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+.content-wrapper::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Modo oscuro para scrollbar */
+.content-wrapper.dark-theme::-webkit-scrollbar-track {
+  background: #374151;
+}
+
+.content-wrapper.dark-theme::-webkit-scrollbar-thumb {
+  background: #6b7280;
+}
+
+.content-wrapper.dark-theme::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
+/* Animaciones suaves */
+* {
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}

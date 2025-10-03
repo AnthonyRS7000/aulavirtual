@@ -251,7 +251,7 @@
 }
 
 .meet-join-btn:hover {
-  background: #1a1d3a;
+  background: #0c5f7a; /* Color más oscuro del primario UDH */
 }
 
 .meet-join-btn:focus {
@@ -286,7 +286,7 @@
 
 .ver-todo-btn:hover {
   text-decoration: underline;
-  color: #1a1d3a;
+  color: #0c5f7a;
 }
 
 /* Feed principal */
@@ -336,47 +336,150 @@
   background: var(--color-secundario);
 }
 
+/* ✅ ÁREA DE COMENTARIO PRINCIPAL */
+.announcement-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
 .announcement-input {
   flex: 1;
-  padding: 0.75rem 1rem;
-  border: 1px solid var(--border-color); /* ✅ Variable del sistema */
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
   border-radius: 1.5rem;
-  background: var(--bg-tertiary); /* ✅ Variable del sistema */
-  color: var(--text-secondary); /* ✅ Variable del sistema */
-  cursor: pointer;
+  padding: 0.875rem 1.25rem;
+  color: var(--text-muted);
+  cursor: text;
+  transition: all 0.2s ease;
   font-size: 0.875rem;
-  transition: background-color 0.15s ease;
+  min-height: 2.5rem;
+  display: flex;
+  align-items: center;
 }
 
 .announcement-input:hover {
-  background: var(--bg-primary); /* ✅ Variable del sistema */
+  border-color: var(--color-primario);
+  background: var(--bg-secondary);
 }
 
-/* Botones de acción del docente */
+.comment-editor {
+  width: 100%;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  box-shadow: 0 4px 6px var(--shadow);
+  animation: expandEditor 0.3s ease-out;
+}
+
+.comment-textarea {
+  width: 100%;
+  border: none;
+  background: transparent;
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  resize: vertical;
+  min-height: 3rem;
+  outline: none;
+  padding: 0;
+  margin-bottom: 0.75rem;
+}
+
+.comment-textarea::placeholder {
+  color: var(--text-muted);
+}
+
+.comment-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.btn-cancelar-comment,
+.btn-publicar-comment {
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  border: 1px solid;
+}
+
+.btn-cancelar-comment {
+  background: transparent;
+  color: var(--text-secondary);
+  border-color: transparent;
+}
+
+.btn-cancelar-comment:hover {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+}
+
+.btn-publicar-comment {
+  background: var(--color-primario);
+  color: white;
+  border-color: var(--color-primario);
+}
+
+.btn-publicar-comment:hover:not(:disabled) {
+  background: #0c5f7a; /* Color más oscuro del primario UDH */
+  border-color: #0c5f7a;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px var(--shadow);
+}
+
+.btn-publicar-comment:disabled {
+  background: var(--text-muted);
+  border-color: var(--text-muted);
+  cursor: not-allowed;
+  transform: none;
+  opacity: 0.6;
+}
+
+/* ✅ BOTONES DE ACCIÓN DEL DOCENTE - CORREGIDO SIN DUPLICADOS */
 .teacher-actions {
   margin-bottom: 1.5rem;
 }
 
+.action-buttons-group {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* ✅ DEFINICIÓN ÚNICA Y CORREGIDA PARA .action-btn */
 .action-btn {
   position: relative;
-  display: inline-flex;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  background: var(--bg-secondary); /* ✅ Variable del sistema */
-  border: 1px solid var(--border-color); /* ✅ Variable del sistema */
+  gap: 0.25rem;
+  padding: 0.75rem 1rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
   border-radius: 0.375rem;
   cursor: pointer;
   font-size: 0.875rem;
   font-weight: 500;
-  color: var(--text-primary); /* ✅ Variable del sistema */
-  box-shadow: 0 1px 2px var(--shadow); /* ✅ Variable del sistema */
-  transition: background-color 0.15s ease, box-shadow 0.2s ease;
+  color: var(--text-primary);
+  box-shadow: 0 1px 2px var(--shadow);
+  transition: all 0.15s ease;
+  min-width: 4rem;
 }
 
 .action-btn:hover {
-  background: var(--bg-tertiary); /* ✅ Variable del sistema */
-  box-shadow: 0 4px 6px var(--shadow); /* ✅ Variable del sistema */
+  background: var(--color-primario);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px var(--shadow);
 }
 
 .action-btn:focus {
@@ -384,26 +487,39 @@
   box-shadow: 0 0 0 2px var(--color-primario);
 }
 
+.action-btn svg {
+  font-size: 1.25rem;
+}
+
+.action-btn span {
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+/* ✅ DROPDOWN CORREGIDO */
 .create-dropdown {
   position: absolute;
   top: 100%;
   left: 0;
-  background: var(--bg-secondary); /* ✅ Variable del sistema */
-  border: 1px solid var(--border-color); /* ✅ Variable del sistema */
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
   border-radius: 0.375rem;
-  box-shadow: 0 20px 25px var(--shadow); /* ✅ Variable del sistema */
+  box-shadow: 0 20px 25px var(--shadow);
   min-width: 9.375rem;
   opacity: 0;
   visibility: hidden;
   transform: translateY(-0.5rem);
   transition: all 0.2s ease;
   z-index: 100;
+  pointer-events: none;
 }
 
-.action-btn:hover .create-dropdown {
+.action-btn:hover .create-dropdown,
+.create-dropdown:hover {
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
+  pointer-events: auto;
 }
 
 .create-dropdown button {
@@ -416,13 +532,13 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: var(--text-primary); /* ✅ Variable del sistema */
+  color: var(--text-primary);
   font-size: 0.875rem;
   transition: background-color 0.15s ease;
 }
 
 .create-dropdown button:hover {
-  background: var(--bg-tertiary); /* ✅ Variable del sistema */
+  background: var(--bg-tertiary);
 }
 
 /* Posts del feed */
@@ -525,7 +641,7 @@
 
 .assignment-preview h4:hover {
   text-decoration: underline;
-  color: #1a1d3a;
+  color: #0c5f7a;
 }
 
 .assignment-preview p {
@@ -553,7 +669,7 @@
 
 .whatsapp-link:hover {
   text-decoration: underline;
-  color: #1a1d3a;
+  color: #0c5f7a;
 }
 
 /* Pestaña Trabajo de clase */
@@ -584,7 +700,7 @@
 }
 
 .create-work-btn:hover {
-  background: #1a1d3a;
+  background: #0c5f7a;
 }
 
 .create-work-btn:focus {
@@ -642,7 +758,7 @@
 
 .work-content h4:hover {
   text-decoration: underline;
-  color: #1a1d3a;
+  color: #0c5f7a;
 }
 
 .work-content p {
@@ -709,6 +825,18 @@
   border-bottom: none;
 }
 
+/* ✅ ANIMACIONES */
+@keyframes expandEditor {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .classroom-header {
@@ -744,6 +872,33 @@
   .classroom-work,
   .classroom-people {
     padding: 1rem;
+  }
+
+  .create-announcement {
+    padding: 1rem;
+  }
+  
+  .comment-editor {
+    padding: 0.75rem;
+  }
+  
+  .comment-actions {
+    flex-direction: column-reverse;
+  }
+  
+  .btn-cancelar-comment,
+  .btn-publicar-comment {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .action-buttons-group {
+    justify-content: stretch;
+  }
+  
+  .action-btn {
+    flex: 1;
+    min-width: auto;
   }
 }
 

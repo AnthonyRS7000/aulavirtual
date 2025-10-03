@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { ClasesProvider } from "./context/ClasesContext";
 import Layout from "./components/Layout";
+import LayoutDocente from './features/docente/components/layout/LayoutDocente'; // ✅ Tu layout separado
 import HomeSelector from "./components/HomeSelector";
 
 // Estudiante
@@ -28,7 +29,7 @@ function App() {
           {/* Selector inicial */}
           <Route path="/" element={<HomeSelector />} />
 
-          {/* Estudiante */}
+          {/* ESTUDIANTE - Usa Layout.tsx (solo para estudiantes) */}
           <Route element={<Layout userCase="estudiante" />}>
             <Route path="/estudiante/inicio" element={<InicioEstudiante />} />
             <Route path="/estudiante/clases" element={<Clases />} />
@@ -42,11 +43,18 @@ function App() {
             <Route path="/estudiante/calendario" element={<CalendarioAgenda />} />
           </Route>
 
-          {/* Docente */}
-          <Route element={<Layout userCase="docente" />}>
+          {/* DOCENTE - Usa LayoutDocente.tsx ✅ (tu layout independiente) */}
+          <Route element={<LayoutDocente />}>
             <Route path="/docente/dashboard" element={<DashboardDocente />} />
             <Route path="/docente/cursos" element={<GestionCursos />} />
             <Route path="/docente/estudiantes" element={<GestionEstudiantes />} />
+            
+            
+            
+            {/* Submenús si los tienes configurados */}
+            <Route path="/docente/notas/parciales" element={<div>Notas Parciales</div>} />
+            <Route path="/docente/notas/finales" element={<div>Notas Finales</div>} />
+            <Route path="/docente/notas/reportes" element={<div>Reportes</div>} />
           </Route>
 
           {/* Catch-all */}

@@ -22,7 +22,6 @@ export default function Layout({ userCase = 'estudiante' }: LayoutProps) {
         isOpen={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
         onToggle={toggleSidebar}
-        userCase={userCase}
       />
 
       {/* Main content area */}

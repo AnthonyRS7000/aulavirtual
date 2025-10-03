@@ -69,17 +69,29 @@ interface Props {
     anuncios: Anuncio[];
 }
 
-export const CursoDetalle = ({ 
-    curso, 
-    onVolver, 
-    onAbrirModal, 
+export const CursoDetalle = ({
+    curso,
+    onVolver,
+    onAbrirModal,
     onEntrarTarea,      // ✅ Nueva prop
     onEntrarAnuncio,    // ✅ Nueva prop
-    materiales, 
-    tareas, 
-    anuncios 
+    materiales,
+    tareas,
+    anuncios
 }: Props) => {
     const [pestañaActiva, setPestañaActiva] = useState<'tablón' | 'trabajo' | 'personas'>('tablón');
+    const [comentario, setComentario] = useState('');
+    const [mostrandoEditor, setMostrandoEditor] = useState(false);
+
+    const publicarComentario = () => {
+        if (comentario.trim()) {
+            // Aquí llamarías a una función para guardar el comentario
+            // Por ahora solo lo reseteamos
+            console.log('Publicando comentario:', comentario);
+            setComentario('');
+            setMostrandoEditor(false);
+        }
+    };
 
     return (
         <div className="classroom-container">
@@ -172,7 +184,7 @@ export const CursoDetalle = ({
                                     <div className="upcoming-assignments">
                                         {tareas.slice(0, 3).map(tarea => (
                                             <div key={tarea.id} className="assignment-preview">
-                                                <h4 
+                                                <h4
                                                     onClick={() => onEntrarTarea && onEntrarTarea(tarea.id)}
                                                     style={{ cursor: 'pointer' }}
                                                 >
@@ -202,36 +214,75 @@ export const CursoDetalle = ({
                                         {curso.nombre.charAt(0)}
                                     </div>
                                 </div>
-                                <div
-                                    className="announcement-input"
-                                    onClick={() => onAbrirModal('anuncio')}
-                                >
-                                    Anuncia algo a tu clase
+
+                                <div className="announcement-section">
+                                    {!mostrandoEditor ? (
+                                        <div
+                                            className="announcement-input"
+                                            onClick={() => setMostrandoEditor(true)}
+                                        >
+                                            Anuncia algo a tu clase
+                                        </div>
+                                    ) : (
+                                        <div className="comment-editor">
+                                            <textarea
+                                                value={comentario}
+                                                onChange={(e) => setComentario(e.target.value)}
+                                                placeholder="Anuncia algo a tu clase"
+                                                className="comment-textarea"
+                                                autoFocus
+                                                rows={3}
+                                            />
+                                            <div className="comment-actions">
+                                                <button
+                                                    className="btn-cancelar-comment"
+                                                    onClick={() => {
+                                                        setMostrandoEditor(false);
+                                                        setComentario('');
+                                                    }}
+                                                >
+                                                    Cancelar
+                                                </button>
+                                                <button
+                                                    className="btn-publicar-comment"
+                                                    onClick={publicarComentario}
+                                                    disabled={!comentario.trim()}
+                                                >
+                                                    Publicar
+                                                </button>
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
 
                             {/* Botones de acción del docente */}
                             <div className="teacher-actions">
-                                <button
-                                    className="action-btn create-assignment"
-                                    onClick={() => onAbrirModal('tarea')}
-                                >
-                                    <FaTasks />
-                                    <span>Crear</span>
-                                    <div className="dropdown-arrow">
-                                        <div className="create-dropdown">
-                                            <button onClick={() => onAbrirModal('tarea')}>
-                                                <FaTasks /> Tarea
-                                            </button>
-                                            <button onClick={() => onAbrirModal('material')}>
-                                                <FaFileAlt /> Material
-                                            </button>
-                                            <button>
-                                                <FaQuestionCircle /> Pregunta
-                                            </button>
-                                        </div>
-                                    </div>
-                                </button>
+                                <div className="action-buttons-group">
+                                    <button
+                                        className="action-btn create-assignment"
+                                        onClick={() => onAbrirModal('tarea')}
+                                    >
+                                        <FaTasks />
+                                        <span>Tarea</span>
+                                    </button>
+
+                                    <button
+                                        className="action-btn create-material"
+                                        onClick={() => onAbrirModal('material')}
+                                    >
+                                        <FaFileAlt />
+                                        <span>Material</span>
+                                    </button>
+
+                                    <button
+                                        className="action-btn create-announcement"
+                                        onClick={() => onAbrirModal('anuncio')}
+                                    >
+                                        <FaPlus />
+                                        <span>Anuncio</span>
+                                    </button>
+                                </div>
                             </div>
 
                             {/* Feed de actividades */}
@@ -239,8 +290,8 @@ export const CursoDetalle = ({
 
                                 {/* ✅ ANUNCIOS CLICKEABLES */}
                                 {anuncios.map(anuncio => (
-                                    <div 
-                                        key={anuncio.id} 
+                                    <div
+                                        key={anuncio.id}
                                         className="classroom-post"
                                         onClick={() => onEntrarAnuncio && onEntrarAnuncio(anuncio.id)}
                                         style={{ cursor: 'pointer' }}
@@ -256,7 +307,7 @@ export const CursoDetalle = ({
                                                 <span className="post-action">ha publicado: {anuncio.titulo}</span>
                                                 <span className="post-date">{new Date(anuncio.fecha).toLocaleDateString('es-ES')}</span>
                                             </div>
-                                            <button 
+                                            <button
                                                 className="post-menu"
                                                 onClick={(e) => e.stopPropagation()}
                                             >
@@ -271,8 +322,8 @@ export const CursoDetalle = ({
 
                                 {/* ✅ TAREAS CLICKEABLES */}
                                 {tareas.map(tarea => (
-                                    <div 
-                                        key={tarea.id} 
+                                    <div
+                                        key={tarea.id}
                                         className="classroom-post assignment-post"
                                         onClick={() => onEntrarTarea && onEntrarTarea(tarea.id)}
                                         style={{ cursor: 'pointer' }}
@@ -286,7 +337,7 @@ export const CursoDetalle = ({
                                                 <span className="post-action">ha publicado una nueva tarea: {tarea.titulo}</span>
                                                 <span className="post-date">26 sept</span>
                                             </div>
-                                            <button 
+                                            <button
                                                 className="post-menu"
                                                 onClick={(e) => e.stopPropagation()}
                                             >
@@ -346,8 +397,8 @@ export const CursoDetalle = ({
                         <div className="work-list">
                             {/* ✅ TAREAS CLICKEABLES EN TRABAJO DE CLASE */}
                             {tareas.map(tarea => (
-                                <div 
-                                    key={tarea.id} 
+                                <div
+                                    key={tarea.id}
                                     className="work-item"
                                     onClick={() => onEntrarTarea && onEntrarTarea(tarea.id)}
                                     style={{ cursor: 'pointer' }}

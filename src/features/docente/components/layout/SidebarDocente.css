@@ -1,0 +1,384 @@
+/* Variables para diseño limpio - ANCHO OPTIMIZADO */
+:root {
+  --sidebar-width: 260px; /* Reducido de 320px */
+  --sidebar-collapsed-width: 70px; /* Reducido de 80px */
+  --topbar-height: 64px;
+}
+
+/* Variables para tema claro */
+:root[data-theme="light"] {
+  --sidebar-bg: #f8fafc;
+  --sidebar-header-bg: #e2e8f0;
+  --sidebar-active: #3b82f6;
+  --sidebar-hover: rgba(0, 0, 0, 0.05);
+  --sidebar-text: #334155;
+  --sidebar-text-secondary: #64748b;
+  --sidebar-border: #cbd5e1;
+  --sidebar-shadow: rgba(0, 0, 0, 0.1);
+}
+
+/* Variables para tema oscuro */
+:root[data-theme="dark"] {
+  --sidebar-bg: #1e293b;
+  --sidebar-header-bg: #0f172a;
+  --sidebar-active: #3b82f6;
+  --sidebar-hover: rgba(255, 255, 255, 0.1);
+  --sidebar-text: #e2e8f0;
+  --sidebar-text-secondary: #94a3b8;
+  --sidebar-border: #334155;
+  --sidebar-shadow: rgba(0, 0, 0, 0.4);
+}
+
+/* Variables por defecto (tema claro) */
+:root {
+  --sidebar-bg: #f8fafc;
+  --sidebar-header-bg: #e2e8f0;
+  --sidebar-active: #3b82f6;
+  --sidebar-hover: rgba(0, 0, 0, 0.05);
+  --sidebar-text: #334155;
+  --sidebar-text-secondary: #64748b;
+  --sidebar-border: #cbd5e1;
+  --sidebar-shadow: rgba(0, 0, 0, 0.1);
+}
+
+/* =====================================
+   SIDEBAR PRINCIPAL - ANCHO OPTIMIZADO
+   ===================================== */
+
+.sidebar-docente {
+  position: fixed;
+  top: var(--topbar-height);
+  left: 0;
+  width: var(--sidebar-width);
+  height: calc(100vh - var(--topbar-height));
+  background: var(--sidebar-bg);
+  color: var(--sidebar-text);
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 30;
+  box-shadow: 4px 0 12px var(--sidebar-shadow);
+  overflow: hidden;
+  border-right: 1px solid var(--sidebar-border);
+}
+
+/* Estado colapsado */
+.sidebar-docente.sidebar-collapsed {
+  width: var(--sidebar-collapsed-width);
+}
+
+/* =====================================
+   HEADER DEL DOCENTE - COMPACTO
+   ===================================== */
+
+.sidebar-header {
+  background: var(--sidebar-header-bg);
+  padding: 1.5rem 1rem; /* Reducido padding */
+  border-bottom: 1px solid var(--sidebar-border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.75rem; /* Reducido gap */
+  min-height: 150px; /* Reducido altura */
+}
+
+.user-avatar {
+  width: 60px; /* Reducido de 80px */
+  height: 60px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid #2EBAA0;
+  box-shadow: 0 4px 12px rgba(46, 186, 160, 0.2);
+  transition: all 0.3s ease;
+}
+
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.user-info {
+  width: 100%;
+}
+
+.user-name {
+  font-size: 0.85rem; /* Reducido */
+  font-weight: 700;
+  color: var(--sidebar-text);
+  margin: 0 0 0.25rem 0;
+  line-height: 1.2;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.user-role {
+  font-size: 0.75rem; /* Reducido */
+  color: #2EBAA0;
+  margin: 0 0 0.25rem 0;
+  font-weight: 600;
+}
+
+.user-department {
+  font-size: 0.7rem; /* Reducido */
+  color: var(--sidebar-text-secondary);
+  margin: 0;
+  font-weight: 400;
+}
+
+/* =====================================
+   NAVEGACIÓN - MÁS COMPACTA
+   ===================================== */
+
+.sidebar-nav {
+  flex: 1;
+  padding: 1rem 0; /* Reducido padding */
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem; /* Reducido gap */
+  overflow-y: auto;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem; /* Reducido gap */
+  padding: 0.75rem 1rem; /* Reducido padding */
+  color: var(--sidebar-text);
+  text-decoration: none;
+  border-radius: 0;
+  transition: all 0.2s ease;
+  position: relative;
+  min-height: 48px; /* Reducido altura */
+  margin: 0 0.5rem; /* Reducido margen */
+  border-radius: 6px;
+}
+
+.nav-item:hover {
+  background: var(--sidebar-hover);
+  color: var(--sidebar-text);
+  transform: translateX(4px);
+}
+
+/* Estado activo - con temas */
+.nav-item.active {
+  background: var(--sidebar-active);
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+}
+
+.nav-item.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: #60a5fa;
+  border-radius: 0 4px 4px 0;
+}
+
+.nav-icon {
+  width: 18px; /* Reducido */
+  height: 18px;
+  flex-shrink: 0;
+  color: currentColor;
+  font-size: 1.125rem; /* Reducido */
+}
+
+.nav-label {
+  font-size: 0.8rem; /* Reducido */
+  font-weight: 500;
+  color: currentColor;
+  white-space: nowrap;
+  letter-spacing: 0.025em;
+}
+
+/* =====================================
+   ESTADO COLAPSADO - MÁS COMPACTO
+   ===================================== */
+
+.sidebar-docente.sidebar-collapsed .sidebar-header {
+  padding: 1rem 0.5rem;
+  min-height: 120px;
+}
+
+.sidebar-docente.sidebar-collapsed .user-avatar {
+  width: 40px; /* Reducido */
+  height: 40px;
+}
+
+.sidebar-docente.sidebar-collapsed .user-info {
+  display: none;
+}
+
+.sidebar-docente.sidebar-collapsed .nav-item {
+  justify-content: center;
+  padding: 0.75rem 0.5rem;
+  margin: 0 0.25rem;
+}
+
+.sidebar-docente.sidebar-collapsed .nav-label {
+  display: none;
+}
+
+.sidebar-docente.sidebar-collapsed .nav-icon {
+  width: 20px;
+  height: 20px;
+  font-size: 1.25rem;
+}
+
+/* =====================================
+   BOTÓN DE COLAPSO - CON TEMAS
+   ===================================== */
+
+.sidebar-toggle-btn {
+  position: fixed;
+  top: calc(var(--topbar-height) + 20px); /* Ajustado */
+  background: #2EBAA0;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 30px; /* Reducido */
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 40;
+  box-shadow: 0 4px 12px rgba(46, 186, 160, 0.3);
+}
+
+.sidebar-toggle-btn:hover {
+  background: #26a085;
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(46, 186, 160, 0.4);
+}
+
+.toggle-icon {
+  width: 12px; /* Reducido */
+  height: 12px;
+  transition: transform 0.3s ease;
+  filter: brightness(0) invert(1);
+}
+
+/* =====================================
+   BACKDROP MÓVIL
+   ===================================== */
+
+.sidebar-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 25;
+}
+
+/* =====================================
+   SCROLLBAR LIMPIO - CON TEMAS
+   ===================================== */
+
+.sidebar-nav::-webkit-scrollbar {
+  width: 4px;
+}
+
+.sidebar-nav::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar-nav::-webkit-scrollbar-thumb {
+  background: var(--sidebar-text-secondary);
+  border-radius: 2px;
+  opacity: 0.3;
+}
+
+.sidebar-nav::-webkit-scrollbar-thumb:hover {
+  opacity: 0.5;
+}
+
+/* =====================================
+   RESPONSIVE - MÓVIL AJUSTADO
+   ===================================== */
+
+@media (max-width: 1024px) {
+  .sidebar-docente {
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+  
+  .sidebar-docente.sidebar-open {
+    transform: translateX(0);
+  }
+  
+  .sidebar-toggle-btn {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar-docente {
+    width: 240px; /* Reducido para móviles */
+  }
+  
+  .sidebar-header {
+    padding: 1rem;
+    min-height: 130px;
+  }
+  
+  .user-avatar {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .user-name {
+    font-size: 0.8rem;
+  }
+  
+  .nav-item {
+    padding: 0.625rem 0.75rem;
+    margin: 0 0.25rem;
+    min-height: 44px;
+  }
+  
+  .nav-label {
+    font-size: 0.75rem;
+  }
+}
+
+/* =====================================
+   TEMA ESPECÍFICO PARA SIDEBAR
+   ===================================== */
+
+/* Tema claro específico */
+[data-theme="light"] .sidebar-docente .user-name {
+  color: #0f172a;
+}
+
+[data-theme="light"] .sidebar-docente .nav-item:hover {
+  background: rgba(59, 130, 246, 0.1);
+  color: #0f172a;
+}
+
+/* Tema oscuro específico */
+[data-theme="dark"] .sidebar-docente .user-name {
+  color: #f0f6fc;
+}
+
+[data-theme="dark"] .sidebar-docente .nav-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #f0f6fc;
+}
+
+/* Ajustes para el avatar en tema oscuro */
+[data-theme="dark"] .sidebar-docente .user-avatar {
+  box-shadow: 0 4px 12px rgba(46, 186, 160, 0.3);
+}
+
+[data-theme="light"] .sidebar-docente .user-avatar {
+  box-shadow: 0 4px 12px rgba(46, 186, 160, 0.2);
+}

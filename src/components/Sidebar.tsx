@@ -18,20 +18,10 @@ interface SidebarProps {
   isOpen: boolean;
   onClose: () => void;
   onToggle: () => void;
-  userCase?: 'estudiante' | 'docente';
 }
 
-// Mock user data - EXACTO COMO UDH
-const getUserData = (userCase: 'estudiante' | 'docente') => {
-  if (userCase === 'docente') {
-    return {
-      full_name: 'DR. CARLOS MENDOZA SILVA',
-      role: 'Docente',
-      department: 'Ing. de Sistemas',
-      image: 'https://ui-avatars.com/api/?name=Carlos+Mendoza&background=4A9B8E&color=fff',
-    };
-  }
-  
+// Datos únicamente del estudiante
+const getEstudianteData = () => {
   return {
     full_name: 'ARMANDO ROJAS LUNA',
     role: 'Estudiante',
@@ -39,31 +29,8 @@ const getUserData = (userCase: 'estudiante' | 'docente') => {
   };
 };
 
-// Obtener secciones según el case
-const getSections = (userCase: 'estudiante' | 'docente') => {
-  if (userCase === 'docente') {
-    return [
-      {
-        name: 'dashboard',
-        label: 'Dashboard',
-        icon: IconProyecto,
-        path: '/docente/dashboard',
-      },
-      {
-        name: 'cursos',
-        label: 'Mis Cursos',
-        icon: IconAcademico,
-        path: '/docente/cursos',
-      },
-      {
-        name: 'estudiantes',
-        label: 'Estudiantes',
-        icon: IconServicio,
-        path: '/docente/estudiantes',
-      }
-    ];
-  }
-
+// Secciones únicamente para estudiantes
+const getEstudianteSections = () => {
   return [
     {
       name: 'inicio',
@@ -110,13 +77,13 @@ const getSections = (userCase: 'estudiante' | 'docente') => {
   ];
 };
 
-export default function Sidebar({ isOpen, onClose, onToggle, userCase = 'estudiante' }: SidebarProps) {
+export default function Sidebar({ isOpen, onClose, onToggle }: SidebarProps) {
   const location = useLocation();
   const [isDesktop, setIsDesktop] = useState(false);
   const [currentTheme, setCurrentTheme] = useState<'light' | 'dark'>('light');
 
-  const userData = getUserData(userCase);
-  const sections = getSections(userCase);
+  const userData = getEstudianteData();
+  const sections = getEstudianteSections();
 
   // Detectar cambios de tema
   useEffect(() => {
@@ -153,7 +120,8 @@ export default function Sidebar({ isOpen, onClose, onToggle, userCase = 'estudia
 
   const isActive = (path: string) => location.pathname === path;
 
-  const sidebarClass = `${isDesktop ? 'admin-sidebar-desktop' : 'admin-sidebar'} ${currentTheme === 'dark' ? 'theme-dark' : 'theme-light'} ${userCase === 'docente' ? 'docente-mode' : 'estudiante-mode'}`;
+  // Clases CSS únicamente para estudiantes
+  const sidebarClass = `${isDesktop ? 'admin-sidebar-desktop' : 'admin-sidebar'} ${currentTheme === 'dark' ? 'theme-dark' : 'theme-light'} estudiante-mode`;
 
   return (
     <>
@@ -184,7 +152,8 @@ export default function Sidebar({ isOpen, onClose, onToggle, userCase = 'estudia
         />
       </button>
 
-  <div id="app-sidebar" className={`${sidebarClass} ${isOpen ? '' : 'collapsed'}`}>
+      <div id="app-sidebar" className={`${sidebarClass} ${isOpen ? '' : 'collapsed'}`}>
+        {/* Información del estudiante */}
         <div className="user-info-copiloto">
           <div className="user-avatar-copiloto">
             <img
@@ -200,19 +169,11 @@ export default function Sidebar({ isOpen, onClose, onToggle, userCase = 'estudia
             <div className="user-role-copiloto">
               {userData.role}
             </div>
-            {userCase === 'docente' && 'department' in userData && (
-              <div className="user-department-copiloto">
-                {userData.department}
-              </div>
-            )}
           </div>
         </div>
 
+        {/* Navegación del estudiante */}
         <div className="nav-container-copiloto">
-          {userCase === 'docente' && (
-            <div className="nav-group-title">Gestión Docente</div>
-          )}
-          
           {sections.map((section) => (
             <div key={section.name} className="nav-section-copiloto">
               <Link

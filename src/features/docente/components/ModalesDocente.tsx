@@ -1,27 +1,36 @@
 import { useState } from 'react';
-import { FaTimes, FaUpload, FaCalendarAlt, FaClock } from 'react-icons/fa';
+import { 
+  FaTimes, 
+  FaUpload, 
+  FaVideo, 
+  FaLink, 
+  FaFileAlt, 
+  FaCalendarAlt, 
+  FaClock,
+  FaTrash,
+  FaDownload
+} from 'react-icons/fa';
 import './ModalesDocente.css';
 
 interface Props {
   modalActivo: 'crear' | 'editar' | 'material' | 'tarea' | 'anuncio' | null;
   onCerrar: () => void;
-  onGuardar?: (datos: any) => void;
+  onGuardar: (datos: any) => void;
 }
 
 interface FormularioCurso {
-  nombre: string;
   codigo: string;
+  nombre: string;
   descripcion: string;
-  creditos: number;
   ciclo: string;
+  creditos: number;
 }
 
 interface FormularioMaterial {
   titulo: string;
   tipo: 'documento' | 'video' | 'enlace' | 'presentacion';
   archivo?: File;
-  url?: string;
-  descripcion: string;
+  enlace?: string;
 }
 
 interface FormularioTarea {
@@ -31,325 +40,206 @@ interface FormularioTarea {
   fechaLimite: string;
   horaLimite: string;
   puntuacion: number;
-  intentos: number;
-  tipo: 'tarea' | 'examen' | 'proyecto';
+  permitirEntregaTardia: boolean;
+  archivosAdjuntos: File[];
+  enlaces: string[];
+  tipoEvaluacion: 'tarea' | 'examen' | 'proyecto';
 }
 
 interface FormularioAnuncio {
   titulo: string;
   contenido: string;
   fijado: boolean;
-  notificarEmail: boolean;
+  archivosAdjuntos: File[];
 }
 
 export const ModalesDocente = ({ modalActivo, onCerrar, onGuardar }: Props) => {
   // Estados para cada formulario
-  const [formularioCurso, setFormularioCurso] = useState<FormularioCurso>({
-    nombre: '',
+  const [formCurso, setFormCurso] = useState<FormularioCurso>({
     codigo: '',
+    nombre: '',
     descripcion: '',
-    creditos: 3,
-    ciclo: '2025-2'
+    ciclo: '2025-2',
+    creditos: 3
   });
 
-  const [formularioMaterial, setFormularioMaterial] = useState<FormularioMaterial>({
+  const [formMaterial, setFormMaterial] = useState<FormularioMaterial>({
     titulo: '',
-    tipo: 'documento',
-    descripcion: ''
+    tipo: 'documento'
   });
 
-  const [formularioTarea, setFormularioTarea] = useState<FormularioTarea>({
+  const [formTarea, setFormTarea] = useState<FormularioTarea>({
     titulo: '',
     descripcion: '',
     instrucciones: '',
     fechaLimite: '',
     horaLimite: '23:59',
-    puntuacion: 20,
-    intentos: 1,
-    tipo: 'tarea'
+    puntuacion: 100,
+    permitirEntregaTardia: false,
+    archivosAdjuntos: [],
+    enlaces: [],
+    tipoEvaluacion: 'tarea'
   });
 
-  const [formularioAnuncio, setFormularioAnuncio] = useState<FormularioAnuncio>({
+  const [formAnuncio, setFormAnuncio] = useState<FormularioAnuncio>({
     titulo: '',
     contenido: '',
     fijado: false,
-    notificarEmail: true
+    archivosAdjuntos: []
   });
 
-  // Función para cerrar modal y limpiar formularios
-  const cerrarModal = () => {
-    // Limpiar formularios
-    setFormularioCurso({
-      nombre: '',
+  // Estado para manejar enlaces dinámicos
+  const [nuevoEnlace, setNuevoEnlace] = useState('');
+
+  const resetearFormularios = () => {
+    setFormCurso({
       codigo: '',
+      nombre: '',
       descripcion: '',
-      creditos: 3,
-      ciclo: '2025-2'
+      ciclo: '2025-2',
+      creditos: 3
     });
-    setFormularioMaterial({
+    setFormMaterial({
       titulo: '',
-      tipo: 'documento',
-      descripcion: ''
+      tipo: 'documento'
     });
-    setFormularioTarea({
+    setFormTarea({
       titulo: '',
       descripcion: '',
       instrucciones: '',
       fechaLimite: '',
       horaLimite: '23:59',
-      puntuacion: 20,
-      intentos: 1,
-      tipo: 'tarea'
+      puntuacion: 100,
+      permitirEntregaTardia: false,
+      archivosAdjuntos: [],
+      enlaces: [],
+      tipoEvaluacion: 'tarea'
     });
-    setFormularioAnuncio({
+    setFormAnuncio({
       titulo: '',
       contenido: '',
       fijado: false,
-      notificarEmail: true
+      archivosAdjuntos: []
     });
-    
+    setNuevoEnlace('');
+  };
+
+  const handleCerrar = () => {
+    resetearFormularios();
     onCerrar();
   };
 
-  // Funciones para guardar cada tipo
-  const guardarCurso = () => {
-    if (!formularioCurso.nombre || !formularioCurso.codigo) {
-      alert('Por favor completa los campos obligatorios');
-      return;
+  const handleGuardar = () => {
+    let datos;
+    
+    switch (modalActivo) {
+      case 'crear':
+      case 'editar':
+        datos = formCurso;
+        break;
+      case 'material':
+        datos = formMaterial;
+        break;
+      case 'tarea':
+        datos = formTarea;
+        break;
+      case 'anuncio':
+        datos = formAnuncio;
+        break;
+      default:
+        return;
     }
     
-    console.log('Guardando curso:', formularioCurso);
-    onGuardar?.(formularioCurso);
-    cerrarModal();
+    onGuardar(datos);
+    resetearFormularios();
   };
 
-  const guardarMaterial = () => {
-    if (!formularioMaterial.titulo) {
-      alert('Por favor ingresa un título para el material');
-      return;
-    }
-
-    console.log('Guardando material:', formularioMaterial);
-    onGuardar?.(formularioMaterial);
-    cerrarModal();
+  // ✅ FUNCIONES PARA MANEJAR ARCHIVOS
+  const handleArchivoTarea = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(event.target.files || []);
+    setFormTarea(prev => ({
+      ...prev,
+      archivosAdjuntos: [...prev.archivosAdjuntos, ...files]
+    }));
   };
 
-  const guardarTarea = () => {
-    if (!formularioTarea.titulo || !formularioTarea.fechaLimite) {
-      alert('Por favor completa los campos obligatorios');
-      return;
-    }
-
-    console.log('Guardando tarea:', formularioTarea);
-    onGuardar?.(formularioTarea);
-    cerrarModal();
+  const eliminarArchivoTarea = (index: number) => {
+    setFormTarea(prev => ({
+      ...prev,
+      archivosAdjuntos: prev.archivosAdjuntos.filter((_, i) => i !== index)
+    }));
   };
 
-  const guardarAnuncio = () => {
-    if (!formularioAnuncio.titulo || !formularioAnuncio.contenido) {
-      alert('Por favor completa los campos obligatorios');
-      return;
+  const agregarEnlace = () => {
+    if (nuevoEnlace.trim()) {
+      setFormTarea(prev => ({
+        ...prev,
+        enlaces: [...prev.enlaces, nuevoEnlace.trim()]
+      }));
+      setNuevoEnlace('');
     }
-
-    console.log('Guardando anuncio:', formularioAnuncio);
-    onGuardar?.(formularioAnuncio);
-    cerrarModal();
   };
 
-  const manejarArchivoMaterial = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const archivo = e.target.files?.[0];
-    if (archivo) {
-      setFormularioMaterial({
-        ...formularioMaterial,
-        archivo: archivo
-      });
-    }
+  const eliminarEnlace = (index: number) => {
+    setFormTarea(prev => ({
+      ...prev,
+      enlaces: prev.enlaces.filter((_, i) => i !== index)
+    }));
+  };
+
+  // ✅ FUNCIONES PARA MANEJAR ARCHIVOS DE ANUNCIO
+  const handleArchivoAnuncio = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(event.target.files || []);
+    setFormAnuncio(prev => ({
+      ...prev,
+      archivosAdjuntos: [...prev.archivosAdjuntos, ...files]
+    }));
+  };
+
+  const eliminarArchivoAnuncio = (index: number) => {
+    setFormAnuncio(prev => ({
+      ...prev,
+      archivosAdjuntos: prev.archivosAdjuntos.filter((_, i) => i !== index)
+    }));
   };
 
   if (!modalActivo) return null;
 
+  const obtenerTituloModal = () => {
+    switch (modalActivo) {
+      case 'crear': return 'Crear Nuevo Curso';
+      case 'editar': return 'Editar Curso';
+      case 'material': return 'Subir Material';
+      case 'tarea': return 'Crear Nueva Tarea';
+      case 'anuncio': return 'Crear Anuncio';
+      default: return 'Modal';
+    }
+  };
+
   return (
-    <div className="modal-overlay">
-      <div className="modal-container">
+    <div className="modal-overlay" onClick={handleCerrar}>
+      <div className="modal-container" onClick={(e) => e.stopPropagation()}>
         
-        {/* Modal Crear/Editar Curso */}
-        {(modalActivo === 'crear' || modalActivo === 'editar') && (
-          <>
-            <div className="modal-header">
-              <h2>{modalActivo === 'crear' ? 'Crear Nuevo Curso' : 'Editar Curso'}</h2>
-              <button className="btn-cerrar" onClick={cerrarModal}>
-                <FaTimes />
-              </button>
-            </div>
+        {/* Header del modal */}
+        <div className="modal-header">
+          <h2>{obtenerTituloModal()}</h2>
+          <button className="btn-cerrar" onClick={handleCerrar}>
+            <FaTimes />
+          </button>
+        </div>
 
-            <div className="modal-body">
-              <div className="form-group">
-                <label>Nombre del Curso *</label>
-                <input
-                  type="text"
-                  value={formularioCurso.nombre}
-                  onChange={(e) => setFormularioCurso({...formularioCurso, nombre: e.target.value})}
-                  placeholder="Ej: Programación Orientada a Objetos"
-                />
-              </div>
-
-              <div className="form-group">
-                <label>Código del Curso *</label>
-                <input
-                  type="text"
-                  value={formularioCurso.codigo}
-                  onChange={(e) => setFormularioCurso({...formularioCurso, codigo: e.target.value})}
-                  placeholder="Ej: IS-301"
-                />
-              </div>
-
-              <div className="form-group">
-                <label>Descripción</label>
-                <textarea
-                  value={formularioCurso.descripcion}
-                  onChange={(e) => setFormularioCurso({...formularioCurso, descripcion: e.target.value})}
-                  placeholder="Describe brevemente el curso..."
-                  rows={3}
-                />
-              </div>
-
-              <div className="form-row">
-                <div className="form-group">
-                  <label>Créditos</label>
-                  <input
-                    type="number"
-                    min="1"
-                    max="6"
-                    value={formularioCurso.creditos}
-                    onChange={(e) => setFormularioCurso({...formularioCurso, creditos: parseInt(e.target.value)})}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label>Ciclo Académico</label>
-                  <select
-                    value={formularioCurso.ciclo}
-                    onChange={(e) => setFormularioCurso({...formularioCurso, ciclo: e.target.value})}
-                  >
-                    <option value="2025-1">2025-1</option>
-                    <option value="2025-2">2025-2</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-
-            <div className="modal-footer">
-              <button className="btn-cancelar" onClick={cerrarModal}>
-                Cancelar
-              </button>
-              <button className="btn-guardar" onClick={guardarCurso}>
-                {modalActivo === 'crear' ? 'Crear Curso' : 'Guardar Cambios'}
-              </button>
-            </div>
-          </>
-        )}
-
-        {/* Modal Subir Material */}
-        {modalActivo === 'material' && (
-          <>
-            <div className="modal-header">
-              <h2>Subir Material</h2>
-              <button className="btn-cerrar" onClick={cerrarModal}>
-                <FaTimes />
-              </button>
-            </div>
-
-            <div className="modal-body">
-              <div className="form-group">
-                <label>Título del Material *</label>
-                <input
-                  type="text"
-                  value={formularioMaterial.titulo}
-                  onChange={(e) => setFormularioMaterial({...formularioMaterial, titulo: e.target.value})}
-                  placeholder="Ej: Slides Introducción a POO"
-                />
-              </div>
-
-              <div className="form-group">
-                <label>Tipo de Material</label>
-                <select
-                  value={formularioMaterial.tipo}
-                  onChange={(e) => setFormularioMaterial({...formularioMaterial, tipo: e.target.value as any})}
-                >
-                  <option value="documento">📄 Documento</option>
-                  <option value="presentacion">📊 Presentación</option>
-                  <option value="video">🎥 Video</option>
-                  <option value="enlace">🔗 Enlace Web</option>
-                </select>
-              </div>
-
-              {formularioMaterial.tipo === 'enlace' ? (
-                <div className="form-group">
-                  <label>URL del Enlace</label>
-                  <input
-                    type="url"
-                    value={formularioMaterial.url || ''}
-                    onChange={(e) => setFormularioMaterial({...formularioMaterial, url: e.target.value})}
-                    placeholder="https://..."
-                  />
-                </div>
-              ) : (
-                <div className="form-group">
-                  <label>Archivo</label>
-                  <div className="upload-area">
-                    <input
-                      type="file"
-                      onChange={manejarArchivoMaterial}
-                      accept=".pdf,.doc,.docx,.ppt,.pptx,.mp4,.avi"
-                    />
-                    <div className="upload-info">
-                      <FaUpload />
-                      <span>Click para seleccionar archivo</span>
-                      <small>PDF, DOC, PPT, MP4 - Máx. 50MB</small>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              <div className="form-group">
-                <label>Descripción</label>
-                <textarea
-                  value={formularioMaterial.descripcion}
-                  onChange={(e) => setFormularioMaterial({...formularioMaterial, descripcion: e.target.value})}
-                  placeholder="Descripción opcional del material..."
-                  rows={2}
-                />
-              </div>
-            </div>
-
-            <div className="modal-footer">
-              <button className="btn-cancelar" onClick={cerrarModal}>
-                Cancelar
-              </button>
-              <button className="btn-guardar" onClick={guardarMaterial}>
-                Subir Material
-              </button>
-            </div>
-          </>
-        )}
-
-        {/* Modal Crear Tarea */}
-        {modalActivo === 'tarea' && (
-          <>
-            <div className="modal-header">
-              <h2>Crear Nueva Tarea</h2>
-              <button className="btn-cerrar" onClick={cerrarModal}>
-                <FaTimes />
-              </button>
-            </div>
-
-            <div className="modal-body">
+        {/* Body del modal */}
+        <div className="modal-body">
+          
+          {/* ✅ FORMULARIO PARA CREAR TAREA MEJORADO */}
+          {modalActivo === 'tarea' && (
+            <>
               <div className="form-group">
                 <label>Título de la Tarea *</label>
                 <input
                   type="text"
-                  value={formularioTarea.titulo}
-                  onChange={(e) => setFormularioTarea({...formularioTarea, titulo: e.target.value})}
+                  value={formTarea.titulo}
+                  onChange={(e) => setFormTarea({...formTarea, titulo: e.target.value})}
                   placeholder="Ej: Ejercicios de Herencia"
                 />
               </div>
@@ -357,35 +247,114 @@ export const ModalesDocente = ({ modalActivo, onCerrar, onGuardar }: Props) => {
               <div className="form-group">
                 <label>Tipo de Evaluación</label>
                 <select
-                  value={formularioTarea.tipo}
-                  onChange={(e) => setFormularioTarea({...formularioTarea, tipo: e.target.value as any})}
+                  value={formTarea.tipoEvaluacion}
+                  onChange={(e) => setFormTarea({...formTarea, tipoEvaluacion: e.target.value as 'tarea' | 'examen' | 'proyecto'})}
                 >
                   <option value="tarea">📝 Tarea</option>
-                  <option value="examen">📋 Examen</option>
-                  <option value="proyecto">🎯 Proyecto</option>
+                  <option value="examen">🎓 Examen</option>
+                  <option value="proyecto">🚀 Proyecto</option>
                 </select>
               </div>
 
               <div className="form-group">
                 <label>Descripción</label>
                 <textarea
-                  value={formularioTarea.descripcion}
-                  onChange={(e) => setFormularioTarea({...formularioTarea, descripcion: e.target.value})}
+                  value={formTarea.descripcion}
+                  onChange={(e) => setFormTarea({...formTarea, descripcion: e.target.value})}
                   placeholder="Descripción breve de la tarea..."
-                  rows={2}
+                  rows={3}
                 />
               </div>
 
               <div className="form-group">
                 <label>Instrucciones Detalladas</label>
                 <textarea
-                  value={formularioTarea.instrucciones}
-                  onChange={(e) => setFormularioTarea({...formularioTarea, instrucciones: e.target.value})}
+                  value={formTarea.instrucciones}
+                  onChange={(e) => setFormTarea({...formTarea, instrucciones: e.target.value})}
                   placeholder="Instrucciones paso a paso para completar la tarea..."
                   rows={4}
                 />
               </div>
 
+              {/* ✅ SECCIÓN DE ARCHIVOS ADJUNTOS */}
+              <div className="form-group">
+                <label>Archivos Adjuntos</label>
+                <div className="upload-area">
+                  <input
+                    type="file"
+                    multiple
+                    onChange={handleArchivoTarea}
+                    accept=".pdf,.doc,.docx,.ppt,.pptx,.txt,.jpg,.png,.mp4,.mp3"
+                  />
+                  <div className="upload-info">
+                    <FaUpload />
+                    <span>Subir archivos de referencia</span>
+                    <small>PDF, Word, PowerPoint, imágenes, videos</small>
+                  </div>
+                </div>
+
+                {/* Lista de archivos adjuntos */}
+                {formTarea.archivosAdjuntos.length > 0 && (
+                  <div className="archivos-lista">
+                    {formTarea.archivosAdjuntos.map((archivo, index) => (
+                      <div key={index} className="archivo-item">
+                        <FaFileAlt />
+                        <span>{archivo.name}</span>
+                        <button
+                          type="button"
+                          onClick={() => eliminarArchivoTarea(index)}
+                          className="btn-eliminar-archivo"
+                        >
+                          <FaTrash />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* ✅ SECCIÓN DE ENLACES */}
+              <div className="form-group">
+                <label>Enlaces de Referencia</label>
+                <div className="enlace-input">
+                  <input
+                    type="url"
+                    value={nuevoEnlace}
+                    onChange={(e) => setNuevoEnlace(e.target.value)}
+                    placeholder="https://ejemplo.com/recurso"
+                  />
+                  <button
+                    type="button"
+                    onClick={agregarEnlace}
+                    className="btn-agregar-enlace"
+                  >
+                    <FaLink />
+                  </button>
+                </div>
+
+                {/* Lista de enlaces */}
+                {formTarea.enlaces.length > 0 && (
+                  <div className="enlaces-lista">
+                    {formTarea.enlaces.map((enlace, index) => (
+                      <div key={index} className="enlace-item">
+                        <FaLink />
+                        <a href={enlace} target="_blank" rel="noopener noreferrer">
+                          {enlace}
+                        </a>
+                        <button
+                          type="button"
+                          onClick={() => eliminarEnlace(index)}
+                          className="btn-eliminar-enlace"
+                        >
+                          <FaTrash />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Fecha y hora límite */}
               <div className="form-row">
                 <div className="form-group">
                   <label>Fecha Límite *</label>
@@ -393,20 +362,19 @@ export const ModalesDocente = ({ modalActivo, onCerrar, onGuardar }: Props) => {
                     <FaCalendarAlt />
                     <input
                       type="date"
-                      value={formularioTarea.fechaLimite}
-                      onChange={(e) => setFormularioTarea({...formularioTarea, fechaLimite: e.target.value})}
+                      value={formTarea.fechaLimite}
+                      onChange={(e) => setFormTarea({...formTarea, fechaLimite: e.target.value})}
                     />
                   </div>
                 </div>
-
                 <div className="form-group">
                   <label>Hora Límite</label>
                   <div className="time-input">
                     <FaClock />
                     <input
                       type="time"
-                      value={formularioTarea.horaLimite}
-                      onChange={(e) => setFormularioTarea({...formularioTarea, horaLimite: e.target.value})}
+                      value={formTarea.horaLimite}
+                      onChange={(e) => setFormTarea({...formTarea, horaLimite: e.target.value})}
                     />
                   </div>
                 </div>
@@ -414,105 +382,229 @@ export const ModalesDocente = ({ modalActivo, onCerrar, onGuardar }: Props) => {
 
               <div className="form-row">
                 <div className="form-group">
-                  <label>Puntuación Total</label>
+                  <label>Puntuación Máxima</label>
                   <input
                     type="number"
+                    value={formTarea.puntuacion}
+                    onChange={(e) => setFormTarea({...formTarea, puntuacion: parseInt(e.target.value)})}
                     min="1"
-                    max="100"
-                    value={formularioTarea.puntuacion}
-                    onChange={(e) => setFormularioTarea({...formularioTarea, puntuacion: parseInt(e.target.value)})}
+                    max="1000"
                   />
                 </div>
-
-                <div className="form-group">
-                  <label>Intentos Permitidos</label>
-                  <select
-                    value={formularioTarea.intentos}
-                    onChange={(e) => setFormularioTarea({...formularioTarea, intentos: parseInt(e.target.value)})}
-                  >
-                    <option value={1}>1 intento</option>
-                    <option value={2}>2 intentos</option>
-                    <option value={3}>3 intentos</option>
-                    <option value={-1}>Intentos ilimitados</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-
-            <div className="modal-footer">
-              <button className="btn-cancelar" onClick={cerrarModal}>
-                Cancelar
-              </button>
-              <button className="btn-guardar" onClick={guardarTarea}>
-                Crear Tarea
-              </button>
-            </div>
-          </>
-        )}
-
-        {/* Modal Crear Anuncio */}
-        {modalActivo === 'anuncio' && (
-          <>
-            <div className="modal-header">
-              <h2>Crear Nuevo Anuncio</h2>
-              <button className="btn-cerrar" onClick={cerrarModal}>
-                <FaTimes />
-              </button>
-            </div>
-
-            <div className="modal-body">
-              <div className="form-group">
-                <label>Título del Anuncio *</label>
-                <input
-                  type="text"
-                  value={formularioAnuncio.titulo}
-                  onChange={(e) => setFormularioAnuncio({...formularioAnuncio, titulo: e.target.value})}
-                  placeholder="Ej: Examen Parcial - Fecha Confirmada"
-                />
-              </div>
-
-              <div className="form-group">
-                <label>Contenido del Anuncio *</label>
-                <textarea
-                  value={formularioAnuncio.contenido}
-                  onChange={(e) => setFormularioAnuncio({...formularioAnuncio, contenido: e.target.value})}
-                  placeholder="Escribe tu anuncio aquí..."
-                  rows={5}
-                />
               </div>
 
               <div className="form-options">
                 <label className="checkbox-label">
                   <input
                     type="checkbox"
-                    checked={formularioAnuncio.fijado}
-                    onChange={(e) => setFormularioAnuncio({...formularioAnuncio, fijado: e.target.checked})}
+                    checked={formTarea.permitirEntregaTardia}
+                    onChange={(e) => setFormTarea({...formTarea, permitirEntregaTardia: e.target.checked})}
                   />
-                  📌 Fijar anuncio (aparecerá destacado)
+                  Permitir entrega tardía
                 </label>
+              </div>
+            </>
+          )}
 
+          {/* ✅ FORMULARIO PARA CREAR ANUNCIO MEJORADO */}
+          {modalActivo === 'anuncio' && (
+            <>
+              <div className="form-group">
+                <label>Título del Anuncio *</label>
+                <input
+                  type="text"
+                  value={formAnuncio.titulo}
+                  onChange={(e) => setFormAnuncio({...formAnuncio, titulo: e.target.value})}
+                  placeholder="Ej: Examen Parcial - Fecha Confirmada"
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Contenido</label>
+                <textarea
+                  value={formAnuncio.contenido}
+                  onChange={(e) => setFormAnuncio({...formAnuncio, contenido: e.target.value})}
+                  placeholder="Escribe el contenido de tu anuncio..."
+                  rows={6}
+                />
+              </div>
+
+              {/* ✅ ARCHIVOS PARA ANUNCIOS */}
+              <div className="form-group">
+                <label>Archivos Adjuntos (Opcional)</label>
+                <div className="upload-area">
+                  <input
+                    type="file"
+                    multiple
+                    onChange={handleArchivoAnuncio}
+                    accept=".pdf,.doc,.docx,.jpg,.png,.mp4"
+                  />
+                  <div className="upload-info">
+                    <FaUpload />
+                    <span>Subir archivos al anuncio</span>
+                    <small>PDF, Word, imágenes, videos</small>
+                  </div>
+                </div>
+
+                {/* Lista de archivos del anuncio */}
+                {formAnuncio.archivosAdjuntos.length > 0 && (
+                  <div className="archivos-lista">
+                    {formAnuncio.archivosAdjuntos.map((archivo, index) => (
+                      <div key={index} className="archivo-item">
+                        <FaFileAlt />
+                        <span>{archivo.name}</span>
+                        <button
+                          type="button"
+                          onClick={() => eliminarArchivoAnuncio(index)}
+                          className="btn-eliminar-archivo"
+                        >
+                          <FaTrash />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <div className="form-options">
                 <label className="checkbox-label">
                   <input
                     type="checkbox"
-                    checked={formularioAnuncio.notificarEmail}
-                    onChange={(e) => setFormularioAnuncio({...formularioAnuncio, notificarEmail: e.target.checked})}
+                    checked={formAnuncio.fijado}
+                    onChange={(e) => setFormAnuncio({...formAnuncio, fijado: e.target.checked})}
                   />
-                  📧 Notificar por email a estudiantes
+                  Fijar este anuncio
                 </label>
               </div>
-            </div>
+            </>
+          )}
 
-            <div className="modal-footer">
-              <button className="btn-cancelar" onClick={cerrarModal}>
-                Cancelar
-              </button>
-              <button className="btn-guardar" onClick={guardarAnuncio}>
-                Publicar Anuncio
-              </button>
-            </div>
-          </>
-        )}
+          {/* RESTO DE FORMULARIOS (curso y material) - mantener como estaban */}
+          {(modalActivo === 'crear' || modalActivo === 'editar') && (
+            <>
+              <div className="form-row">
+                <div className="form-group">
+                  <label>Código del Curso *</label>
+                  <input
+                    type="text"
+                    value={formCurso.codigo}
+                    onChange={(e) => setFormCurso({...formCurso, codigo: e.target.value})}
+                    placeholder="Ej: IS-301"
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Créditos</label>
+                  <input
+                    type="number"
+                    value={formCurso.creditos}
+                    onChange={(e) => setFormCurso({...formCurso, creditos: parseInt(e.target.value)})}
+                    min="1"
+                    max="6"
+                  />
+                </div>
+              </div>
 
+              <div className="form-group">
+                <label>Nombre del Curso *</label>
+                <input
+                  type="text"
+                  value={formCurso.nombre}
+                  onChange={(e) => setFormCurso({...formCurso, nombre: e.target.value})}
+                  placeholder="Ej: Programación Orientada a Objetos"
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Descripción</label>
+                <textarea
+                  value={formCurso.descripcion}
+                  onChange={(e) => setFormCurso({...formCurso, descripcion: e.target.value})}
+                  placeholder="Descripción del curso..."
+                  rows={3}
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Ciclo Académico</label>
+                <select
+                  value={formCurso.ciclo}
+                  onChange={(e) => setFormCurso({...formCurso, ciclo: e.target.value})}
+                >
+                  <option value="2025-1">2025-1</option>
+                  <option value="2025-2">2025-2</option>
+                </select>
+              </div>
+            </>
+          )}
+
+          {modalActivo === 'material' && (
+            <>
+              <div className="form-group">
+                <label>Título del Material *</label>
+                <input
+                  type="text"
+                  value={formMaterial.titulo}
+                  onChange={(e) => setFormMaterial({...formMaterial, titulo: e.target.value})}
+                  placeholder="Ej: Introducción a POO - Slides"
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Tipo de Material</label>
+                <select
+                  value={formMaterial.tipo}
+                  onChange={(e) => setFormMaterial({...formMaterial, tipo: e.target.value as any})}
+                >
+                  <option value="documento">📄 Documento</option>
+                  <option value="presentacion">📊 Presentación</option>
+                  <option value="video">🎥 Video</option>
+                  <option value="enlace">🔗 Enlace</option>
+                </select>
+              </div>
+
+              {formMaterial.tipo !== 'enlace' ? (
+                <div className="form-group">
+                  <label>Subir Archivo</label>
+                  <div className="upload-area">
+                    <input
+                      type="file"
+                      onChange={(e) => setFormMaterial({...formMaterial, archivo: e.target.files?.[0]})}
+                    />
+                    <div className="upload-info">
+                      <FaUpload />
+                      <span>Seleccionar archivo</span>
+                      <small>PDF, DOC, PPT, MP4, etc.</small>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="form-group">
+                  <label>URL del Enlace</label>
+                  <input
+                    type="url"
+                    value={formMaterial.enlace || ''}
+                    onChange={(e) => setFormMaterial({...formMaterial, enlace: e.target.value})}
+                    placeholder="https://ejemplo.com"
+                  />
+                </div>
+              )}
+            </>
+          )}
+        </div>
+
+        {/* Footer del modal */}
+        <div className="modal-footer">
+          <button className="btn-cancelar" onClick={handleCerrar}>
+            Cancelar
+          </button>
+          <button className="btn-guardar" onClick={handleGuardar}>
+            {modalActivo === 'crear' ? 'Crear Curso' : 
+             modalActivo === 'editar' ? 'Guardar Cambios' :
+             modalActivo === 'tarea' ? 'Crear Tarea' :
+             modalActivo === 'material' ? 'Subir Material' :
+             'Publicar Anuncio'}
+          </button>
+        </div>
       </div>
     </div>
   );
