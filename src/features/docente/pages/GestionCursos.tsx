@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { FaPlus } from 'react-icons/fa';
 
 // Importar los nuevos componentes
-import { CursoCardDocente } from '../components/CursoCardDocente';
+import CursoCardDocente from '../components/CursoCardDocente';
 import { CursoDetalle } from '../components/CursoDetalleDocente';
 import { ModalesDocente } from '../components/ModalesDocente';
 import { TareaDetalle } from '../components/TareaDetalle';
@@ -54,6 +54,15 @@ interface Anuncio {
   fecha: string;
   fijado: boolean;
   cursoId: number; // Agregar para relacionar con curso
+}
+
+// Función para asignar colores según el nombre del curso
+function getColorByCurso(nombre: string): string {
+  // Puedes personalizar los colores según el nombre
+  if (nombre.toLowerCase().includes('objetos')) return '#4F8A8B';
+  if (nombre.toLowerCase().includes('base de datos')) return '#F9A826';
+  // Color por defecto
+  return '#6C63FF';
 }
 
 export default function GestionCursos() {
@@ -173,10 +182,6 @@ export default function GestionCursos() {
     setVistaActual('detalle');
   };
 
-  const editarCurso = (id: number) => {
-    setCursoSeleccionado(id);
-    setModalActivo('editar');
-  };
 
   const eliminarCurso = (id: number) => {
     if (confirm('¿Estás seguro de eliminar este curso? Esta acción no se puede deshacer.')) {
@@ -188,231 +193,43 @@ export default function GestionCursos() {
     }
   };
 
-  const volverLista = () => {
-    setVistaActual('lista');
-    setCursoSeleccionado(null);
-    setTareaSeleccionada(null);
-    setAnuncioSeleccionado(null);
-  };
-
-  const abrirModal = (tipo: 'crear' | 'material' | 'tarea' | 'anuncio') => {
-    setModalActivo(tipo);
-  };
-
-  const cerrarModal = () => {
-    setModalActivo(null);
-    setCursoSeleccionado(null);
-  };
-
-  // Función para guardar datos según el tipo
-  const guardarDatos = (datos: any) => {
-    if (modalActivo === 'crear') {
-      // Crear nuevo curso
-      const nuevoCurso: Curso = {
-        id: Date.now(),
-        codigo: datos.codigo,
-        nombre: datos.nombre,
-        descripcion: datos.descripcion,
-        ciclo: datos.ciclo,
-        creditos: datos.creditos,
-        estudiantes: 0,
-        estado: 'activo',
-        fechaCreacion: new Date().toISOString().split('T')[0],
-        ultimaActividad: 'Recién creado',
-        codigoAcceso: datos.codigo.toUpperCase() + '2025'
-      };
-      setCursos([...cursos, nuevoCurso]);
-      
-    } else if (modalActivo === 'editar' && cursoSeleccionado) {
-      // Editar curso existente
-      setCursos(cursos.map(curso => 
-        curso.id === cursoSeleccionado 
-          ? { ...curso, ...datos }
-          : curso
-      ));
-      
-    } else if (modalActivo === 'material' && cursoSeleccionado) {
-      // Agregar nuevo material
-      const nuevoMaterial: Material = {
-        id: Date.now(),
-        titulo: datos.titulo,
-        tipo: datos.tipo,
-        fechaSubida: new Date().toISOString().split('T')[0],
-        descargas: 0,
-        cursoId: cursoSeleccionado
-      };
-      setMateriales([...materiales, nuevoMaterial]);
-      
-    } else if (modalActivo === 'tarea' && cursoSeleccionado) {
-      // Agregar nueva tarea
-      const nuevaTarea: Tarea = {
-        id: Date.now(),
-        titulo: datos.titulo,
-        descripcion: datos.descripcion,
-        fechaLimite: datos.fechaLimite,
-        puntuacion: datos.puntuacion,
-        entregas: 0,
-        totalEstudiantes: cursos.find(c => c.id === cursoSeleccionado)?.estudiantes || 0,
-        estado: 'publicada',
-        cursoId: cursoSeleccionado
-      };
-      setTareas([...tareas, nuevaTarea]);
-      
-    } else if (modalActivo === 'anuncio' && cursoSeleccionado) {
-      // Agregar nuevo anuncio
-      const nuevoAnuncio: Anuncio = {
-        id: Date.now(),
-        titulo: datos.titulo,
-        contenido: datos.contenido,
-        fecha: new Date().toISOString().split('T')[0],
-        fijado: datos.fijado,
-        cursoId: cursoSeleccionado
-      };
-      setAnuncios([...anuncios, nuevoAnuncio]);
-    }
-    
-    cerrarModal();
-  };
-
-  // ✅ NUEVAS VISTAS - Vista detalle de tarea
-  if (vistaActual === 'tarea-detalle' && tareaSeleccionada && cursoSeleccionado) {
-    const tarea = tareas.find(t => t.id === tareaSeleccionada);
-    const curso = cursos.find(c => c.id === cursoSeleccionado);
-    
-    if (!tarea || !curso) {
-      setVistaActual('detalle');
-      return null;
-    }
-
-    return (
-      <TareaDetalle 
-        tarea={tarea}
-        curso={curso}
-        onVolver={volverDetalleCurso}
-      />
-    );
-  }
-
-  // ✅ NUEVAS VISTAS - Vista detalle de anuncio
-  if (vistaActual === 'anuncio-detalle' && anuncioSeleccionado && cursoSeleccionado) {
-    const anuncio = anuncios.find(a => a.id === anuncioSeleccionado);
-    const curso = cursos.find(c => c.id === cursoSeleccionado);
-    
-    if (!anuncio || !curso) {
-      setVistaActual('detalle');
-      return null;
-    }
-
-    return (
-      <AnuncioDetalle 
-        anuncio={anuncio}
-        curso={curso}
-        onVolver={volverDetalleCurso}
-      />
-    );
-  }
-
-  // Si está en vista detalle, mostrar CursoDetalle
-  if (vistaActual === 'detalle' && cursoSeleccionado) {
-    const curso = cursos.find(c => c.id === cursoSeleccionado);
-    if (!curso) {
-      // Si no encuentra el curso, volver a la lista
-      setVistaActual('lista');
-      setCursoSeleccionado(null);
-      return null;
-    }
-
-    return (
-      <>
-        <CursoDetalle 
-          curso={curso}
-          onVolver={volverLista}
-          onAbrirModal={abrirModal}
-          onEntrarTarea={entrarTarea}      // ✅ Nueva función
-          onEntrarAnuncio={entrarAnuncio}  // ✅ Nueva función
-          // Pasar datos filtrados por curso
-          materiales={materiales.filter(m => m.cursoId === curso.id)}
-          tareas={tareas.filter(t => t.cursoId === curso.id)}
-          anuncios={anuncios.filter(a => a.cursoId === curso.id)}
-        />
-        
-        {/* Modal para crear material/tarea/anuncio */}
-        <ModalesDocente
-          modalActivo={modalActivo}
-          onCerrar={cerrarModal}
-          onGuardar={guardarDatos}
-        />
-      </>
-    );
-  }
+  
 
   // Vista lista de cursos
   return (
     <div className="gestion-cursos-usil">
       <div className="cursos-container">
-        
+
         {/* Header principal */}
         <div className="cursos-header">
           <div className="header-content">
-            <h1>Gestión de Cursos</h1>
-            <p>Administra todos tus cursos desde un solo lugar</p>
+            <h1> Gestion de Cursos</h1>
           </div>
-          <button 
-            className="btn-crear-principal" 
-            onClick={() => abrirModal('crear')}
-          >
-            <FaPlus />
-            Crear Nuevo Curso
-          </button>
         </div>
 
         {/* Grid de cursos */}
         <div className="cursos-grid">
-          {cursos.map(curso => (
+          {cursos.map((curso) => (
             <CursoCardDocente
               key={curso.id}
-              curso={curso}
-              onEntrar={entrarCurso}
-              onEditar={editarCurso}
-              onEliminar={eliminarCurso}
+              {...curso}
+              color={getColorByCurso(curso.nombre)} // Función para asignar colores
+              onEntrarCurso={entrarCurso}
             />
           ))}
 
-          {/* Card para crear nuevo curso */}
-          <div 
-            className="curso-card crear-card" 
-            onClick={() => abrirModal('crear')}
-          >
-            <div className="crear-content">
-              <FaPlus className="crear-icon" />
-              <h3>Crear Nuevo Curso</h3>
-              <p>Configura un nuevo curso para tus estudiantes</p>
-            </div>
-          </div>
         </div>
 
         {/* Mensaje si no hay cursos */}
         {cursos.length === 0 && (
           <div className="empty-state">
             <h3>No tienes cursos creados</h3>
-            <p>Crea tu primer curso para comenzar</p>
-            <button 
-              className="btn-crear-principal" 
-              onClick={() => abrirModal('crear')}
-            >
-              <FaPlus />
-              Crear Mi Primer Curso
-            </button>
+            
           </div>
         )}
       </div>
 
-      {/* Modal para crear/editar curso */}
-      <ModalesDocente
-        modalActivo={modalActivo}
-        onCerrar={cerrarModal}
-        onGuardar={guardarDatos}
-      />
+     
     </div>
   );
 }

@@ -1,3 +1,6 @@
+:root {
+  --topbar-height: 80px;
+}
 .topbar-docente {
   display: flex;
   align-items: center;
@@ -5,7 +8,7 @@
   height: 64px;
   background: var(--bg-tertiary); /* Usa las variables de index.css */
   color: var(--text-primary);
-  padding: 0 20px;
+  padding: 0 24px;
   box-shadow: 0 2px 4px var(--shadow);
   position: fixed;
   top: 0;
@@ -28,7 +31,7 @@
 }
 
 .logo-shield {
-  background: var(--accent-color); /* Usa variable de accent */
+  background: var(--accent-color);
   color: white;
   width: 40px;
   height: 40px;
@@ -38,12 +41,6 @@
   justify-content: center;
   font-weight: bold;
   font-size: 14px;
-}
-
-.logo-text {
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--text-primary); /* Usa variable de texto */
 }
 
 .topbar-center {
@@ -153,5 +150,26 @@
   
   .logo-text {
     display: none;
+  }
+}
+
+.logo-image {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+/* Mejorar contraste en tema claro */
+.light .logo-image {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+
+
+/* Responsive para el logo */
+@media (max-width: 768px) {
+  .logo-image {
+    height: 32px;
   }
 }

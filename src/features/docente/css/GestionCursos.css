@@ -237,3 +237,17 @@
   transition-duration: 150ms;
   transition-timing-function: ease-in-out;
 }
+
+.cursos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 24px;
+  padding: 24px 0;
+}
+
+@media (max-width: 768px) {
+  .cursos-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
