@@ -1,144 +1,100 @@
-import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import FlechaIcon from '../../../../assets/flecha.svg';
-import './SidebarDocente.css';
-
-// Iconos exactos del diseño
 import { 
   FaTh,
-  FaFileAlt,
-  FaUserFriends, 
-  FaCheckCircle,
-  FaChartBar,
-  FaCalculator,
-  FaGraduationCap,
-  FaTimes
+  FaBookOpen,
+  FaUsers,
+  FaChevronRight,
 } from 'react-icons/fa';
+import './SidebarDocente.css';
 
 interface SidebarDocenteProps {
   isOpen: boolean;
   onClose: () => void;
   onToggle: () => void;
+  isDarkMode?: boolean;
 }
 
-// Datos del docente
-const getDocenteData = () => {
-  return {
-    full_name: 'ALDO ENRIQUE RAMIREZ CHAUPIS',
-    role: 'Docente',
-    department: 'Ing. de Sistemas',
-    image: 'https://ui-avatars.com/api/?name=Aldo+Ramirez&background=2EBAA0&color=fff&size=80',
-  };
-};
+const menuItems = [
+  {
+    id: 'panel',
+    label: 'Panel',
+    icon: FaTh,
+    path: '/docente/dashboard'
+  },
+  {
+    id: 'cursos',
+    label: 'Cursos',
+    icon: FaBookOpen,
+    path: '/docente/cursos'
+  },
+  {
+    id: 'estudiantes',
+    label: 'Estudiantes',
+    icon: FaUsers,
+    path: '/docente/estudiantes'
+  },
+  
+];
 
-// Secciones del menú con diseño limpio y uniforme
-const getDocenteSections = () => {
-  return [
-    {
-      name: 'panel',
-      label: 'Panel',
-      icon: FaTh,
-      path: '/docente/dashboard',
-    },
-    {
-      name: 'cursos',
-      label: 'Cursos',
-      icon: FaFileAlt,
-      path: '/docente/cursos',
-    },
-    {
-      name: 'estudiantes',
-      label: 'Estudiantes',
-      icon: FaUserFriends,
-      path: '/docente/estudiantes',
-    },
-  ];
-};
-
-export default function SidebarDocente({ isOpen, onClose, onToggle }: SidebarDocenteProps) {
+export default function SidebarDocente({ 
+  isOpen, 
+  onClose, 
+  onToggle, 
+  isDarkMode = false
+}: SidebarDocenteProps) {
   const location = useLocation();
-  const [isDesktop, setIsDesktop] = useState(false);
-  const [currentTheme, setCurrentTheme] = useState<'light' | 'dark'>('light');
-
-  const userData = getDocenteData();
-  const sections = getDocenteSections();
-
-  // Detectar cambios de tema
-  useEffect(() => {
-    const detectTheme = () => {
-      const isDark = document.documentElement.classList.contains('dark');
-      setCurrentTheme(isDark ? 'dark' : 'light');
-    };
-
-    detectTheme();
-
-    const observer = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-          detectTheme();
-        }
-      });
-    });
-
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ['class']
-    });
-
-    return () => observer.disconnect();
-  }, []);
-
-  // Detectar cambios de tamaño de pantalla
-  useEffect(() => {
-    const checkSize = () => setIsDesktop(window.innerWidth >= 1024);
-    checkSize();
-    window.addEventListener('resize', checkSize);
-    return () => window.removeEventListener('resize', checkSize);
-  }, []);
 
   const isActive = (path: string) => location.pathname === path;
 
-  // Clases CSS limpias
-  const sidebarClass = `sidebar-docente ${isOpen ? 'sidebar-open' : 'sidebar-collapsed'} ${currentTheme}`;
-
- return (
+  return (
     <>
       {/* Backdrop para móvil */}
-      {!isDesktop && isOpen && (
-        <div className="sidebar-backdrop" onClick={onClose} />
-      )}
+      <div 
+        className={`sidebar-backdrop ${isOpen ? 'active' : ''}`}
+        onClick={onClose}
+      />
 
       {/* Sidebar principal */}
-      <aside className={`sidebar-docente ${isOpen ? 'sidebar-open' : 'sidebar-collapsed'}`}>
+      <aside className={`sidebar-docente ${isOpen ? 'expanded' : 'collapsed'} ${isDarkMode ? 'dark' : 'light'}`}>
         
-        {/* Header del docente */}
-        <div className="sidebar-header">
-          {/* BOTÓN HAMBURGUESA - AGREGARLO AQUÍ */}
-          <button 
-            className="sidebar-toggle-btn" 
-            onClick={onToggle}
-            title="Colapsar sidebar"
-          > 
-          <img src={FlechaIcon} alt="Toggle" className={`flecha-icon ${isOpen ? '' : 'rotada'}`} />
-            <FaTimes />
-          </button>
-        </div>
+        {/* Botón toggle flotante */}
+        <button 
+          className="toggle-btn-float"
+          onClick={onToggle}
+        >
+          <FaChevronRight className={`chevron ${isOpen ? 'rotated' : ''}`} />
+        </button>
 
-        {/* Navegación */}
-        <nav className="sidebar-nav">
-          {sections.map((section) => (
-            <Link
-              key={section.name}
-              to={section.path}
-              className={`nav-item ${isActive(section.path) ? 'active' : ''}`}
-              onClick={() => !isDesktop && onClose()}
-              title={section.label}
-            >
-              <section.icon className="nav-icon" />
-              {isOpen && <span className="nav-label">{section.label}</span>}
-            </Link>
-          ))}
-        </nav>
+        {/* Contenido del sidebar */}
+        <div className="sidebar-content">
+          <ul className="nav-list">
+            {menuItems.map((item) => (
+              <li key={item.id}>
+                <Link
+                  to={item.path}
+                  className={`nav-item ${isActive(item.path) ? 'active' : ''}`}
+                  onClick={onClose}
+                >
+                  {/* Fondo hover/activo */}
+                  <div className="nav-bg"></div>
+                  
+                  {/* Indicador lateral activo */}
+                  {isActive(item.path) && <div className="active-indicator"></div>}
+                  
+                  {/* Icono */}
+                  <div className="nav-icon-container">
+                    <item.icon className="nav-icon" />
+                  </div>
+                  
+                  {/* Etiqueta */}
+                  <div className="nav-label-container">
+                    <span className="nav-label">{item.label}</span>
+                  </div>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
       </aside>
     </>
   );

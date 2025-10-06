@@ -48,6 +48,7 @@ export const LayoutDocente = () => {
           isOpen={sidebarOpen}
           onClose={() => setSidebarOpen(false)}
           onToggle={handleSidebarToggle}
+          isDarkMode={isDarkMode}
         />
         
         {/* Contenido principal */}
