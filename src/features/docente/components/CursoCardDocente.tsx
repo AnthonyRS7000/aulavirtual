@@ -1,98 +1,146 @@
-import { FaEdit, FaTrash, FaArrowRight, FaUsers, FaBook } from 'react-icons/fa';
+import React from 'react';
+import { FaUsers, FaFileAlt, FaClock, FaVideo, FaEllipsisV } from 'react-icons/fa';
 import './CursoCardDocente.css';
 
-interface Curso {
+interface CursoCardDocenteProps {
   id: number;
   codigo: string;
   nombre: string;
-  descripcion: string;
   ciclo: string;
   creditos: number;
   estudiantes: number;
   estado: 'activo' | 'inactivo' | 'archivado';
   fechaCreacion: string;
   ultimaActividad: string;
-  codigoAcceso: string;
+  color?: string;
+  onEntrarCurso: (id: number) => void;
+  onEditarCurso?: (id: number) => void;
+  onEliminarCurso?: (id: number) => void;
 }
 
-interface Props {
-  curso: Curso;
-  onEntrar: (id: number) => void;
-  onEditar: (id: number) => void;
-  onEliminar: (id: number) => void;
-}
+export default function CursoCardDocente({
+  id,
+  codigo,
+  nombre,
+  ciclo,
+  creditos,
+  estudiantes,
+  estado,
+  fechaCreacion,
+  ultimaActividad,
+  color = '#2EBAA0',
+  onEntrarCurso,
+  onEditarCurso,
+  onEliminarCurso
+}: CursoCardDocenteProps) {
+  
+  const iniciales = nombre.split(' ').map(word => word[0]).join('').substring(0, 2).toUpperCase();
+  
+  // Función para manejar el click del botón entrar
+  const handleEntrarCurso = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    console.log('Entrando al curso:', id); // Para debug
+    onEntrarCurso(id);
+  };
 
-export const CursoCardDocente = ({ curso, onEntrar, onEditar, onEliminar }: Props) => {
+  // Función para el menú de opciones
+  const handleMenuClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    console.log('Menu clicked for course:', id);
+    // Aquí puedes agregar lógica para mostrar un dropdown
+  };
+
+  // Función para Meet
+  const handleMeetClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    console.log('Meet clicked for course:', id);
+    // Aquí puedes agregar lógica para iniciar Meet
+  };
+  
   return (
-    <div className="curso-card">
-      {/* Header */}
-      <div className="curso-header-card">
-        <div className="curso-titulo">
-          <h3>{curso.nombre}</h3>
-          <span className="curso-codigo">{curso.codigo}</span>
+    <div className="curso-card-docente">
+      {/* Header/Banner */}
+      <div className="curso-header-docente" style={{ background: `linear-gradient(90deg, ${color} 0%, ${color}dd 100%)` }}>
+        <div className="curso-info-docente">
+          <h3 className="curso-titulo-docente">{nombre}</h3>
+          <p className="curso-codigo-docente">{codigo}</p>
         </div>
-        <div className="curso-estado">
-          <span className={`estado-badge ${curso.estado}`}>
-            {curso.estado}
-          </span>
-        </div>
-      </div>
-
-      {/* Descripción */}
-      <div className="curso-descripcion">
-        <p>{curso.descripcion}</p>
-      </div>
-
-      {/* Estadísticas */}
-      <div className="curso-stats-simple">
-        <div className="stat-simple">
-          <span className="stat-numero">{curso.estudiantes}</span>
-          <span className="stat-label">estudiantes</span>
-        </div>
-        <div className="stat-simple">
-          <span className="stat-numero">{curso.creditos}</span>
-          <span className="stat-label">créditos</span>
-        </div>
-        <span className="stat-ciclo">{curso.ciclo}</span>
-      </div>
-
-      {/* Footer */}
-      <div className="curso-footer">
-        <div className="ultima-actividad">
-          <small>{curso.ultimaActividad}</small>
-        </div>
-        <div className="curso-acciones">
+        
+        {/* Menú de opciones */}
+        <div className="curso-menu-docente">
           <button 
-            className="btn-accion"
-            onClick={(e) => {
-              e.stopPropagation();
-              onEditar(curso.id);
-            }}
-            title="Editar curso"
+            className="menu-btn-docente"
+            onClick={handleMenuClick}
+            type="button"
           >
-            <FaEdit />
-          </button>
-          <button 
-            className="btn-accion danger"
-            onClick={(e) => {
-              e.stopPropagation();
-              onEliminar(curso.id);
-            }}
-            title="Eliminar curso"
-          >
-            <FaTrash />
+            <FaEllipsisV />
           </button>
         </div>
       </div>
 
-      {/* ✅ BOTÓN PRINCIPAL PARA ENTRAR - ESTE ES EL IMPORTANTE */}
-      <button 
-        className="btn-entrar-curso"
-        onClick={() => onEntrar(curso.id)}
-      >
-        <FaArrowRight />
-        Entrar al Curso
-      </button>
+      {/* Avatar flotante */}
+      <div className="curso-avatar-docente">
+        <div className="avatar-circle-docente">
+          {iniciales}
+        </div>
+      </div>
+
+      {/* Contenido principal */}
+      <div className="curso-contenido-docente">
+        <div className="curso-middle-docente">
+          <div className="curso-descripcion-docente">
+          </div>
+          
+          <div className="curso-stats-docente">
+            <div className="stat-item-docente">
+              <FaUsers className="stat-icon-docente" />
+              <span className="stat-numero-docente">{estudiantes}</span>
+              <span className="stat-label-docente">estudiantes</span>
+            </div>
+            <div className="stat-item-docente">
+              <FaFileAlt className="stat-icon-docente" />
+              <span className="stat-numero-docente">{creditos}</span>
+              <span className="stat-label-docente">créditos</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Línea divisoria */}
+      <div className="card-divider"></div>
+
+      {/* Footer con acciones */}
+      <div className="curso-footer-docente">
+        <div className="footer-left">
+          <div className="curso-meta-docente">
+            <span className={`estado-badge-docente estado-${estado}`}>
+              {estado}
+            </span>
+            <span className="ciclo-docente">{ciclo}</span>
+          </div>
+        </div>
+        
+        <div className="footer-right">
+          <button 
+            className="btn-meet-docente"
+            onClick={handleMeetClick}
+            type="button"
+            title="Iniciar Meet"
+          >
+            <FaVideo />
+          </button>
+          <button 
+            className="btn-entrar-docente"
+            onClick={handleEntrarCurso}
+            type="button"
+          >
+            Entrar
+          </button>
+        </div>
+      </div>
     </div>
   );
-};
+}
