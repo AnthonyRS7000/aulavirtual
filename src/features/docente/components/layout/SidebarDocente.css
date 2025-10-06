@@ -33,39 +33,51 @@
 /* Backdrop para móvil */
 .sidebar-backdrop {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  inset: 0;
+  background: rgba(0,0,0,0.3); /* o el valor que prefieras */
   z-index: 20;
   opacity: 0;
-  visibility: hidden;
-  transition: opacity 300ms ease, visibility 300ms ease;
+  pointer-events: none;
+  transition: opacity 0.2s;
 }
 
 .sidebar-backdrop.active {
   opacity: 1;
-  visibility: visible;
+  pointer-events: auto;
 }
 
 /* Botón toggle flotante */
 .toggle-btn-float {
   position: absolute;
   top: 1rem;
-  right: -0.75rem;
-  width: 1.5rem;
-  height: 1.5rem;
+  left: calc(var(--sidebar-width-expanded) - 1.25rem); /* 16rem - 1.25rem = 14.75rem */
+  width: 2.5rem;
+  height: 2.5rem;
   background: white;
-  border: 1px solid #e5e7eb;
+  border: 2px solid #bfc9db;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   z-index: 10;
-  transition: all 200ms ease;
+  transition: background 0.2s, left 0.3s;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding: 0;
+}
+
+.toggle-btn-float {
+  border: none;
+  outline: none;
+}
+
+.toggle-btn-float:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.sidebar-docente.collapsed .toggle-btn-float {
+  left: calc(var(--sidebar-width-collapsed) - 1.25rem); /* 4rem - 1.25rem = 2.75rem */
 }
 
 .toggle-btn-float:hover {
@@ -244,6 +256,11 @@
 }
 
 /* RESPONSIVE */
+@media (min-width: 1024px) {
+  .sidebar-backdrop {
+    display: none !important;
+  }
+}
 @media (max-width: 1024px) {
   .sidebar-docente {
     transform: translateX(-100%);
