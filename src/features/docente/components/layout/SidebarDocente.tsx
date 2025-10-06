@@ -7,8 +7,12 @@ import './SidebarDocente.css';
 import { 
   FaTh,
   FaFileAlt,
-  FaUserFriends,
-  FaTimes // Agregar este icono para el botón hamburguesa
+  FaUserFriends, 
+  FaCheckCircle,
+  FaChartBar,
+  FaCalculator,
+  FaGraduationCap,
+  FaTimes
 } from 'react-icons/fa';
 
 interface SidebarDocenteProps {
@@ -114,23 +118,10 @@ export default function SidebarDocente({ isOpen, onClose, onToggle }: SidebarDoc
             className="sidebar-toggle-btn" 
             onClick={onToggle}
             title="Colapsar sidebar"
-          >
+          > 
+          <img src={FlechaIcon} alt="Toggle" className={`flecha-icon ${isOpen ? '' : 'rotada'}`} />
             <FaTimes />
           </button>
-
-          {/* Avatar del usuario */}
-          <div className="user-avatar">
-            <div className="avatar-circle">AR</div>
-          </div>
-          
-          {/* Info del usuario (solo cuando está expandido) */}
-          {isOpen && (
-            <div className="user-info">
-              <h3 className="user-name">ALDO ENRIQUE RAMIREZ CHAUPIS</h3>
-              <p className="user-role">Docente</p>
-              <p className="user-department">Ing. de Sistemas</p>
-            </div>
-          )}
         </div>
 
         {/* Navegación */}
