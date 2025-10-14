@@ -1,8 +1,11 @@
 .tareas-page {
+  width: 100%;
+  max-width: 1280px; /* ancho máximo para pantallas grandes */
   padding: 2rem;
   min-height: 100vh;
   margin: 0 auto;
   color: var(--text-primary);
+  box-sizing: border-box;
 }
 
 .tareas-header {
@@ -320,6 +323,7 @@
 @media (max-width: 768px) {
   .tareas-page {
     padding: 10px;
+    max-width: 100%;
   }
   
   .tareas-header {
