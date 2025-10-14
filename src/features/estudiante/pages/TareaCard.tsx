@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { FaCalendarAlt, FaClock, FaExclamationTriangle, FaCheckCircle, FaEdit, FaUpload, FaFile, FaTrash, FaEye } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
+import { FaCalendarAlt, FaClock, FaCheckCircle, FaEdit, FaFile, FaEye } from 'react-icons/fa';
 import '../css/TareaCard.css';
 
 interface ArchivoEntrega {
@@ -33,9 +33,7 @@ interface TareaCardProps {
 }
 
 export default function TareaCard({ tarea }: TareaCardProps) {
-  // (Se eliminó el estado mostrarEntrega porque la UI de subida se muestra siempre)
-  const [archivoSeleccionado, setArchivoSeleccionado] = useState<File | null>(null);
-  const [verDetalles, setVerDetalles] = useState(false);
+  const navigate = useNavigate();
 
   const obtenerColorEstado = (estado: string) => {
     switch (estado) {
@@ -67,41 +65,7 @@ export default function TareaCard({ tarea }: TareaCardProps) {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
   };
 
-  const manejarSeleccionArchivo = (evento: React.ChangeEvent<HTMLInputElement>) => {
-    const archivo = evento.target.files?.[0];
-    if (archivo) {
-      // Validar tamaño
-      if (tarea.tamanosMaximo && archivo.size > tarea.tamanosMaximo * 1024 * 1024) {
-        alert(`El archivo es demasiado grande. Máximo permitido: ${tarea.tamanosMaximo}MB`);
-        return;
-      }
-      
-      // Validar formato
-      if (tarea.formatosPermitidos) {
-        const extension = '.' + archivo.name.split('.').pop()?.toLowerCase();
-        if (!tarea.formatosPermitidos.includes(extension)) {
-          alert(`Formato no permitido. Formatos válidos: ${tarea.formatosPermitidos.join(', ')}`);
-          return;
-        }
-      }
-      
-      setArchivoSeleccionado(archivo);
-    }
-  };
-
-  const manejarEntrega = () => {
-    if (tarea.tipoEntrega === 'archivo' && !archivoSeleccionado) {
-      alert('Por favor selecciona un archivo para entregar');
-      return;
-    }
-    
-    // Aquí iría la lógica para enviar el archivo al servidor
-    console.log('Entregando tarea:', tarea.id, archivoSeleccionado);
-    alert('Tarea entregada exitosamente');
-    setArchivoSeleccionado(null);
-    // cerrar modal si estaba abierto
-    setVerDetalles(false);
-  };
+  // Nota: la lógica de subida/entrega se realiza en la vista de detalles.
 
   const esFechaVencida = () => {
     const fechaActual = new Date();
@@ -112,7 +76,7 @@ export default function TareaCard({ tarea }: TareaCardProps) {
   const diasRestantes = Math.ceil((new Date(tarea.fechaEntrega).getTime() - new Date().getTime()) / (1000 * 3600 * 24));
 
   return (
-    <div className="tarea-card">
+    <div className={`tarea-card ${tarea.archivosEntregados && tarea.archivosEntregados.length > 0 ? 'has-entregas' : ''}`}>
       <div className="tarea-header">
         <div className="tarea-meta">
           <div className="materia-info">
@@ -135,16 +99,18 @@ export default function TareaCard({ tarea }: TareaCardProps) {
       <div className="tarea-contenido">
         
         
-        <h4 className="tarea-titulo">{tarea.titulo}</h4>
-        <p className="tarea-descripcion">{tarea.descripcion}</p>
-        
-
-        {tarea.nota && (
-          <div className="nota-tarea">
-            <span className="nota-label">Calificación:</span>
-            <span className="nota-valor">{tarea.nota}/20</span>
+        <div className="tarea-texto">
+          <div className="tarea-texto-principal">
+            <h4 className="tarea-titulo">{tarea.titulo}</h4>
+            <p className="tarea-descripcion">{tarea.descripcion}</p>
           </div>
-        )}
+
+          {tarea.nota && (
+            <div className="nota-tarea">
+              <span className="nota-valor">{tarea.nota}/20</span>
+            </div>
+          )}
+        </div>
 
         {tarea.comentarios && (
           <div className="comentarios-tarea">
@@ -177,32 +143,7 @@ export default function TareaCard({ tarea }: TareaCardProps) {
                 </div>
                 
                 <div className="upload-area">
-                  <input
-                    type="file"
-                    id={`file-${tarea.id}`}
-                    onChange={manejarSeleccionArchivo}
-                    style={{ display: 'none' }}
-                    accept={tarea.formatosPermitidos?.join(',')}
-                  />
-                  <label htmlFor={`file-${tarea.id}`} className="upload-button">
-                    <FaUpload />
-                    {archivoSeleccionado ? archivoSeleccionado.name : 'Seleccionar archivo'}
-                  </label>
-                  
-                  {archivoSeleccionado && (
-                    <div className="archivo-seleccionado">
-                      <FaFile className="file-icon" />
-                      <span className="file-name">{archivoSeleccionado.name}</span>
-                      <span className="file-size">({formatearTamaño(archivoSeleccionado.size)})</span>
-                      <button 
-                        className="btn-remove-file"
-                        onClick={() => setArchivoSeleccionado(null)}
-                      >
-                        <FaTrash />
-                      </button>
-                    </div>
-                  )}
-                </div>
+                  </div>
               </div>
             )}
 
@@ -243,92 +184,9 @@ export default function TareaCard({ tarea }: TareaCardProps) {
       </div>
 
       <div className="tarea-acciones">
-        {tarea.estado === 'pendiente' && (
-          <>
-            <button 
-              className="btn-entregar"
-              onClick={manejarEntrega}
-              disabled={tarea.tipoEntrega === 'archivo' && !archivoSeleccionado}
-            >
-              Entregar
-            </button>
-          </>
-        )}
-        {tarea.estado === 'entregada' && (
-          <button className="btn-ver">Ver Entrega</button>
-        )}
-        {tarea.estado === 'calificada' && (
-          <button className="btn-ver">Ver Calificación</button>
-        )}
-        <button className="btn-detalles" onClick={() => setVerDetalles(true)}>Ver Detalles</button>
+        
+        <button className="btn-detalles" onClick={() => navigate(`/estudiante/tareas/${tarea.id}`)}>Ver Detalles</button>
       </div>
-
-      {verDetalles && (
-        <div
-          className="tarea-modal-overlay"
-          role="dialog"
-          aria-modal="true"
-          aria-label={`Detalles de la tarea ${tarea.titulo}`}
-          style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.45)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1200 }}
-          onClick={() => setVerDetalles(false)}
-        >
-          <div
-            className="tarea-modal"
-            style={{ background: 'var(--bg-secondary)', padding: 20, borderRadius: 12, maxWidth: 800, width: '92%', boxShadow: '0 10px 40px rgba(2,6,23,0.4)' }}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12 }}>
-              <h3 style={{ margin: 0 }}>{tarea.titulo}</h3>
-              <div style={{ display: 'flex', gap: 8 }}>
-                <button className="btn-detalles" onClick={() => setVerDetalles(false)}>Cerrar</button>
-              </div>
-            </div>
-
-            <div style={{ marginTop: 12 }}>
-              <p><strong>Materia:</strong> {tarea.materia}</p>
-              <p><strong>Profesor:</strong> {tarea.profesor}</p>
-              <p><strong>Fecha de entrega:</strong> {new Date(tarea.fechaEntrega).toLocaleString('es-ES')}</p>
-              <p style={{ marginTop: 12 }}>{tarea.descripcion}</p>
-
-              {tarea.formatosPermitidos && (
-                <p>Formatos permitidos: {tarea.formatosPermitidos.join(', ')}</p>
-              )}
-
-              {tarea.tamanosMaximo && (
-                <p>Tamaño máximo: {tarea.tamanosMaximo}MB</p>
-              )}
-
-              {tarea.archivosEntregados && tarea.archivosEntregados.length > 0 && (
-                <div style={{ marginTop: 12 }}>
-                  <h4>Archivos entregados</h4>
-                  {tarea.archivosEntregados.map(a => (
-                    <div key={a.id} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                      <FaFile />
-                      <div>
-                        <div style={{ fontWeight: 700 }}>{a.nombre}</div>
-                        <div style={{ fontSize: 12, color: 'var(--text-secondary)' }}>{a.fechaSubida} • {formatearTamaño(a.tamaño * 1024 * 1024)}</div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8, marginTop: 18 }}>
-              {tarea.estado === 'pendiente' && (
-                <button
-                  className="btn-entregar"
-                  onClick={manejarEntrega}
-                  disabled={tarea.tipoEntrega === 'archivo' && !archivoSeleccionado}
-                >
-                  Entregar Tarea
-                </button>
-              )}
-              <button className="btn-detalles" onClick={() => setVerDetalles(false)}>Cerrar</button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
