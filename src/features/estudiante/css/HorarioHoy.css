@@ -1,60 +1,184 @@
 /* Contenedor principal */
-.horario-hoy-container {
-  margin: 20px auto;
-  padding: 20px;
-  background-color: var(--bg-primary);
-  border-radius: 8px;
-  color: var(--text-primary);
+.ver-horario-container {
+	margin: 32px auto;
+	width: 100%;
+	max-width: 1280px; /* ancho fijo máximo similar a otras vistas */
+	padding: 0 20px;
 }
 
-/* Tabla */
-.horario-tabla {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
+/* Filtros */
+.ver-horario-filters {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 20px;
 }
 
-.horario-tabla th,
-.horario-tabla td {
-  padding: 10px;
-  text-align: center;
-  border: 1px solid var(--border-color);
+.filter-group label {
+	margin-right: 10px;
+	font-weight: bold;
+	color: #3d3c3b;
 }
 
-.horario-tabla th {
-  background-color: var(--header-bg);
-  color: var(--header-text);
+.ver-horario-select {
+	padding: 5px 10px;
+	border: 1px solid #cfd8dc;
+	border-radius: 5px;
+	background-color: #fff;
+	color: #3d3c3b;
 }
 
-.horario-tabla td {
-  background-color: var(--row-bg);
-  color: var(--text-primary);
+.ver-horario-select option {
+	background-color: #f9f9f9; /* Fondo de las opciones */
+	color: #3d3c3b; /* Color del texto de las opciones */
+	border: 1px solid #5a9e8d;
+	border-radius: 5px;
 }
 
-/* Modo claro/oscuro */
-:root {
-  --bg-primary: #f3f4f6;
-  --text-primary: #1f2937;
-  --border-color: #d1d5db;
-  --header-bg: #10b981;
-  --header-text: #fff;
-  --row-bg: #f9fafb;
+.ver-horario-select:focus {
+	border-color: #5a9e8d;
+	outline: none;
+	box-shadow: 0 0 0 1px rgba(90, 158, 141, 0.5);
 }
 
-:root.dark {
-  --bg-primary: #1f2937;
-  --text-primary: #f3f4f6;
-  --border-color: #374151;
-  --header-bg: #10b981;
-  --header-text: #fff;
-  --row-bg: #374151;
+.ver-horario-select option:hover {
+	background-color: #5a9e8d; /* Fondo al pasar el cursor sobre una opción */
+	cursor: pointer;
 }
 
-/* Responsive */
+/* Modo responsive */
 @media (max-width: 768px) {
-  .horario-tabla th,
-  .horario-tabla td {
-    font-size: 0.9rem;
-    padding: 8px;
+
+	.ver-horario-filters {
+		flex-direction: column; /* Coloca los filtros en una columna */
+		align-items: center; /* Alinea los filtros al centro */
+	}
+
+	.filter-group {
+		width: 100%; /* Asegura que los filtros ocupen todo el ancho disponible */
+		margin-bottom: 15px; /* Espaciado entre grupos */
+	}
+
+	.filter-group label {
+		font-size: 12px; /* Reduce el tamaño de fuente para pantallas pequeñas */
+	}
+
+	.ver-horario-select {
+		width: 100%; /* Asegura que el select ocupe todo el ancho disponible */
+		font-size: 12px; /* Reduce el tamaño de fuente para pantallas pequeñas */
+	}
+}
+
+@media (max-width: 480px) {
+
+	.ver-horario-filters {
+		flex-direction: row;
+		margin-bottom: 10px;
+	}
+
+	.filter-group {
+		width: auto;
+		margin-right: 15px;
+		margin-bottom: 0px;
+	}
+
+	.filter-group label {
+		font-size: 10px; /* Ajusta el tamaño de fuente para pantallas muy pequeñas */
+	}
+
+	.ver-horario-select {
+		width: auto;
+		font-size: 10px; /* Ajusta el tamaño de fuente para pantallas muy pequeñas */
+		padding: 4px 8px; /* Reduce el padding para pantallas muy pequeñas */
+	}
+}
+
+/* Responsive: contenedor principal en pantallas muy pequeñas */
+@media (max-width: 480px) {
+  .ver-horario-container {
+    padding: 0 12px;
+    margin: 20px auto;
+    max-width: 100%;
   }
 }
+
+	/* =========================
+		 Soporte modo oscuro
+		 Estas reglas solo aplican cuando el root o body tiene la clase .dark
+		 No tocarán el modo claro (reglas originales sin prefijo siguen vigentes)
+		 ========================= */
+
+	.dark .ver-horario-container {
+		/* tarjeta en modo oscuro: fondo más profundo y contorno sutil */
+		background: transparent; /* mantener el fondo del layout; la Card controla su propio fondo */
+	}
+
+	.dark .card-container {
+		background-color: #1f2933; /* tono oscuro de tarjeta (gris azulado) */
+		color: #e6eef0; /* texto claro y frío */
+		box-shadow: 0 6px 18px rgba(5, 10, 15, 0.6);
+		border-left-color: #2e8f7f; /* borde izquierdo en teal apagado (como en img3) */
+	}
+
+	.dark .ver-horario-filters {
+		/* fondo interior de controles ligeramente más oscuro que la tarjeta */
+		background: transparent;
+	}
+
+	.dark .filter-group label {
+		color: #cfe8e2; /* etiquetas más claras */
+	}
+
+	.dark .ver-horario-select {
+		background-color: #0f1720; /* caja del select oscura */
+		color: #e6eef0;
+		border: 1px solid rgba(255,255,255,0.06);
+	}
+
+	.dark .ver-horario-select option {
+		background-color: #0f1720;
+		color: #e6eef0;
+		border-color: rgba(255,255,255,0.03);
+	}
+
+	.dark .ver-horario-select:focus {
+		box-shadow: 0 0 0 1px rgba(46,143,127,0.15);
+	}
+
+	.dark .tabla-container {
+		background: transparent;
+	}
+
+	.dark .tabla thead th {
+		background-color: #2e8f7f; /* teal atenuado para encabezados */
+		color: #f0fbfa;
+	}
+
+	.dark .tabla tbody td {
+		color: #d9e6e4; /* texto de celdas en tono claro */
+		border-color: rgba(255,255,255,0.03);
+	}
+
+	.dark .tabla tbody tr:nth-child(even) {
+		background-color: rgba(46,143,127,0.03); /* filas alternadas muy sutiles */
+	}
+
+/* En modo oscuro, las filas impares no deben ser blancas: usar un gris claro para equilibrar */
+.dark .tabla tbody tr:nth-child(odd) {
+	/* Gris claro perceptible sobre el fondo oscuro de la tarjeta
+		 Se usa !important para asegurar que sobrescriba la regla genérica en Tablas.css */
+	background-color: rgba(255,255,255,0.06) !important; /* gris claro */
+	color: #083238 !important; /* texto ligeramente oscuro para contraste en filas claras */
+}
+
+.dark .tabla tbody tr:nth-child(even) td {
+	color: #d9e6e4; /* asegurar color de texto para filas oscuras */
+}
+
+	.dark .ver-horario-container .filter-group .ver-horario-select {
+		max-width: 140px; /* evitar que el select destaque demasiado en dark */
+	}
+
+
+
+
