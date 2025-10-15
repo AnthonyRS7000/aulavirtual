@@ -1,0 +1,584 @@
+/* Mensajería - Estilo UDH con integración Gmail */
+
+.mensajeria-container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 32px auto;
+  padding: 0px 20px;
+  font-family: "Inter", sans-serif;
+  color: #3d3c3b;
+  box-sizing: border-box;
+}
+
+.mensajeria-content {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 24px;
+  margin-top: 24px;
+}
+
+/* Sidebar con lista de docentes */
+.mensajeria-sidebar {
+  position: sticky;
+  top: 24px;
+  align-self: start;
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.sidebar-titulo {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0;
+}
+
+.badge-contador {
+  background: var(--pantone-zomp, #5a9e8d);
+  color: white;
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.docentes-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.docente-item {
+  display: grid;
+  grid-template-columns: 50px 1fr 40px;
+  gap: 12px;
+  align-items: center;
+  padding: 14px;
+  background: #f9fafb;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.docente-item:hover {
+  background: #f3f4f6;
+  border-color: var(--pantone-zomp, #5a9e8d);
+  transform: translateX(4px);
+}
+
+.docente-item.active {
+  background: rgba(90, 158, 141, 0.1);
+  border-color: var(--pantone-zomp, #5a9e8d);
+  box-shadow: 0 4px 12px rgba(90, 158, 141, 0.2);
+}
+
+.docente-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.docente-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.docente-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow: hidden;
+}
+
+.docente-nombre {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.docente-curso {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--pantone-zomp, #5a9e8d);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.docente-email {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.docente-accion {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-mensaje-rapido {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--pantone-zomp, #5a9e8d);
+  border: none;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(90, 158, 141, 0.3);
+}
+
+.btn-mensaje-rapido:hover {
+  background: #4a8e7d;
+  transform: scale(1.1) rotate(12deg);
+  box-shadow: 0 4px 12px rgba(90, 158, 141, 0.4);
+}
+
+.icon-mensaje {
+  width: 18px;
+  height: 18px;
+}
+
+/* Sección principal de mensaje */
+.mensajeria-main {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.mensaje-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.mensaje-icon {
+  width: 32px;
+  height: 32px;
+  color: var(--pantone-zomp, #5a9e8d);
+}
+
+.mensaje-titulo {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0;
+}
+
+/* Formulario */
+.mensaje-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.input-con-icono {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 12px;
+  width: 20px;
+  height: 20px;
+  color: #6b7280;
+}
+
+.input-destinatario {
+  width: 100%;
+  padding: 12px 12px 12px 44px;
+  border: 2px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background-color: #f9fafb;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.input-asunto {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background-color: #fff;
+  color: #1f2937;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.input-asunto:focus {
+  border-color: var(--pantone-zomp, #5a9e8d);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(90, 158, 141, 0.1);
+}
+
+.textarea-mensaje {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background-color: #fff;
+  color: #1f2937;
+  resize: vertical;
+  font-family: "Inter", sans-serif;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  min-height: 200px;
+}
+
+.textarea-mensaje:focus {
+  border-color: var(--pantone-zomp, #5a9e8d);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(90, 158, 141, 0.1);
+}
+
+.form-acciones {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.btn-enviar-gmail {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 24px;
+  background: var(--pantone-zomp, #5a9e8d);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(90, 158, 141, 0.3);
+}
+
+.btn-enviar-gmail:hover {
+  background: #4a8e7d;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(90, 158, 141, 0.4);
+}
+
+.btn-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.btn-limpiar {
+  padding: 14px 24px;
+  background: #f3f4f6;
+  color: #374151;
+  border: 2px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-limpiar:hover {
+  background: #e5e7eb;
+  border-color: #9ca3af;
+}
+
+/* Placeholder cuando no hay docente seleccionado */
+.mensaje-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.placeholder-icon {
+  width: 80px;
+  height: 80px;
+  color: #d1d5db;
+  margin-bottom: 20px;
+}
+
+.placeholder-texto {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #6b7280;
+  margin: 0 0 8px 0;
+}
+
+.placeholder-subtexto {
+  font-size: 0.95rem;
+  color: #9ca3af;
+  margin: 0;
+}
+
+/* Card informativo */
+.info-card {
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border-left: 4px solid var(--pantone-zomp, #5a9e8d);
+}
+
+.info-header {
+  background: rgba(90, 158, 141, 0.1);
+  color: #1f2937;
+  font-weight: 600;
+  font-size: 1.05rem;
+  padding: 14px 20px;
+}
+
+.info-body {
+  padding: 20px;
+  font-size: 0.95rem;
+  color: #374151;
+  line-height: 1.6;
+}
+
+.info-body ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 16px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.info-body li {
+  padding-left: 24px;
+  position: relative;
+}
+
+.info-body li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: var(--pantone-zomp, #5a9e8d);
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.info-nota {
+  background: #fef3c7;
+  padding: 12px;
+  border-radius: 8px;
+  border-left: 3px solid #f59e0b;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+/* Modo oscuro */
+.dark .mensajeria-container {
+  color: #f9fafb;
+}
+
+.dark .sidebar-titulo,
+.dark .mensaje-titulo {
+  color: #f9fafb;
+}
+
+.dark .sidebar-header {
+  border-bottom-color: #374151;
+}
+
+.dark .docente-item {
+  background: #1f2937;
+  border-color: transparent;
+}
+
+.dark .docente-item:hover {
+  background: #374151;
+  border-color: var(--pantone-zomp, #5a9e8d);
+}
+
+.dark .docente-item.active {
+  background: rgba(90, 158, 141, 0.15);
+  border-color: var(--pantone-zomp, #5a9e8d);
+}
+
+.dark .docente-nombre {
+  color: #f9fafb;
+}
+
+.dark .docente-email {
+  color: #9ca3af;
+}
+
+.dark .mensaje-header {
+  border-bottom-color: #374151;
+}
+
+.dark .form-group label {
+  color: #e5e7eb;
+}
+
+.dark .input-destinatario {
+  background-color: #1f2937;
+  border-color: #4b5563;
+  color: #9ca3af;
+}
+
+.dark .input-asunto,
+.dark .textarea-mensaje {
+  background-color: #1f2937;
+  border-color: #4b5563;
+  color: #f9fafb;
+}
+
+.dark .input-asunto:focus,
+.dark .textarea-mensaje:focus {
+  border-color: var(--pantone-zomp, #5a9e8d);
+  box-shadow: 0 0 0 3px rgba(90, 158, 141, 0.2);
+}
+
+.dark .btn-limpiar {
+  background: #374151;
+  color: #f9fafb;
+  border-color: #4b5563;
+}
+
+.dark .btn-limpiar:hover {
+  background: #4b5563;
+  border-color: #6b7280;
+}
+
+.dark .placeholder-texto {
+  color: #9ca3af;
+}
+
+.dark .placeholder-subtexto {
+  color: #6b7280;
+}
+
+.dark .info-card {
+  background: #1f2937;
+}
+
+.dark .info-header {
+  background: rgba(90, 158, 141, 0.15);
+  color: #f9fafb;
+}
+
+.dark .info-body {
+  color: #d1d5db;
+}
+
+.dark .info-nota {
+  background: rgba(245, 158, 11, 0.15);
+  border-left-color: #f59e0b;
+  color: #fbbf24;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .mensajeria-content {
+    grid-template-columns: 1fr;
+  }
+
+  .mensajeria-sidebar {
+    position: relative;
+    top: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .mensajeria-container {
+    padding: 0px 12px;
+    margin: 20px auto;
+  }
+
+  .docente-item {
+    grid-template-columns: 45px 1fr 36px;
+    gap: 10px;
+    padding: 12px;
+  }
+
+  .docente-avatar {
+    width: 45px;
+    height: 45px;
+  }
+
+  .docente-nombre {
+    font-size: 0.9rem;
+  }
+
+  .docente-curso {
+    font-size: 0.75rem;
+  }
+
+  .mensaje-titulo {
+    font-size: 1.2rem;
+  }
+
+  .form-acciones {
+    flex-direction: column;
+  }
+
+  .btn-enviar-gmail,
+  .btn-limpiar {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .sidebar-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .mensaje-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .textarea-mensaje {
+    min-height: 150px;
+  }
+}

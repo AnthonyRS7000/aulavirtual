@@ -12,6 +12,7 @@ import {
   IconInforme,
   IconEjecucion,
   IconTitulacion,
+  IconMensajeria,
 } from './icons/LmsIcons';
 
 interface SidebarProps {
@@ -68,12 +69,13 @@ const getEstudianteSections = () => {
       icon: IconTitulacion,
       path: '/estudiante/notas'
     },
-    // {
-    //   name: 'recursos',
-    //   label: 'Recursos',
-    //   icon: IconServicio,
-    //   path: '/estudiante/recursos'
-    // }
+    {
+      name: 'mensajeria',
+      label: 'Mensajería',
+      icon: IconMensajeria,
+      path: '/estudiante/mensajeria'
+    },
+   
   ];
 };
 
@@ -85,6 +87,21 @@ export default function Sidebar({ isOpen, onClose, onToggle }: SidebarProps) {
   const userData = getEstudianteData();
   const sections = getEstudianteSections();
   const [unreadAnuncios, setUnreadAnuncios] = useState<number>(0);
+
+  // Leer contador de anuncios no leídos desde localStorage y reaccionar a cambios
+  useEffect(() => {
+    const readCount = () => {
+      const v = parseInt(localStorage.getItem('anuncios_no_leidos') || '0', 10);
+      setUnreadAnuncios(isNaN(v) ? 0 : v);
+    };
+
+    readCount();
+    const onStorage = (e: StorageEvent) => {
+      if (e.key === 'anuncios_no_leidos') readCount();
+    };
+    window.addEventListener('storage', onStorage);
+    return () => window.removeEventListener('storage', onStorage);
+  }, []);
 
   // Detectar cambios de tema
   useEffect(() => {
@@ -109,21 +126,6 @@ export default function Sidebar({ isOpen, onClose, onToggle }: SidebarProps) {
     });
 
     return () => observer.disconnect();
-  }, []);
-
-  // Leer contador de anuncios no leídos desde localStorage y reaccionar a cambios
-  useEffect(() => {
-    const readCount = () => {
-      const v = parseInt(localStorage.getItem('anuncios_no_leidos') || '0', 10);
-      setUnreadAnuncios(isNaN(v) ? 0 : v);
-    };
-
-    readCount();
-    const onStorage = (e: StorageEvent) => {
-      if (e.key === 'anuncios_no_leidos') readCount();
-    };
-    window.addEventListener('storage', onStorage);
-    return () => window.removeEventListener('storage', onStorage);
   }, []);
 
   // Detectar cambios de tamaño de pantalla
