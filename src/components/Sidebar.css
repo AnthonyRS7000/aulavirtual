@@ -136,6 +136,23 @@
   gap: 0.75rem !important;
 }
 
+.nav-unread-badge {
+  margin-left: auto;
+  background: #3b82f6;
+  color: white;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dark .nav-unread-badge {
+  background: #60a5fa;
+}
+
 .nav-section-icon-copiloto {
   width: 1.8rem !important;
   height: 1.8rem !important;
@@ -382,6 +399,61 @@
     width: 250px;
   }
   
+
+/* Cuando el sidebar está retraído (collapsed / closed) mostrar un badge pequeño sobre el ícono */
+.admin-sidebar.collapsed .nav-section-content-copiloto,
+.admin-sidebar.closed .nav-section-content-copiloto,
+.admin-sidebar-desktop.collapsed .nav-section-content-copiloto,
+.admin-sidebar-desktop.closed .nav-section-content-copiloto {
+  position: relative !important;
+  justify-content: center !important; /* centrar el icono cuando no se muestra label */
+}
+
+.admin-sidebar.collapsed .nav-section-label-copiloto,
+.admin-sidebar.closed .nav-section-label-copiloto,
+.admin-sidebar-desktop.collapsed .nav-section-label-copiloto,
+.admin-sidebar-desktop.closed .nav-section-label-copiloto {
+  display: none !important;
+}
+
+/* Badge reducido y posicionado sobre el icono (superior-derecha) */
+.admin-sidebar.collapsed .nav-unread-badge,
+.admin-sidebar.closed .nav-unread-badge,
+.admin-sidebar-desktop.collapsed .nav-unread-badge,
+.admin-sidebar-desktop.closed .nav-unread-badge {
+  position: absolute !important;
+  /* Sacamos el badge ligeramente hacia fuera para que no tape el icono */
+  top: -6px !important;
+  right: -6px !important;
+  transform: none !important;
+  width: 20px !important;
+  height: 20px !important;
+  padding: 0 !important;
+  font-size: 0.75rem !important;
+  border-radius: 50% !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin-left: 0 !important;
+  box-shadow: 0 2px 6px rgba(2,6,23,0.35) !important;
+  z-index: 80 !important; /* por encima del icono y del sidebar */
+}
+
+/* Asegurar buen color en modo oscuro */
+.dark .admin-sidebar.collapsed .nav-unread-badge,
+.dark .admin-sidebar.closed .nav-unread-badge,
+.dark .admin-sidebar-desktop.collapsed .nav-unread-badge,
+.dark .admin-sidebar-desktop.closed .nav-unread-badge {
+  background: #60a5fa !important;
+  color: #022029 !important;
+}
+
+/* clase utilitaria: badge offset (por si se necesita aplicar sólo en anuncios) */
+.nav-unread-badge--offset {
+  top: -6px !important;
+  right: -6px !important;
+  z-index: 80 !important;
+}
   .sidebar.expanded .sidebar-text {
     display: block;
   }

@@ -1,580 +1,184 @@
-/* HorarioHoy - Estilo plano y minimalista USIL */
-.horario-hoy-usil {
-  background-color: var(--bg-primary);
-  min-height: 100vh;
-  padding: 20px;
+/* Contenedor principal */
+.ver-horario-container {
+	margin: 32px auto;
+	width: 100%;
+	max-width: 1280px; /* ancho fijo máximo similar a otras vistas */
+	padding: 0 20px;
 }
 
-/* Header simple */
-.header-simple {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 30px;
-  padding-bottom: 15px;
-  border-bottom: 1px solid var(--border-color);
+/* Filtros */
+.ver-horario-filters {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 20px;
 }
 
-.header-simple h1 {
-  font-size: 1.8rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin: 0;
+.filter-group label {
+	margin-right: 10px;
+	font-weight: bold;
+	color: #3d3c3b;
 }
 
-.fecha-actual {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--text-secondary);
-  font-size: 0.95rem;
-  font-weight: 500;
+.ver-horario-select {
+	padding: 5px 10px;
+	border: 1px solid #cfd8dc;
+	border-radius: 5px;
+	background-color: #fff;
+	color: #3d3c3b;
 }
 
-.fecha-icon {
-  color: var(--pantone-zomp);
-  font-size: 1rem;
+.ver-horario-select option {
+	background-color: #f9f9f9; /* Fondo de las opciones */
+	color: #3d3c3b; /* Color del texto de las opciones */
+	border: 1px solid #5a9e8d;
+	border-radius: 5px;
 }
 
-/* Información del estudiante */
-.info-estudiante {
-  margin-bottom: 30px;
+.ver-horario-select:focus {
+	border-color: #5a9e8d;
+	outline: none;
+	box-shadow: 0 0 0 1px rgba(90, 158, 141, 0.5);
 }
 
-.estudiante-badge {
-  background: var(--bg-secondary);
-  padding: 15px 20px;
-  border-radius: 8px;
-  display: flex;
-  gap: 30px;
-  flex-wrap: wrap;
-  border-left: 4px solid var(--pantone-zomp);
+.ver-horario-select option:hover {
+	background-color: #5a9e8d; /* Fondo al pasar el cursor sobre una opción */
+	cursor: pointer;
 }
 
-.estudiante-badge span {
-  font-size: 0.9rem;
-  color: var(--text-secondary);
-}
-
-/* Contenedor por día */
-.dia-container {
-  background: var(--bg-secondary);
-  border-radius: 8px;
-  overflow: hidden;
-  margin-bottom: 20px;
-}
-
-.dia-header {
-  background: var(--pantone-saffron);
-  color: white;
-  padding: 15px 25px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.dia-header h2 {
-  margin: 0;
-  font-size: 1.1rem;
-  font-weight: 600;
-}
-
-.clases-count {
-  font-size: 0.85rem;
-  opacity: 0.9;
-  font-weight: 500;
-}
-
-/* Tabla de clases actualizada para los datos reales */
-.clases-tabla {
-  display: flex;
-  flex-direction: column;
-}
-
-.clases-tabla .tabla-head {
-  display: grid;
-  grid-template-columns: 1fr 1.2fr 3fr 1.5fr 0.8fr 1.2fr;
-  background: var(--bg-tertiary);
-  padding: 12px 25px;
-  font-weight: 600;
-  color: var(--text-primary);
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  border-bottom: 1px solid var(--border-color);
-}
-
-.clases-tabla .clase-fila {
-  display: grid;
-  grid-template-columns: 1fr 1.2fr 3fr 1.5fr 0.8fr 1.2fr;
-  align-items: center;
-  padding: 15px 25px;
-  border-bottom: 1px solid var(--border-color);
-  transition: background-color 0.2s ease;
-}
-
-.clases-tabla .clase-fila:hover {
-  background-color: var(--bg-tertiary);
-}
-
-.clases-tabla .clase-fila:last-child {
-  border-bottom: none;
-}
-
-/* Estados de las filas */
-.clase-fila.pendiente {
-  border-left: 4px solid var(--pantone-saffron);
-}
-
-.clase-fila.en-curso {
-  border-left: 4px solid var(--pantone-zomp);
-  background: rgba(var(--pantone-zomp-rgb), 0.05);
-}
-
-.clase-fila.completada {
-  border-left: 4px solid var(--udh-success);
-  opacity: 0.8;
-}
-
-/* Columnas específicas */
-
-/* Columna código */
-.col-codigo .codigo-texto {
-  font-family: 'Courier New', monospace;
-  font-size: 0.8rem;
-  color: var(--text-secondary);
-  background: var(--bg-tertiary);
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-weight: 600;
-}
-
-/* Columna hora */
-.col-hora .hora-texto {
-  font-family: 'Courier New', monospace;
-  font-weight: 600;
-  font-size: 0.9rem;
-  color: var(--text-primary);
-  background: var(--bg-tertiary);
-  padding: 6px 10px;
-  border-radius: 4px;
-}
-
-/* Contenedor de materia con icono */
-.materia-container {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.materia-icon {
-  color: var(--pantone-zomp);
-  font-size: 1rem;
-  flex-shrink: 0;
-}
-
-/* Materia con ciclo */
-.materia-info {
-  display: flex;
-  flex-direction: column;
-}
-
-.materia-nombre {
-  font-weight: 600;
-  color: var(--text-primary);
-  font-size: 0.9rem;
-  line-height: 1.2;
-}
-
-.ciclo-info {
-  font-size: 0.75rem;
-  color: var(--text-secondary);
-  font-weight: 500;
-}
-
-/* Salón y pabellón */
-.salon-info {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.salon-icon {
-  color: var(--pantone-zomp);
-  font-size: 0.8rem;
-}
-
-.salon-numero {
-  font-weight: 600;
-  color: var(--text-primary);
-  font-size: 0.9rem;
-}
-
-.pabellon-texto {
-  font-size: 0.75rem;
-  color: var(--text-secondary);
-}
-
-/* Créditos */
-.col-creditos .creditos-numero {
-  font-weight: 700;
-  color: var(--pantone-zomp);
-  font-size: 1rem;
-  text-align: center;
-}
-
-/* Estados */
-.estado-badge {
-  display: inline-block;
-  padding: 6px 12px;
-  border-radius: 15px;
-  font-size: 0.8rem;
-  font-weight: 500;
-  text-align: center;
-}
-
-.estado-badge.pendiente {
-  background: rgba(var(--pantone-saffron-rgb), 0.1);
-  color: var(--pantone-saffron);
-}
-
-.estado-badge.en-curso {
-  background: rgba(var(--pantone-zomp-rgb), 0.1);
-  color: var(--pantone-zomp);
-}
-
-.estado-badge.completada {
-  background: rgba(var(--udh-success-rgb), 0.1);
-  color: var(--udh-success);
-}
-
-/* Resumen semanal */
-.resumen-semanal {
-  background: var(--bg-secondary);
-  border-radius: 8px;
-  padding: 25px;
-  margin-bottom: 30px;
-}
-
-.resumen-header {
-  margin-bottom: 20px;
-  border-bottom: 1px solid var(--border-color);
-  padding-bottom: 10px;
-}
-
-.resumen-header h3 {
-  margin: 0;
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: var(--text-primary);
-}
-
-.resumen-stats {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px;
-}
-
-.stat-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 0;
-  border-bottom: 1px solid var(--border-color);
-}
-
-.stat-item:last-child {
-  border-bottom: none;
-}
-
-.stat-label {
-  font-weight: 500;
-  color: var(--text-secondary);
-  font-size: 0.9rem;
-}
-
-.stat-valor {
-  font-weight: 700;
-  color: var(--pantone-zomp);
-  font-size: 1rem;
-}
-
-/* Estado vacío */
-.sin-clases {
-  background: var(--bg-secondary);
-  border-radius: 8px;
-  padding: 60px 20px;
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-.sin-clases-content {
-  max-width: 400px;
-  margin: 0 auto;
-}
-
-.icon-empty {
-  font-size: 3rem;
-  color: var(--pantone-zomp);
-  opacity: 0.5;
-  margin-bottom: 20px;
-}
-
-.sin-clases h3 {
-  font-size: 1.2rem;
-  color: var(--text-primary);
-  margin: 0 0 10px 0;
-  font-weight: 600;
-}
-
-.sin-clases p {
-  color: var(--text-secondary);
-  font-size: 0.95rem;
-  margin: 0;
-}
-
-/* Footer simple */
-.footer-simple {
-  text-align: center;
-  padding: 20px 0;
-  border-top: 1px solid var(--border-color);
-  color: var(--text-muted);
-}
-
-.footer-simple p {
-  margin: 0;
-  font-size: 0.85rem;
-}
-
-/* Estados de día específicos */
-.dia-container:nth-child(odd) .dia-header {
-  background: var(--pantone-zomp);
-}
-
-.dia-container:nth-child(even) .dia-header {
-  background: var(--pantone-saffron);
-}
-
-/* Animación para días */
-.dia-container {
-  animation: slideInLeft 0.4s ease-out;
-}
-
-@keyframes slideInLeft {
-  from {
-    opacity: 0;
-    transform: translateX(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-/* Animaciones suaves */
-.clase-fila {
-  animation: fadeInUp 0.3s ease-out;
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Efectos especiales */
-.clase-fila.en-curso::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 4px;
-  background: linear-gradient(to bottom, var(--pantone-zomp), var(--pantone-zomp-light));
-  animation: pulse 2s ease-in-out infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.6; }
-}
-
-/* Estados con emojis */
-.estado-badge.pendiente::before {
-  content: '⏳';
-  margin-right: 4px;
-}
-
-.estado-badge.en-curso::before {
-  content: '🔴';
-  margin-right: 4px;
-}
-
-.estado-badge.completada::before {
-  content: '✅';
-  margin-right: 4px;
-}
-
-/* Efectos especiales para materias específicas */
-.clase-fila:has(.materia-nombre:contains("HACKING")) {
-  border-left-color: #e74c3c;
-}
-
-.clase-fila:has(.materia-nombre:contains("CIENCIA DE DATOS")) {
-  border-left-color: #3498db;
-}
-
-.clase-fila:has(.materia-nombre:contains("MÓVILES")) {
-  border-left-color: #9b59b6;
-}
-
-/* Responsive específico para los nuevos datos */
-@media (max-width: 1200px) {
-  .clases-tabla .tabla-head,
-  .clases-tabla .clase-fila {
-    grid-template-columns: 1fr 1fr 2.5fr 1fr 0.8fr 1fr;
-  }
-  
-  .estudiante-badge {
-    gap: 20px;
-  }
-}
-
-@media (max-width: 1024px) {
-  .header-simple {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
-  
-  .clases-tabla .tabla-head,
-  .clases-tabla .clase-fila {
-    grid-template-columns: 1fr 2fr 1fr 1fr;
-  }
-  
-  .col-codigo,
-  .col-creditos {
-    display: none;
-  }
-  
-  .dia-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 5px;
-  }
-  
-  .estudiante-badge {
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  .resumen-stats {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
+/* Modo responsive */
 @media (max-width: 768px) {
-  .horario-hoy-usil {
-    padding: 15px;
-  }
-  
-  .clases-tabla .tabla-head,
-  .clases-tabla .clase-fila {
-    grid-template-columns: 1fr;
-    gap: 8px;
-  }
-  
-  .clases-tabla .clase-fila {
-    padding: 12px;
-  }
-  
-  .materia-container {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 5px;
-  }
-  
-  .salon-info {
-    justify-content: flex-start;
-  }
-  
-  .resumen-stats {
-    grid-template-columns: 1fr;
-  }
+
+	.ver-horario-filters {
+		flex-direction: column; /* Coloca los filtros en una columna */
+		align-items: center; /* Alinea los filtros al centro */
+	}
+
+	.filter-group {
+		width: 100%; /* Asegura que los filtros ocupen todo el ancho disponible */
+		margin-bottom: 15px; /* Espaciado entre grupos */
+	}
+
+	.filter-group label {
+		font-size: 12px; /* Reduce el tamaño de fuente para pantallas pequeñas */
+	}
+
+	.ver-horario-select {
+		width: 100%; /* Asegura que el select ocupe todo el ancho disponible */
+		font-size: 12px; /* Reduce el tamaño de fuente para pantallas pequeñas */
+	}
 }
 
 @media (max-width: 480px) {
-  .header-simple h1 {
-    font-size: 1.4rem;
+
+	.ver-horario-filters {
+		flex-direction: row;
+		margin-bottom: 10px;
+	}
+
+	.filter-group {
+		width: auto;
+		margin-right: 15px;
+		margin-bottom: 0px;
+	}
+
+	.filter-group label {
+		font-size: 10px; /* Ajusta el tamaño de fuente para pantallas muy pequeñas */
+	}
+
+	.ver-horario-select {
+		width: auto;
+		font-size: 10px; /* Ajusta el tamaño de fuente para pantallas muy pequeñas */
+		padding: 4px 8px; /* Reduce el padding para pantallas muy pequeñas */
+	}
+}
+
+/* Responsive: contenedor principal en pantallas muy pequeñas */
+@media (max-width: 480px) {
+  .ver-horario-container {
+    padding: 0 12px;
+    margin: 20px auto;
+    max-width: 100%;
   }
-  
-  .dia-header h2 {
-    font-size: 1rem;
-  }
-  
-  .clases-count {
-    font-size: 0.8rem;
-  }
-  
-  .fecha-actual {
-    font-size: 0.85rem;
-  }
-  
-  .estado-badge {
-    font-size: 0.75rem;
-    padding: 4px 8px;
-  }
 }
 
-/* Hover effects mejorados */
-.clase-fila:hover .materia-icon {
-  transform: scale(1.1);
-  transition: transform 0.2s ease;
+	/* =========================
+		 Soporte modo oscuro
+		 Estas reglas solo aplican cuando el root o body tiene la clase .dark
+		 No tocarán el modo claro (reglas originales sin prefijo siguen vigentes)
+		 ========================= */
+
+	.dark .ver-horario-container {
+		/* tarjeta en modo oscuro: fondo más profundo y contorno sutil */
+		background: transparent; /* mantener el fondo del layout; la Card controla su propio fondo */
+	}
+
+	.dark .card-container {
+		background-color: #1f2933; /* tono oscuro de tarjeta (gris azulado) */
+		color: #e6eef0; /* texto claro y frío */
+		box-shadow: 0 6px 18px rgba(5, 10, 15, 0.6);
+		border-left-color: #2e8f7f; /* borde izquierdo en teal apagado (como en img3) */
+	}
+
+	.dark .ver-horario-filters {
+		/* fondo interior de controles ligeramente más oscuro que la tarjeta */
+		background: transparent;
+	}
+
+	.dark .filter-group label {
+		color: #cfe8e2; /* etiquetas más claras */
+	}
+
+	.dark .ver-horario-select {
+		background-color: #0f1720; /* caja del select oscura */
+		color: #e6eef0;
+		border: 1px solid rgba(255,255,255,0.06);
+	}
+
+	.dark .ver-horario-select option {
+		background-color: #0f1720;
+		color: #e6eef0;
+		border-color: rgba(255,255,255,0.03);
+	}
+
+	.dark .ver-horario-select:focus {
+		box-shadow: 0 0 0 1px rgba(46,143,127,0.15);
+	}
+
+	.dark .tabla-container {
+		background: transparent;
+	}
+
+	.dark .tabla thead th {
+		background-color: #2e8f7f; /* teal atenuado para encabezados */
+		color: #f0fbfa;
+	}
+
+	.dark .tabla tbody td {
+		color: #d9e6e4; /* texto de celdas en tono claro */
+		border-color: rgba(255,255,255,0.03);
+	}
+
+	.dark .tabla tbody tr:nth-child(even) {
+		background-color: rgba(46,143,127,0.03); /* filas alternadas muy sutiles */
+	}
+
+/* En modo oscuro, las filas impares no deben ser blancas: usar un gris claro para equilibrar */
+.dark .tabla tbody tr:nth-child(odd) {
+	/* Gris claro perceptible sobre el fondo oscuro de la tarjeta
+		 Se usa !important para asegurar que sobrescriba la regla genérica en Tablas.css */
+	background-color: rgba(255,255,255,0.06) !important; /* gris claro */
+	color: #083238 !important; /* texto ligeramente oscuro para contraste en filas claras */
 }
 
-.estado-badge:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  transition: all 0.2s ease;
+.dark .tabla tbody tr:nth-child(even) td {
+	color: #d9e6e4; /* asegurar color de texto para filas oscuras */
 }
 
-/* Estilos adicionales para la información del estudiante */
-.estudiante-badge span strong {
-  color: var(--text-primary);
-  font-weight: 600;
-}
+	.dark .ver-horario-container .filter-group .ver-horario-select {
+		max-width: 140px; /* evitar que el select destaque demasiado en dark */
+	}
 
-/* Mejoras visuales para los salones */
-.salon-info:hover .salon-icon {
-  color: var(--pantone-saffron);
-  transition: color 0.2s ease;
-}
 
-/* Indicador visual para créditos altos */
-.creditos-numero {
-  position: relative;
-}
 
-.creditos-numero::after {
-  content: attr(data-creditos);
-  position: absolute;
-  top: -20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--pantone-zomp);
-  color: white;
-  padding: 2px 6px;
-  border-radius: 10px;
-  font-size: 0.7rem;
-  opacity: 0;
-  transition: opacity 0.2s ease;
-}
 
-.creditos-numero:hover::after {
-  opacity: 1;
-}

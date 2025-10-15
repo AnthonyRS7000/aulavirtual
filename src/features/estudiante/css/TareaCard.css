@@ -227,6 +227,52 @@
   flex-direction: column;
 }
 
+/* Contenedor para texto y nota juntos */
+.tarea-texto {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.tarea-texto-principal {
+  flex: 1 1 auto;
+  min-width: 0; /* allow flex children to shrink so the note can stay visible */
+}
+
+.nota-tarea {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 110px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.nota-label { display: none; }
+
+/* En pantallas grandes mostrar la nota al lado derecho y ocultar el label */
+@media (min-width: 1024px) {
+  .tarea-texto { flex-direction: row; }
+  .tarea-descripcion { margin-right: 12px; }
+  .nota-tarea { margin-left: 16px; }
+}
+
+/* Truncar descripción dentro del contenedor de texto para evitar que empuje la nota
+   - en pantallas grandes limitar a 2 líneas (>=1024)
+   - en pantallas muy grandes permitir hasta 3 líneas (>=1280)
+*/
+.tarea-texto-principal .tarea-descripcion {
+  white-space: normal !important;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  -webkit-line-clamp: 2; /* siempre 2 líneas */
+  line-clamp: 2;
+}
+
 .tarea-titulo {
   font-size: 20px; /* tamaño base más comedido */
   font-weight: 700;
@@ -297,6 +343,78 @@
   }
 }
 
+/* Mobile: si no cabe la fecha en la misma fila, permitir que baje a la siguiente
+   pero siempre alineada al lado derecho. Usamos flex-wrap y reglas de auto-margen
+   para empujar la caja al extremo derecho incluso cuando está en la segunda fila. */
+@media (max-width: 480px) {
+  .tarea-meta {
+    flex-wrap: wrap; /* permitir que los items bajen de fila si no caben */
+    align-items: flex-start; /* que la primera fila mantenga alineación arriba */
+  }
+
+  .materia-info {
+    flex: 1 1 auto; /* permitir que ocupe el espacio disponible */
+    min-width: 0; /* permitir truncado y que el item se reduzca */
+  }
+
+  .fechas-info {
+    flex: 0 0 auto;
+    margin-left: auto; /* empujar al extremo derecho en la fila actual */
+    align-self: flex-start; /* cuando baje a la segunda fila, alinearse al tope de su fila */
+    text-align: right;
+    padding-right: 6px;
+  }
+
+  /* Si la fechas-info queda en una segunda fila, hacemos que ocupe sólo el ancho necesario
+     y se posicione al final (derecha) usando margin-left:auto en su contenedor flexible. */
+  .tarea-meta > .fechas-info {
+    margin-left: auto;
+  }
+}
+
+/* Rango intermedio: 481px - 769px
+   - Mostrar sólo la fecha de Entrega (ocultar 'Publicado')
+   - Alinear las fechas a la derecha y forzar que el header/meta align-items esté en el tope
+*/
+@media (min-width: 481px) and (max-width: 769px) {
+  .tarea-header {
+    align-items: flex-start; /* forzar que el contenido del header esté alineado al tope */
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+
+  .tarea-meta {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start; /* mantener los items arriba */
+    gap: 12px;
+    width: 100%;
+  }
+
+  /* Empujar fechas al extremo derecho y que queden alineadas arriba */
+  .fechas-info {
+    margin-left: auto;
+    text-align: right;
+    align-self: flex-start;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  /* Ocultar la segunda fecha (Publicado) en este rango */
+  .fechas-info .fecha-item:nth-child(2) {
+    display: none !important;
+  }
+
+  /* Asegurar que la materia y profesor queden pegados a la izquierda */
+  .materia-info {
+    text-align: left;
+    align-items: flex-start;
+    flex: 0 1 auto;
+  }
+}
+
 /* Reducir padding del header en móviles para pegar contenido al borde */
 @media (max-width: 480px) {
   .tarea-header { padding-left: 8px !important; padding-right: 8px !important; }
@@ -322,6 +440,13 @@
 @media (max-width: 480px) {
   .fechas-info .fecha-item:nth-child(2) {
     display: none;
+  }
+}
+
+/* En móviles ocultar la sección de entrega salvo si ya hay archivos entregados */
+@media (max-width: 480px) {
+  .tarea-card:not(.has-entregas) .seccion-entrega {
+    display: none !important;
   }
 }
 

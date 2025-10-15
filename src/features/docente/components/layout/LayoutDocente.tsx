@@ -40,6 +40,11 @@ export const LayoutDocente = () => {
       <TopbarDocente 
         onSidebarToggle={handleSidebarToggle}
         sidebarOpen={sidebarOpen}
+        isDarkMode={isDarkMode} 
+        onToggleTheme={() => {
+          setIsDarkMode(!isDarkMode);
+          document.documentElement.classList.toggle('dark');
+        }}
       />
       
       <div className="layout-content">

@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { FaBullhorn, FaEye, FaEyeSlash, FaCalendarAlt, FaSearch, FaFilter } from 'react-icons/fa';
+import TituloPage from '../../../components/pages/TituloPage';
 import ComentariosList from '../components/ComentariosList';
 import '../css/ComentariosList.css';
 import '../css/AnunciosCurso.css';
@@ -140,6 +141,19 @@ export default function AnunciosCurso() {
         anuncio.id === id ? { ...anuncio, leido: true } : anuncio
       )
     );
+    // actualizar contador persistente
+    setTimeout(() => {
+      try {
+        const stored = JSON.parse(localStorage.getItem('anuncios_data') || 'null');
+        if (stored && Array.isArray(stored)) {
+          const updated = stored.map((a: any) => a.id === id ? { ...a, leido: true } : a);
+          localStorage.setItem('anuncios_data', JSON.stringify(updated));
+          localStorage.setItem('anuncios_no_leidos', String(updated.filter((a: any) => !a.leido).length));
+        }
+      } catch (e) {
+        // ignore
+      }
+    }, 100);
   };
 
   const toggleExpansion = (id: string) => {
@@ -234,40 +248,54 @@ export default function AnunciosCurso() {
 
   const anunciosNoLeidos = anuncios.filter(a => !a.leido).length;
 
+  // sincronizar initial storage (si no existe) y actualizar contador en storage cuando anuncios cambian
+  useEffect(() => {
+    try {
+      const existing = JSON.parse(localStorage.getItem('anuncios_data') || 'null');
+      if (!existing) {
+        localStorage.setItem('anuncios_data', JSON.stringify(anuncios));
+      }
+      localStorage.setItem('anuncios_no_leidos', String(anuncios.filter(a => !a.leido).length));
+    } catch (e) {
+      // ignore
+    }
+  }, [anuncios]);
+
   return (
     <div className="anuncios-curso">
       {/* Header */}
-      <div className="anuncios-header">
-  <div className="header-content">
-    <h1>Anuncios del Curso</h1>
-  </div>
-  <p>{anunciosNoLeidos} anuncios no leídos</p>
-</div>
+     
+       
+          <div className="header-left">
+            <TituloPage titulo="Anuncios" subtitle={null} />
+          </div>
+        
+     
 
       {/* Controles */}
       <div className="anuncios-controles">
-  <div className="filtros-busqueda">
-    <div className="search-box">
-      <FaSearch className="search-icon" />
-      <input
-        type="text"
-        value={busqueda}
-        onChange={(e) => setBusqueda(e.target.value)}
-        placeholder="Buscar anuncios..."
-      />
-    </div>
-  </div>
+        <div className="filtros-busqueda">
+          <div className="search-box">
+            <FaSearch className="search-icon" />
+            <input
+              type="text"
+              value={busqueda}
+              onChange={(e) => setBusqueda(e.target.value)}
+              placeholder="Buscar anuncios..."
+            />
+          </div>
+        </div>
 
-  <div className="filtros-dropdown">
-    <div className="filter-group">
-      <select value={filtro} onChange={(e) => setFiltro(e.target.value)}>
-        <option value="todos">Todos ({anuncios.length})</option>
-        <option value="no-leidos">No leídos ({anunciosNoLeidos})</option>
-        <option value="prioritarios">Prioritarios ({anuncios.filter(a => a.prioridad === 'alta').length})</option>
-      </select>
-    </div>
-  </div>
-</div>
+        <div className="filtros-dropdown">
+            <div className="filter-group">
+            <select value={filtro} onChange={(e) => setFiltro(e.target.value as 'todos' | 'no-leidos' | 'prioritarios')}>
+              <option value="todos">Todos ({anuncios.length})</option>
+              <option value="no-leidos">No leídos ({anunciosNoLeidos})</option>
+              <option value="prioritarios">Prioritarios ({anuncios.filter(a => a.prioridad === 'alta').length})</option>
+            </select>
+          </div>
+        </div>
+      </div>
 
       {/* Lista de anuncios */}
       <div className="anuncios-lista">

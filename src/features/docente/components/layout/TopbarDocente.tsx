@@ -6,10 +6,12 @@ import './TopbarDocente.css';
 interface TopbarDocenteProps {
   onSidebarToggle?: () => void;
   sidebarOpen?: boolean;
+  isDarkMode?: boolean;
+  onToggleTheme?: () => void; 
 }
 
 export default function TopbarDocente(props: TopbarDocenteProps) {
-  const [isDarkTheme, setIsDarkTheme] = useState(false);
+  const [isDarkTheme, setIsDarkTheme] = useState(props.isDarkMode);
 
   const toggleTheme = () => {
     setIsDarkTheme(!isDarkTheme);
@@ -52,33 +54,42 @@ export default function TopbarDocente(props: TopbarDocenteProps) {
       {/* Sección derecha */}
       <div className="topbar-right">
         {/* Botón Calendario */}
-        <button className="nav-btn calendario-btn">
-          <span className="nav-badge">¡Ver!</span>
-          <FaCalendarAlt className="btn-icon" />
-          <span className="btn-text">Calendario</span>
-        </button>
+        <div className="relative group">
+          <button className="nav-btn calendario-btn">
+            <span className="btn-text">Calendario</span>
+            <span className="nav-badge">¡Ver!</span>
+          </button>
+        </div>
 
         {/* Botón Guía */}
-        <button className="nav-btn guia-btn">
-          <span className="nav-badge">¡Ver!</span>
-          <FaBook className="btn-icon" />
-          <span className="btn-text">Guía</span>
-        </button>
+        <div className="relative group">
+          <button className="nav-btn guia-btn">
+            <span className="btn-text">Guía</span>
+            <span className="nav-badge">¡Ver!</span>
+          </button>
+          
+        </div>
 
-        {/* Toggle tema (sol/luna) */}
-        <button
-          className="control-btn theme-toggle"
-          onClick={toggleTheme}
-          title={isDarkTheme ? "Cambiar a tema claro" : "Cambiar a tema oscuro"}
-        >
-          {isDarkTheme ? <FaSun /> : <FaMoon />}
-        </button>
+         {/* Toggle tema personalizado */}
+        <label className="theme-toggle">
+          <input 
+            type="checkbox" 
+            className="theme-checkbox"
+            checked={isDarkTheme}
+            onChange={toggleTheme}
+          />
+          <div className="theme-slider"></div>
+          
+          {/* Iconos del sol y luna */}
+          <FaSun className="sun-icon" />
+          <FaMoon className="moon-icon" />
+        </label>
 
         {/* Avatar del usuario */}
         <div className="user-avatar" title="Aldo Ramirez - Docente">
           <img
-            src="https://ui-avatars.com/api/?name=Aldo+Ramirez&background=2EBAA0&color=fff&size=40"
-            alt="Aldo Ramirez"
+            src="/unnamed.png"
+            alt="Avatar de usuario"
             className="avatar-img"
           />
         </div>

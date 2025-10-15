@@ -96,7 +96,7 @@ const tareasData: Tarea[] = [
   {
     id: 4,
     titulo: "Reporte de Práctica Profesional",
-    descripcion: "Elaborar un reporte detallado de las actividades realizadas durante la práctica profesional en la empresa asignada.",
+    descripcion: "Elaborar un reporte detallado de las actividades realizadas durante la práctica profesional en la empresa asignada,  realizadas durante la práctica profesional, profesional en la empresa asignada,, profesional en la empresa asignada,profesional en la empresa asignada,.",
     materia: "Práctica Profesional",
     profesor: "Lic. Ana Torres",
     fechaEntrega: "2024-01-15",

@@ -6,6 +6,8 @@
 
 .titulo-page {
   font-size: 2.2rem;
+  /* responsive and resistant to page-level overrides */
+  font-size: clamp(1.25rem, 1.6rem + 0.8vw, 2.2rem) !important;
   font-weight: 700;
   text-align: center;
   color: var(--title-color, #3D3C3B);
