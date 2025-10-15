@@ -11,8 +11,6 @@
 .horario-hoy *,
 .notas-resumen,
 .notas-resumen *,
-.recursos-recientes,
-.recursos-recientes *,
 .anuncios-curso,
 .anuncios-curso * {
   transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease !important;
@@ -23,7 +21,6 @@
 .tarea-card,
 .clase-card,
 .anuncio-card,
-.recurso-card,
 .nota-card,
 .widget {
   background: var(--bg-secondary) !important;
@@ -45,7 +42,6 @@
 .inicio-estudiante-container,
 .horario-hoy,
 .notas-resumen,
-.recursos-recientes,
 .anuncios-curso {
   background: var(--bg-primary) !important;
   color: var(--text-primary) !important;
@@ -55,7 +51,6 @@
 .header-bienvenida,
 .horario-header,
 .notas-header,
-.recursos-header,
 .stream-header {
   background: var(--bg-secondary) !important;
   color: var(--text-primary) !important;
@@ -69,8 +64,7 @@
 .curso-titulo,
 .tarea-titulo,
 .horario-titulo,
-.notas-titulo,
-.recursos-titulo {
+.notas-titulo {
   color: var(--text-primary)
 }
 
