@@ -8,6 +8,19 @@
   box-sizing: border-box;
 }
 
+/* Eliminar transiciones/animaciones que provocan parpadeo al cambiar el tema */
+.notas-resumen-container,
+.notas-resumen-container * {
+  -webkit-transition: none !important;
+  -moz-transition: none !important;
+  -o-transition: none !important;
+  transition: none !important;
+  -webkit-animation: none !important;
+  -moz-animation: none !important;
+  -o-animation: none !important;
+  animation: none !important;
+}
+
 /* Header con información del estudiante */
 .notas-resumen-header {
   display: flex;
@@ -412,6 +425,94 @@
 
 .dark .notas-resumen-info-body {
   color: #e5e7eb;
+}
+
+/* Ajustes adicionales modo oscuro para mejorar legibilidad de la tabla y modal */
+.dark .notas-resumen-container {
+  background: transparent;
+}
+
+.dark .notas-resumen-tabla-titulo,
+.dark .notas-parciales-tabla-titulo {
+  color: #e6f7f4; /* títulos más claros */
+}
+
+/* Forzar visibilidad de títulos y labels en modo oscuro (sobrescribe estilos inline si existen) */
+.dark .notas-resumen-tabla-titulo {
+  color: #e6f7f4 !important;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.45);
+}
+
+.dark .notas-parciales-tabla-titulo {
+  color: #e6f7f4 !important;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.45);
+}
+
+/* Algunos labels dentro de la sección pueden llevar estilos inline; los sobreescribimos en dark */
+.dark .notas-resumen-container label {
+  color: #e6eef0 !important;
+}
+
+.dark .tabla-responsive {
+  box-shadow: 0 6px 18px rgba(2,6,23,0.6);
+}
+
+.dark .tabla-notas {
+  background: #111827; /* fondo oscuro para la tabla */
+  color: #e6eef0;
+}
+
+.dark .tabla-notas thead {
+  background: #2e8f7f; /* encabezado teal atenuado */
+  color: #f8fffe;
+}
+
+.dark .tabla-notas th {
+  color: #f8fffe;
+}
+
+.dark .tabla-notas tbody tr {
+  border-bottom-color: #374151;
+}
+
+.dark .tabla-notas tbody tr:nth-child(odd) {
+  background: rgba(255,255,255,0.03); /* gris claro suave */
+}
+
+.dark .tabla-notas tbody tr:nth-child(even) {
+  background: rgba(15,23,33,0.6); /* gris oscuro para filas pares */
+}
+
+.dark .tabla-notas td {
+  color: #dbeafe;
+}
+
+.dark .notas-resumen-modal {
+  background: #0f1720; /* modal en tono oscuro, mantener legible */
+  color: #e6eef0;
+  box-shadow: 0 8px 30px rgba(2,6,23,0.7);
+}
+
+.dark .notas-resumen-modal-close {
+  color: #e6eef0;
+}
+
+.dark .notas-resumen-modal-cerrar {
+  background: #2e8f7f;
+  color: #072024;
+}
+
+.dark .estadistica-card {
+  background: #0f1720; /* tarjetas estadísticas más oscuras */
+}
+
+.dark .estadistica-icon {
+  background: rgba(46,143,127,0.12);
+}
+
+.dark .notas-resumen-info-header {
+  background: #134240; /* header informativo en verde oscuro */
+  color: #e6f7f4;
 }
 
 /* Responsive */

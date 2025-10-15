@@ -79,6 +79,48 @@ div.anuncios-curso div.anuncios-lista div.anuncio-card:hover {
   overflow: hidden;
 }
 
+.anuncios-header .header-left {
+  flex: 1 1 auto;
+  text-align: left;
+}
+
+.anuncios-header .header-right {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.unread-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(90deg, rgba(59,130,246,0.12), rgba(59,130,246,0.08));
+  border: 1px solid rgba(59,130,246,0.18);
+  color: var(--text-primary);
+  padding: 10px 14px;
+  border-radius: 18px;
+  font-weight: 600;
+  min-width: 160px;
+  justify-content: center;
+}
+
+.unread-badge strong {
+  display: inline-block;
+  min-width: 28px;
+  text-align: center;
+  background: #3b82f6;
+  color: white;
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 0.95rem;
+}
+
+.unread-text {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+}
+
 .anuncios-header h1 {
   font-size: 2.2rem;
   font-weight: 800;
@@ -163,103 +205,28 @@ div.anuncios-curso div.anuncios-lista div.anuncio-card:hover {
   font-weight: 500;
 }
 
-/* Controles mejorados */
+/* Controles: copiar comportamiento de .tareas-filtros */
 .anuncios-controles {
   display: flex;
-   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 24px;
   padding: 20px;
-  background: var(--bg-secondary); /* mismo fondo que tareas */
+  background: var(--bg-secondary);
   border-radius: 12px;
   box-shadow: 0 2px 8px var(--shadow);
-  gap: 16px;
+  gap: 20px;
 }
 
-.filtros-busqueda {
-  flex: 1;
-  max-width: 400px;
+.anuncios-controles .filtros-busqueda,
+.anuncios-controles .search-box {
+  flex: 1 1 380px;
+  max-width: 480px;
 }
 
-.search-box {
+.anuncios-controles .search-box {
   position: relative;
   width: 100%;
-}
-
-.search-icon {
-  position: absolute;
-  left: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--pantone-zomp);
-  font-size: 16px;
-}
-
-.search-box input {
-  width: 100%;
-  padding: 12px 12px 12px 40px;
-  border: 2px solid var(--border-color);
-  border-radius: 8px;
-  font-size: 16px;
-  transition: border-color 0.3s ease;
-  background: var(--bg-primary);
-  color: var(--text-primary);
-}
-
-.search-box input:focus {
-  outline: none;
-  border-color: var(--pantone-zomp);
-  box-shadow: 0 0 0 2px rgba(90, 158, 141, 0.25);
-}
-
-.filtros-dropdown {
-  display: flex;
-  gap: 16px;
-}
-
-.filter-group {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  border: none;
-  background: transparent;
-  box-shadow: none;
-  outline: none;
-}
-
-.filter-group select {
-  padding: 10px 16px;
-  font-size: 14.5px;
-  font-weight: 600;
-  background: #0f1422;
-  color: var(--text-primary);
-  border: 1.5px solid rgba(255, 255, 255, 0.07);
-  border-radius: 10px;
-  appearance: none;
-  outline: none;
-  box-shadow: none;
-  transition: border-color 0.3s ease;
-  cursor: pointer;
-}
-
-.filter-group select:focus {
-  border-color: var(--pantone-zomp);
-  box-shadow: none !important;
-  outline: none !important;
-}
-
-.filter-group:focus-within,
-.filter-group:hover {
-  background: transparent !important;
-  box-shadow: none !important;
-  outline: none !important;
-}
-
-.anuncios-controles .busqueda {
-  flex: 1;
-  max-width: 400px;
-  position: relative;
 }
 
 .anuncios-controles .search-icon {
@@ -271,57 +238,40 @@ div.anuncios-curso div.anuncios-lista div.anuncio-card:hover {
   font-size: 16px;
 }
 
-
-.anuncios-controles .busqueda input {
+.anuncios-controles .search-box input {
   width: 100%;
-  padding: 12px 12px 12px 40px;
+  padding: 10px 12px 10px 40px;
   border: 2px solid var(--border-color);
   border-radius: 8px;
   font-size: 16px;
-  background: var(--bg-primary);
-  color: var(--text-primary);
   transition: border-color 0.3s ease;
+  background: var(--bg-primary);
 }
 
-
-.anuncios-controles input:focus {
-  outline: none;
-  border-color: #4C7C74;
-  box-shadow: 0 0 0 3px rgba(112, 169, 154, 0.3);
-}
-
-.anuncios-controles .busqueda input:focus {
+.anuncios-controles .search-box input:focus {
   outline: none;
   border-color: var(--pantone-zomp);
   box-shadow: 0 0 0 2px rgba(90, 158, 141, 0.25);
 }
 
-.anuncios-controles .busqueda input::placeholder {
-  color: var(--text-secondary);
-  opacity: 0.8;
-}
-
-.anuncios-controles .filtros {
+.anuncios-controles .filtros-dropdown {
   display: flex;
   gap: 16px;
+}
+
+.anuncios-controles .filter-group {
+  display: flex;
   align-items: center;
-  max-width: 400px;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-}
-
-.anuncios-controles .filtros .filter-icon {
-  font-size: 16px;
-  padding: 8px;
-  border-radius: 10px;
-  background: transparent;
+  gap: 8px;
   border: none;
-  color: #adbfc7;
+  background: transparent;
+  box-shadow: none;
+  outline: none;
 }
 
-.anuncios-controles .filtros select {
-  padding: 10px 16px;
-  font-size: 14.5px;
+.anuncios-controles .filter-group select {
+  padding: 10px 14px;
+  font-size: 14px;
   font-weight: 600;
   background: #0f1422;
   color: var(--text-primary);
@@ -332,27 +282,97 @@ div.anuncios-curso div.anuncios-lista div.anuncio-card:hover {
   box-shadow: none;
   transition: border-color 0.3s ease;
   cursor: pointer;
+  /* centrar texto horizontalmente y verticalmente dentro de la 'píldora' */
+  text-align: center;
+  -webkit-text-align-last: center;
+  text-align-last: center;
+  line-height: 1.2;
 }
 
-.anuncios-controles .filtros select:focus {
+.anuncios-controles .filter-group select:focus {
   border-color: var(--pantone-zomp);
   box-shadow: none !important;
   outline: none !important;
 }
 
-.anuncios-controles .filtros select:hover {
-  background: #0f1422 !important;
-  border-color: var(--pantone-zomp) !important;
+/* Responsive parity with Tareas */
+@media (max-width: 768px) {
+  .anuncios-controles {
+    flex-direction: column;
+    gap: 16px;
+    align-items: stretch;
+  }
+
+  .anuncios-controles .filtros-dropdown {
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .anuncios-controles .filter-group select {
+    min-width: 120px;
+  }
 }
 
-.anuncios-controles .filtros select option {
-  background: #1f2430 !important;
-  color: var(--text-primary) !important;
+@media (min-width: 601px) and (max-width: 768px) {
+  .anuncios-controles {
+    display: grid;
+    grid-template-columns: 1fr 220px; /* búsqueda a la izquierda, dropdown compacto a la derecha (coincide con Tareas) */
+    gap: 12px;
+    padding: 14px 12px;
+    align-items: center;
+  }
+
+  /* asegurar que el contenedor de filtros no ocupe 100% del ancho de la columna */
+  .anuncios-controles .filtros-dropdown {
+    width: auto;
+    justify-self: end;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .anuncios-controles .filter-group select {
+    min-width: 140px;
+    padding: 8px 10px;
+    font-size: 14px;
+    border-radius: 8px;
+  }
+
+  /* asegurar que la columna de búsqueda pueda ocupar todo el espacio disponible y evitar gaps a la derecha */
+  .anuncios-controles .filtros-busqueda {
+    max-width: 100%;
+  }
+
+  /* si otras reglas interfieren, obligar alineación a la derecha para el dropdown */
+  .anuncios-controles > .filtros-dropdown { justify-self: end; width: auto; }
 }
 
-.anuncios-controles .filtros option {
-  background: #0f1422 !important;
-  color: var(--text-primary) !important;
+@media (max-width: 600px) {
+  .anuncios-controles {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 12px;
+  }
+
+  .anuncios-controles .filtros-dropdown {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  .anuncios-controles .filter-group select {
+    padding: 8px 10px;
+    font-size: 14px;
+    border-radius: 8px;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    min-width: 160px;
+  }
+
+  .anuncios-controles .filter-group select option { white-space: nowrap; }
 }
 
 
