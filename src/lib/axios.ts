@@ -1,16 +1,15 @@
-import axios from "axios";
+// src/utils/axios.ts
+import axios from 'axios';
 
 const api = axios.create({
-  baseURL: "https://lmsback.sistemasudh.com/api", // tu backend
-  headers: {
-    "Content-Type": "application/json",
-  },
+  baseURL: import.meta.env.VITE_API_URL,
+  withCredentials: true, // ⚠️ Importante para enviar cookies
 });
 
-// Interceptor para añadir token
+// Interceptor para agregar token del localStorage como fallback
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");  // o donde lo estés guardando
-  if (token) {
+  const token = localStorage.getItem('token');
+  if (token && !config.headers.Authorization) {
     config.headers.Authorization = `Bearer ${token}`;
   }
   return config;

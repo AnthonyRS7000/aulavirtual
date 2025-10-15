@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { FaChevronLeft, FaChevronRight, FaCalendarAlt, FaSpinner } from 'react-icons/fa';
 import '../css/CalendarioAgenda.css';
-
 interface EventoAgenda {
   id: string;
   hora: string;
