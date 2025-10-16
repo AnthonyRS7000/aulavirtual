@@ -177,37 +177,47 @@ const HistorialAcademico: React.FC = () => {
         <div className="historial-container">
             <TituloPage titulo="Historial Académico" />
             <Card>
-                <div className="historial-barra-superior">
-                    <div className="historial-filtros-row">
-                        <div className="historial-nombre-usuario">
-                            <label>Apellidos y Nombres:</label>
-                            {nombre}
-                        </div>
-                        <div className="historial-nombre-usuario">
-                            <label htmlFor="busqueda">Buscar:</label>
-                            <input
-                                id="busqueda"
-                                type="text"
-                                placeholder="Buscar curso, código..."
-                                value={busqueda}
-                                onChange={(e) => setBusqueda(e.target.value)}
-                            />
-                            <label htmlFor="filtro-ciclo">Ciclo:</label>
-                            <select
-                                id="filtro-ciclo"
-                                value={cicloFiltro}
-                                onChange={(e) => setCicloFiltro(e.target.value)}
-                            >
-                                <option value="">Todos</option>
-                                {ciclosUnicos.map((ciclo: any) => (
-                                    <option key={ciclo} value={ciclo}>
-                                        {ciclo}
-                                    </option>
-                                ))}
-                            </select>
+                    <div className="historial-barra-superior">
+                        <div className="historial-filtros-grid">
+                            <div className="historial-usuario-block">
+                                <label className="label-small">Apellidos y Nombres</label>
+                                <div className="usuario-nombre">{nombre}</div>
+                            </div>
+
+                            <div className="historial-controles-block">
+                                <div className="control-row">
+                                    <div className="control-item">
+                                        <label className="label-small" htmlFor="busqueda">Buscar</label>
+                                        <input
+                                            id="busqueda"
+                                            type="text"
+                                            className="input-text"
+                                            placeholder="Buscar curso, código..."
+                                            value={busqueda}
+                                            onChange={(e) => setBusqueda(e.target.value)}
+                                        />
+                                    </div>
+
+                                    <div className="control-item">
+                                        <label className="label-small" htmlFor="filtro-ciclo">Ciclo</label>
+                                        <select
+                                            id="filtro-ciclo"
+                                            className="select-control"
+                                            value={cicloFiltro}
+                                            onChange={(e) => setCicloFiltro(e.target.value)}
+                                        >
+                                            <option value="">Todos</option>
+                                            {ciclosUnicos.map((ciclo: any) => (
+                                                <option key={ciclo} value={ciclo}>
+                                                    {ciclo}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
 
                 {loading ? (
                     <Loading />

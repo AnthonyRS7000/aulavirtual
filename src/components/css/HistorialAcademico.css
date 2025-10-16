@@ -44,16 +44,88 @@
 
 
 
-.historial-nombre-usuario {
+.historial-filtros-grid {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
 
-.historial-nombre-usuario {  display: flex;
+.historial-usuario-block {
+  display: flex;
+  flex-direction: column;
+  min-width: 260px; /* dejar espacio para el nombre sin romper */
+}
 
-  display: flex;  align-items: center; /* Alinear verticalmente */
+.historial-controles-block {
+  display: flex;
+  flex-direction: column;
+}
 
-  align-items: center; /* Alinear verticalmente */  gap: 10px; /* Espaciado entre el label y el input */
+.control-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: nowrap;
+}
 
-  gap: 10px; /* Espaciado entre el label y el input */}
+.control-item {
+  display: flex;
+  flex-direction: column;
+  min-width: 140px;
+}
 
+.label-small {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--text-primary);
+}
+
+.usuario-nombre {
+  font-weight: 700;
+  color: var(--text-primary);
+  font-size: 1rem;
+  line-height: 1.1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.input-text,
+.select-control {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  font-size: 14px;
+  height: 44px;
+  box-sizing: border-box;
+}
+
+.input-text:focus,
+.select-control:focus {
+  outline: none;
+  border-color: var(--pantone-zomp);
+  box-shadow: 0 0 0 3px rgba(var(--pantone-zomp-rgb), 0.12);
+}
+
+@media (max-width: 800px) {
+  .historial-filtros-grid {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+  .control-row {
+    flex-wrap: wrap;
+  }
+  .control-item {
+    min-width: 100%;
+  }
+  .historial-usuario-block {
+    min-width: unset;
+  }
 }
 
 /* Estilo para los labels */
@@ -128,26 +200,27 @@
 
 /* Modo Dark */
 .dark .historial-container {
-  background-color: #1E2127;
-  color: #E4E6EB;
+  /* Usar la variable global de fondo principal para que coincida con el resto de vistas */
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
 }
 
 .dark .historial-nombre-usuario label {
-  color: #E4E6EB;
+  color: var(--text-primary);
 }
 
 .dark .historial-filtros-row input,
 .dark .historial-filtros-row select {
-  background-color: #2D3748;
-  color: #E4E6EB;
-  border-color: #4A5568;
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  border-color: var(--border-color);
 }
 
 .dark .historial-filtros-row input:focus,
 .dark .historial-filtros-row select:focus {
-  border-color: #5a9e8d;
+  border-color: var(--pantone-zomp);
 }
 
 .dark .historial-footer {
-  color: #E4E6EB;
+  color: var(--text-primary);
 }
