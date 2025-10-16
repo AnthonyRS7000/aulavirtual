@@ -42,22 +42,33 @@
   background-color: #071022 !important;
 }
 
+/* User info: copied from ContenidoSidebar.css to preserve design
+   - avatar circular, shadow
+   - uppercase name, centered
+   - role with yellow underline
+*/
 .user-info-copiloto {
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
-  margin-top: 0.8rem !important;
-  margin-bottom: 1rem !important;
+  justify-content: center !important;
+  margin-top: 1.5rem !important;
+  margin-bottom: 0.25rem !important;
+  padding: 0 1rem !important;
 }
 
 .user-avatar-copiloto {
-  width: 5rem !important;
-  height: 5rem !important;
-  border-radius: 50% !important;
+  width: 96px !important;
+  height: 96px !important;
+  margin-bottom: 1rem !important;
   overflow: hidden !important;
-  margin-bottom: 0.6rem !important;
-  box-shadow: 0 8px 22px rgba(11,22,34,0.06) !important;
-  border: 2px solid rgba(43,154,143,0.12) !important;
+  border-radius: 50% !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  transition: transform 0.3s ease-in-out !important;
+}
+
+.user-avatar-copiloto:hover {
+  transform: scale(1.05) !important;
 }
 
 .user-avatar-image {
@@ -66,12 +77,23 @@
   object-fit: cover !important;
 }
 
-.user-name-copiloto {
-  font-size: 1.05rem !important;
-  font-weight: 700 !important;
-  color: #0f172a !important;
+.user-info-text {
+  width: 100% !important;
+  max-width: auto !important;
   text-align: center !important;
-  margin-bottom: 0.25rem !important;
+}
+
+.user-name-copiloto {
+  font-size: 1.125rem !important;
+  font-weight: 500 !important;
+  margin-bottom: 0.5rem !important;
+  margin-top: 0 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.3px !important;
+  word-break: break-words !important;
+  color: #3d3c3b !important;
+  transition: color 0.15s ease !important;
+  line-height: 1.2 !important;
 }
 
 .dark .user-name-copiloto {
@@ -79,11 +101,22 @@
 }
 
 .user-role-copiloto {
-  font-size: 0.9rem !important;
-  font-weight: 600 !important;
-  color: #256e6b !important;
-  border-bottom: 2px solid rgba(37,110,107,0.06) !important;
-  padding-bottom: 0.18rem !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  margin: 0 auto !important;
+  font-size: 20px !important;
+  font-weight: 500 !important;
+  color: #3C7E6E !important;
+  border-bottom: 4px solid #EFB036 !important;
+  padding-bottom: 0.25rem !important;
+  text-transform: capitalize !important;
+  transition: color 0.15s ease, border-color 0.15s ease !important;
+}
+
+.dark .user-role-copiloto {
+  color: #ffffff !important;
+  border-bottom: 4px solid #EFB036 !important;
 }
 
 .nav-section-copiloto {

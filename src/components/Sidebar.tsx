@@ -75,6 +75,12 @@ const getEstudianteSections = () => {
       icon: IconMensajeria,
       path: '/estudiante/mensajeria'
     },
+    {
+      name: 'biblioteca',
+      label: 'Biblioteca',
+      icon: IconServicio,
+      path: '/estudiante/biblioteca'
+    },
   ];
 };
 
@@ -200,23 +206,13 @@ export default function Sidebar({ isOpen, onClose, onToggle }: SidebarProps) {
 
           {/* Información del usuario */}
           <div className="user-info-text">
-            <div className="user-name-copiloto">
-              {userData.full_name || 'Estudiante'}
+            <div className="user-name-copiloto" title={userData.full_name || 'Estudiante'}>
+              {typeof userData.full_name === 'string' ? (userData.full_name.split(' ')[0]) : (userData.full_name || 'Estudiante')}
             </div>
             <div className="user-role-copiloto">
               {userData.role || 'Estudiante'}
             </div>
-            {/* Indicador de estado de sesión */}
-            <div 
-              className="session-status"
-              style={{
-                fontSize: '11px',
-                color: isAuthenticated ? '#10b981' : '#ef4444',
-                marginTop: '4px',
-              }}
-            >
-              {isAuthenticated ? '● En línea' : '● Sin sesión'}
-            </div>
+            {/* Estado de sesión eliminado intencionalmente (según solicitud) */}
           </div>
         </div>
 
