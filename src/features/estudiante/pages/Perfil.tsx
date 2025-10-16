@@ -1,118 +1,265 @@
-import { useState } from 'react';
-import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaCalendarAlt, FaEdit, FaCamera } from 'react-icons/fa';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../css/Perfil.css';
 
-interface EstudianteInfo {
-  nombre: string;
-  apellidos: string;
-  codigo: string;
-  carrera: string;
-  semestre: string;
-  email: string;
-  telefono: string;
-  direccion: string;
-  fechaNacimiento: string;
-  foto: string;
-  promedioGeneral: number;
-  creditosAprobados: number;
-  creditosTotal: number;
-}
+const Perfil = () => {
+  const [userData, setUserData] = useState<any>(null);
+  const [udhData, setUdhData] = useState<any>(null);
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [saveMessage, setSaveMessage] = useState<string | null>(null);
+  const [photoModalOpen, setPhotoModalOpen] = useState(false);
+  const [photoPreview, setPhotoPreview] = useState<string | null>(null);
+  const [photoFile, setPhotoFile] = useState<File | null>(null);
+  const [photoError, setPhotoError] = useState<string | null>(null);
+  const [photo, setPhoto] = useState<string | null>(null);
 
-const estudianteData: EstudianteInfo = {
-  nombre: "María Fernanda",
-  apellidos: "González Rodríguez",
-  codigo: "2020115089",
-  carrera: "Ingeniería de Sistemas",
-  semestre: "VIII",
-  email: "maria.gonzalez@udh.edu.pe",
-  telefono: "+51 962 345 678",
-  direccion: "Jr. Hermilio Valdizán 871, Huánuco",
-  fechaNacimiento: "15/03/2002",
-  foto: "/api/placeholder/150/150",
-  promedioGeneral: 16.8,
-  creditosAprobados: 180,
-  creditosTotal: 220
-};
+  useEffect(() => {
+    // Obtener datos del localStorage
+    const usuario = JSON.parse(localStorage.getItem("usuario") || "{}");
+    const datosUdh = JSON.parse(localStorage.getItem("datos_udh") || "{}");
 
-export default function Perfil() {
-  const [estudiante] = useState<EstudianteInfo>(estudianteData);
-  const [modoEdicion, setModoEdicion] = useState(false);
+  setUserData(usuario);
+  setUdhData(datosUdh);
+  // inicializar foto si existe en usuario o datos_udh
+  const foto = usuario?.foto || datosUdh?.foto || null;
+  if (foto) setPhoto(foto);
+  // inicializar número telefónico si existe
+  if (datosUdh && datosUdh.celular) setPhoneNumber(datosUdh.celular);
+  }, []);
 
+  const navigate = useNavigate();
+  
+  if (!userData || !udhData) return <div>Cargando...</div>;
+
+  // Maneja selección de archivo, valida tipo/tamaño y genera preview con URL
+  const onPhotoSelected = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPhotoError(null);
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    // Validar tamaño (2MB)
+    const maxBytes = 2 * 1024 * 1024;
+    if (file.size > maxBytes) {
+      setPhotoError('El archivo excede el tamaño máximo de 2 MB.');
+      setPhotoFile(null);
+      setPhotoPreview(null);
+      return;
+    }
+    // Validar tipo
+    const allowed = ['image/jpeg', 'image/jpg', 'image/png'];
+    if (!allowed.includes(file.type)) {
+      setPhotoError('Formato no soportado. Usa JPG o PNG.');
+      setPhotoFile(null);
+      setPhotoPreview(null);
+      return;
+    }
+    // Generar preview
+    const url = URL.createObjectURL(file);
+    if (photoPreview) URL.revokeObjectURL(photoPreview);
+    setPhotoFile(file);
+    setPhotoPreview(url);
+  };
+
+  const handlePhoneSubmit = () => {
+    // Validación simple: mínimo 6 dígitos
+    const cleaned = (phoneNumber || '').trim();
+    if (!cleaned) {
+      setSaveMessage('Ingrese un número válido');
+      setTimeout(() => setSaveMessage(null), 3000);
+      return;
+    }
+
+    // Actualizar localStorage (datos_udh) y estado
+    const datos = { ...(udhData || {}), celular: cleaned };
+    try {
+      localStorage.setItem('datos_udh', JSON.stringify(datos));
+      setUdhData(datos);
+      setSaveMessage('Número actualizado');
+      setTimeout(() => setSaveMessage(null), 3000);
+      console.log('Número actualizado:', cleaned);
+    } catch (err) {
+      console.error(err);
+      setSaveMessage('Error al guardar');
+      setTimeout(() => setSaveMessage(null), 3000);
+    }
+  };
 
   return (
-    <div className="perfil-page">
-      <div className="perfil-header">
-        <h1>Mi Perfil</h1>
-        <p>Información personal y rendimiento académico</p>
+    <div className="profile-container">
+      <div className="profile-root">
+        <h1 className="profile-title">Mi Perfil</h1>
       </div>
 
-      <div className="perfil-contenido">
-        {/* Información Personal */}
-        <div className="perfil-section info-personal">
-          <div className="section-header">
-            <h2>Información Personal</h2>
-            <button 
-              className="btn-editar"
-              onClick={() => setModoEdicion(!modoEdicion)}
-            >
-              <FaEdit /> {modoEdicion ? 'Guardar' : 'Editar'}
-            </button>
-          </div>
-
-          <div className="info-contenido">
-            <div className="foto-section">
-              <div className="foto-container">
-                <img src={estudiante.foto} alt="Foto de perfil" className="foto-perfil" />
-                <button className="btn-cambiar-foto">
-                  <FaCamera />
-                </button>
-              </div>
-              <div className="info-basica">
-                <h3>{estudiante.nombre} {estudiante.apellidos}</h3>
-                <p className="codigo-estudiante">Código: {estudiante.codigo}</p>
-                <p className="carrera">{estudiante.carrera} - {estudiante.semestre} Semestre</p>
-              </div>
+      {/* Contenido principal del perfil */}
+      <div className="profile-content">
+        <div className="profile-form-container">
+          <div className="profile-card">
+          
+          {/* Fila 1: Nombres y Apellido Paterno */}
+          <div className="profile-form-row">
+            <div className="profile-form-group">
+              <label className="profile-form-label">Nombres</label>
+              <input 
+                type="text" 
+                className="profile-form-input" 
+                value={udhData.nombres || ""}
+                readOnly
+              />
             </div>
-
-            <div className="datos-contacto">
-              <div className="dato-item">
-                <FaEnvelope className="dato-icon" />
-                <div>
-                  <label>Email Institucional</label>
-                  <span>{estudiante.email}</span>
-                </div>
-              </div>
-
-              <div className="dato-item">
-                <FaPhone className="dato-icon" />
-                <div>
-                  <label>Teléfono</label>
-                  <span>{estudiante.telefono}</span>
-                </div>
-              </div>
-
-              <div className="dato-item">
-                <FaMapMarkerAlt className="dato-icon" />
-                <div>
-                  <label>Dirección</label>
-                  <span>{estudiante.direccion}</span>
-                </div>
-              </div>
-
-              <div className="dato-item">
-                <FaCalendarAlt className="dato-icon" />
-                <div>
-                  <label>Fecha de Nacimiento</label>
-                  <span>{estudiante.fechaNacimiento}</span>
-                </div>
-              </div>
+            <div className="profile-form-group">
+              <label className="profile-form-label">Apellido Paterno</label>
+              <input 
+                type="text" 
+                className="profile-form-input" 
+                value={udhData.apellido_paterno || ""}
+                readOnly
+              />
             </div>
           </div>
+
+          {/* Fila 2: Apellido Materno y DNI */}
+          <div className="profile-form-row">
+            <div className="profile-form-group">
+              <label className="profile-form-label">Apellido Materno</label>
+              <input 
+                type="text" 
+                className="profile-form-input" 
+                value={udhData.apellido_materno || ""}
+                readOnly
+              />
+            </div>
+            <div className="profile-form-group">
+              <label className="profile-form-label">DNI</label>
+              <input 
+                type="text" 
+                className="profile-form-input" 
+                value={udhData.dni || ""}
+                readOnly
+              />
+            </div>
+          </div>
+
+          {/* Fila 3: Facultad y Programa Académico */}
+          <div className="profile-form-row">
+            <div className="profile-form-group">
+              <label className="profile-form-label">Facultad</label>
+              <input 
+                type="text" 
+                className="profile-form-input" 
+                value={udhData.facultad || ""}
+                readOnly
+              />
+            </div>
+            <div className="profile-form-group">
+              <label className="profile-form-label">Programa Académico</label>
+              <input 
+                type="text" 
+                className="profile-form-input" 
+                value={udhData.programa || ""}
+                readOnly
+              />
+            </div>
+          </div>
+
+          {/* Fila 4: Código y Correo Institucional */}
+          <div className="profile-form-row">
+            <div className="profile-form-group">
+              <label className="profile-form-label">Código</label>
+              <input 
+                type="text" 
+                className="profile-form-input" 
+                value={udhData.codigo || ""}
+                readOnly
+              />
+            </div>
+            <div className="profile-form-group">
+              <label className="profile-form-label">Correo Institucional</label>
+              <input 
+                type="email" 
+                className="profile-form-input" 
+                value={udhData.codigo ? `${udhData.codigo}@udh.edu.pe` : ""}
+                readOnly
+              />
+            </div>
+          </div>
+
+          {/* Fila 5: Sede y Número Celular */}
+          <div className="profile-form-row">
+            <div className="profile-form-group">
+              <label className="profile-form-label">Sede</label>
+              <input 
+                type="text" 
+                className="profile-form-input" 
+                value="HUÁNUCO"
+                readOnly
+              />
+            </div>
+            <div className="profile-form-group">
+              <label className="profile-form-label">
+                Número Celular <span className="required-asterisk">*</span>
+              </label>
+              <input 
+                type="tel" 
+                className="profile-form-input editable" 
+                value={phoneNumber}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPhoneNumber(e.target.value)}
+                onBlur={handlePhoneSubmit}
+                onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => e.key === 'Enter' && handlePhoneSubmit()}
+              />
+              <div className="profile-help-text">
+                Puedes modificar este campo
+              </div>
+              <div className="profile-save-row">
+                <button className="profile-save-btn" onClick={handlePhoneSubmit} disabled={phoneNumber === (udhData && udhData.celular)}>Actualizar</button>
+                <div className="profile-save-note">{saveMessage}</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Sección Subir Fotografía (integrada más abajo en profile-info-message) */}
+
+          {photoModalOpen && (
+            <div className="modal-overlay" role="dialog" aria-modal="true">
+              <div className="photo-modal">
+                <div className="photo-modal-header">
+                  <h3>Cargar Fotografía</h3>
+                  <button className="close-modal" onClick={() => { setPhotoModalOpen(false); setPhotoPreview(null); }}>×</button>
+                </div>
+                <div className="photo-modal-body">
+                  <div className="photo-preview">
+                    {photoPreview ? (
+                      <img src={photoPreview} alt="Preview" />
+                    ) : photo ? (
+                      <img src={photo} alt="Foto actual" />
+                    ) : (
+                      <div className="photo-placeholder">Vista previa</div>
+                    )}
+                  </div>
+                  <div className="photo-controls">
+                    <input type="file" accept="image/*" onChange={onPhotoSelected} />
+                    <div className="photo-hint">Selecciona una imagen desde tu dispositivo. Recomendado: 3:4, rostro centrado.</div>
+                    {photoError && <div className="photo-error">{photoError}</div>}
+                    <div className="photo-actions">
+                      <button className="btn-primary" onClick={() => {
+                        if (!photoFile) return;
+                        // Simular subida
+                        console.log('Subiendo foto', photoFile);
+                        if (photoPreview) URL.revokeObjectURL(photoPreview);
+                        setPhotoPreview(null);
+                        setPhotoFile(null);
+                        setPhotoModalOpen(false);
+                      }} disabled={!photoFile}>Guardar</button>
+                      <button className="btn-secondary" onClick={() => { if (photoPreview) URL.revokeObjectURL(photoPreview); setPhotoModalOpen(false); setPhotoPreview(null); setPhotoFile(null); setPhotoError(null); }}>Cancelar</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
-
-        {/* Rendimiento Académico e Historial eliminados por petición */}
-
       </div>
     </div>
+  </div>
   );
-}
+};
+
+export default Perfil;
