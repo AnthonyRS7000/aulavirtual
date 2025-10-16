@@ -684,35 +684,37 @@ html body.dark .anuncios-curso .anuncios-lista .anuncio-card .anuncio-header .au
   gap: 12px;
 }
 
-.prioridad-badge {
-  font-size: 0.75rem;
-  padding: 6px 12px;
-  border-radius: 15px;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-  border: 1.5px solid transparent;
+/* Priorities removed: styling for prioridad-badge and prioridad-* has been deleted intentionally */
+/* Fecha corta para mostrar en el header de la tarjeta (derecha) */
+.anuncio-fecha {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  background: rgba(255,255,255,0.03);
+  padding: 8px 12px;
+  border-radius: 10px;
+  align-self: flex-start;
+  border: 1px solid rgba(255,255,255,0.04);
 }
 
-
-.prioridad-alta {
-  background: rgba(var(--udh-error-rgb), 0.2);
-  border: 1.5px solid var(--udh-error);
-  color: var(--udh-error);
-}
-
-.prioridad-media {
-  background: rgba(var(--pantone-saffron-rgb), 0.2);
-  border: 1.5px solid var(--pantone-saffron);
-  color: var(--pantone-saffron);
-}
-
-.prioridad-baja {
-  background: rgba(var(--pantone-zomp-rgb), 0.2);
-  border: 1.5px solid var(--pantone-zomp);
+.anuncio-fecha .fecha-icon {
+  font-size: 16px;
   color: var(--pantone-zomp);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.anuncio-fecha .fecha-label {
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.anuncio-fecha .fecha-value {
+  color: var(--text-secondary);
+  font-weight: 600;
 }
 
 .btn-leido {

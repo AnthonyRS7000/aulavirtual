@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { FaBullhorn, FaEye, FaEyeSlash, FaCalendarAlt, FaSearch, FaFilter } from 'react-icons/fa';
+import { FaBullhorn, FaCalendarAlt, FaSearch, FaFilter } from 'react-icons/fa';
 import TituloPage from '../../../components/pages/TituloPage';
 import ComentariosList from '../components/ComentariosList';
 import '../css/ComentariosList.css';
@@ -17,7 +17,6 @@ interface Anuncio {
   curso: string;
   fechaPublicacion: string;
   fechaModificacion?: string;
-  prioridad: 'alta' | 'media' | 'baja';
   leido: boolean;
   archivosAdjuntos?: {
     nombre: string;
@@ -54,7 +53,7 @@ export default function AnunciosCurso() {
       },
       curso: 'EVALUACIÓN DE PROYECTOS',
       fechaPublicacion: '2025-09-19T14:30:00Z',
-      prioridad: 'media',
+    
       leido: false,
       archivosAdjuntos: [
         {
@@ -81,7 +80,7 @@ export default function AnunciosCurso() {
       },
       curso: 'EVALUACIÓN DE PROYECTOS',
       fechaPublicacion: '2025-09-18T16:45:00Z',
-      prioridad: 'alta',
+      
       leido: true,
       comentariosCount: 12
     },
@@ -97,7 +96,7 @@ export default function AnunciosCurso() {
       curso: 'PLANEAMIENTO Y GESTIÓN ESTRATÉGICA',
       fechaPublicacion: '2025-09-17T12:20:00Z',
       fechaModificacion: '2025-09-17T15:30:00Z',
-      prioridad: 'alta',
+      
       leido: true,
       comentariosCount: 8
     },
@@ -112,13 +111,13 @@ export default function AnunciosCurso() {
       },
       curso: 'PLANEAMIENTO Y GESTIÓN ESTRATÉGICA',
       fechaPublicacion: '2025-09-16T09:15:00Z',
-      prioridad: 'baja',
+      
       leido: false,
       comentariosCount: 3
     }
   ]);
 
-  const [filtro, setFiltro] = useState<'todos' | 'no-leidos' | 'prioritarios'>('todos');
+  const [filtro, setFiltro] = useState<'todos' | 'no-leidos'>('todos');
   const [busqueda, setBusqueda] = useState('');
   const [anuncioExpandido, setAnuncioExpandido] = useState<string | null>(null);
   const [comentariosPorAnuncio, setComentariosPorAnuncio] = useState<{[key: string]: Comentario[]}>({});
@@ -128,9 +127,8 @@ export default function AnunciosCurso() {
                           anuncio.contenido.toLowerCase().includes(busqueda.toLowerCase()) ||
                           anuncio.autor.nombre.toLowerCase().includes(busqueda.toLowerCase());
     
-    const cumpleFiltro = filtro === 'todos' || 
-                        (filtro === 'no-leidos' && !anuncio.leido) ||
-                        (filtro === 'prioritarios' && anuncio.prioridad === 'alta');
+  const cumpleFiltro = filtro === 'todos' || 
+            (filtro === 'no-leidos' && !anuncio.leido);
     
     return cumpleBusqueda && cumpleFiltro;
   });
@@ -176,14 +174,6 @@ export default function AnunciosCurso() {
     });
   };
 
-  const getColorPrioridad = (prioridad: string) => {
-    switch (prioridad) {
-      case 'alta': return '#dc2626';
-      case 'media': return '#f59e0b';
-      case 'baja': return '#10b981';
-      default: return '#6b7280';
-    }
-  };
 
   const manejarAgregarComentario = (anuncioId: string, contenido: string, padreId?: string) => {
     const nuevoComentario: Comentario = {
@@ -288,10 +278,9 @@ export default function AnunciosCurso() {
 
         <div className="filtros-dropdown">
             <div className="filter-group">
-            <select value={filtro} onChange={(e) => setFiltro(e.target.value as 'todos' | 'no-leidos' | 'prioritarios')}>
+            <select value={filtro} onChange={(e) => setFiltro(e.target.value as 'todos' | 'no-leidos')}>
               <option value="todos">Todos ({anuncios.length})</option>
               <option value="no-leidos">No leídos ({anunciosNoLeidos})</option>
-              <option value="prioritarios">Prioritarios ({anuncios.filter(a => a.prioridad === 'alta').length})</option>
             </select>
           </div>
         </div>
@@ -325,31 +314,17 @@ export default function AnunciosCurso() {
                   </div>
                   <div className="anuncio-meta">
                     <span className="curso-badge">{anuncio.curso}</span>
-                    <div className="fecha-info">
-                      <FaCalendarAlt />
-                      <span>{formatearFecha(anuncio.fechaPublicacion)}</span>
-                      {anuncio.fechaModificacion && (
-                        <span className="modificado">(editado)</span>
-                      )}
-                    </div>
+                    {/* Fecha larga eliminada: mantener solo la píldora de fecha en la esquina superior derecha */}
                   </div>
                 </div>
                 
                 <div className="anuncio-controles-header">
-                  <span className={`prioridad-badge prioridad-${anuncio.prioridad}`}>
-                    {anuncio.prioridad.toUpperCase()}
+                  {/* Fecha compacta con icono y etiqueta */}
+                  <span className="anuncio-fecha">
+                    <FaCalendarAlt className="fecha-icon" />
+                    <span className="fecha-label">Publicado:</span>
+                    <span className="fecha-value">{new Date(anuncio.fechaPublicacion).toLocaleDateString('es-ES')}</span>
                   </span>
-
-                  <button
-                    className="btn-leido"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      marcarComoLeido(anuncio.id);
-                    }}
-                    title={anuncio.leido ? 'Marcar como no leído' : 'Marcar como leído'}
-                  >
-                    {anuncio.leido ? <FaEye /> : <FaEyeSlash />}
-                  </button>
                 </div>
               </div>
 
