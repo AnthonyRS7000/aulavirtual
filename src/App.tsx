@@ -3,7 +3,6 @@ import { ClasesProvider } from "./context/ClasesContext";
 import Layout from "./components/Layout";
 import LayoutDocente from './features/docente/components/layout/LayoutDocente'; // ✅ Tu layout separado
 import HomeSelector from "./components/HomeSelector";
-import Login from "./components/Login";
 // Estudiante
 import InicioEstudiante from "./features/estudiante/pages/InicioEstudiante";
 import Clases from "./features/estudiante/pages/Clases";
@@ -15,7 +14,7 @@ import Recursos from "./features/estudiante/pages/RecursosRecientes";
 import AnunciosCurso from "./features/estudiante/pages/AnunciosCurso";
 import ClaseDetalle from "./features/estudiante/components/ClaseDetalle";
 import CalendarioAgenda from "./features/estudiante/pages/CalendarioAgenda";
-
+import SsoReceiver from "./features/estudiante/pages/SsoReceiver";
 // Docente
 import DashboardDocente from "./features/docente/pages/DashboardDocente";
 import GestionCursos from "./features/docente/pages/GestionCursos";
@@ -28,7 +27,7 @@ function App() {
         <Routes>
           {/* Selector inicial */}
           <Route path="/" element={<HomeSelector />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/sso/receive" element={<SsoReceiver />} />
           {/* ESTUDIANTE - Usa Layout.tsx (solo para estudiantes) */}
           <Route element={<Layout userCase="estudiante" />}>
             <Route path="/estudiante/inicio" element={<InicioEstudiante />} />

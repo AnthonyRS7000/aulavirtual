@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { HiOutlineUser, HiOutlineLogout } from 'react-icons/hi';
 import { useTheme } from '../hooks/useTheme';
+import { useAuth } from '../context/AuthContext';
 
 import './PerfilDropdown.css';
 
@@ -15,8 +16,8 @@ export default function PerfilDropdown({ isOpen, onClose }: Props) {
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
   const { theme } = useTheme();
-const isDark = theme === 'dark';
-
+  const { logout } = useAuth();
+  const isDark = theme === 'dark';
 
   // Cerrar al hacer clic fuera
   useEffect(() => {
@@ -30,12 +31,18 @@ const isDark = theme === 'dark';
     };
     if (isOpen) document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [isOpen]);
+  }, [isOpen, onClose]);
 
   const cerrarSesion = () => {
-    // Aquí tu lógica de logout
-    console.log('Cerrando sesión...');
-    navigate('/login');
+    console.log('Cerrando sesión en ambas ventanas...');
+    
+    // Ejecutar logout local (borra localStorage)
+    logout();
+    
+    // Solo esta ventana se redirige a login
+    setTimeout(() => {
+      navigate('/login');
+    }, 100);
   };
 
   if (!isOpen) return null;
@@ -43,15 +50,17 @@ const isDark = theme === 'dark';
   return (
     <div ref={dropdownRef} className={`perfil-dropdown ${isDark ? 'dark' : ''}`}>
       <Link to="/estudiante/perfil" className="dropdown-item" onClick={onClose}>
-      <HiOutlineUser
+        <HiOutlineUser
           style={{ marginRight: '8px', width: '20px', height: '20px', color: isDark ? '#f8fafc' : '#0f172a' }}
         />
-         Mi perfil</Link>
+        Mi perfil
+      </Link>
       <button onClick={cerrarSesion} className="dropdown-item">
         <HiOutlineLogout
           style={{ marginRight: '8px', width: '20px', height: '20px', color: isDark ? '#f8fafc' : '#0f172a' }}
         />
-         Cerrar sesión</button>
+        Cerrar sesión
+      </button>
     </div>
   );
 }

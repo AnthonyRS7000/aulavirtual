@@ -77,14 +77,46 @@ export default function Sidebar({ isOpen, onClose, onToggle }: SidebarProps) {
   const [currentTheme, setCurrentTheme] = useState<'light' | 'dark'>('light');
   const [isSessionLoaded, setIsSessionLoaded] = useState(false);
 
-
   const { user, isAuthenticated } = useAuth();
 
-  useEffect(() => {
-    console.debug("[Sidebar] auth:", { user, isAuthenticated });
-  }, [user, isAuthenticated]);
+  // Normalizar nombre y foto desde distintos posibles shapes del "user"
+  const userFullName = (() => {
+    if (!user) return undefined;
+    if (user.full_name) return user.full_name;
+    const nombres = user.nombres ?? user.first_name ?? '';
+    const apellidos = user.apellidos ?? user.last_name ?? '';
+    const combined = `${(nombres || '').trim()} ${(apellidos || '').trim()}`.trim();
+    if (combined) return combined;
+    if (user.name) return user.name;
+    if (user.email) return String(user.email).split('@')[0];
+    return undefined;
+  })();
 
-  const userData = user ?? getEstudianteDataFallback();
+  const userImageUrl = (() => {
+    if (!user) return null;
+    // Prioriza varios campos y fallback a localStorage 'foto'
+    const candidates = [
+      user.image,
+      user.foto,
+      user.google_avatar,
+      user.picture,
+      localStorage.getItem('foto') ?? null
+    ];
+    const valid = candidates.find(u => !!u && u !== 'null' && typeof u === 'string');
+    return valid ?? null;
+  })();
+
+  useEffect(() => {
+    console.debug('[Sidebar] user raw:', user);
+    console.debug('[Sidebar] localStorage foto:', localStorage.getItem('foto'));
+    console.debug('[Sidebar] normalized image url:', userImageUrl);
+  }, [user, userImageUrl]);
+  
+  const userData = {
+    full_name: userFullName ?? getEstudianteDataFallback().full_name,
+    role: user?.role ?? user?.rol ?? getEstudianteDataFallback().role,
+    image: userImageUrl ?? getEstudianteDataFallback().image,
+  };
   const sections = getEstudianteSections();
   const [unreadAnuncios, setUnreadAnuncios] = useState<number>(0);
 
@@ -182,10 +214,9 @@ export default function Sidebar({ isOpen, onClose, onToggle }: SidebarProps) {
           <div className="user-avatar-copiloto">
             <img
               src={
-                userData.image ||
-                `https://ui-avatars.com/api/?name=${encodeURIComponent(
-                  userData.full_name || 'Estudiante'
-                )}&background=39B49E&color=fff`
+                (userData.image && userData.image !== 'null') 
+                  ? userData.image
+                  : `https://ui-avatars.com/api/?name=${encodeURIComponent(userData.full_name || 'Estudiante')}&background=39B49E&color=fff`
               }
               alt={userData.full_name}
               className="user-avatar-image"
