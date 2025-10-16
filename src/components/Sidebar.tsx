@@ -75,6 +75,12 @@ const getEstudianteSections = () => {
       icon: IconMensajeria,
       path: '/estudiante/mensajeria'
     },
+    {
+      name: 'biblioteca',
+      label: 'Biblioteca',
+      icon: IconServicio,
+      path: '/estudiante/biblioteca'
+    },
   ];
 };
 
@@ -93,6 +99,17 @@ export default function Sidebar({ isOpen, onClose, onToggle }: SidebarProps) {
 
   const userData = user ?? getEstudianteDataFallback();
   const sections = getEstudianteSections();
+  
+  // Preparar nombre mostrado: solo el primer nombre y los apellidos (últimos 1-2 tokens)
+  const fullName = typeof userData.full_name === 'string' ? userData.full_name.trim() : '';
+  const nameParts = fullName.split(/\s+/).filter(Boolean);
+  const nombreVisible = nameParts.length > 0 ? nameParts[0] : fullName || 'Estudiante';
+  let apellidosVisible = '';
+  if (nameParts.length >= 2) {
+    // tomar los últimos 1 o 2 tokens como apellidos
+    const last = nameParts.slice(-2);
+    apellidosVisible = last.join(' ');
+  }
 
   // Leer contador de anuncios no leídos desde localStorage y reaccionar a cambios
   useEffect(() => {
@@ -183,7 +200,7 @@ export default function Sidebar({ isOpen, onClose, onToggle }: SidebarProps) {
       </button>
 
       <div id="app-sidebar" className={`${sidebarClass} ${isOpen ? '' : 'collapsed'}`}>
-        <div className="user-info-copiloto">
+          <div className="user-info-copiloto">
           {/* Avatar del usuario */}
           <div className="user-avatar-copiloto">
             <img
@@ -199,25 +216,17 @@ export default function Sidebar({ isOpen, onClose, onToggle }: SidebarProps) {
           </div>
 
           {/* Información del usuario */}
-          <div className="user-info-text">
-            <div className="user-name-copiloto">
-              {userData.full_name || 'Estudiante'}
+            <div className="user-info-text">
+              <div className="user-name-copiloto" title={userData.full_name || 'Estudiante'}>
+                <div className="user-name-first">{nombreVisible}</div>
+                {apellidosVisible ? (
+                  <div className="user-name-surnames">{apellidosVisible}</div>
+                ) : null}
+              </div>
+              <div className="user-role-copiloto">
+                {userData.role || 'Estudiante'}
+              </div>
             </div>
-            <div className="user-role-copiloto">
-              {userData.role || 'Estudiante'}
-            </div>
-            {/* Indicador de estado de sesión */}
-            <div 
-              className="session-status"
-              style={{
-                fontSize: '11px',
-                color: isAuthenticated ? '#10b981' : '#ef4444',
-                marginTop: '4px',
-              }}
-            >
-              {isAuthenticated ? '● En línea' : '● Sin sesión'}
-            </div>
-          </div>
         </div>
 
         {/* Navegación del estudiante */}
