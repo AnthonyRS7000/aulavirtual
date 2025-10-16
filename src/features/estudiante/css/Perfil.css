@@ -1,254 +1,689 @@
-.perfil-page {
-  padding: 24px;
-  max-width: 1200px;
-  margin: 0 auto;
+/* Variables CSS para temas del perfil - Usando los mismos colores del ThemeToggle */
+:root {
+  /* Tema claro - coincide exactamente con ThemeToggle */
+  --profile-bg-primary: #f9fafb;
+  --profile-bg-secondary: #ffffff;
+  --profile-bg-tertiary: #f3f4f6;
+  --profile-bg-input: #ffffff;
+  --profile-bg-input-readonly: #f3f4f6;
+  --profile-bg-hover: #f9fafb;
+  --profile-bg-active: #06b6d4;
+  --profile-bg-sidebar: #ffffff;
+  
+  --profile-text-primary: #111827;
+  --profile-text-secondary: #374151;
+  --profile-text-tertiary: #6b7280;
+  --profile-text-muted: #9ca3af;
+  --profile-text-on-accent: #ffffff;
+  --profile-text-error: #dc2626;
+  
+  --profile-border-primary: #d1d5db;
+  --profile-border-secondary: #e5e7eb;
+  --profile-border-accent: #06b6d4;
+  --profile-border-active: #0891b2;
+  
+  --profile-shadow-primary: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --profile-shadow-focus: 0 0 0 3px rgba(6, 182, 212, 0.1);
+  /* Branding colors (user provided) */
+  --brand-green: #5A9E8D; /* Pantone 3275 U */
+  --brand-gold: #ECC138;  /* Pantone 122 U */
 }
 
-.perfil-header {
-  margin-bottom: 32px;
-  padding-bottom: 24px;
-  border-bottom: 2px solid #e5e7eb;
+/* Tema oscuro - coincide exactamente con ThemeToggle */
+.dark {
+  --profile-bg-primary: #111827;
+  --profile-bg-secondary: #374151;
+  --profile-bg-tertiary: #4b5563;
+  --profile-bg-input: #374151;
+  --profile-bg-input-readonly: #111827;
+  --profile-bg-hover: #4b5563;
+  --profile-bg-active: #2a9d8f;
+  --profile-bg-sidebar: #374151;
+  
+  --profile-text-primary: #ffffff;
+  --profile-text-secondary: #f9fafb;
+  --profile-text-tertiary: #d1d5db;
+  --profile-text-muted: #9ca3af;
+  --profile-text-on-accent: #ffffff;
+  --profile-text-error: #f87171;
+  
+  --profile-border-primary: #4b5563;
+  --profile-border-secondary: #374151;
+  --profile-border-accent: #2a9d8f;
+  --profile-border-active: #238f7f;
+  
+  --profile-shadow-primary: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --profile-shadow-focus: 0 0 0 3px rgba(42, 157, 143, 0.1);
 }
 
-.perfil-header h1 {
-  font-size: 32px;
-  font-weight: 700;
-  color: #1f2937;
-  margin: 0 0 8px 0;
+/* Contenedor principal del perfil */
+.profile-container {
+  display: flex;
+  min-height: 100vh;
+  /* Dejar transparente para que el fondo azul global sea visible */
+  background-color: transparent;
+  color: var(--profile-text-secondary);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.perfil-header p {
-  color: #6b7280;
+/* Permite posicionar el título en la parte superior centrada */
+.profile-container { position: relative; }
+
+/* Sidebar de navegación del perfil */
+.profile-sidebar {
+  width: 240px;
+  background-color: var(--profile-bg-sidebar);
+  padding: 20px 0;
+  border-right: 1px solid var(--profile-border-primary);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.profile-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+  border-left: 3px solid transparent;
+  color: var(--profile-text-secondary);
+}
+
+.profile-nav-item.active {
+  background-color: var(--profile-bg-active);
+  border-left-color: var(--profile-border-active);
+  color: var(--profile-text-on-accent);
+}
+
+.profile-nav-item:hover:not(.active) {
+  background-color: var(--profile-bg-hover);
+}
+
+.profile-nav-icon {
   font-size: 16px;
-  margin: 0;
-}
-
-.perfil-contenido {
+  width: 20px;
   display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-.perfil-section {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-}
-
-.section-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 24px 24px 0 24px;
-  margin-bottom: 24px;
-}
-
-.section-header h2 {
-  font-size: 24px;
-  font-weight: 700;
-  color: #1f2937;
-  margin: 0;
-}
-
-.btn-editar {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: #0066cc;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 6px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.btn-editar:hover {
-  background: #0052a3;
-}
-
-.info-contenido {
-  padding: 0 24px 24px 24px;
-}
-
-.foto-section {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-  margin-bottom: 32px;
-  padding-bottom: 24px;
-  border-bottom: 1px solid #e5e7eb;
-}
-
-.foto-container {
-  position: relative;
-}
-
-.foto-perfil {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 4px solid #0066cc;
-}
-
-.btn-cambiar-foto {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  background: #0066cc;
-  color: white;
-  border: none;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
   justify-content: center;
-  transition: all 0.3s ease;
 }
 
-.btn-cambiar-foto:hover {
-  background: #0052a3;
-}
-
-.info-basica h3 {
-  font-size: 28px;
-  font-weight: 700;
-  color: #1f2937;
-  margin: 0 0 8px 0;
-}
-
-.codigo-estudiante {
-  color: #0066cc;
-  font-weight: 600;
-  font-size: 16px;
-  margin: 0 0 4px 0;
-}
-
-.carrera {
-  color: #6b7280;
-  font-size: 16px;
-  margin: 0;
-}
-
-.datos-contacto {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 24px;
-}
-
-.dato-item {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 16px;
-  background: #f9fafb;
-  border-radius: 8px;
-}
-
-.dato-icon {
-  color: #0066cc;
-  font-size: 20px;
-  width: 24px;
-  text-align: center;
-}
-
-.dato-item div {
-  display: flex;
-  flex-direction: column;
-}
-
-.dato-item label {
-  font-size: 12px;
-  color: #6b7280;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 4px;
-}
-
-.dato-item span {
-  font-size: 16px;
-  color: #1f2937;
+.profile-nav-text {
+  font-size: 14px;
   font-weight: 500;
 }
 
-
-.config-opciones {
-  padding: 0 24px 24px 24px;
+/* Contenido principal */
+.profile-content {
+  flex: 1;
+  padding: 40px;
+  overflow-y: auto;
+  /* transparente para eliminar la capa gris oscura intermedia */
+  background-color: transparent;
+  transition: background-color 0.3s ease;
 }
 
-.config-btn {
-  width: 100%;
+.profile-form-container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* Card wrapper to visually separate the form (match style from image 2) */
+.profile-card {
+  /* Mantener la tarjeta del formulario con fondo gris claro para contraste */
+  background: var(--profile-bg-secondary, #4b5563);
+  border: 1px solid rgba(0,0,0,0.06);
+  border-radius: 12px;
+  padding: 28px;
+  box-shadow: 0 8px 26px rgba(2,6,23,0.32);
+}
+
+/* Inputs inside the card adopt a darker filled style */
+.profile-card .profile-form-input {
+  background: var(--panel-contrast, rgba(2,6,23,0.12));
+  border: 1px solid var(--border-soft, rgba(255,255,255,0.04));
+  color: var(--profile-text-primary);
+  padding: 14px 16px;
+  border-radius: 8px;
+  box-shadow: inset 0 2px 6px rgba(0,0,0,0.16);
+}
+
+/* Make editable inputs (like phone) darker and clearer */
+
+/* Editable input: default = light theme appearance */
+.profile-card .profile-form-input.editable {
+  background: rgba(255,255,255,0.95); /* light background by default */
+  color: var(--profile-text-primary);
+  border: 1px solid rgba(0,0,0,0.08);
+}
+
+/* Placeholder for default (light) theme */
+.profile-card .profile-form-input.editable::placeholder {
+  color: rgba(17,24,39,0.45);
+}
+
+/* Focus style (light) */
+.profile-card .profile-form-input.editable:focus {
+  outline: none;
+  box-shadow: 0 4px 14px rgba(2,6,23,0.06);
+  border-color: rgba(16,24,40,0.12);
+}
+
+/* Dark theme override: ensure inputs are dark and legible when .dark is present */
+.dark .profile-card .profile-form-input.editable {
+  background: rgba(2,6,23,0.28); /* darker fill for dark theme */
+  color: var(--profile-text-on-accent, #e6eef6);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+.dark .profile-card .profile-form-input.editable::placeholder {
+  color: rgba(255,255,255,0.6);
+}
+
+.dark .profile-card .profile-form-input.editable:focus {
+  outline: none;
+  box-shadow: 0 4px 18px rgba(23,160,134,0.08), inset 0 2px 6px rgba(0,0,0,0.18);
+  border-color: var(--profile-border-accent, rgba(23,160,134,0.75));
+}
+
+/* Fallbacks covering different theme toggles: body/html class or data-attribute */
+html.dark .profile-card .profile-form-input.editable,
+body.dark .profile-card .profile-form-input.editable,
+html[data-theme="dark"] .profile-card .profile-form-input.editable,
+body[data-theme="dark"] .profile-card .profile-form-input.editable {
+  background: rgba(2,6,23,0.28);
+  color: var(--profile-text-on-accent, #e6eef6);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+html.dark .profile-card .profile-form-input.editable::placeholder,
+body.dark .profile-card .profile-form-input.editable::placeholder,
+html[data-theme="dark"] .profile-card .profile-form-input.editable::placeholder,
+body[data-theme="dark"] .profile-card .profile-form-input.editable::placeholder {
+  color: rgba(255,255,255,0.6);
+}
+
+html.dark .profile-card .profile-form-input.editable:focus,
+body.dark .profile-card .profile-form-input.editable:focus,
+html[data-theme="dark"] .profile-card .profile-form-input.editable:focus,
+body[data-theme="dark"] .profile-card .profile-form-input.editable:focus {
+  outline: none;
+  box-shadow: 0 4px 18px rgba(23,160,134,0.08), inset 0 2px 6px rgba(0,0,0,0.18);
+  border-color: var(--profile-border-accent, rgba(23,160,134,0.75));
+}
+
+.profile-card .profile-form-label {
+  color: var(--profile-text-tertiary);
+  font-weight: 600;
+  text-transform: none;
+  margin-bottom: 8px;
+}
+
+.profile-card .profile-form-row { gap: 22px; }
+
+@media (max-width: 768px) {
+  .profile-card { padding: 18px; }
+}
+
+/* Encabezado simple del perfil */
+.profile-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 16px 20px;
-  background: #f9fafb;
-  border: 1px solid #e5e7eb;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.profile-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--profile-bg-active);
+  color: var(--profile-text-on-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 20px;
+  box-shadow: var(--profile-shadow-primary);
+}
+.profile-page-title {
+  margin: 0;
+  font-size: 20px;
+  color: var(--title-color, var(--profile-text-primary));
+}
+.profile-page-subtitle {
+  margin-top: 4px;
+  color: var(--profile-text-tertiary);
+  font-size: 13px;
+}
+
+/* Título principal en la parte superior, similar a Trámites de Matrícula */
+/* Coloca el título más cerca del topbar en anchos de escritorio */
+.profile-root { text-align: center; margin-bottom: 6px; position: absolute; left: 50%; transform: translateX(-50%); top: 28px; width: min(1100px, 94%); z-index: 30; }
+
+.profile-title { font-size: 2.2rem; font-weight: 700; text-align: center; margin: 0 0 28px 0; color: var(--title-color, var(--profile-text-primary)); }
+
+/* Empuja el contenido para dejar espacio al título superior; aumentamos margen entre título y formulario */
+.profile-content { padding-top: 88px; }
+
+/* Ajustes finos para pantallas grandes */
+@media (min-width: 1200px) {
+  .profile-root { top: 36px; }
+  .profile-content { padding-top: 96px; }
+  .profile-title { margin-bottom: 32px; }
+}
+
+@media (min-width: 1400px) {
+  .profile-root { top: 40px; width: min(1200px, 94%); }
+  .profile-content { padding-top: 104px; }
+  .profile-title { margin-bottom: 34px; }
+}
+
+/* Ajustes finos para pantallas muy grandes: reducir aún más el espacio sin tocar móviles */
+@media (min-width: 1400px) {
+  .profile-root { top: 56px; width: min(1200px, 94%); }
+  .profile-content { padding-top: 100px; }
+}
+
+@media (min-width: 1800px) {
+  .profile-root { top: 48px; width: min(1400px, 94%); }
+  .profile-content { padding-top: 96px; }
+}
+
+/* Filas del formulario */
+.profile-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  margin-bottom: 25px;
+}
+
+/* Grupos de campos */
+.profile-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Labels */
+.profile-form-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--profile-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: color 0.3s ease;
+}
+
+/* Campos de input */
+.profile-form-input {
+  padding: 12px 16px;
+  background-color: var(--profile-bg-input);
+  border: 1px solid var(--profile-border-primary);
+  border-radius: 6px;
+  color: var(--profile-text-secondary);
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.profile-form-input:focus {
+  outline: none;
+  border-color: var(--profile-border-accent);
+  box-shadow: var(--profile-shadow-focus);
+}
+
+.profile-form-input:read-only {
+  cursor: default;
+  background-color: var(--profile-bg-input-readonly);
+}
+
+/* Campo editable */
+.profile-form-input.editable {
+  background-color: var(--profile-bg-input);
+  cursor: text;
+}
+
+.profile-form-input.editable:hover {
+  border-color: var(--profile-border-accent);
+}
+
+/* Asterisco requerido */
+.required-asterisk {
+  color: var(--profile-text-error);
+  margin-left: 4px;
+  transition: color 0.3s ease;
+}
+
+/* Texto de ayuda */
+.profile-help-text {
+  font-size: 12px;
+  color: var(--profile-text-tertiary);
+  font-style: italic;
+  margin-top: 4px;
+  transition: color 0.3s ease;
+}
+
+/* Botón guardar junto al campo */
+.profile-save-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+}
+.profile-save-btn {
+  background-color: var(--profile-bg-active);
+  color: var(--profile-text-on-accent);
+  border: none;
+  padding: 8px 14px;
   border-radius: 8px;
   cursor: pointer;
-  transition: all 0.3s ease;
-  margin-bottom: 12px;
-  font-size: 16px;
-  color: #374151;
+  font-weight: 600;
+}
+.profile-save-btn:hover { filter: brightness(0.95); }
+.profile-save-note { font-size: 12px; color: var(--profile-text-muted); }
+
+/* Sección Subir Fotografía */
+.profile-photo-section { margin: 18px 0 8px 0; display:flex; flex-direction:column; gap:8px; }
+.photo-open-btn { background: linear-gradient(180deg, var(--button-green), var(--button-green-2)); color: #fff; padding:10px 14px; border-radius:10px; border:none; cursor:pointer; width:240px; }
+.photo-instructions { font-size:12px; color:var(--profile-text-tertiary); }
+
+/* Modal para subir foto (estilo tarjeta centrada) */
+.modal-overlay { position: fixed; inset:0; display:flex; align-items:center; justify-content:center; background: rgba(0,0,0,0.45); z-index:1200; }
+.photo-modal { width: 520px; max-width:94%; background: var(--profile-bg-secondary); border-radius:12px; box-shadow: 0 12px 40px rgba(2,6,23,0.45); padding:18px; border:1px solid var(--profile-border-primary); }
+.photo-modal-header { display:flex; justify-content:space-between; align-items:center; gap:12px; }
+.photo-modal-header h3 { margin:0; color: var(--title-color, var(--profile-text-primary)); }
+.close-modal { background:transparent; border:none; font-size:20px; cursor:pointer; }
+.photo-modal-body { display:flex; gap:18px; margin-top:12px; }
+.photo-preview { width:220px; height:264px; display:flex; align-items:center; justify-content:center; border-radius:8px; background: #fff; box-shadow: 0 6px 18px rgba(2,6,23,0.15); border:1px solid rgba(0,0,0,0.06); }
+.photo-preview img { max-width:100%; max-height:100%; border-radius:6px; }
+.photo-placeholder { color:var(--profile-text-tertiary); font-size:14px; }
+.photo-controls { flex:1; display:flex; flex-direction:column; gap:8px; }
+.photo-hint { font-size:12px; color:var(--profile-text-muted); }
+.photo-actions { display:flex; gap:10px; margin-top:8px; }
+.btn-primary { background: linear-gradient(180deg, var(--button-green), var(--button-green-2)); color:#fff; padding:8px 12px; border-radius:8px; border:none; cursor:pointer; }
+.btn-secondary { background: transparent; color: var(--profile-text-primary); border:1px solid var(--profile-border-primary); padding:8px 12px; border-radius:8px; cursor:pointer; }
+.photo-error { color: var(--danger, #b00020); font-size:12px; margin-top:6px; }
+
+/* En pantallas grandes, hacer los botones de las tarjetas más prominentes y con color verde medio */
+@media (min-width: 1024px) {
+  .ficha-invite-card .btn-primary,
+  .ficha-invite-card .ficha-open-btn,
+  .profile-info-message .photo-open-btn,
+  .photo-open-btn {
+    /* gradient from brand green to a slightly darker tone */
+    background: linear-gradient(180deg, var(--brand-green), #4F9580);
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-weight: 700;
+    color: #ffffff;
+    box-shadow: 0 8px 20px rgba(90, 158, 141, 0.18);
+    transition: transform 150ms ease, box-shadow 150ms ease, background 150ms ease;
+  }
+
+  .ficha-invite-card .btn-primary:hover,
+  .ficha-invite-card .ficha-open-btn:hover,
+  .profile-info-message .photo-open-btn:hover,
+  .photo-open-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 26px rgba(90, 158, 141, 0.22);
+    background: var(--brand-gold); /* cambia al color 2 en hover */
+    color: #0b0b0b; /* texto más oscuro sobre el dorado para contraste */
+  }
+
+  /* Asegurar que el ancho del botón no sea demasiado pequeño en tarjetas */
+  .ficha-invite-actions .btn-primary,
+  .ficha-invite-actions .ficha-open-btn {
+    min-width: 140px;
+  }
 }
 
-.config-btn:last-child {
-  margin-bottom: 0;
+/* Mensaje de información */
+.profile-info-message {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background-color: var(--profile-bg-secondary);
+  border: 1px solid var(--profile-border-primary);
+  border-radius: 8px;
+  margin-top: 30px;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
-.config-btn:hover {
-  background: #f3f4f6;
-  border-color: #d1d5db;
-  transform: translateX(4px);
+.info-icon {
+  font-size: 18px;
+  flex-shrink: 0;
+  color: var(--profile-text-secondary);
+  transition: color 0.3s ease;
 }
 
-.arrow {
-  color: #6b7280;
-  font-weight: 700;
-  transition: transform 0.3s ease;
+.info-text {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--profile-text-tertiary);
+  transition: color 0.3s ease;
 }
 
-.config-btn:hover .arrow {
-  transform: translateX(4px);
+.info-text strong {
+  color: var(--profile-text-error);
+  font-weight: 600;
+  transition: color 0.3s ease;
 }
 
-/* Responsive */
+/* Estados adicionales para mejor UX */
+.profile-form-input::placeholder {
+  color: var(--profile-text-muted);
+  transition: color 0.3s ease;
+}
+
+.profile-form-input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background-color: var(--profile-bg-input-readonly);
+}
+
+/* Mejoras visuales para el tema */
+.profile-nav-item {
+  position: relative;
+  overflow: hidden;
+}
+
+.profile-nav-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 0;
+  background-color: var(--profile-bg-active);
+  transition: width 0.2s ease;
+  z-index: -1;
+}
+
+.profile-nav-item:hover::before {
+  width: 3px;
+}
+
+.profile-nav-item.active::before {
+  width: 100%;
+}
+
+/* Separadores visuales para el sidebar */
+.profile-nav-separator {
+  height: 1px;
+  background-color: var(--profile-border-secondary);
+  margin: 16px 20px;
+  transition: background-color 0.3s ease;
+}
+
+/* Responsivo */
 @media (max-width: 768px) {
-  .perfil-page {
-    padding: 16px;
-  }
-  
-  .perfil-header h1 {
-    font-size: 24px;
-  }
-  
-  .foto-section {
+  .profile-container {
     flex-direction: column;
+  }
+  
+  .profile-sidebar {
+    width: 100%;
+    padding: 16px 0;
+    border-right: none;
+    border-bottom: 1px solid var(--profile-border-primary);
+  }
+  
+  .profile-content {
+    padding: 20px;
+  }
+  
+  .profile-form-row {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 600px) {
+  /* On small screens keep the title in-flow so it doesn't overlap form fields */
+  .profile-root {
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+    width: 100%;
+    padding: 18px 12px; /* more breathing room vertically */
+    margin: 0 auto 8px;
+    z-index: 1;
+    text-align: center; /* center the title on phones */
+  }
+
+  /* Pull content up under the title (smaller top padding) */
+  .profile-content {
+    padding-top: 12px; /* minimal gap between title block and content */
+  }
+
+  .profile-title {
+    font-size: 1.6rem;
     text-align: center;
-    gap: 16px;
+    margin: 0;
+    line-height: 1.1;
+  }
+}
+
+@media (max-width: 1024px) {
+  .profile-save-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 0.75rem;
+  }
+
+  .profile-save-btn {
+    background: linear-gradient(180deg, #22c1a1 0%, #17a086 100%);
+    border: none;
+    color: white;
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 6px 14px rgba(23,160,134,0.12);
+    transition: transform 120ms ease, box-shadow 120ms ease, opacity 120ms ease;
+  }
+
+  .profile-save-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+
+  .profile-save-btn:active {
+    transform: translateY(1px);
+  }
+
+  .profile-save-note {
+    font-size: 0.95rem;
+    color: var(--accent, #cdefe0);
+    min-width: 160px;
+  }
+  .profile-form-row {
+    gap: 20px;
   }
   
-  .datos-contacto {
-    grid-template-columns: 1fr;
-    gap: 16px;
+  .profile-content {
+    padding: 30px;
   }
-  
-  .stats-resumen {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-  
-  /* Removed styles for rendimiento/historial sections */
-  
-  .section-header {
-    flex-direction: column;
-    gap: 16px;
-    align-items: stretch;
-  }
+}
+
+/* Invitación a completar ficha socioeconómica */
+.profile-ficha-invite { margin-top: 18px; }
+.ficha-invite-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px;
+  border-radius: 8px;
+  background: var(--profile-bg-secondary);
+  border: 1px solid var(--profile-border-primary);
+  box-shadow: 0 6px 18px rgba(2,6,23,0.25);
+}
+.ficha-invite-left { display:flex; gap:12px; align-items:center; }
+.ficha-invite-icon { font-size: 28px; }
+.ficha-invite-title { font-weight:700; color: var(--profile-text-primary); }
+.ficha-invite-sub { font-size: 0.95rem; color: var(--profile-text-tertiary); }
+.ficha-invite-actions { display:flex; align-items:center; }
+.ficha-open-btn { padding: 10px 16px; border-radius:8px; background: linear-gradient(180deg,var(--profile-bg-active),#17a086); color:var(--profile-text-on-accent); border:none; cursor:pointer; font-weight:700; }
+
+@media (max-width: 680px) {
+  .ficha-invite-card { flex-direction: column; align-items: stretch; }
+  .ficha-invite-actions { justify-content: flex-end; }
+}
+
+/* Transiciones suaves para el cambio de tema */
+* {
+  transition-property: background-color, border-color, color, box-shadow, opacity;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+}
+
+/* Forzar botón 'Actualizar' a color dorado de marca en claro/oscuro y sin cambio en hover */
+.profile-save-row .profile-save-btn {
+  /* usar la variable de marca dorada para ambos temas */
+  background: var(--brand-gold) !important;
+  color: #0b0b0b !important; /* texto oscuro para contraste */
+  box-shadow: 0 6px 16px rgba(0,0,0,0.12) !important;
+  transform: none !important;
+}
+
+.profile-save-row .profile-save-btn:hover,
+.profile-save-row .profile-save-btn:focus {
+  /* no cambiar color al pasar el cursor ni al enfocar */
+  background: var(--brand-gold) !important;
+  color: #0b0b0b !important;
+  transform: none !important;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.14) !important;
+}
+
+/* Strong dark-mode override: asegurar fondo oscuro y texto legible en inputs editables */
+.dark .profile-card .profile-form-input.editable,
+html.dark .profile-card .profile-form-input.editable,
+body.dark .profile-card .profile-form-input.editable,
+html[data-theme="dark"] .profile-card .profile-form-input.editable,
+body[data-theme="dark"] .profile-card .profile-form-input.editable {
+  background: rgba(2,6,23,0.28) !important;
+  color: var(--profile-text-on-accent, #e6eef6) !important;
+  border: 1px solid rgba(255,255,255,0.06) !important;
+}
+
+.dark .profile-card .profile-form-input.editable::placeholder,
+html.dark .profile-card .profile-form-input.editable::placeholder,
+body.dark .profile-card .profile-form-input.editable::placeholder,
+html[data-theme="dark"] .profile-card .profile-form-input.editable::placeholder,
+body[data-theme="dark"] .profile-card .profile-form-input.editable::placeholder {
+  color: rgba(255,255,255,0.6) !important;
+}
+
+.dark .profile-card .profile-form-input.editable:focus,
+html.dark .profile-card .profile-form-input.editable:focus,
+body.dark .profile-card .profile-form-input.editable:focus,
+html[data-theme="dark"] .profile-card .profile-form-input.editable:focus,
+body[data-theme="dark"] .profile-card .profile-form-input.editable:focus {
+  outline: none !important;
+  box-shadow: 0 4px 18px rgba(23,160,134,0.08), inset 0 2px 6px rgba(0,0,0,0.18) !important;
+  border-color: var(--profile-border-accent, rgba(23,160,134,0.75)) !important;
 }

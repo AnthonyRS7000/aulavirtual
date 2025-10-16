@@ -400,8 +400,20 @@ div.anuncios-curso div.anuncios-lista div.anuncio-card:hover {
 .anuncios-lista > .anuncio-card:hover {
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
   transform: translateY(-8px);
-  background: rgba(52, 73, 94, 1);
   border-color: rgba(52, 152, 219, 0.3);
+}
+
+/* En modo claro: aplicar el oscurecimiento solo al encabezado cuando se hace hover sobre la tarjeta */
+body:not(.dark) .anuncios-lista > .anuncio-card:hover .anuncio-header {
+  background: rgba(52, 73, 94, 0.12); /* sutil oscurecimiento */
+  transition: background 0.25s ease;
+}
+
+/* Asegurar que el contenido no cambie de fondo al hacer hover en modo claro */
+body:not(.dark) .anuncios-lista > .anuncio-card:hover .anuncio-contenido,
+body:not(.dark) .anuncios-lista > .anuncio-card:hover .archivos-adjuntos,
+body:not(.dark) .anuncios-lista > .anuncio-card:hover .anuncio-footer {
+  background: transparent;
 }
 
 /* Contenedor individual de cada anuncio */
@@ -536,6 +548,33 @@ div.anuncios-curso div.anuncios-lista div.anuncio-card:hover {
   background: rgba(44, 62, 80, 0.3);
 }
 
+/* Modo claro: usar colores del tema para la cabecera y evitar el gris azulado fuerte */
+body:not(.dark) .anuncio-header {
+  /* Usar el mismo tono que el hover para que se vea igual con o sin cursor */
+  background: rgba(52, 73, 94, 0.12);
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-primary);
+}
+
+body:not(.dark) .anuncio-header .autor-detalles h3 {
+  color: var(--text-title);
+}
+
+body:not(.dark) .anuncio-header .autor-rol {
+  color: var(--pantone-zomp);
+  border-color: rgba(var(--pantone-zomp-rgb), 0.12);
+}
+
+body:not(.dark) .anuncio-header .curso-badge {
+  background: rgba(var(--pantone-zomp-rgb), 0.06);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+
+body:not(.dark) .anuncio-header .fecha-info {
+  color: var(--text-secondary);
+}
+
 .anuncio-info {
   flex: 1;
 }
@@ -593,6 +632,32 @@ div.anuncios-curso div.anuncios-lista div.anuncio-card:hover {
   letter-spacing: 0.5px;
 }
 
+/* Dark mode: aumentar contraste del nombre del docente para mejor legibilidad */
+body.dark .anuncio-header .autor-detalles h3 {
+  color: rgba(255,255,255,0.95) !important;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.45) !important;
+}
+
+body.dark .anuncio-header .autor-rol {
+  color: rgba(124,198,170,0.95) !important;
+  border-color: rgba(124,198,170,0.14) !important;
+}
+
+/* Refuerzo extra: cubrir variantes y selectores con mayor especificidad */
+:root.dark .anuncio-header .autor-detalles h3,
+html body.dark .anuncios-curso .anuncios-lista .anuncio-card .anuncio-header .autor-detalles h3,
+.dark .anuncio-header .autor-detalles h3,
+.dark .autor-nombre {
+  color: rgba(255,255,255,0.96) !important;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.5) !important;
+}
+
+:root.dark .anuncio-header .autor-nombre,
+html body.dark .anuncios-curso .anuncios-lista .anuncio-card .anuncio-header .autor-nombre,
+.dark .autor-detalles h3 {
+  color: rgba(255,255,255,0.96) !important;
+}
+
 .fecha-info {
   display: flex;
   align-items: center;
@@ -619,35 +684,37 @@ div.anuncios-curso div.anuncios-lista div.anuncio-card:hover {
   gap: 12px;
 }
 
-.prioridad-badge {
-  font-size: 0.75rem;
-  padding: 6px 12px;
-  border-radius: 15px;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-  border: 1.5px solid transparent;
+/* Priorities removed: styling for prioridad-badge and prioridad-* has been deleted intentionally */
+/* Fecha corta para mostrar en el header de la tarjeta (derecha) */
+.anuncio-fecha {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  background: rgba(255,255,255,0.03);
+  padding: 8px 12px;
+  border-radius: 10px;
+  align-self: flex-start;
+  border: 1px solid rgba(255,255,255,0.04);
 }
 
-
-.prioridad-alta {
-  background: rgba(var(--udh-error-rgb), 0.2);
-  border: 1.5px solid var(--udh-error);
-  color: var(--udh-error);
-}
-
-.prioridad-media {
-  background: rgba(var(--pantone-saffron-rgb), 0.2);
-  border: 1.5px solid var(--pantone-saffron);
-  color: var(--pantone-saffron);
-}
-
-.prioridad-baja {
-  background: rgba(var(--pantone-zomp-rgb), 0.2);
-  border: 1.5px solid var(--pantone-zomp);
+.anuncio-fecha .fecha-icon {
+  font-size: 16px;
   color: var(--pantone-zomp);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.anuncio-fecha .fecha-label {
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.anuncio-fecha .fecha-value {
+  color: var(--text-secondary);
+  font-weight: 600;
 }
 
 .btn-leido {
@@ -674,6 +741,38 @@ div.anuncios-curso div.anuncios-lista div.anuncio-card:hover {
   background: transparent;
   cursor: pointer;
   position: relative;
+}
+
+/* Dark mode: hacer el bloque de contenido ligeramente más oscuro para mejor contraste */
+body.dark .anuncio-contenido {
+  background: rgba(5,12,20,0.28) !important; /* más oscuro para mayor contraste */
+}
+
+body.dark .archivos-adjuntos {
+  background: rgba(5,12,20,0.22) !important;
+}
+
+body.dark .anuncio-footer {
+  background: rgba(5,12,20,0.18) !important;
+}
+
+/* FORZAR: En modo oscuro el contenido debe mantener el MISMO color en hover (no cambiar) */
+body.dark .anuncios-curso .anuncios-lista div.anuncio-card:hover .anuncio-contenido,
+body.dark .anuncio-card:hover .anuncio-contenido,
+html body.dark .anuncio-card:hover .anuncio-contenido {
+  background: rgba(5,12,20,0.28) !important; /* MISMO color que sin hover */
+}
+
+body.dark .anuncios-curso .anuncios-lista div.anuncio-card:hover .archivos-adjuntos,
+body.dark .anuncio-card:hover .archivos-adjuntos,
+html body.dark .anuncio-card:hover .archivos-adjuntos {
+  background: rgba(5,12,20,0.22) !important; /* MISMO color que sin hover */
+}
+
+body.dark .anuncios-curso .anuncios-lista div.anuncio-card:hover .anuncio-footer,
+body.dark .anuncio-card:hover .anuncio-footer,
+html body.dark .anuncio-card:hover .anuncio-footer {
+  background: rgba(5,12,20,0.18) !important; /* MISMO color que sin hover */
 }
 
 .anuncio-titulo {
@@ -713,6 +812,80 @@ div.anuncios-curso div.anuncios-lista div.anuncio-card:hover {
   transition: background 0.3s ease;
   z-index: 1;
 }
+
+/* ==========================
+   FORZAR ESTADO ESTÁTICO EN MODO OSCURO
+   Evitar cualquier cambio visual al pasar el cursor sobre tarjetas en dark mode.
+   Estas reglas tienen alta especificidad y !important para sobrescribir reglas anteriores.
+   ========================== */
+
+html body.dark .anuncios-curso .anuncios-lista .anuncio-card,
+html body.dark .anuncios-curso .anuncios-lista .anuncio-item,
+html body.dark .anuncios-curso div.anuncio-card,
+html body.dark .anuncios-curso div.anuncio-item {
+  transform: none !important;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.45) !important; /* mantener sombra base */
+  transition: none !important;
+  background: var(--bg-secondary) !important; /* forzar mismo fondo */
+  border-color: rgba(255,255,255,0.06) !important;
+}
+
+/* Anular :hover en las tarjetas para que no cambien al pasar el cursor */
+html body.dark .anuncios-curso .anuncios-lista .anuncio-card:hover,
+html body.dark .anuncios-curso .anuncios-lista .anuncio-item:hover,
+html body.dark div.anuncio-card:hover,
+html body.dark div.anuncio-item:hover {
+  transform: none !important;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.45) !important;
+  background: var(--bg-secondary) !important;
+  border-color: rgba(255,255,255,0.06) !important;
+  z-index: auto !important;
+}
+
+/* Forzar que el header y el contenido no cambien en hover */
+html body.dark .anuncios-curso .anuncios-lista .anuncio-card .anuncio-header,
+html body.dark .anuncios-curso .anuncios-lista .anuncio-card .anuncio-header:hover {
+  background: transparent !important;
+}
+
+/* Forzar fondo específico en dark mode para mantener contraste - MISMO color con y sin hover */
+html body.dark .anuncios-curso .anuncios-lista .anuncio-card .anuncio-contenido,
+html body.dark .anuncios-curso .anuncios-lista .anuncio-card:hover .anuncio-contenido,
+html body.dark .anuncio-card .anuncio-contenido,
+html body.dark .anuncio-card:hover .anuncio-contenido {
+  background: rgba(5,12,20,0.28) !important;
+}
+
+html body.dark .anuncios-curso .anuncios-lista .anuncio-card .archivos-adjuntos,
+html body.dark .anuncios-curso .anuncios-lista .anuncio-card:hover .archivos-adjuntos,
+html body.dark .anuncio-card .archivos-adjuntos,
+html body.dark .anuncio-card:hover .archivos-adjuntos {
+  background: rgba(5,12,20,0.22) !important;
+}
+
+html body.dark .anuncios-curso .anuncios-lista .anuncio-card .anuncio-footer,
+html body.dark .anuncios-curso .anuncios-lista .anuncio-card:hover .anuncio-footer,
+html body.dark .anuncio-card .anuncio-footer,
+html body.dark .anuncio-card:hover .anuncio-footer {
+  background: rgba(5,12,20,0.18) !important;
+}
+
+/* Anular efectos hover de botones dentro de la card (p.ej. .btn-leido) en modo oscuro */
+html body.dark .anuncios-curso .anuncios-lista .anuncio-card .btn-leido:hover,
+html body.dark .anuncios-curso .anuncios-lista .anuncio-item .btn-leido:hover {
+  background: rgba(52,152,219,0.2) !important;
+  color: #3498db !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Asegurar que el nombre del autor y roles conservan contraste y no cambian al hover */
+html body.dark .anuncios-curso .anuncios-lista .anuncio-card .autor-detalles h3,
+html body.dark .anuncios-curso .anuncios-lista .anuncio-card .autor-rol {
+  color: rgba(255,255,255,0.96) !important;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.5) !important;
+}
+
 
 .indicador-no-leido {
   position: absolute !important;
@@ -1070,4 +1243,88 @@ div.anuncios-curso div.anuncios-lista div.anuncio-card:hover {
     0 10px 40px rgba(52, 152, 219, 0.3) !important;
   background: var(--bg-tertiary) !important;
   border-color: var(--pantone-zomp) !important;
+}
+
+/* ==================================================================================
+   DARK MODE: FORZAR QUE CONTENIDO NO CAMBIE AL HOVER (SOLUCIÓN DEFINITIVA)
+   El contenido (.anuncio-contenido) DEBE mantener el mismo tono oscuro con/sin hover
+   ================================================================================== */
+
+/* Tarjeta base en dark mode (sin hover) */
+body.dark .anuncios-curso .anuncios-lista div.anuncio-card,
+body.dark .anuncios-lista > .anuncio-card,
+body.dark .anuncio-card {
+  background: var(--bg-secondary) !important;
+  border-color: rgba(255,255,255,0.04) !important;
+}
+
+/* Tarjeta en hover: mantener mismo fondo y borde (sin cambios visuales) */
+body.dark .anuncios-curso .anuncios-lista div.anuncio-card:hover,
+body.dark .anuncios-lista > .anuncio-card:hover,
+body.dark .anuncio-card:hover {
+  background: var(--bg-secondary) !important;
+  border-color: rgba(255,255,255,0.04) !important;
+  transform: none !important;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Header en dark mode: mantener mismo tono con/sin hover */
+body.dark .anuncios-curso .anuncios-lista div.anuncio-card .anuncio-header,
+body.dark .anuncios-curso .anuncios-lista div.anuncio-card:hover .anuncio-header,
+body.dark .anuncio-card .anuncio-header,
+body.dark .anuncio-card:hover .anuncio-header,
+html body.dark .anuncios-curso .anuncios-lista div.anuncio-card:hover .anuncio-header,
+:root.dark .anuncios-curso .anuncios-lista div.anuncio-card:hover .anuncio-header {
+  background: linear-gradient(180deg, rgba(8,20,34,0.85) 0%, rgba(10,30,50,0.8) 100%) !important;
+  border-bottom: 1px solid rgba(255,255,255,0.04) !important;
+  color: var(--text-primary) !important;
+}
+
+/* CONTENIDO: FORZAR tono oscuro SIEMPRE (con y sin hover) en dark mode */
+body.dark .anuncios-curso .anuncios-lista div.anuncio-card .anuncio-contenido,
+body.dark .anuncios-curso .anuncios-lista div.anuncio-card:hover .anuncio-contenido,
+body.dark .anuncio-card .anuncio-contenido,
+body.dark .anuncio-card:hover .anuncio-contenido,
+html body.dark .anuncios-curso .anuncios-lista div.anuncio-card:hover .anuncio-contenido,
+:root.dark .anuncios-curso .anuncios-lista div.anuncio-card:hover .anuncio-contenido {
+  background: rgba(5,12,20,0.28) !important; /* MISMO tono oscuro siempre */
+}
+
+body.dark .anuncios-curso .anuncios-lista div.anuncio-card .archivos-adjuntos,
+body.dark .anuncios-curso .anuncios-lista div.anuncio-card:hover .archivos-adjuntos,
+body.dark .anuncio-card .archivos-adjuntos,
+body.dark .anuncio-card:hover .archivos-adjuntos,
+html body.dark .anuncios-curso .anuncios-lista div.anuncio-card:hover .archivos-adjuntos,
+:root.dark .anuncios-curso .anuncios-lista div.anuncio-card:hover .archivos-adjuntos {
+  background: rgba(5,12,20,0.22) !important; /* MISMO tono oscuro siempre */
+}
+
+body.dark .anuncios-curso .anuncios-lista div.anuncio-card .anuncio-footer,
+body.dark .anuncios-curso .anuncios-lista div.anuncio-card:hover .anuncio-footer,
+body.dark .anuncio-card .anuncio-footer,
+body.dark .anuncio-card:hover .anuncio-footer,
+html body.dark .anuncios-curso .anuncios-lista div.anuncio-card:hover .anuncio-footer,
+:root.dark .anuncios-curso .anuncios-lista div.anuncio-card:hover .anuncio-footer {
+  background: rgba(5,12,20,0.18) !important; /* MISMO tono oscuro siempre */
+}
+
+/* Si existen selectores legacy muy específicos, reforzamos cobertura en dark */
+body.dark div.anuncios-curso div.anuncios-lista div.anuncio-card:hover {
+  background: var(--bg-secondary) !important;
+  border-color: rgba(255,255,255,0.04) !important;
+}
+
+/* Light-mode: evitar que el borde cambie a celeste al hacer hover. Mantener el borde claro/por defecto. */
+body:not(.dark) .anuncios-lista > .anuncio-card:hover,
+body:not(.dark) .anuncios-curso .anuncios-lista div.anuncio-card:hover,
+body:not(.dark) div.anuncios-curso div.anuncios-lista div.anuncio-card:hover,
+body:not(.dark) .anuncios-curso .anuncios-lista > div:hover,
+body:not(.dark) .anuncio-item:hover,
+body:not(.dark) .anuncio-card:hover {
+  border-color: var(--border-color) !important;
+}
+
+/* También forzar que elementos legacy que fijan border-color azul no lo hagan en modo claro */
+body:not(.dark) div.anuncios-curso div.anuncios-lista div.anuncio-card:hover {
+  border-color: var(--border-color) !important;
 }

@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useLocation, Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext'; // ajustar ruta si hace falta
 import FlechaIcon from '../assets/flecha.svg';
-import { Link, useLocation } from 'react-router-dom';
 import './Sidebar.css';
-import { useAuth } from "../context/AuthContext";
 
 import {
   IconUniversidad,
@@ -12,6 +12,7 @@ import {
   IconInforme,
   IconEjecucion,
   IconTitulacion,
+  IconMensajeria,
 } from './icons/LmsIcons';
 
 interface SidebarProps {
@@ -68,14 +69,19 @@ const getEstudianteSections = () => {
       icon: IconTitulacion,
       path: '/estudiante/notas'
     },
+    {
+      name: 'mensajeria',
+      label: 'Mensajería',
+      icon: IconMensajeria,
+      path: '/estudiante/mensajeria'
+    },
   ];
 };
 
 export default function Sidebar({ isOpen, onClose, onToggle }: SidebarProps) {
   const location = useLocation();
   const [isDesktop, setIsDesktop] = useState(false);
-  const [currentTheme, setCurrentTheme] = useState<'light' | 'dark'>('light');
-  const [isSessionLoaded, setIsSessionLoaded] = useState(false);
+  const [unreadAnuncios, setUnreadAnuncios] = useState<number>(0);
 
   const { user, isAuthenticated } = useAuth();
 
@@ -94,15 +100,17 @@ export default function Sidebar({ isOpen, onClose, onToggle }: SidebarProps) {
 
   const userImageUrl = (() => {
     if (!user) return null;
-    // Prioriza varios campos y fallback a localStorage 'foto'
     const candidates = [
       user.image,
       user.foto,
       user.google_avatar,
       user.picture,
-      localStorage.getItem('foto') ?? null
+      (() => {
+        const f = localStorage.getItem('foto');
+        return f && f !== 'null' && f !== 'undefined' ? f : null;
+      })(),
     ];
-    const valid = candidates.find(u => !!u && u !== 'null' && typeof u === 'string');
+    const valid = candidates.find(u => !!u && u !== 'null' && u !== 'undefined');
     return valid ?? null;
   })();
 
@@ -111,47 +119,14 @@ export default function Sidebar({ isOpen, onClose, onToggle }: SidebarProps) {
     console.debug('[Sidebar] localStorage foto:', localStorage.getItem('foto'));
     console.debug('[Sidebar] normalized image url:', userImageUrl);
   }, [user, userImageUrl]);
-  
+
   const userData = {
-    full_name: userFullName ?? getEstudianteDataFallback().full_name,
-    role: user?.role ?? user?.rol ?? getEstudianteDataFallback().role,
-    image: userImageUrl ?? getEstudianteDataFallback().image,
+    full_name: userFullName ?? 'Usuario',
+    role: user?.role ?? user?.rol ?? 'Estudiante',
+    image: userImageUrl ?? `https://ui-avatars.com/api/?name=${encodeURIComponent(userFullName ?? 'Estudiante')}&background=39B49E&color=fff`,
   };
+
   const sections = getEstudianteSections();
-  const [unreadAnuncios, setUnreadAnuncios] = useState<number>(0);
-
-
-  useEffect(() => {
-    if (user) {
-      console.log(" Datos de sesión cargados en Sidebar:", user);
-      setIsSessionLoaded(true);
-    }
-  }, [user]);
-
-  // Detectar cambios de tema
-  useEffect(() => {
-    const detectTheme = () => {
-      const isDark = document.documentElement.classList.contains('dark');
-      setCurrentTheme(isDark ? 'dark' : 'light');
-    };
-
-    detectTheme();
-
-    const observer = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-          detectTheme();
-        }
-      });
-    });
-
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ['class']
-    });
-
-    return () => observer.disconnect();
-  }, []);
 
   // Leer contador de anuncios no leídos desde localStorage y reaccionar a cambios
   useEffect(() => {
@@ -168,6 +143,13 @@ export default function Sidebar({ isOpen, onClose, onToggle }: SidebarProps) {
     return () => window.removeEventListener('storage', onStorage);
   }, []);
 
+  // Registrar cuando los datos de sesión del usuario se cargan correctamente (de José)
+  useEffect(() => {
+    if (user) {
+      console.log("Datos de sesión cargados en Sidebar:", user);
+    }
+  }, [user]);
+
   // Detectar cambios de tamaño de pantalla
   useEffect(() => {
     const checkSize = () => setIsDesktop(window.innerWidth >= 1024);
@@ -178,7 +160,7 @@ export default function Sidebar({ isOpen, onClose, onToggle }: SidebarProps) {
 
   const isActive = (path: string) => location.pathname === path;
 
-  const sidebarClass = `${isDesktop ? 'admin-sidebar-desktop' : 'admin-sidebar'} ${currentTheme === 'dark' ? 'theme-dark' : 'theme-light'} estudiante-mode`;
+  const sidebarClass = `${isDesktop ? 'admin-sidebar-desktop' : 'admin-sidebar'} estudiante-mode`;
 
   return (
     <>
@@ -213,25 +195,27 @@ export default function Sidebar({ isOpen, onClose, onToggle }: SidebarProps) {
           {/* Avatar del usuario */}
           <div className="user-avatar-copiloto">
             <img
-              src={
-                (userData.image && userData.image !== 'null') 
-                  ? userData.image
-                  : `https://ui-avatars.com/api/?name=${encodeURIComponent(userData.full_name || 'Estudiante')}&background=39B49E&color=fff`
-              }
+              src={userData.image}
               alt={userData.full_name}
               className="user-avatar-image"
+              onError={(e) => {
+                const img = e.currentTarget as HTMLImageElement;
+                const fallback = `https://ui-avatars.com/api/?name=${encodeURIComponent(userData.full_name || 'Estudiante')}&background=39B49E&color=fff`;
+                if (img.src !== fallback) img.src = fallback;
+              }}
+              style={{ width: 48, height: 48, objectFit: 'cover' }}
             />
           </div>
 
           {/* Información del usuario */}
           <div className="user-info-text">
             <div className="user-name-copiloto">
-              {userData.full_name || 'Estudiante'}
+              {userData.full_name}
             </div>
             <div className="user-role-copiloto">
-              {userData.role || 'Estudiante'}
+              {userData.role}
             </div>
-            {/* Indicador de estado de sesión (opcional) */}
+            {/* Indicador de estado de sesión */}
             <div 
               className="session-status"
               style={{

@@ -1,40 +1,77 @@
 import { useState } from 'react';
 import TituloPage from '../../../components/pages/TituloPage';
 import CursoCard from './CursoCard';
-import EventoBanner from './EventoBanner';
-import CalendarioAgenda from './CalendarioAgenda';
 import '../css/CursoCard.css';
-import '../css/EventoBanner.css';
-import '../css/CalendarioAgenda.css';
 import '../css/inicioEstudiante.css';
+import {
+  IconClassroom,
+  IconDrive,
+  IconMeet,
+  IconCalendar,
+  IconGmail,
+  IconDocs,
+  IconMensajeria,
+  IconBiblioteca,
+} from '../../../components/icons/LmsIcons';
 
 export default function InicioEstudiante() {
-  // Estado de pestaña eliminado porque el título es fijo
-
 
   return (
     <div className="inicio-estudiante">
       {/* Título estilizado */}
       <TituloPage titulo="📚 Inicio" />
+
+      <p className="page-subtitle">Bienvenido(a) al Aula Virtual UDH.</p>
+      <p className="page-subtitle">Tu espacio digital para aprender, colaborar y crecer académicamente.</p>
      
 
-      {/* Contenido según pestaña activa */}
-        <div className="dashboard-grid">
+      {/* Contenido: Grid principal y columna secundaria */}
+      
+        <div className="cursos-section">
+          {/* Welcome card removed per user request */}
 
-          {/* Columna derecha - Banner y Calendario */}
-          <div className="sidebar-section">
-            {/* <EventoBanner
-              titulo="V CONGRESO INTERNACIONAL DE INVESTIGACIÓN EN COMUNICACIÓN Y SOCIEDAD POSTDIGITAL:"
-              subtitulo="CRÍTICAS A LA POSTVERDAD Y LOS DESÓRDENES INFORMATIVOS"
-              fecha="23 Y 24 de octubre"
-              ubicacion="CAMPUS USIL GRAN ALMIRANTE MIGUEL GRAU"
-              imagen="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=300&fit=crop"
-              enlaceInscripcion="https://inscripcion.udh.edu.pe"
-            />
+          {/* Grid de servicios: 4 por fila */}
+          <div className="servicios-container">
+            <div className="servicios-grid servicios-4">
+              <a className="servicio-card" href="https://classroom.google.com" target="_blank" rel="noreferrer" aria-label="Google Classroom">
+                <IconClassroom className="servicio-svg" />
+                <span>Google Classroom</span>
+              </a>
+              <a className="servicio-card" href="https://drive.google.com" target="_blank" rel="noreferrer">
+                <IconDrive className="servicio-svg" />
+                <span>Google Drive</span>
+              </a>
+              <a className="servicio-card" href="https://meet.google.com" target="_blank" rel="noreferrer">
+                <IconMeet className="servicio-svg" />
+                <span>Google Meet</span>
+              </a>
+              <a className="servicio-card" href="https://calendar.google.com" target="_blank" rel="noreferrer">
+                <IconCalendar className="servicio-svg" />
+                <span>Google Calendar</span>
+              </a>
 
-            {/* <CalendarioAgenda /> */}
+              <a className="servicio-card" href="https://mail.google.com" target="_blank" rel="noreferrer" aria-label="Gmail">
+                <IconGmail className="servicio-svg" />
+                <span>Gmail</span>
+              </a>
+              <a className="servicio-card" href="https://docs.google.com" target="_blank" rel="noreferrer" aria-label="Google Docs">
+                <IconDocs className="servicio-svg" />
+                <span>Google Docs</span>
+              </a>
+              <a className="servicio-card" href="/estudiante/mensajeria" aria-label="Mensajería interna">
+                <IconMensajeria className="servicio-svg" />
+                <span>Mensajería</span>
+              </a>
+              <a className="servicio-card" href="/biblioteca" target="_blank" rel="noreferrer" aria-label="Biblioteca">
+                <IconBiblioteca className="servicio-svg" />
+                <span>Biblioteca</span>
+              </a>
+            </div>
+          </div>
+
+          {/* Aquí podrías dejar espacio para otros widgets: cursos, tareas recientes, etc. */}
         </div>
       </div>
-    </div>
+
   );
 }
