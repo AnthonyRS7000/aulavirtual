@@ -1,0 +1,144 @@
+.notas-container {
+  width: auto;
+  margin: 32px auto;
+  padding: 0px 20px;
+  font-family: "Inter", sans-serif;
+  color: #3d3c3b;
+}
+
+/* Filtros alineados en línea */
+.notas-datos-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2px;
+  flex-wrap: wrap;
+}
+
+.notas-filter-group {
+  display: flex;
+  align-items: center;
+}
+/* Estilo para los labels */
+.notas-datos-row label {
+  font-weight: 600;
+  margin-right: 6px;
+  margin-left: 10px;
+  color: #3d3c3b;
+}
+
+/* Estilo para los inputs y selects */
+.notas-datos-row input,
+.notas-datos-row select {
+  padding: 5px 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 5px;
+  font-size: 15px;
+  background-color: #fff;
+  color: #3d3c3b;
+  margin-right: 10px;
+}
+
+.notas-datos-row input:focus,
+.notas-datos-row select:focus {
+  border-color: #5a9e8d;
+  outline: none;
+  box-shadow: 0 0 0 1px rgba(90, 158, 141, 0.5);
+}
+
+/* Input y botón */
+.notas-input-semestre {
+  width: 50px;
+  height: 20px;
+}
+
+
+.promedio-container {
+  display: flex; /* Usar flexbox para alinear los elementos */
+  flex-direction: row; /* Asegurar que los elementos estén en fila */
+  align-items: center; /* Centrar verticalmente los elementos */
+  gap: 5px; /* Espaciado entre los elementos */
+}
+
+/* Alerta */
+.notas-alerta {
+  background: #fcf3cf;
+  border: 1px solid #f5d96b;
+  color: #3d3c3b;
+  padding: 1rem;
+  border-radius: 10px;
+  margin-top: 1.5rem;
+}
+.notas-alerta h3 {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+/* Inputs y labels */
+.notas-label-semestre {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #3d3c3b;
+}
+
+.notas-input-nombre {
+  min-width: 49vw;
+  border: none;
+  background: #fff;
+  color: #807f7d;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 2px 6px;
+}
+
+.notas-modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.25);
+  z-index: 1000;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.notas-modal {
+  background: #fcf3cf;
+  border-radius: 20px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+  margin-top: 60px;
+  padding: 2rem 2.5rem 1.5rem 2.5rem;
+  max-width: 480px;
+  width: 100%;
+  position: relative;
+  text-align: center;
+}
+
+.notas-modal-close {
+  position: absolute;
+  top: 10px; right: 16px;
+  background: none;
+  border: none;
+  color: #3d3c3b;
+  cursor: pointer;
+}
+
+.notas-modal-saber-mas {
+  font-size: 0.95rem;
+  color: #fff;
+  background: #f5d96b;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.notas-modal-saber-mas:hover {
+  background: #e6c24a;
+}
+
+.notas-modal-close:hover {
+  background: none;
+  color: #000;
+}
+/* advertencia/info-extra blocks removed */

@@ -16,5 +16,17 @@ export default defineConfig({
       '@hooks': resolve(__dirname, 'src/hooks'),
       '@lib': resolve(__dirname, 'src/lib')
     }
+  },
+  server: {
+    port: 5174, // Puerto fijo
+    strictPort: true, // Falla si el puerto está ocupado (en lugar de buscar otro)
+    proxy: {
+      '/api': {
+        target: 'https://lmsback.sistemasudh.com',
+        changeOrigin: true,
+        secure: true,
+        rewrite: (path) => path.replace(/^\/api/, '/api')
+      }
+    }
   }
 });

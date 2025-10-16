@@ -15,20 +15,20 @@ const Perfil = () => {
 
   useEffect(() => {
     // Obtener datos del localStorage
-    const usuario = JSON.parse(localStorage.getItem("usuario") || "{}");
-    const datosUdh = JSON.parse(localStorage.getItem("datos_udh") || "{}");
+    const usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
+    const datosUdh = JSON.parse(localStorage.getItem('datos_udh') || '{}');
 
-  setUserData(usuario);
-  setUdhData(datosUdh);
-  // inicializar foto si existe en usuario o datos_udh
-  const foto = usuario?.foto || datosUdh?.foto || null;
-  if (foto) setPhoto(foto);
-  // inicializar número telefónico si existe
-  if (datosUdh && datosUdh.celular) setPhoneNumber(datosUdh.celular);
+    setUserData(usuario);
+    setUdhData(datosUdh);
+    // inicializar foto si existe en usuario o datos_udh
+    const foto = usuario?.foto || datosUdh?.foto || null;
+    if (foto) setPhoto(foto);
+    // inicializar número telefónico si existe (teléfono o celular según origen)
+    if (datosUdh && (datosUdh.telefono || datosUdh.celular)) setPhoneNumber(datosUdh.telefono || datosUdh.celular);
   }, []);
 
   const navigate = useNavigate();
-  
+
   if (!userData || !udhData) return <div>Cargando...</div>;
 
   // Maneja selección de archivo, valida tipo/tamaño y genera preview con URL
@@ -62,14 +62,21 @@ const Perfil = () => {
   const handlePhoneSubmit = () => {
     // Validación simple: mínimo 6 dígitos
     const cleaned = (phoneNumber || '').trim();
-    if (!cleaned) {
+    if (!cleaned || cleaned.length < 6) {
       setSaveMessage('Ingrese un número válido');
       setTimeout(() => setSaveMessage(null), 3000);
       return;
     }
 
+    // Evitar guardar si es el mismo
+    if (udhData && (udhData.telefono === cleaned || udhData.celular === cleaned)) {
+      setSaveMessage('El número ingresado es el mismo que el actual');
+      setTimeout(() => setSaveMessage(null), 3000);
+      return;
+    }
+
     // Actualizar localStorage (datos_udh) y estado
-    const datos = { ...(udhData || {}), celular: cleaned };
+    const datos = { ...(udhData || {}), telefono: cleaned, celular: cleaned };
     try {
       localStorage.setItem('datos_udh', JSON.stringify(datos));
       setUdhData(datos);
@@ -83,6 +90,11 @@ const Perfil = () => {
     }
   };
 
+  // Derivar apellido paterno/materno de userData.apellidos de forma robusta
+  const apellidosArray = (userData?.apellidos || '').split(' ').filter(Boolean);
+  const apellido_paterno = apellidosArray.length > 0 ? apellidosArray[0] : '';
+  const apellido_materno = apellidosArray.length > 1 ? apellidosArray.slice(1).join(' ') : '';
+
   return (
     <div className="profile-container">
       <div className="profile-root">
@@ -93,7 +105,7 @@ const Perfil = () => {
       <div className="profile-content">
         <div className="profile-form-container">
           <div className="profile-card">
-          
+
           {/* Fila 1: Nombres y Apellido Paterno */}
           <div className="profile-form-row">
             <div className="profile-form-group">
@@ -101,7 +113,7 @@ const Perfil = () => {
               <input 
                 type="text" 
                 className="profile-form-input" 
-                value={udhData.nombres || ""}
+                value={userData.nombres || ""}
                 readOnly
               />
             </div>
@@ -110,7 +122,7 @@ const Perfil = () => {
               <input 
                 type="text" 
                 className="profile-form-input" 
-                value={udhData.apellido_paterno || ""}
+                value={apellido_paterno || ""}
                 readOnly
               />
             </div>
@@ -123,7 +135,7 @@ const Perfil = () => {
               <input 
                 type="text" 
                 className="profile-form-input" 
-                value={udhData.apellido_materno || ""}
+                value={apellido_materno || ""}
                 readOnly
               />
             </div>
@@ -132,7 +144,7 @@ const Perfil = () => {
               <input 
                 type="text" 
                 className="profile-form-input" 
-                value={udhData.dni || ""}
+                value={udhData.documento || udhData.dni || ""}
                 readOnly
               />
             </div>
@@ -154,7 +166,7 @@ const Perfil = () => {
               <input 
                 type="text" 
                 className="profile-form-input" 
-                value={udhData.programa || ""}
+                value={udhData.escuela || udhData.programa || ""}
                 readOnly
               />
             </div>
@@ -176,7 +188,7 @@ const Perfil = () => {
               <input 
                 type="email" 
                 className="profile-form-input" 
-                value={udhData.codigo ? `${udhData.codigo}@udh.edu.pe` : ""}
+                value={userData.email || (udhData.codigo ? `${udhData.codigo}@udh.edu.pe` : "")}
                 readOnly
               />
             </div>
@@ -189,7 +201,7 @@ const Perfil = () => {
               <input 
                 type="text" 
                 className="profile-form-input" 
-                value="HUÁNUCO"
+                value={udhData.sedalu === 1 ? "HUÁNUCO" : udhData.sedalu === 2 ? "TINGO MARÍA" : ""}
                 readOnly
               />
             </div>
@@ -209,7 +221,7 @@ const Perfil = () => {
                 Puedes modificar este campo
               </div>
               <div className="profile-save-row">
-                <button className="profile-save-btn" onClick={handlePhoneSubmit} disabled={phoneNumber === (udhData && udhData.celular)}>Actualizar</button>
+                <button className="profile-save-btn" onClick={handlePhoneSubmit} disabled={phoneNumber === (udhData && (udhData.telefono || udhData.celular))}>Actualizar</button>
                 <div className="profile-save-note">{saveMessage}</div>
               </div>
             </div>
