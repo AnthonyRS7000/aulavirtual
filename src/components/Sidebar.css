@@ -12,9 +12,11 @@
   color: #0f172a !important; /* texto oscuro */
   box-shadow: 1px 0px 8px rgba(15,23,42,0.06) !important;
   z-index: 60 !important; /* encima del contenido */
-  overflow: hidden;
+  /* permitir que el avatar sobresalga y no quede recortado por overflow */
+  overflow: visible !important;
   transition: transform 0.22s ease, opacity 0.22s ease;
-  padding: 1rem !important;
+  /* reducir padding-top para permitir que el avatar suba más */
+  padding: 0.4rem 1rem !important;
   transform: translateX(0); /* por defecto visible */
 }
 
@@ -47,34 +49,61 @@
    - uppercase name, centered
    - role with yellow underline
 */
+/* Información del usuario - DISEÑO COPILOTO */
 .user-info-copiloto {
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  justify-content: center !important;
-  margin-top: 1.5rem !important;
-  margin-bottom: 0.25rem !important;
-  padding: 0 1rem !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* subir el bloque para aprovechar el espacio superior disponible */
+  margin-top: 0.2rem;
+  margin-bottom: 0.25rem;
+  padding: 0 1rem;
+  /* permitir nudging sin cambiar el flujo cuando sea necesario */
+  transform: translateY(-6px);
 }
 
 .user-avatar-copiloto {
-  width: 96px !important;
-  height: 96px !important;
-  margin-bottom: 1rem !important;
-  overflow: hidden !important;
-  border-radius: 50% !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
-  transition: transform 0.3s ease-in-out !important;
+  /* Regla más específica y forzada para un avatar perfectamente circular y grande */
+  width: 100px !important;
+  height: 100px !important;
+  aspect-ratio: 1 / 1 !important;
+  margin: 0.25rem auto 0.8rem auto !important;
+  overflow: visible !important;
+  border-radius: 9999px !important; /* círculo perfecto */
+  box-shadow: 0 22px 60px rgba(2,6,23,0.16) !important;
+  transition: transform 0.12s ease-in-out, box-shadow 0.12s ease-in-out !important;
+  display: block !important;
+  position: relative !important;
 }
 
 .user-avatar-copiloto:hover {
-  transform: scale(1.05) !important;
+  transform: translateY(-6px) scale(1.01) !important;
+  box-shadow: 0 24px 72px rgba(2,6,23,0.18) !important;
 }
 
-.user-avatar-image {
+.user-avatar-copiloto img.user-avatar-image {
+  /* Forzar que la imagen no sea restringida por otras reglas (por ejemplo max-width) */
   width: 100% !important;
   height: 100% !important;
+  max-width: none !important;
+  display: block !important;
   object-fit: cover !important;
+  object-position: center center !important;
+  border-radius: 9999px !important;
+}
+
+/* Cuando el sidebar está cerrado/colapsado, reducir avatar para que no rompa el layout */
+.admin-sidebar.closed .user-avatar-copiloto,
+.admin-sidebar-desktop.closed .user-avatar-copiloto {
+  width: 56px;
+  height: 56px;
+}
+
+.admin-sidebar.closed .user-avatar-image,
+.admin-sidebar-desktop.closed .user-avatar-image {
+  width: 52px;
+  height: 52px;
 }
 
 .user-info-text {
@@ -97,6 +126,29 @@
 }
 
 .dark .user-name-copiloto {
+  color: #f9fafb !important;
+}
+
+/* Nuevo: separar primer nombre y apellidos en dos filas
+   - .user-name-first: primer nombre (una sola palabra)
+   - .user-name-surnames: apellidos (últimos 1-2 tokens)
+*/
+.user-name-first {
+  font-size: 1.125rem !important;
+  font-weight: 600 !important;
+  color: inherit !important;
+  line-height: 1.1 !important;
+}
+
+.user-name-surnames {
+  font-size: 0.95rem !important;
+  font-weight: 500 !important;
+  color: #3d3c3b !important;
+  margin-top: 2px !important;
+  text-transform: none !important; /* mantener apellidos normales */
+}
+
+.dark .user-name-surnames {
   color: #f9fafb !important;
 }
 
@@ -278,8 +330,20 @@
     opacity: 0;
     pointer-events: none;
     width: 260px; /* ancho modal */
+    padding-top: 1.2rem !important; /* dejar espacio para avatar grande en mobile */
   }
 
+
+/* Desktop-specific: reduce header spacing so avatar visually sits closer to top, and push nav down */
+@media (min-width: 1024px) {
+  .admin-sidebar, .admin-sidebar-desktop {
+    padding-top: 1.6rem !important;
+  }
+  /* if there's a wrapper for the user block, ensure center and spacing */
+  .user-info-copiloto {
+    transform: translateY(-8px);
+  }
+}
   .admin-sidebar:not(.collapsed), .admin-sidebar-desktop:not(.collapsed) {
     transform: translateX(0);
     opacity: 1;
