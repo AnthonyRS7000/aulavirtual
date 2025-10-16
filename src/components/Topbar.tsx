@@ -4,6 +4,7 @@ import ThemeToggle from './ThemeToggle';
 import NotificacionesDropdown from './NotificacionesDropdown';
 import PerfilDropdown from './PerfilDropdown';
 import './NotificacionesDropdown.css';
+import { useAuth } from '../context/AuthContext'; // <-- añadido
 
 interface TopbarProps {
   onToggleSidebar: () => void;
@@ -24,10 +25,10 @@ const getUserData = (userCase: 'estudiante' | 'docente') => {
   
   // Para estudiantes
   return {
-    full_name: 'ARMANDO ROJAS LUNA', 
-    email: 'armando.estudiante@udh.edu.pe',
+    full_name: 'Usuario', 
+    email: 'Usuario.estudiante@udh.edu.pe',
     role: 'Estudiante',
-    image: 'https://ui-avatars.com/api/?name=Armando+Rojas&background=39B49E&color=fff',
+    image: 'https://ui-avatars.com/api/?name=Usuario&background=39B49E&color=fff',
   };
 };
 
@@ -36,8 +37,9 @@ export default function Topbar({ onToggleSidebar, isSidebarOpen, userCase = 'est
   const [tieneNotificacionesNoLeidas] = useState(true);
   const [perfilOpen, setPerfilOpen] = useState(false);
 
-  // ✅ OBTENER datos según el case actual
-  const userData = getUserData(userCase);
+  // ✅ OBTENER datos desde contexto de autenticación si existe
+  const { user } = useAuth();
+  const userData = user ?? getUserData(userCase);
 
   const toggleNotificaciones = () => {
     setNotificacionesAbiertas(!notificacionesAbiertas);
@@ -79,7 +81,7 @@ export default function Topbar({ onToggleSidebar, isSidebarOpen, userCase = 'est
 
           <ThemeToggle />
 
-          {/* Usuario - AHORA ES DINÁMICO */}
+          {/* Usuario - ahora usa datos reales de sesión si existen */}
           <div className="topbar-user" onClick={() => setPerfilOpen(!perfilOpen)} style={{ cursor: 'pointer' }}>
             <div className="topbar-user-avatar">
               <img
@@ -89,7 +91,7 @@ export default function Topbar({ onToggleSidebar, isSidebarOpen, userCase = 'est
               />
             </div>
             <span className="topbar-user-name">
-              {userData.full_name.split(' ')[0]} 
+              {(userData.full_name || '').split(' ')[0] || 'Usuario'}
             </span>
           </div>
 

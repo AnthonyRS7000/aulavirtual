@@ -1,31 +1,26 @@
-import { FaVideo, FaEllipsisV } from 'react-icons/fa';
+import { FaVideo, FaEllipsisV, FaBook, FaClipboardList, FaEnvelope, FaCalendarAlt, FaGoogleDrive } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import './ClaseCard.css';
 
-interface Clase {
+interface Curso {
   id: string;
-  codigo: string;
   nombre: string;
-  docente: string;
-  horario?: string;
-  modalidad?: string;
-  aulas?: string[];
-  estudiantes?: number;
-  descripcion?: string;
-  color?: string;
-  linkMeet?: string;
+  profesor: string;
+  enlace_meet?: string;
+  tareas?: any[];
+  anuncios?: any[];
 }
 
 interface ClaseCardProps {
-  curso: Clase;
+  curso: Curso;
 }
 
 export default function ClaseCard({ curso }: ClaseCardProps) {
   const navigate = useNavigate();
 
-  // Generar iniciales para avatar si no hay imagen
+  // Iniciales para avatar
   const iniciales = curso.nombre
-    ? curso.nombre.split(' ').slice(0,2).map(s=>s[0]).join('').toUpperCase()
+    ? curso.nombre.split(' ').slice(0, 2).map(p => p[0]).join('').toUpperCase()
     : 'CL';
 
   const handleKey = (e: React.KeyboardEvent) => {
@@ -40,59 +35,91 @@ export default function ClaseCard({ curso }: ClaseCardProps) {
       role="button"
       tabIndex={0}
       onClick={() => navigate(`/estudiante/clases/${curso.id}`)}
-  onKeyDown={handleKey}
-      aria-label={`${curso.nombre} - ${curso.docente}`}
+      onKeyDown={handleKey}
+      aria-label={`${curso.nombre} - ${curso.profesor}`}
     >
-  <div className="card-banner">
+      {/* Header */}
+      <div className="card-banner">
         <div className="banner-text">
-          <h3 className="banner-title" title={curso.nombre}>{curso.nombre}</h3>
-          <p className="banner-sub">{curso.docente}</p>
+          <h3 className="banner-title">{curso.nombre}</h3>
+          <p className="banner-sub">{curso.profesor}</p>
         </div>
-
-        {/* avatar superpuesto en la esquina derecha (sale del banner) */}
-        <div className="avatar" aria-hidden>{iniciales}</div>
+        <div className="avatar">{iniciales}</div>
       </div>
 
+      {/* Cuerpo */}
       <div className="card-body">
-        <div className="card-middle">
-          {/* espacio para contenido secundario: descripción, horario, etc. */}
+        <div className="info-line">
+          <FaBook /> <span>{curso.tareas?.length || 0} tareas</span>
+        </div>
+        <div className="info-line">
+          <FaClipboardList /> <span>{curso.anuncios?.length || 0} anuncios</span>
         </div>
       </div>
 
-      {/* l linea divisoria y footer con el botn (meet centrado, tres puntos a la derecha) */}
-      <div className="card-divider" aria-hidden />
+      {/* Footer */}
       <div className="card-footer">
-        <div className="footer-left" aria-hidden />
+    
 
-        <div className="footer-right">
-          {/* Mostrar el icono de video y el botón de acciones juntos a la derecha (placeholder cuando no hay enlace) */}
-          { (curso.modalidad === 'virtual' || curso.linkMeet) ? (
-            <a
-              className="meet-btn"
-              href={curso.linkMeet || '#'}
-              onClick={(e)=> { e.stopPropagation(); }}
-              target="_blank"
-              rel="noopener noreferrer"
-              title="Entrar a la clase virtual"
-              aria-label="Entrar a la clase virtual"
-            >
-              <FaVideo />
-            </a>
-          ) : (
-            <button className="meet-btn placeholder" aria-hidden title="Sin enlace" onClick={(e)=> e.stopPropagation()}>
-              <FaVideo />
-            </button>
-          )}
+<div className="footer-right">
+  {/* --- Google Meet --- */}
+    <a
+      className="meet-btn"
+      href={curso.enlace_meet}
+      target="_blank"
+      rel="noopener noreferrer"
+      title="Entrar a la clase virtual"
+      onClick={(e) => e.stopPropagation()}
+    >
+      <FaVideo />
+    </a>
 
-          <button
-            className="dots-btn"
-            aria-label="Más acciones"
-            title="Más acciones"
-            onClick={(e) => { e.stopPropagation(); /* abrir menu placeholder */ }}
-          >
-            <FaEllipsisV />
-          </button>
-        </div>
+  {/* --- Gmail --- */}
+  <a
+    className="gmail-btn"
+    href="https://mail.google.com/"
+    target="_blank"
+    rel="noopener noreferrer"
+    title="Abrir Gmail"
+    onClick={(e) => e.stopPropagation()}
+  >
+    <FaEnvelope />
+  </a>
+
+  {/* --- Google Drive --- */}
+  <a
+    className="drive-btn"
+    href="https://drive.google.com/"
+    target="_blank"
+    rel="noopener noreferrer"
+    title="Abrir Google Drive"
+    onClick={(e) => e.stopPropagation()}
+  >
+    <FaGoogleDrive />
+  </a>
+
+  {/* --- Google Calendar --- */}
+  <a
+    className="calendar-btn"
+    href="https://calendar.google.com/"
+    target="_blank"
+    rel="noopener noreferrer"
+    title="Abrir Google Calendar"
+    onClick={(e) => e.stopPropagation()}
+  >
+    <FaCalendarAlt />
+  </a>
+
+  {/* --- Menú de opciones --- */}
+  <button
+    className="dots-btn"
+    title="Más acciones"
+    onClick={(e) => e.stopPropagation()}
+  >
+    <FaEllipsisV />
+  </button>
+</div>
+
       </div>
     </article>
   );

@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import FlechaIcon from '../assets/flecha.svg';
 import { Link, useLocation } from 'react-router-dom';
 import './Sidebar.css';
+import { useAuth } from "../context/AuthContext";
 
-// Iconos de navegación (heroicons wrappers)
 import {
   IconUniversidad,
   IconAcademico,
@@ -21,16 +21,16 @@ interface SidebarProps {
   onToggle: () => void;
 }
 
-// Datos únicamente del estudiante
-const getEstudianteData = () => {
+// Fallback si no hay sesión
+const getEstudianteDataFallback = () => {
   return {
-    full_name: 'ARMANDO ROJAS LUNA',
+    full_name: 'Usuario',
     role: 'Estudiante',
-    image: 'https://ui-avatars.com/api/?name=Armando+Rojas&background=39B49E&color=fff',
+    image: 'https://ui-avatars.com/api/?name=Usuario&background=39B49E&color=fff',
   };
 };
 
-// Secciones únicamente para estudiantes
+// Secciones para estudiantes
 const getEstudianteSections = () => {
   return [
     {
@@ -75,7 +75,6 @@ const getEstudianteSections = () => {
       icon: IconMensajeria,
       path: '/estudiante/mensajeria'
     },
-   
   ];
 };
 
@@ -83,10 +82,17 @@ export default function Sidebar({ isOpen, onClose, onToggle }: SidebarProps) {
   const location = useLocation();
   const [isDesktop, setIsDesktop] = useState(false);
   const [currentTheme, setCurrentTheme] = useState<'light' | 'dark'>('light');
-
-  const userData = getEstudianteData();
-  const sections = getEstudianteSections();
+  const [isSessionLoaded, setIsSessionLoaded] = useState(false);
   const [unreadAnuncios, setUnreadAnuncios] = useState<number>(0);
+
+  const { user, isAuthenticated } = useAuth();
+
+  useEffect(() => {
+    console.debug("[Sidebar] auth:", { user, isAuthenticated });
+  }, [user, isAuthenticated]);
+
+  const userData = user ?? getEstudianteDataFallback();
+  const sections = getEstudianteSections();
 
   // Leer contador de anuncios no leídos desde localStorage y reaccionar a cambios
   useEffect(() => {
@@ -102,6 +108,14 @@ export default function Sidebar({ isOpen, onClose, onToggle }: SidebarProps) {
     window.addEventListener('storage', onStorage);
     return () => window.removeEventListener('storage', onStorage);
   }, []);
+
+  // Registrar cuando los datos de sesión del usuario se cargan correctamente (de José)
+  useEffect(() => {
+    if (user) {
+      console.log("Datos de sesión cargados en Sidebar:", user);
+      setIsSessionLoaded(true);
+    }
+  }, [user]);
 
   // Detectar cambios de tema
   useEffect(() => {
@@ -138,7 +152,6 @@ export default function Sidebar({ isOpen, onClose, onToggle }: SidebarProps) {
 
   const isActive = (path: string) => location.pathname === path;
 
-  // Clases CSS únicamente para estudiantes
   const sidebarClass = `${isDesktop ? 'admin-sidebar-desktop' : 'admin-sidebar'} ${currentTheme === 'dark' ? 'theme-dark' : 'theme-light'} estudiante-mode`;
 
   return (
@@ -152,7 +165,6 @@ export default function Sidebar({ isOpen, onClose, onToggle }: SidebarProps) {
 
       <button
         onClick={() => {
-          // En pantallas desktop colapsamos a icons, en mobile cerramos (overlay)
           if (isDesktop) onToggle();
           else onClose();
         }}
@@ -171,21 +183,39 @@ export default function Sidebar({ isOpen, onClose, onToggle }: SidebarProps) {
       </button>
 
       <div id="app-sidebar" className={`${sidebarClass} ${isOpen ? '' : 'collapsed'}`}>
-        {/* Información del estudiante */}
         <div className="user-info-copiloto">
+          {/* Avatar del usuario */}
           <div className="user-avatar-copiloto">
             <img
-              src={userData.image}
+              src={
+                userData.image ||
+                `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                  userData.full_name || 'Estudiante'
+                )}&background=39B49E&color=fff`
+              }
               alt={userData.full_name}
               className="user-avatar-image"
             />
           </div>
+
+          {/* Información del usuario */}
           <div className="user-info-text">
             <div className="user-name-copiloto">
-              {userData.full_name}
+              {userData.full_name || 'Estudiante'}
             </div>
             <div className="user-role-copiloto">
-              {userData.role}
+              {userData.role || 'Estudiante'}
+            </div>
+            {/* Indicador de estado de sesión */}
+            <div 
+              className="session-status"
+              style={{
+                fontSize: '11px',
+                color: isAuthenticated ? '#10b981' : '#ef4444',
+                marginTop: '4px',
+              }}
+            >
+              {isAuthenticated ? '● En línea' : '● Sin sesión'}
             </div>
           </div>
         </div>
