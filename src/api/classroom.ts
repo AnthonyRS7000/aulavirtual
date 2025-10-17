@@ -1,70 +1,90 @@
-export interface RawTeacher {
-  name?: string;
-  email?: string;
-  userId?: string;
-}
-
-export interface RawCourseWork {
-  id?: string;
-  title?: string;
-  description?: string;
-  state?: string;
-  submissionState?: string;
-  [key: string]: any;
-}
-
-export interface RawAnnouncement {
-  id?: string;
-  text?: string;
-  creationTime?: string;
-  updateTime?: string;
-}
-
-export interface RawCourse {
+// src/api/classroom.ts
+export interface Curso {
   id: string;
-  name?: string;
-  section?: string;
-  descriptionHeading?: string;
-  room?: string;
-  ownerId?: string;
-  teachers?: RawTeacher[];
-  courseWork?: RawCourseWork[];
-  announcements?: RawAnnouncement[];
-  [key: string]: any;
+  nombre: string;
+  seccion: string;
 }
 
-export async function fetchMyCourses(opts?: { token?: string; baseUrl?: string }) {
-  const envBase = typeof import.meta !== 'undefined' ? (import.meta.env.VITE_API_URL ?? '') : '';
-  const baseRaw = (opts?.baseUrl ?? envBase ?? 'http://127.0.0.1:8000').toString();
-  const base = baseRaw.replace(/\/api\/?$/i, '').replace(/\/$/i, '');
-  const url = `${base}/api/google/classroom/courses`;
-
-  const headers: Record<string, string> = { Accept: 'application/json' };
-
-  const fetchOptions: RequestInit = {
-    method: 'GET',
-    headers,
-  };
-
-  if (opts?.token) {
-    headers['Authorization'] = `Bearer ${opts.token}`;
-    fetchOptions.credentials = 'same-origin';
-  } else {
-    fetchOptions.credentials = 'include'; // para Sanctum
-  }
-
-  const res = await fetch(url, fetchOptions);
-
-  if (!res.ok) {
-    const txt = await res.text().catch(() => null);
-    const msg = `HTTP ${res.status}: ${txt ?? ''}`;
-    throw new Error(msg);
-  }
-
-  const payload = await res.json();
-  return (payload.courses ?? []) as RawCourse[];
+export interface Tarea {
+  id: string;
+  titulo: string;
+  estado: string;
+  fecha_entrega?: string;
 }
 
-export async function getDatosCompletos(opts?: { token?: string; baseUrl?: string }) {
-  return fetchMyCourses(opts);
+export interface Evento {
+  id: string;
+  titulo: string;
+  inicio: string;
+  descripcion?: string;
+}
+
+// Función base para peticiones API
+const apiBase = 'http://localhost:8000/api';
+
+async function apiCall<T>(endpoint: string): Promise<T> {
+  const token = localStorage.getItem('auth_token');
+  if (!token) throw new Error('Token no disponible. Debes estar autenticado.');
+
+  const response = await fetch(`${apiBase}${endpoint}`, {
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+  });
+
+  if (!response.ok) {
+    let errorText = `Error ${response.status}`;
+    try {
+      const errorData = await response.json();
+      errorText = errorData.error || errorText;
+    } catch {}
+    throw new Error(errorText);
+  }
+
+  return response.json();
+}
+
+// Endpoints específicos
+export async function getCursos(): Promise<{ cursos: Curso[] }> {
+  return apiCall('/classroom/cursos');
+}
+
+export async function getTareas(courseId: string): Promise<{ tareas: Tarea[] }> {
+  return apiCall(`/classroom/cursos/${courseId}/tareas`);
+}
+
+export async function getEventos(): Promise<{ eventos: Evento[] }> {
+  return apiCall('/calendar/eventos');
+}
+
+/**
+ * Devuelve { perfil?, cursos }
+ * Intenta llamar a /classroom/datos-completos si existe en el backend,
+ * si no, hace fallback a getCursos() y a /classroom/perfil cuando esté disponible.
+ */
+export async function getDatosCompletos(): Promise<{ perfil?: any; cursos: any[] }> {
+  try {
+    const resp: any = await apiCall('/classroom/datos-completos');
+    return {
+      perfil: resp.perfil ?? resp.data?.perfil ?? resp.user ?? resp.userInfo,
+      cursos: resp.cursos ?? resp.courses ?? resp.data?.cursos ?? resp.data?.courses ?? []
+    };
+  } catch (err) {
+    // fallback: pedir cursos y opcionalmente perfil
+    try {
+      const cursosResp: any = await getCursos();
+      let perfil: any = undefined;
+      try {
+        const p: any = await apiCall('/classroom/perfil');
+        perfil = p.perfil ?? p;
+      } catch {
+        // perfil no disponible
+      }
+      return { perfil, cursos: cursosResp.cursos ?? cursosResp.courses ?? cursosResp.data ?? [] };
+    } catch (e) {
+      throw e;
+    }
+  }
 }

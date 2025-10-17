@@ -624,3 +624,49 @@ color: #991b1b;
     font-size: 1.5rem;
   }
 }
+/* === Loader centrado solo en el contenido === */
+.loader-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;    /* centra vertical y horizontal */
+  text-align: center;
+  height: 60vh;               /* ocupa una parte del contenido */
+  width: 100%;
+  margin-top: 50px;
+}
+
+/* Spinner */
+.loader {
+  width: 60px;
+  height: 60px;
+  border: 5px solid rgba(0, 0, 0, 0.1);
+  border-top-color: #2b9a8f;  /* color del borde superior */
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* Texto debajo del loader */
+.loader-text {
+  margin-top: 15px;
+  font-size: 1rem;
+  color: #333;
+  font-weight: 500;
+}
+
+/* Animación */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Modo oscuro */
+body.dark .loader {
+  border: 5px solid rgba(255, 255, 255, 0.1);
+  border-top-color: #2b9a8f;
+}
+
+body.dark .loader-text {
+  color: #ddd;
+}

@@ -268,28 +268,64 @@
   gap: 1rem;
 }
 
+/* --- NOTIFICACIONES TOPBAR --- */
 .topbar-notification {
   position: relative;
-  padding: 0.5rem;
-  border-radius: 0.5rem;
-  color: #6b7280;
-  background-color: transparent;
-  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  border-radius: 12px;
+  font-size: 14px;
+  transition: all 0.2s ease;
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
+  color: #111827;                            /* Texto oscuro */
+  background: rgba(0, 0, 0, 0.05);           /* Fondo claro translúcido */
+  border: 1.3px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+/* Hover y enfoque (modo claro) */
+.topbar-notification:hover,
+.topbar-notification:focus {
+  background: rgba(255, 255, 255, 0.2);      /* Más visible al pasar el ratón */
+  transform: translateY(-1px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Ícono centrado */
+.topbar-notification svg {
+  width: 18px;
+  height: 18px;
+  stroke-width: 1.5;
+  stroke: currentColor;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.topbar-notification:hover {
-  color: #111827;
-  background-color: #f3f4f6;
+/* --- MODO OSCURO --- */
+.dark .topbar-notification {
+  background: linear-gradient(135deg, #374151 0%, #111827 100%);
+  border: 1.3px solid #4b5563;
+  color: #f3f4f6;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
 }
 
-.dark .topbar-notification:hover {
-  color: #f9fafb;
-  background-color: #374151;
+.dark .topbar-notification:hover,
+.dark .topbar-notification:focus {
+  background: linear-gradient(135deg, #3b4753 0%, #0f1720 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 15px rgba(2, 6, 23, 0.5);
+  color: #fff;
+}
+
+/* Anillo de enfoque accesible */
+.topbar-notification:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(241, 204, 122, 0.1),
+              0 4px 10px rgba(16, 24, 40, 0.15);
 }
 
 .notification-dot {

@@ -21,14 +21,6 @@ interface SidebarProps {
   onToggle: () => void;
 }
 
-// Fallback si no hay sesión
-const getEstudianteDataFallback = () => {
-  return {
-    full_name: 'Usuario',
-    role: 'Estudiante',
-    image: 'https://ui-avatars.com/api/?name=Usuario&background=39B49E&color=fff',
-  };
-};
 
 // Secciones para estudiantes
 const getEstudianteSections = () => {
@@ -114,11 +106,7 @@ export default function Sidebar({ isOpen, onClose, onToggle }: SidebarProps) {
     return valid ?? null;
   })();
 
-  useEffect(() => {
-    console.debug('[Sidebar] user raw:', user);
-    console.debug('[Sidebar] localStorage foto:', localStorage.getItem('foto'));
-    console.debug('[Sidebar] normalized image url:', userImageUrl);
-  }, [user, userImageUrl]);
+;
 
   const userData = {
     full_name: userFullName ?? 'Usuario',
@@ -143,13 +131,7 @@ export default function Sidebar({ isOpen, onClose, onToggle }: SidebarProps) {
     return () => window.removeEventListener('storage', onStorage);
   }, []);
 
-  // Registrar cuando los datos de sesión del usuario se cargan correctamente (de José)
-  useEffect(() => {
-    if (user) {
-      console.log("Datos de sesión cargados en Sidebar:", user);
-    }
-  }, [user]);
-
+ 
   // Detectar cambios de tamaño de pantalla
   useEffect(() => {
     const checkSize = () => setIsDesktop(window.innerWidth >= 1024);

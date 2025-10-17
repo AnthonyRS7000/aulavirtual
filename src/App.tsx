@@ -13,7 +13,6 @@ import Notas from "./features/estudiante/pages/NotasResumen";
 import Mensajeria from "./features/estudiante/pages/Mensajeria";
 import AnunciosCurso from "./features/estudiante/pages/AnunciosCurso";
 import ClaseDetalle from "./features/estudiante/components/ClaseDetalle";
-import CalendarioAgenda from "./features/estudiante/pages/CalendarioAgenda";
 import SsoReceiver from "./features/estudiante/pages/SsoReceiver";
 // Docente
 import DashboardDocente from "./features/docente/pages/DashboardDocente";

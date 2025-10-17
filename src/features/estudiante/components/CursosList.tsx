@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import ClaseCard from './ClaseCard';
-import { fetchMyCourses, RawCourse } from '../../../api/classroom';
+import { getCursos } from '../../../api/classroom';
+import '../css/Clases.css';
 
 interface Curso {
   id: string;
   nombre: string;
-  profesor: string;
+  profesor?: string;
+  profesorEmail?: string | null;
+  seccion?: string | null;
+  descripcion?: string | null;
   enlace_meet?: string | null;
   tareas?: any[];
   anuncios?: any[];
@@ -19,61 +23,47 @@ export default function CursosList() {
   useEffect(() => {
     let mounted = true;
 
-    // obtener token si lo guardas en localStorage (ajusta la key si usas otra)
-    const token = localStorage.getItem('auth_token') || localStorage.getItem('token') || undefined;
-
-    fetchMyCourses({ token })
-      .then((raw: RawCourse[]) => {
+    const loadCursos = async () => {
+      try {
+        const resp: any = await getCursos();
         if (!mounted) return;
-        const mapped = raw.map<Curso>((rc) => {
-          const profesores = rc.teachers?.map(t => t.name).filter(Boolean) ?? [];
-          // tareas: usar courseWork y filtrar las pendientes (ejemplo)
-          const tareas = (rc.courseWork ?? []).map((cw: any) => cw).filter((cw: any) => {
-            // considerar pendiente si no hay submission o submissionState indica no entregado
-            const state = cw.submissionState ?? null;
-            const published = cw.state ? cw.state === 'PUBLISHED' : true;
-            const pendiente = !state || state === 'NO_SUBMISSION' || (state !== 'TURNED_IN' && state !== 'RETURNED');
-            return published && pendiente;
-          });
-          const anuncios = rc.announcements ?? [];
-
-          // intentar extraer enlace de meet (Google Classroom no siempre lo expone). Se deja null si no hay.
-          const enlace_meet = null;
-
-          return {
-            id: rc.id,
-            nombre: rc.name ?? 'Curso',
-            profesor: profesores[0] ?? profesores.join(', ') ?? 'Sin profesor',
-            enlace_meet,
-            tareas,
-            anuncios
-          };
-        });
-
-        setCursos(mapped);
-      })
-      .catch((err) => {
+        const raw = resp.cursos ?? resp.data ?? resp.courses ?? [];
+        const iniciales: Curso[] = (raw ?? []).map((rc: any) => ({
+          id: rc.id,
+          nombre: rc.nombre ?? rc.name ?? 'Curso',
+          profesor: rc.profesor ?? rc.teacher ?? 'Sin profesor',
+          seccion: rc.seccion ?? rc.section ?? null,
+          enlace_meet: rc.enlace_meet ?? rc.meetLink ?? null,
+          tareas: rc.tareas ?? rc.courseWork ?? [],
+          anuncios: rc.anuncios ?? rc.announcements ?? [],
+          descripcion: rc.descripcion ?? rc.description ?? null,
+        }));
+        setCursos(iniciales);
+      } catch (err: any) {
+        console.error('Error cargando cursos', err);
         if (!mounted) return;
-        console.error(err);
         setError(err.message || 'Error al obtener cursos');
-      })
-      .finally(() => {
+      } finally {
         if (!mounted) return;
         setLoading(false);
-      });
+      }
+    };
 
+    loadCursos();
     return () => { mounted = false; };
   }, []);
 
   if (loading) return <div>Cargando cursos...</div>;
   if (error) return <div>Error: {error}</div>;
-  if (cursos.length === 0) return <div>No se encontraron cursos.</div>;
+  if (!cursos.length) return <div>No se encontraron cursos.</div>;
 
   return (
-    <section className="grid-cursos">
-      {cursos.map(c => (
-        <ClaseCard key={c.id} curso={c} />
-      ))}
-    </section>
+    <div className="clases-page">
+      <section className="grid-cursos">
+        {cursos.map(c => (
+          <ClaseCard key={c.id} curso={c} />
+        ))}
+      </section>
+    </div>
   );
 }

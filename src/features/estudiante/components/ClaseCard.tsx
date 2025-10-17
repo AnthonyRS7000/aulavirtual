@@ -5,8 +5,11 @@ import './ClaseCard.css';
 interface Curso {
   id: string;
   nombre: string;
-  profesor: string;
-  enlace_meet?: string;
+  profesor?: string; // <-- ahora opcional
+  profesorEmail?: string | null;
+  seccion?: string | null;
+  descripcion?: string | null;
+  enlace_meet?: string | null;
   tareas?: any[];
   anuncios?: any[];
 }
@@ -17,6 +20,8 @@ interface ClaseCardProps {
 
 export default function ClaseCard({ curso }: ClaseCardProps) {
   const navigate = useNavigate();
+
+  const profesorDisplay = curso.profesor ?? 'Sin profesor';
 
   // Iniciales para avatar
   const iniciales = curso.nombre
@@ -36,15 +41,20 @@ export default function ClaseCard({ curso }: ClaseCardProps) {
       tabIndex={0}
       onClick={() => navigate(`/estudiante/clases/${curso.id}`)}
       onKeyDown={handleKey}
-      aria-label={`${curso.nombre} - ${curso.profesor}`}
+      aria-label={`${curso.nombre} - ${profesorDisplay}`}
     >
       {/* Header */}
       <div className="card-banner">
         <div className="banner-text">
           <h3 className="banner-title">{curso.nombre}</h3>
-          <p className="banner-sub">{curso.profesor}</p>
+          <p className="banner-sub">{profesorDisplay} {curso.seccion ? `· ${curso.seccion}` : ''}</p>
+
         </div>
-        <div className="avatar">{iniciales}</div>
+        <div className="avatar" aria-hidden>
+          <div className="avatar-inner" title={profesorDisplay}>
+            {iniciales}
+          </div>
+        </div>
       </div>
 
       {/* Cuerpo */}
@@ -59,67 +69,66 @@ export default function ClaseCard({ curso }: ClaseCardProps) {
 
       {/* Footer */}
       <div className="card-footer">
-    
+        <div className="footer-right">
+          {/* --- Google Meet --- */}
+          <a
+            className="meet-btn"
+            href={curso.enlace_meet ?? undefined}
+            target="_blank"
+            rel="noopener noreferrer"
+            title={curso.enlace_meet ? "Entrar a la clase virtual" : "No hay enlace de Meet"}
+            onClick={(e) => e.stopPropagation()}
+            aria-disabled={!curso.enlace_meet}
+          >
+            <FaVideo />
+          </a>
 
-<div className="footer-right">
-  {/* --- Google Meet --- */}
-    <a
-      className="meet-btn"
-      href={curso.enlace_meet}
-      target="_blank"
-      rel="noopener noreferrer"
-      title="Entrar a la clase virtual"
-      onClick={(e) => e.stopPropagation()}
-    >
-      <FaVideo />
-    </a>
+          {/* --- Gmail --- */}
+          <a
+            className="gmail-btn"
+            href="https://mail.google.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Abrir Gmail"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <FaEnvelope />
+          </a>
 
-  {/* --- Gmail --- */}
-  <a
-    className="gmail-btn"
-    href="https://mail.google.com/"
-    target="_blank"
-    rel="noopener noreferrer"
-    title="Abrir Gmail"
-    onClick={(e) => e.stopPropagation()}
-  >
-    <FaEnvelope />
-  </a>
+          {/* --- Google Drive --- */}
+          <a
+            className="drive-btn"
+            href="https://drive.google.com/drive/my-drive"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Abrir Google Drive"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <FaGoogleDrive />
+          </a>
 
-  {/* --- Google Drive --- */}
-  <a
-    className="drive-btn"
-    href="https://drive.google.com/"
-    target="_blank"
-    rel="noopener noreferrer"
-    title="Abrir Google Drive"
-    onClick={(e) => e.stopPropagation()}
-  >
-    <FaGoogleDrive />
-  </a>
+          {/* --- Google Calendar --- */}
+          <a
+            className="calendar-btn"
+            href="https://calendar.google.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Abrir Google Calendar"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <FaCalendarAlt />
+          </a>
 
-  {/* --- Google Calendar --- */}
-  <a
-    className="calendar-btn"
-    href="https://calendar.google.com/"
-    target="_blank"
-    rel="noopener noreferrer"
-    title="Abrir Google Calendar"
-    onClick={(e) => e.stopPropagation()}
-  >
-    <FaCalendarAlt />
-  </a>
-
-  {/* --- Menú de opciones --- */}
-  <button
-    className="dots-btn"
-    title="Más acciones"
-    onClick={(e) => e.stopPropagation()}
-  >
-    <FaEllipsisV />
-  </button>
-</div>
-
+          {/* --- Menú de opciones --- */}
+          <button
+            className="dots-btn"
+            title="Más acciones"
+            onClick={(e) => e.stopPropagation()}
+            type="button"
+          >
+            <FaEllipsisV />
+          </button>
+        </div>
       </div>
     </article>
   );

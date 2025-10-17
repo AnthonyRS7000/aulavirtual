@@ -1,6 +1,6 @@
 // src/components/PerfilDropdown.tsx
 import { useEffect, useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { HiOutlineUser, HiOutlineLogout } from 'react-icons/hi';
 import { useTheme } from '../hooks/useTheme';
 import { useAuth } from '../context/AuthContext';
@@ -14,12 +14,10 @@ interface Props {
 
 export default function PerfilDropdown({ isOpen, onClose }: Props) {
   const dropdownRef = useRef(null);
-  const navigate = useNavigate();
   const { theme } = useTheme();
   const { logout } = useAuth();
   const isDark = theme === 'dark';
 
-  // Cerrar al hacer clic fuera
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -34,15 +32,14 @@ export default function PerfilDropdown({ isOpen, onClose }: Props) {
   }, [isOpen, onClose]);
 
   const cerrarSesion = () => {
-    console.log('Cerrando sesión en ambas ventanas...');
-    
-    // Ejecutar logout local (borra localStorage)
+    // Limpiar localStorage de 5174
     logout();
+    localStorage.clear();
+    sessionStorage.clear();
     
-    // Solo esta ventana se redirige a login
-    setTimeout(() => {
-      navigate('/login');
-    }, 100);
+    // Redirigir directamente a 5173/login
+    // El usuario debe limpiar manualmente 5173 o 5173 debe validar al cargar
+    window.location.href = 'http://localhost:5173/login';
   };
 
   if (!isOpen) return null;

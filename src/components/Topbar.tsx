@@ -72,9 +72,7 @@ export default function Topbar({ onToggleSidebar, isSidebarOpen, userCase = 'est
   const fallbackAvatar = `https://ui-avatars.com/api/?name=${encodeURIComponent(displayName ?? 'Usuario')}&background=39B49E&color=fff`;
   const avatarSrc = displayImage ?? fallbackAvatar;
 
-  // debug rápido
-  console.debug('[Topbar] avatarSrc:', avatarSrc, 'displayImage:', displayImage, 'user:', user);
-
+  
   const userData = user
     ? { full_name: displayName ?? 'Usuario', image: avatarSrc }
     : getUserData(userCase);
