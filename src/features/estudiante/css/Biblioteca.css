@@ -37,7 +37,7 @@
     width: 100%;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
+    gap: 28px; /* aumentar espacio entre tarjetas para mejor separación */
 }
 
 .biblioteca-card-items {
@@ -51,7 +51,7 @@
 @media (max-width: 1024px) {
     .biblioteca-card-items {
         grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Ajustar tamaño de los items */
-        gap: 15px; /* Reducir espacio entre items */
+        gap: 20px; /* mantener espacio cómodo en pantallas medianas */
     }
 }
 
@@ -62,17 +62,24 @@
 
     .biblioteca-card-items {
         grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Ajustar tamaño de los items */
-        gap: 15px; /* Reducir espacio entre items */
+        gap: 18px; /* ajustar espacio */
     }
 }
 
-@media (max-width: 480px) {
+/* Forzar 1 tarjeta por fila en dispositivos pequeños (<= 550px) */
+@media (max-width: 550px) {
     .biblioteca-container {
         padding: 10px; /* Reducir padding para pantallas pequeñas */
     }
 
     .biblioteca-card-items {
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Ajustar tamaño de los items */
-        gap: 10px; /* Reducir espacio entre items */
+        grid-template-columns: 1fr; /* 1 tarjeta por fila */
+        gap: 14px; /* Espacio vertical entre tarjetas */
     }
+}
+
+/* Centrar el grid y limitar ancho en pantallas muy anchas para mayor contraste lateral */
+.biblioteca-card-items {
+    max-width: 1200px;
+    margin: 0 auto;
 }
