@@ -1,107 +1,108 @@
-/* Contenedor principal *//* Contenedor principal */
+/* Contenedor principal */
+.historial-container {
+  margin: 40px auto;
+  padding: 0 20px;
+}
 
-.historial-container {.historial-container {
+/* Barra superior y filtros */
+.historial-barra-superior {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 18px;
+}
 
-  margin: 40px auto;  margin: 40px auto;
-
-  padding: 0px 20px;  padding: 0px 20px;
-
-}}
-
-
-
-/* Barra superior y filtros *//* Barra superior y filtros */
-
-.historial-barra-superior {.historial-barra-superior {
-
-  display: flex;  display: flex;
-
-  flex-direction: column;  flex-direction: column;
-
-  gap: 5px;  gap: 5px;
-
-  margin-bottom: 18px;  margin-bottom: 18px;
-
-}}
-
-
-
-/* Filtros alineados en línea *//* Filtros alineados en línea */
-
-.historial-filtros-row {.historial-filtros-row {
-
-  display: flex;  display: flex;
-
-  justify-content: space-between; /* Distribuir los elementos horizontalmente */  justify-content: space-between; /* Distribuir los elementos horizontalmente */
-
-  align-items: center; /* Alinear verticalmente */  align-items: center; /* Alinear verticalmente */
-
-  gap: 20px; /* Espaciado entre los filtros */  gap: 20px; /* Espaciado entre los filtros */
-
-  flex-wrap: wrap; /* Permitir que los elementos se ajusten si no caben */  flex-wrap: wrap; /* Permitir que los elementos se ajusten si no caben */
-
-}}
-
-
-
+/* Contenedor de usuario + controles (una sola fila) */
 .historial-filtros-grid {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 20px;
+  gap: 24px;
+  flex-wrap: nowrap;
 }
 
+/* Bloque del nombre del estudiante */
 .historial-usuario-block {
   display: flex;
-  flex-direction: column;
-  min-width: 260px; /* dejar espacio para el nombre sin romper */
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  white-space: nowrap;
 }
 
+.historial-usuario-block .label-small {
+  margin-bottom: 0;
+}
+
+.usuario-nombre {
+  font-weight: 400; /* texto normal */
+  color: var(--text-primary);
+  font-size: 1rem;
+  line-height: 1.1;
+  min-width: 0;
+  max-width: 320px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Controles de búsqueda y filtro */
 .historial-controles-block {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: nowrap;
 }
 
 .control-row {
   display: flex;
-  gap: 12px;
   align-items: center;
+  gap: 18px;
   flex-wrap: nowrap;
 }
 
 .control-item {
   display: flex;
-  flex-direction: column;
-  min-width: 140px;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
 }
 
 .label-small {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
-  margin-bottom: 6px;
   color: var(--text-primary);
-}
-
-.usuario-nombre {
-  font-weight: 700;
-  color: var(--text-primary);
-  font-size: 1rem;
-  line-height: 1.1;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  margin-left: 10px;
 }
 
 .input-text,
 .select-control {
-  padding: 10px 12px;
-  border-radius: 10px;
-  border: 1px solid var(--border-color);
+  padding: 6px 12px; /* reducir padding para altura menor */
+  border-radius: 8px;
+  /* usar un borde más notorio (gray-500) para mejor contraste */
+  border: 1px solid var(--border-contrast, #dedfe1);
   background-color: var(--bg-secondary);
   color: var(--text-primary);
   font-size: 14px;
-  height: 44px;
+  height: 36px; /* altura reducida según tu cambio */
   box-sizing: border-box;
+  display: inline-flex; /* permite centrar contenido verticalmente */
+  align-items: center;
+}
+
+.input-text {
+  width: 190px;
+}
+
+.select-control {
+  width: 90px; /* ancho mayor para que 'Todos' quepa completo */
+  /* Restaurar apariencia nativa para que la flecha sea visible
+     y añadir padding-right para que el texto no se superponga */
+  padding-right: 12px; /* espacio reducido entre texto y flecha */
+}
+
+/* Opciones del select: usar line-height como fallback para centrar verticalmente en algunas implementaciones */
+.select-control option {
+  line-height: 36px;
 }
 
 .input-text:focus,
@@ -111,114 +112,47 @@
   box-shadow: 0 0 0 3px rgba(var(--pantone-zomp-rgb), 0.12);
 }
 
-@media (max-width: 800px) {
+.historial-footer {
+  margin-top: 16px;
+  margin-bottom: 20px;
+  font-size: 15px;
+  color: #222;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
   .historial-filtros-grid {
     flex-direction: column;
     align-items: stretch;
-    gap: 12px;
+    gap: 16px;
   }
+
+  .historial-controles-block,
   .control-row {
     flex-wrap: wrap;
+    justify-content: flex-start;
   }
-  .control-item {
-    min-width: 100%;
-  }
+
+  .control-item,
   .historial-usuario-block {
-    min-width: unset;
+    flex-wrap: wrap;
+    white-space: normal;
   }
-}
 
-/* Estilo para los labels */
-
-/* Estilo para los labels */.historial-nombre-usuario label {
-
-.historial-nombre-usuario label {  font-weight: 600;
-
-  font-weight: 600;  color: #3d3c3b;
-
-  color: #3d3c3b;}
-
-}
-
-/* Estilo para los inputs y selects */
-
-/* Estilo para los inputs y selects */.historial-filtros-row input,
-
-.historial-filtros-row input,.historial-filtros-row select {
-
-.historial-filtros-row select {  padding: 5px 10px;
-
-  padding: 5px 10px;  border: 1px solid #d1d5db;
-
-  border: 1px solid #d1d5db;  border-radius: 5px;
-
-  border-radius: 5px;  font-size: 15px;
-
-  font-size: 15px;  background-color: #fff;
-
-  background-color: #fff;  color: #3d3c3b;
-
-  color: #3d3c3b;}
-
-}
-
-.historial-filtros-row input:focus,
-
-.historial-filtros-row input:focus,.historial-filtros-row select:focus {
-
-.historial-filtros-row select:focus {  border-color: #5a9e8d;
-
-  border-color: #5a9e8d;  outline: none;
-
-  outline: none;  box-shadow: 0 0 0 1px rgba(90, 158, 141, 0.5);
-
-  box-shadow: 0 0 0 1px rgba(90, 158, 141, 0.5);}
-
-}
-
-.historial-footer {
-
-.historial-footer {  margin-top: 10px;
-
-  margin-top: 10px;  margin-bottom: 20px;
-
-  margin-bottom: 20px;  font-size: 15px;
-
-  font-size: 15px;  color: #222;
-
-  color: #222;  display: flex;
-
-  display: flex;  flex-direction: column;
-
-  flex-direction: column;  align-items: center;
-
-  align-items: center;  gap: 10px;
-
-  gap: 10px;}
-
+  .input-text,
+  .select-control {
+    width: 100%;
+  }
 }
 
 /* Modo Dark */
 .dark .historial-container {
-  /* Usar la variable global de fondo principal para que coincida con el resto de vistas */
   background-color: var(--bg-primary);
   color: var(--text-primary);
-}
-
-.dark .historial-nombre-usuario label {
-  color: var(--text-primary);
-}
-
-.dark .historial-filtros-row input,
-.dark .historial-filtros-row select {
-  background-color: var(--bg-secondary);
-  color: var(--text-primary);
-  border-color: var(--border-color);
-}
-
-.dark .historial-filtros-row input:focus,
-.dark .historial-filtros-row select:focus {
-  border-color: var(--pantone-zomp);
 }
 
 .dark .historial-footer {
