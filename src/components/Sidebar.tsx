@@ -53,7 +53,7 @@ const getEstudianteSections = () => {
       name: 'horario',
       label: 'Horario',
       icon: IconEjecucion,
-      path: '/estudiante/horario',
+      path: '/estudiante/mi-horario',
     },
     {
       name: 'notas',
