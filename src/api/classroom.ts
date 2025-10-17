@@ -19,8 +19,7 @@ export interface Evento {
   descripcion?: string;
 }
 
-// Función base para peticiones API
-const apiBase = 'http://localhost:8000/api';
+const apiBase = import.meta.env.VITE_API_URL;
 
 async function apiCall<T>(endpoint: string): Promise<T> {
   const token = localStorage.getItem('auth_token');
@@ -38,7 +37,7 @@ async function apiCall<T>(endpoint: string): Promise<T> {
     let errorText = `Error ${response.status}`;
     try {
       const errorData = await response.json();
-      errorText = errorData.error || errorText;
+      errorText = errorData.error || errorData.message || errorText;
     } catch {}
     throw new Error(errorText);
   }

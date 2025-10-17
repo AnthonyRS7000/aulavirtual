@@ -11,13 +11,14 @@ interface Props {
   isOpen: boolean;
   onClose: () => void;
 }
-
+  
 export default function PerfilDropdown({ isOpen, onClose }: Props) {
   const dropdownRef = useRef(null);
   const { theme } = useTheme();
   const { logout } = useAuth();
   const isDark = theme === 'dark';
 
+const frontendBase = import.meta.env.VITE_FRONTEND_URL ;
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -36,10 +37,7 @@ export default function PerfilDropdown({ isOpen, onClose }: Props) {
     logout();
     localStorage.clear();
     sessionStorage.clear();
-    
-    // Redirigir directamente a 5173/login
-    // El usuario debe limpiar manualmente 5173 o 5173 debe validar al cargar
-    window.location.href = 'http://localhost:5173/login';
+     window.location.href = `${frontendBase}/login`;
   };
 
   if (!isOpen) return null;

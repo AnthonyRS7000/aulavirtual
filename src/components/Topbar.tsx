@@ -103,13 +103,13 @@ export default function Topbar({ onToggleSidebar, isSidebarOpen, userCase = 'est
         </div>
 
         <div className="topbar-right">
-          <a
-            className="topbar-aula-btn"
-            title="Aula Virtual"
-            aria-label="Abrir Aula Virtual"
-            href="http://localhost:5173/estudiante"
-            rel="noopener noreferrer"
-          >
+        <a
+          className="topbar-aula-btn"
+          title="Aula Virtual"
+          aria-label="Abrir Aula Virtual"
+          href={`${import.meta.env.VITE_FRONTEND_URL}/estudiante`}
+          rel="noopener noreferrer"
+        >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
