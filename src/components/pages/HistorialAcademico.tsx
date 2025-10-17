@@ -180,14 +180,14 @@ const HistorialAcademico: React.FC = () => {
                     <div className="historial-barra-superior">
                         <div className="historial-filtros-grid">
                             <div className="historial-usuario-block">
-                                <label className="label-small">Apellidos y Nombres</label>
+                                <label className="label-small">Apellidos y Nombres:</label>
                                 <div className="usuario-nombre">{nombre}</div>
                             </div>
 
                             <div className="historial-controles-block">
                                 <div className="control-row">
                                     <div className="control-item">
-                                        <label className="label-small" htmlFor="busqueda">Buscar</label>
+                                        <label className="label-small" htmlFor="busqueda">Buscar: </label>
                                         <input
                                             id="busqueda"
                                             type="text"
