@@ -7,7 +7,8 @@
   background-color: var(--bg-primary);
   color: var(--text-primary);
   font-family: 'Roboto', 'Poppins', sans-serif;
-  transition: all 0.3s ease;
+  /* Avoid animating background-color to prevent stuck dark blocks when toggling theme. Animate visual properties only. */
+  transition: color 0.12s linear, border-color 0.12s linear, box-shadow 0.12s linear, transform 0.12s linear;
 }
 
 /* Sidebar móvil: fixed */
@@ -21,7 +22,8 @@
   overflow-y: auto;
   background-color: var(--sidebar-bg);
   color: var(--sidebar-text);
-  transition: all 0.3s ease;
+  /* Keep sidebar width/transform transitions but avoid background-color animation */
+  transition: width 0.3s ease, transform 0.12s linear, box-shadow 0.12s linear, color 0.12s linear;
   box-shadow: 2px 0px 8px var(--shadow);
 }
 
@@ -120,7 +122,8 @@
     height: 100vh;
     background-color: #ffffff;
     box-shadow: 2px 0px 8px rgba(0, 0, 0, 0.1);
-    transition: width 0.3s ease-in-out, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+    /* Avoid animating background-color here to make theme toggle instant */
+    transition: width 0.3s ease-in-out, border-color 0.15s ease, box-shadow 0.15s ease;
     overflow-y: auto;
     flex-shrink: 0;
   }
@@ -720,3 +723,4 @@
 
 /* Fuente Quicksand para labels */
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+

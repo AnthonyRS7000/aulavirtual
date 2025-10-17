@@ -1,0 +1,160 @@
+/* Contenedor principal */
+.historial-container {
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+/* Barra superior y filtros */
+.historial-barra-superior {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+/* Contenedor de usuario + controles (una sola fila) */
+.historial-filtros-grid {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: nowrap;
+}
+
+/* Bloque del nombre del estudiante */
+.historial-usuario-block {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  white-space: nowrap;
+}
+
+.historial-usuario-block .label-small {
+  margin-bottom: 0;
+}
+
+.usuario-nombre {
+  font-weight: 400; /* texto normal */
+  color: var(--text-primary);
+  font-size: 1rem;
+  line-height: 1.1;
+  min-width: 0;
+  max-width: 320px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Controles de búsqueda y filtro */
+.historial-controles-block {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: nowrap;
+}
+
+.control-row {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: nowrap;
+}
+
+.control-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
+}
+
+.label-small {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-left: 10px;
+}
+
+.input-text,
+.select-control {
+  padding: 6px 12px; /* reducir padding para altura menor */
+  border-radius: 8px;
+  /* usar un borde más notorio (gray-500) para mejor contraste */
+  border: 1px solid var(--border-contrast, #dedfe1);
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  font-size: 14px;
+  height: 36px; /* altura reducida según tu cambio */
+  box-sizing: border-box;
+  display: inline-flex; /* permite centrar contenido verticalmente */
+  align-items: center;
+}
+
+.input-text {
+  width: 190px;
+}
+
+.select-control {
+  width: 90px; /* ancho mayor para que 'Todos' quepa completo */
+  /* Restaurar apariencia nativa para que la flecha sea visible
+     y añadir padding-right para que el texto no se superponga */
+  padding-right: 12px; /* espacio reducido entre texto y flecha */
+}
+
+/* Opciones del select: usar line-height como fallback para centrar verticalmente en algunas implementaciones */
+.select-control option {
+  line-height: 36px;
+}
+
+.input-text:focus,
+.select-control:focus {
+  outline: none;
+  border-color: var(--pantone-zomp);
+  box-shadow: 0 0 0 3px rgba(var(--pantone-zomp-rgb), 0.12);
+}
+
+.historial-footer {
+  margin-top: 16px;
+  margin-bottom: 20px;
+  font-size: 15px;
+  color: #222;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .historial-filtros-grid {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+  }
+
+  .historial-controles-block,
+  .control-row {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+
+  .control-item,
+  .historial-usuario-block {
+    flex-wrap: wrap;
+    white-space: normal;
+  }
+
+  .input-text,
+  .select-control {
+    width: 100%;
+  }
+}
+
+/* Modo Dark */
+.dark .historial-container {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+.dark .historial-footer {
+  color: var(--text-primary);
+}

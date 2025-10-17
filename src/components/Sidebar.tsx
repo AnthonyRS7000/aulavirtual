@@ -67,6 +67,12 @@ const getEstudianteSections = () => {
       icon: IconMensajeria,
       path: '/estudiante/mensajeria'
     },
+    {
+      name: 'biblioteca',
+      label: 'Biblioteca',
+      icon: IconServicio,
+      path: '/estudiante/biblioteca'
+    },
   ];
 };
 
@@ -115,6 +121,17 @@ export default function Sidebar({ isOpen, onClose, onToggle }: SidebarProps) {
   };
 
   const sections = getEstudianteSections();
+  
+  // Preparar nombre mostrado: solo el primer nombre y los apellidos (últimos 1-2 tokens)
+  const fullName = typeof userData.full_name === 'string' ? userData.full_name.trim() : '';
+  const nameParts = fullName.split(/\s+/).filter(Boolean);
+  const nombreVisible = nameParts.length > 0 ? nameParts[0] : fullName || 'Estudiante';
+  let apellidosVisible = '';
+  if (nameParts.length >= 2) {
+    // tomar los últimos 1 o 2 tokens como apellidos
+    const last = nameParts.slice(-2);
+    apellidosVisible = last.join(' ');
+  }
 
   // Leer contador de anuncios no leídos desde localStorage y reaccionar a cambios
   useEffect(() => {
@@ -173,7 +190,7 @@ export default function Sidebar({ isOpen, onClose, onToggle }: SidebarProps) {
       </button>
 
       <div id="app-sidebar" className={`${sidebarClass} ${isOpen ? '' : 'collapsed'}`}>
-        <div className="user-info-copiloto">
+          <div className="user-info-copiloto">
           {/* Avatar del usuario */}
           <div className="user-avatar-copiloto">
             <img

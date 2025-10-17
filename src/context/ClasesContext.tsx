@@ -37,8 +37,24 @@ export const ClasesProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const token = localStorage.getItem("token");
-        const data = await getHorario("2021210351", "2025-2");
+        const datos_udh = JSON.parse(localStorage.getItem("datos_udh") || "{}");
+        const codigoAlumno = datos_udh.codigo;
+        
+        if (!codigoAlumno) {
+          console.warn("No se encontró código de alumno en localStorage");
+          setLoading(false);
+          return;
+        }
+
+        const data = await getHorario(codigoAlumno, "2025-2");
+        
+        if (!data || !Array.isArray(data)) {
+          console.warn("No se recibió data de horario o no es un array");
+          setClases([]);
+          setLoading(false);
+          return;
+        }
+
         const mapped = data.map((c: any) => {
           const dias = [c.lunes, c.martes, c.miercoles, c.jueves, c.viernes, c.sabado, c.domingo]
             .filter(Boolean);
@@ -65,7 +81,10 @@ export const ClasesProvider = ({ children }: { children: React.ReactNode }) => {
       });
 
     } catch (err) {
-      console.error("Error cargando clases", err);
+      console.error("Error cargando clases:", err);
+      // Si el endpoint no existe (404), simplemente dejamos clases vacías
+      setClases([]);
+      setEstadisticas({ activas: 0, totalCreditos: 0 });
     } finally {
       setLoading(false);
     }

@@ -4,11 +4,25 @@
   margin: 20px 0;
 }
 
+/* Forzar contorno en el contenedor para garantizar visibilidad */
+.tabla-container {
+  border: 1px solid var(--border-color, #e5e7eb) !important;
+  border-radius: 12px;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.03);
+}
+
 .tabla {
   width: 100%;
   border-collapse: collapse;
   border-radius: 12px;
   overflow: hidden;
+  border: none; /* evitar borde doble cuando el contenedor ya tiene borde */
+}
+
+/* Contorno visible: gris en modo claro (usa la variable global --border-color) */
+.tabla-container .tabla {
+  border: 1px solid var(--border-color, #e5e7eb);
+  box-shadow: 0 1px 0 rgba(0,0,0,0.03);
 }
 
 .tabla th {
@@ -33,4 +47,11 @@
 
 .tabla tr:hover {
   background-color: #eaf4f1;
+}
+
+/* Contorno en modo oscuro (blanco sutil) */
+.dark .tabla-container,
+:root.dark .tabla-container {
+  border: 1px solid rgba(162, 150, 150, 0.12) !important;
+  box-shadow: 0 1px 0 rgba(255,255,255,0.02);
 }

@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+
 /* Variables CSS para el sistema de temas UDH */
 :root {
   font-family: 'Poppins', system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -115,7 +117,8 @@ body {
   min-height: 100vh;
   background-color: var(--bg-primary);
   color: var(--text-primary);
-  transition: background-color 0.3s ease, color 0.3s ease;
+  /* Make background switch instant to avoid "sticky" dark blocks when toggling theme. Animate only color for smooth text changes. */
+  transition: color 0.12s linear;
 }
 
 #root {
@@ -126,8 +129,9 @@ body {
 }
 
 /* Transiciones suaves para el cambio de tema */
+/* Limit global transitions so background colors update instantly. */
 * {
-  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  transition: color 0.12s linear, border-color 0.12s linear;
 }
 
 /* Tipografía */

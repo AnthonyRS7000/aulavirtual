@@ -11,6 +11,7 @@ import Perfil from "./features/estudiante/pages/Perfil";
 import HorarioHoy from "./features/estudiante/pages/HorarioHoy";
 import Notas from "./features/estudiante/pages/NotasResumen";
 import Mensajeria from "./features/estudiante/pages/Mensajeria";
+import Biblioteca from "./features/estudiante/pages/Biblioteca";
 import AnunciosCurso from "./features/estudiante/pages/AnunciosCurso";
 import ClaseDetalle from "./features/estudiante/components/ClaseDetalle";
 import SsoReceiver from "./features/estudiante/pages/SsoReceiver";
@@ -37,6 +38,7 @@ function App() {
             <Route path="/estudiante/horario" element={<HorarioHoy />} />
             <Route path="/estudiante/notas" element={<Notas />} />
             <Route path="/estudiante/mensajeria" element={<Mensajeria />} />
+            <Route path="/estudiante/biblioteca" element={<Biblioteca />} />
             <Route path="/estudiante/anuncios" element={<AnunciosCurso />} />
           
           </Route>
