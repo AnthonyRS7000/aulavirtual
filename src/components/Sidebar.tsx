@@ -215,16 +215,6 @@ export default function Sidebar({ isOpen, onClose, onToggle }: SidebarProps) {
               {userData.role}
             </div>
             {/* Indicador de estado de sesión */}
-            <div 
-              className="session-status"
-              style={{
-                fontSize: '11px',
-                color: isAuthenticated ? '#10b981' : '#ef4444',
-                marginTop: '4px',
-              }}
-            >
-              {isAuthenticated ? '● En línea' : '● Sin sesión'}
-            </div>
           </div>
         </div>
 
