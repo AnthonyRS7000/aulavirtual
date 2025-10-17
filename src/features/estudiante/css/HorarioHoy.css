@@ -21,11 +21,20 @@
 }
 
 .ver-horario-select {
-	padding: 5px 10px;
+	padding: 6px 10px;
 	border: 1px solid #cfd8dc;
-	border-radius: 5px;
+	border-radius: 8px;
 	background-color: #fff;
 	color: #3d3c3b;
+	/* Desktop: ancho controlado para que no sea muy ancho */
+	width: 96px !important; /* forzar ancho en desktop */
+	max-width: 96px !important;
+	min-width: 72px;
+	flex: 0 0 96px !important; /* evita que Flex lo estire */
+	box-sizing: border-box;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .ver-horario-select option {
@@ -46,6 +55,14 @@
 	cursor: pointer;
 }
 
+/* Regla con mayor especificidad para forzar ancho en desktop incluso si otras reglas intentan sobreescribirlo */
+.ver-horario-filters .filter-group .ver-horario-select {
+	width: 96px !important;
+	max-width: 96px !important;
+	min-width: 72px !important;
+	flex: 0 0 96px !important;
+}
+
 /* Modo responsive */
 @media (max-width: 768px) {
 
@@ -64,7 +81,7 @@
 	}
 
 	.ver-horario-select {
-		width: 100%; /* Asegura que el select ocupe todo el ancho disponible */
+		width: 100% !important; /* móvil: permitir 100% */
 		font-size: 12px; /* Reduce el tamaño de fuente para pantallas pequeñas */
 	}
 }
@@ -87,7 +104,7 @@
 	}
 
 	.ver-horario-select {
-		width: auto;
+		width: auto !important;
 		font-size: 10px; /* Ajusta el tamaño de fuente para pantallas muy pequeñas */
 		padding: 4px 8px; /* Reduce el padding para pantallas muy pequeñas */
 	}
@@ -176,7 +193,10 @@
 }
 
 	.dark .ver-horario-container .filter-group .ver-horario-select {
-		max-width: 140px; /* evitar que el select destaque demasiado en dark */
+		/* En dark también forzamos el ancho para evitar overrides */
+		width: 96px !important;
+		max-width: 96px !important;
+		flex: 0 0 96px !important;
 	}
 
 

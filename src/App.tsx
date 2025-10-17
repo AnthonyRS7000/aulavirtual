@@ -9,6 +9,7 @@ import Clases from "./features/estudiante/pages/Clases";
 import Tareas from "./features/estudiante/pages/Tareas";
 import Perfil from "./features/estudiante/pages/Perfil";
 import HorarioHoy from "./features/estudiante/pages/HorarioHoy";
+import MiHorario from "./features/estudiante/pages/MiHorario";
 import Notas from "./features/estudiante/pages/NotasResumen";
 import Mensajeria from "./features/estudiante/pages/Mensajeria";
 import Biblioteca from "./features/estudiante/pages/Biblioteca";
@@ -36,6 +37,7 @@ function App() {
             <Route path="/estudiante/tareas" element={<Tareas />} />
             <Route path="/estudiante/perfil" element={<Perfil />} />
             <Route path="/estudiante/horario" element={<HorarioHoy />} />
+            <Route path="/estudiante/mi-horario" element={<MiHorario />} />
             <Route path="/estudiante/notas" element={<Notas />} />
             <Route path="/estudiante/mensajeria" element={<Mensajeria />} />
             <Route path="/estudiante/biblioteca" element={<Biblioteca />} />
