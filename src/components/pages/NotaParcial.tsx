@@ -216,20 +216,7 @@ const NotaParcial: React.FC = () => {
                         <label >Apellidos y Nombres:</label>
                         {nombre}
                     </div>
-                    <div className="notas-datos-row">
-                        <label htmlFor="semestre" >Semestre:</label>
-                        <div className="notas-filter-group">
-                            <input
-                                id="semestre-input"
-                                type="text"
-                                value={semestre}
-                                onChange={(e) => setSemestre(e.target.value)}
-                                className="notas-input-semestre"
-                                placeholder={calcularSemestre()}
-                            />
-                            <ButtonPrincipal icon={<EyeIcon />} text="Ver" onClick={handleVerClick} />
-                        </div>
-                    </div>
+                    {/* Semestre filter removed per user request */}
                 </div>
 
                 {loading ? (

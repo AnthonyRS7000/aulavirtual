@@ -7,6 +7,7 @@ import Loading from "../../../components/pages/Loading";
 import Tablas from "../../../components/pages/Tablas";
 import Titulo from "../../../components/pages/TituloPage";
 import Card from "../../../components/pages/Card";
+import ButtonPrincipal from "../../../components/pages/ButtonPrincipal";
 import { EyeIcon } from "@heroicons/react/24/outline";
 
 const calcularSemestre = (): string => {
@@ -128,26 +129,51 @@ const MiHorario: React.FC = () => {
     };
 
     // Encabezados de la tabla
-    const headers = ["CÓDIGO", "CURSO", "CICLO", "CRÉD.", "HORARIO", "SEC."];
+    const formatoHorarioDia = (valor?: string) => {
+        if (!valor || !valor.trim()) {
+            return <span className="mi-horario-dia-empty"></span>;
+        }
 
-    // Filas de la tabla
+        const partes = valor
+            .split(/\r?\n+/)
+            .map((parte) => parte.trim())
+            .filter(Boolean);
+
+        return (
+            <div className="mi-horario-dia">
+                {partes.map((parte, idx) => (
+                    <span key={idx}>{parte}</span>
+                ))}
+            </div>
+        );
+    };
+
+    const headers = [
+        "CÓDIGO",
+        "CURSO",
+        "SECCIÓN",
+        "CICLO",
+        "LUNES",
+        "MARTES",
+        "MIÉRCOLES",
+        "JUEVES",
+        "VIERNES",
+        "SÁBADO",
+        "DOMINGO",
+    ];
+
     const rows = miHorario.map((horario) => [
         horario.codigo_curso,
         horario.nombre_curso,
-        horario.ciclo,
-        horario.creditos,
-        [
-        horario.lunes,
-        horario.martes,
-        horario.miercoles,
-        horario.jueves,
-        horario.viernes,
-        horario.sabado,
-        horario.domingo,
-        ]
-        .filter((dia) => dia)
-        .map((dia, i) => <div key={i}>{dia}</div>),
         horario.seccion,
+        horario.ciclo,
+        formatoHorarioDia(horario.lunes),
+        formatoHorarioDia(horario.martes),
+        formatoHorarioDia(horario.miercoles),
+        formatoHorarioDia(horario.jueves),
+        formatoHorarioDia(horario.viernes),
+        formatoHorarioDia(horario.sabado),
+        formatoHorarioDia(horario.domingo),
     ]);
 
     return (
@@ -158,22 +184,20 @@ const MiHorario: React.FC = () => {
                     <div className="filter-group">
                         <label htmlFor="ciclo-input">Ciclo:</label>
                         <input
-                        id="ciclo-input"
-                        type="text"
-                        value={semestre}
-                        onChange={(e) => setSemestre(e.target.value)}
-                        className="mi-horario-input"
-                        placeholder="2025-2"
+                            id="ciclo-input"
+                            type="text"
+                            value={semestre}
+                            onChange={(e) => setSemestre(e.target.value)}
+                            className="mi-horario-input"
+                            placeholder="2025-2"
                         />
-                        <button
-                            className="mi-horario-btn"
-                            onClick={handleVerClick}
-                            disabled={loading}
-                        >
-                            <EyeIcon className="mi-horario-icon" />
-                            Ver
-                        </button>
                     </div>
+                    <ButtonPrincipal
+                        icon={<EyeIcon />}
+                        text="Ver"
+                        onClick={handleVerClick}
+                        disabled={loading}
+                    />
                 </div>
                 {loading ? (
                     <Loading />
