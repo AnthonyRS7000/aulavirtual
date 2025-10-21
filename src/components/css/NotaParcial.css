@@ -15,10 +15,6 @@
   flex-wrap: wrap;
 }
 
-.notas-filter-group {
-  display: flex;
-  align-items: center;
-}
 /* Estilo para los labels */
 .notas-datos-row label {
   font-weight: 600;
@@ -48,16 +44,7 @@
 }
 
 /* Input y botón */
-.notas-input-semestre {
-  width: 80px; /* más ancho para mostrar el semestre completo */
-  height: 36px; /* coincidir con otros inputs/estética */
-  padding: 6px 10px;
-  border-radius: 8px;
-  border: 1px solid var(--border-color);
-  background: var(--bg-secondary);
-  color: var(--text-primary);
-  box-sizing: border-box;
-}
+/* Semestre input removed from UI */
 
 
 .promedio-container {

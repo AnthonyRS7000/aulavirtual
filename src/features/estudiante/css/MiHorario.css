@@ -1,7 +1,9 @@
 /* Contenedor principal */
 .mi-horario-container {
-  margin: 40px 0px;
-  width: auto;
+  margin: 32px auto;
+  width: 100%;
+  max-width: 1280px;
+  padding: 0 20px;
 }
 
 /* Filtros */
@@ -9,82 +11,158 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: nowrap;
+  gap: 20px;
   margin-bottom: 20px;
 }
 
-.filter-group {
+.mi-horario-filters .filter-group {
   display: flex;
   align-items: center;
+  gap: 12px;
+  flex-wrap: nowrap;
 }
 
-.filter-group label {
-  margin-right: 10px;
-  font-weight: bold;
+.mi-horario-filters .filter-group label {
+  font-weight: 600;
   color: #3d3c3b;
 }
 
 .mi-horario-input {
-  width: 75px;
-  padding: 5px 10px;
-  border: 1px solid #cfd8dc;
-  border-radius: 5px;
-  background-color: #fff;
-  color: #3d3c3b;
-  margin-right: 7px;
+  width: 110px;
+  padding: 8px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  background-color: #ffffff;
+  color: #111827;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  font-size: 0.95rem;
+  box-sizing: border-box;
+}
+
+.mi-horario-input::placeholder {
+  color: #9ca3af;
 }
 
 .mi-horario-input:focus {
   border-color: #5a9e8d;
   outline: none;
-  box-shadow: 0 0 0 1px rgba(90, 158, 141, 0.5);
+  box-shadow: 0 0 0 3px rgba(90, 158, 141, 0.12);
 }
 
-.mi-horario-btn {
-    display: flex;
+.mi-horario-dia {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  line-height: 1.25;
+  color: #111827;
+}
+
+.mi-horario-dia span {
+  display: block;
+}
+
+.mi-horario-dia-empty {
+  color: #9ca3af;
+  font-style: italic;
+}
+
+@media (max-width: 430px) {
+  .mi-horario-filters {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .mi-horario-filters .filter-group {
+    flex-wrap: nowrap;
+    gap: 8px;
+  }
+
+  .mi-horario-filters .filter-group label {
+    font-size: 0.85rem;
+    white-space: nowrap;
+  }
+
+  .mi-horario-input {
+    width: 92px;
+    padding: 6px 8px;
+    font-size: 0.85rem;
+  }
+
+  .mi-horario-filters .button-principal {
+    flex: 0 0 auto;
+    padding: 8px 12px;
+  }
+
+  .mi-horario-filters .button-principal .button-principal-icon {
+    margin-right: 4px;
+  }
+
+  .mi-horario-filters .button-principal .button-principal-text {
+    font-size: 0.85rem;
+  }
+}
+
+/* Ajustes específicos: mostrar solo el ícono del botón en pantallas muy pequeñas <= 442px */
+@media (max-width: 442px) {
+  .mi-horario-filters .button-principal {
+    padding: 6px 8px; /* más compacto */
+    width: auto;
+    min-width: 40px; /* mantener área clicable */
+    display: inline-flex;
     align-items: center;
     justify-content: center;
+  }
+
+  /* ocultar el texto pero mantener el icono visible */
+  .mi-horario-filters .button-principal .button-principal-text {
+    display: none !important;
+  }
+
+  /* aumentar ligeramente el icono para mejor visibilidad */
+  .mi-horario-filters .button-principal .button-principal-icon svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* reducir gap para que el input y botón queden juntos */
+  .mi-horario-filters {
     gap: 8px;
-    padding: 5px 10px 5px 10px;;
-    background-color: #5a9e8d;
-    color: #fff;
-    border: none;
-    border-radius: 6px;
-    font-size: 1rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+  }
+
+  .mi-horario-filters .filter-group {
+    gap: 6px;
+  }
 }
 
-.mi-horario-btn:hover {   
-    background-color: #417265;
+/* Modo oscuro */
+.dark .mi-horario-filters .filter-group label {
+  color: #cfe8e2;
 }
 
-.mi-horario-btn:active {
-    background-color: #417265;
+.dark .mi-horario-input {
+  background-color: #0f1720;
+  color: #e6eef0;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 1px 3px rgba(8, 13, 23, 0.45);
 }
 
-.mi-horario-icon {
-    width: 20px;
-    height: 20px;
-    display: flex;
-    align-items: center;
-    font-size: 1.2rem;
+.dark .mi-horario-input::placeholder {
+  color: rgba(226, 232, 240, 0.45);
 }
 
-.button-text {
-    display: inline-block;
+.dark .mi-horario-input:focus {
+  border-color: rgba(94, 197, 175, 0.6);
+  box-shadow: 0 0 0 3px rgba(46, 143, 127, 0.18);
 }
 
-@media (max-width: 480px) {
-    .mi-horario-btn {
-        padding: 6px 10px;
-        font-size: 0.8rem; 
-        gap: 4px; 
-    }
+.dark .mi-horario-dia {
+  color: #e6eef0;
+}
 
-    .mi-horario-icon {
-        width: 16px; 
-        height: 16px;
-        font-size: 0.9rem; 
-    }
+.dark .mi-horario-dia-empty {
+  color: rgba(226, 232, 240, 0.35);
 }
