@@ -13,7 +13,7 @@
   display: flex;
   height: 100vh;
   overflow: hidden;
-  background: #f8fafc; /* Fondo claro por defecto */
+  background: #f1f5f9; /* Fondo gris claro/opaco para contraste */
   color: #1f2937;
   font-family: 'Roboto', 'Poppins', sans-serif;
   transition: all 0.3s ease;
@@ -41,7 +41,7 @@
   flex-direction: column;
   overflow: hidden;
   transition: margin-left 0.3s ease-in-out;
-  background: #ffffff; /* Fondo blanco para contenido */
+  background: #f1f5f9; /* Fondo gris claro/opaco */
 }
 
 .main-content.dark-theme {
@@ -63,7 +63,7 @@
   overflow-y: auto;
   overflow-x: hidden;
   padding: 2rem;
-  background: #ffffff;
+  background: #f1f5f9; /* Fondo gris claro/opaco para contraste con tarjetas blancas */
   color: #1f2937;
   max-width: 100%;
   box-sizing: border-box;

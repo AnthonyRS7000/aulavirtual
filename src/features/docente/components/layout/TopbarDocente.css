@@ -6,16 +6,23 @@
   align-items: center;
   justify-content: space-between;
   height: 64px;
-  background: var(--bg-tertiary); /* Usa las variables de index.css */
+  background: #ffffff; /* Fondo blanco igual que el sidebar */
   color: var(--text-primary);
   padding: 0 24px;
-  box-shadow: 0 2px 4px var(--shadow);
+  box-shadow: none; /* Sin sombra para unificarlo con el sidebar */
+  border-bottom: none; /* Sin borde para unificarlo con el sidebar */
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 1000;
   transition: background-color 0.3s ease;
+}
+
+/* Modo oscuro del topbar */
+.topbar-docente.dark {
+  background: #374151; /* Mismo fondo que el sidebar en modo oscuro */
+  color: #d1d5db;
 }
 
 .topbar-left {
