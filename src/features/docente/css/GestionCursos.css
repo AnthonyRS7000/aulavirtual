@@ -195,23 +195,62 @@ main.gestion-cursos-page {
   border-radius: 24px;
   background: var(--card-bg, #ffffff);
   border: 1px solid rgba(226, 232, 240, 0.85);
-  box-shadow: 0 28px 40px -35px rgba(15, 23, 42, 0.5);
-  overflow: hidden;
+  box-shadow: none;
+  overflow: hidden; /* keep header gradient clipped to card corners */
+  padding-top: 96px; /* reserve space for the absolutely-positioned header */
   transition: transform 0.25s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
-.curso-card:hover {
-  transform: translateY(-6px);
-  border-color: rgba(96, 165, 250, 0.6);
-  box-shadow: 0 35px 55px -30px rgba(37, 99, 235, 0.45);
+/* Small top overlay to hide any thin gradient line that may appear above the card border */
+.curso-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px; /* thin cover */
+  background: var(--card-bg, #ffffff);
+  z-index: 3;
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+  pointer-events: none;
 }
 
 .curso-card__header {
+  /* absolutely positioned full-bleed header that touches card borders */
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
   height: 96px;
   display: flex;
   align-items: center;
   justify-content: center;
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+  overflow: hidden; /* clip inline gradient to the rounded corners */
+  z-index: 1;
+}
+
+/* Inline background (set from React) will provide the gradient; ensure icon sits above */
+.curso-card__header > * {
+  position: relative;
+  z-index: 1;
+}
+.curso-card__header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
   background: linear-gradient(135deg, rgba(191, 219, 254, 1), rgba(199, 210, 254, 1));
+  z-index: 0;
+}
+
+/* Make sure icon and content sit above the gradient */
+.curso-card__header > * {
+  position: relative;
+  z-index: 1;
 }
 
 .curso-card__library-icon {
@@ -298,9 +337,10 @@ main.gestion-cursos-page {
 }
 
 .curso-card:hover .curso-card__cta {
-  background: rgba(219, 234, 254, 0.6);
-  border-color: rgba(147, 197, 253, 0.9);
-  color: #1d4ed8;
+  /* keep CTA appearance consistent on hover (no tint) */
+  background: #ffffff;
+  border-color: rgba(203, 213, 225, 0.9);
+  color: #1f2937;
 }
 
 .curso-card__arrow-icon {
@@ -314,7 +354,7 @@ main.gestion-cursos-page {
 .dark .curso-card {
   background: rgba(15, 23, 42, 0.95);
   border-color: rgba(59, 130, 246, 0.18);
-  box-shadow: 0 30px 55px -35px rgba(2, 6, 23, 0.8);
+  box-shadow: none !important;
 }
 
 .dark .curso-card__titulo {
@@ -462,4 +502,47 @@ main.gestion-cursos-page {
     font-size: 0.9rem;
     padding: 10px 16px;
   }
+}
+
+/* Force no visual darkening or movement on hover for curso-card (high specificity, override if needed) */
+.curso-card,
+.curso-card:focus,
+.curso-card:active {
+  background: var(--card-bg, #ffffff) !important;
+  box-shadow: 0 28px 40px -35px rgba(15, 23, 42, 0.5) !important;
+  border-color: rgba(226, 232, 240, 0.85) !important;
+  filter: none !important;
+  opacity: 1 !important;
+}
+
+/* Prevent icons or CTA from changing on hover */
+.curso-card:hover .curso-card__library-icon,
+.curso-card:focus .curso-card__library-icon {
+  /* allow a small icon scale on hover to emphasize zoom without color change */
+  transform: scale(1.06) !important;
+  color: #2563eb !important;
+}
+.curso-card:hover .curso-card__arrow-icon,
+.curso-card:focus .curso-card__arrow-icon {
+  transform: translateX(4px) !important;
+}
+.curso-card:hover .curso-card__cta,
+.curso-card:focus .curso-card__cta,
+.curso-card:active .curso-card__cta {
+  background: #ffffff !important;
+  color: #1f2937 !important;
+  border-color: rgba(203, 213, 225, 0.9) !important;
+}
+
+/* Reintroduce subtle zoom effect: translate up and slight scale, but keep colors/shadows fixed */
+.curso-card:hover {
+  transform: translateY(-6px) scale(1.01) !important;
+}
+
+/* On dark mode, avoid hover tint as well */
+.dark .curso-card,
+.dark .curso-card:hover,
+.dark .curso-card:focus {
+  background: rgba(15, 23, 42, 0.95) !important;
+  box-shadow: 0 30px 55px -35px rgba(2, 6, 23, 0.8) !important;
 }
