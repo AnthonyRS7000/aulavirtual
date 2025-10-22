@@ -6,7 +6,7 @@ main.gestion-cursos-page {
 }
 
 .dark main.gestion-cursos-page {
-  background: #0b1120;
+  background: transparent; /* Usa el fondo general gris del layout */
 }
 
 .gestion-cursos-wrapper {
@@ -23,8 +23,14 @@ main.gestion-cursos-page {
   background: #ffffff;
   border-radius: 16px;
   padding: 28px 28px 36px;
-  box-shadow: 0 18px 40px rgba(15,23,42,0.06);
+  box-shadow: 0 4px 12px rgba(15,23,42,0.08);
   border: 1px solid rgba(226,232,240,0.8);
+}
+
+.dark .gestion-cursos-panel {
+  background: #1e293b;
+  border: rgba(51,65, 85,0,51);
+  box-shadow: none;
 }
 
 .gestion-cursos-panel .docente-banner {
@@ -164,9 +170,9 @@ main.gestion-cursos-page {
 }
 
 .dark .docente-banner {
-  border-color: rgba(59, 130, 246, 0.35);
-  background: rgba(30, 41, 59, 0.95); /* Fondo oscuro sólido */
-  box-shadow: 0 10px 30px -15px rgba(2, 6, 23, 0.5);
+  border-color: rgba(51, 65, 85, 0.6);
+  background: #334155; /* Gris azulado más claro que las tarjetas */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .dark .docente-banner::after {
@@ -196,25 +202,11 @@ main.gestion-cursos-page {
   background: var(--card-bg, #ffffff);
   border: 1px solid rgba(226, 232, 240, 0.85);
   box-shadow: none;
-  overflow: hidden; /* keep header gradient clipped to card corners */
+  overflow: hidden; /* clip header to rounded corners */
   padding-top: 96px; /* reserve space for the absolutely-positioned header */
   transition: transform 0.25s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
-/* Small top overlay to hide any thin gradient line that may appear above the card border */
-.curso-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px; /* thin cover */
-  background: var(--card-bg, #ffffff);
-  z-index: 3;
-  border-top-left-radius: 24px;
-  border-top-right-radius: 24px;
-  pointer-events: none;
-}
 
 .curso-card__header {
   /* absolutely positioned full-bleed header that touches card borders */
@@ -228,26 +220,18 @@ main.gestion-cursos-page {
   justify-content: center;
   border-top-left-radius: 24px;
   border-top-right-radius: 24px;
-  overflow: hidden; /* clip inline gradient to the rounded corners */
+  overflow: hidden;
   z-index: 1;
+  background: linear-gradient(180deg, #ffffff 0%, rgba(238, 244, 255, 0.65) 100%);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.7);
 }
 
-/* Inline background (set from React) will provide the gradient; ensure icon sits above */
-.curso-card__header > * {
-  position: relative;
-  z-index: 1;
-}
-.curso-card__header::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-top-left-radius: 24px;
-  border-top-right-radius: 24px;
-  background: linear-gradient(135deg, rgba(191, 219, 254, 1), rgba(199, 210, 254, 1));
-  z-index: 0;
+.dark .curso-card__header {
+  background: #2d3e57;
+  border-bottom: 1px solid rgba(51, 65, 85, 0.6);
 }
 
-/* Make sure icon and content sit above the gradient */
+/* Ensure icon stays above gradient */
 .curso-card__header > * {
   position: relative;
   z-index: 1;
@@ -352,9 +336,9 @@ main.gestion-cursos-page {
 }
 
 .dark .curso-card {
-  background: rgba(15, 23, 42, 0.95);
-  border-color: rgba(59, 130, 246, 0.18);
-  box-shadow: none !important;
+  background: #1e293b;
+  border-color: rgba(51, 65, 85, 0.8);
+  box-shadow: none;
 }
 
 .dark .curso-card__titulo {
@@ -375,7 +359,7 @@ main.gestion-cursos-page {
 }
 
 .dark .curso-card__footer {
-  border-color: rgba(51, 65, 85, 0.9);
+  border-color: rgba(51, 65, 85, 0.6);
 }
 
 .dark .curso-card__cta {
@@ -509,7 +493,7 @@ main.gestion-cursos-page {
 .curso-card:focus,
 .curso-card:active {
   background: var(--card-bg, #ffffff) !important;
-  box-shadow: 0 28px 40px -35px rgba(15, 23, 42, 0.5) !important;
+  box-shadow: none !important;
   border-color: rgba(226, 232, 240, 0.85) !important;
   filter: none !important;
   opacity: 1 !important;
@@ -543,6 +527,6 @@ main.gestion-cursos-page {
 .dark .curso-card,
 .dark .curso-card:hover,
 .dark .curso-card:focus {
-  background: rgba(15, 23, 42, 0.95) !important;
-  box-shadow: 0 30px 55px -35px rgba(2, 6, 23, 0.8) !important;
+  background: #1e293b !important;
+  box-shadow: none !important;
 }

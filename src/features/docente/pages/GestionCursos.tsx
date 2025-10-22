@@ -9,8 +9,6 @@ interface Curso {
   ciclo: string;
   creditos: number;
   estudiantes: number;
-  gradientFrom: string;
-  gradientTo: string;
 }
 
 const cursos: Curso[] = [
@@ -20,9 +18,7 @@ const cursos: Curso[] = [
     nombre: 'Seminarios de Tesis I',
     ciclo: '8',
     creditos: 3,
-    estudiantes: 32,
-    gradientFrom: 'rgba(219, 234, 254, 1)',
-    gradientTo: 'rgba(191, 219, 254, 1)'
+    estudiantes: 32
   },
   {
     id: 62110052,
@@ -30,9 +26,7 @@ const cursos: Curso[] = [
     nombre: 'Seminario de Tesis III',
     ciclo: '10',
     creditos: 3,
-    estudiantes: 28,
-    gradientFrom: 'rgba(219, 234, 254, 1)',
-    gradientTo: 'rgba(199, 210, 254, 1)'
+    estudiantes: 28
   },
   {
     id: 62110072,
@@ -40,9 +34,7 @@ const cursos: Curso[] = [
     nombre: 'Trabajo de Investigación',
     ciclo: '10',
     creditos: 3,
-    estudiantes: 30,
-    gradientFrom: 'rgba(191, 219, 254, 1)',
-    gradientTo: 'rgba(165, 180, 252, 1)'
+    estudiantes: 30
   }
 ];
 
@@ -145,10 +137,7 @@ export default function GestionCursos() {
           {cursos.map((curso) => {
             return (
               <article className="curso-card" key={curso.id}>
-                <div
-                  className="curso-card__header"
-                  style={{ backgroundImage: `linear-gradient(135deg, ${curso.gradientFrom}, ${curso.gradientTo})` }}
-                >
+                <div className="curso-card__header">
                   <LibraryIcon />
                 </div>
 
