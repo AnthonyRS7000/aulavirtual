@@ -4,6 +4,7 @@ import {
   FaBookOpen,
   FaUsers,
   FaChevronRight,
+  FaEnvelope,
 } from 'react-icons/fa';
 import './SidebarDocente.css';
 
@@ -32,6 +33,12 @@ const menuItems = [
     label: 'Estudiantes',
     icon: FaUsers,
     path: '/docente/estudiantes'
+  },
+  {
+    id: 'mensajeria',
+    label: 'Mensajería',
+    icon: FaEnvelope,
+    path: '/docente/mensajeria'
   },
   
 ];
@@ -73,7 +80,6 @@ export default function SidebarDocente({
                 <Link
                   to={item.path}
                   className={`nav-item ${isActive(item.path) ? 'active' : ''}`}
-                  onClick={onClose}
                 >
                   {/* Fondo hover/activo */}
                   <div className="nav-bg"></div>

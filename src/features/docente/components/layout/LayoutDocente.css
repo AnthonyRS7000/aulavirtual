@@ -21,8 +21,9 @@
 
 /* Modo oscuro */
 .layout-docente.dark-theme {
-  background: #1e293b;
-  color: white;
+  /* Azul más intenso para fondo general en modo oscuro (imagen referencia) */
+  background: #152135; /* azul profundo */
+  color: #e6eef8; /* texto claro */
 }
 
 /* Contenido del layout */
@@ -45,7 +46,7 @@
 }
 
 .main-content.dark-theme {
-  background: #1e293b;
+  background: linear-gradient(180deg, #121c2e 0%, #0e1825 100%);
 }
 
 /* Estados del sidebar - siguiendo la guía */
@@ -70,8 +71,8 @@
 }
 
 .content-wrapper.dark-theme {
-  background: #1e293b;
-  color: white;
+  background: transparent; /* dejar que el main-content muestre el gradiente */
+  color: #e6eef8;
 }
 
 /* RESPONSIVE - Sidebar se superpone en móvil */
