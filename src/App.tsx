@@ -20,6 +20,7 @@ import SsoReceiver from "./features/estudiante/pages/SsoReceiver";
 import DashboardDocente from "./features/docente/pages/DashboardDocente";
 import GestionCursos from "./features/docente/pages/GestionCursos";
 import GestionEstudiantes from "./features/docente/pages/GestionEstudiantes";
+import MensajeriaDocente from "./features/docente/pages/MensajeriaDocente";
 
 function App() {
   return (
@@ -50,6 +51,7 @@ function App() {
             <Route path="/docente/dashboard" element={<DashboardDocente />} />
             <Route path="/docente/cursos" element={<GestionCursos />} />
             <Route path="/docente/estudiantes" element={<GestionEstudiantes />} />
+            <Route path="/docente/mensajeria" element={<MensajeriaDocente />} />
             
             
             
