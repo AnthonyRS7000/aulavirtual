@@ -1,101 +1,155 @@
 import { useState, useEffect } from 'react';
 import { EnvelopeIcon, PaperAirplaneIcon, UserIcon, AcademicCapIcon } from '@heroicons/react/24/outline';
 import '../css/Mensajeria.css';
+import { getTareasPendientes } from '../../../api/classroom';
 import TituloPage from '../../../components/pages/TituloPage';
 import Card from '../../../components/pages/Card';
 
-interface Docente {
-  nombre: string;
-  email: string;
-  curso: string;
-  imagen?: string;
+// Define la interfaz según la respuesta real del backend
+interface TareaPendientePorCurso {
+  curso_id: string;
+  nombre_curso: string;
+  docente_id: string;
+  docente: string;
+  foto_docente:string;
+  correo_docente: string;
+  tareas_pendientes: {
+    tarea_id: string;
+    titulo: string;
+    descripcion: string;
+    fecha_entrega: string;
+    estado: string;
+    submission_id: string; // Agrega submission_id aquí
+  }[];
 }
 
 const Mensajeria = () => {
-  const [docentes, setDocentes] = useState<Docente[]>([]);
-  const [docenteSeleccionado, setDocenteSeleccionado] = useState<Docente | null>(null);
+  const [tareasPendientes, setTareasPendientes] = useState<TareaPendientePorCurso[]>([]);
+  const [docenteSeleccionado, setDocenteSeleccionado] = useState<{nombre: string, email: string, curso: string} | null>(null);
+  const [tareaSeleccionada, setTareaSeleccionada] = useState<any>(null);
   const [asunto, setAsunto] = useState('');
   const [mensaje, setMensaje] = useState('');
+  const [loadingDocentes, setLoadingDocentes] = useState(true);
+  const [enviando, setEnviando] = useState(false);
 
   useEffect(() => {
-    // Simulación de carga de docentes desde localStorage o API
-    const docentesSimulados: Docente[] = [
-      {
-        nombre: 'Dacio Luis Durán Cárdenas',
-        email: 'dduran@udh.edu.pe',
-        curso: 'EVALUACIÓN DE PROYECTOS',
-        imagen: 'https://ui-avatars.com/api/?name=Dacio+Duran&background=2b9a8f&color=fff'
-      },
-      {
-        nombre: 'Ulises Fidel Perla Camacho',
-        email: 'uperla@udh.edu.pe',
-        curso: 'PLANEAMIENTO Y GESTIÓN ESTRATÉGICA',
-        imagen: 'https://ui-avatars.com/api/?name=Ulises+Perla&background=2b9a8f&color=fff'
-      },
-      {
-        nombre: 'Ana María Rojas Vega',
-        email: 'arojas@udh.edu.pe',
-        curso: 'METODOLOGÍA DE LA INVESTIGACIÓN',
-        imagen: 'https://ui-avatars.com/api/?name=Ana+Rojas&background=2b9a8f&color=fff'
-      }
-    ];
-    setDocentes(docentesSimulados);
+    setLoadingDocentes(true);
+    getTareasPendientes()
+      .then((data: any) => setTareasPendientes(data))
+      .catch(() => setTareasPendientes([]))
+      .finally(() => setLoadingDocentes(false));
   }, []);
 
-  const abrirGmail = (docente: Docente) => {
+  const abrirGmail = (docente: {nombre: string, email: string, curso: string}) => {
     const asuntoEncoded = encodeURIComponent(asunto || `Consulta sobre ${docente.curso}`);
     const cuerpoEncoded = encodeURIComponent(mensaje || '');
     const mailtoUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${docente.email}&su=${asuntoEncoded}&body=${cuerpoEncoded}`;
     window.open(mailtoUrl, '_blank');
   };
 
-  const enviarMensajeRapido = (docente: Docente) => {
+  const enviarMensajeRapido = (docente: {nombre: string, email: string, curso: string}) => {
     setDocenteSeleccionado(docente);
     setAsunto(`Consulta sobre ${docente.curso}`);
   };
+
+const seleccionarTarea = (item: any) => {
+  // Normalizar identificadores por si vienen con nombres distintos
+  const cursoId = item.curso_id ?? item.course_id ?? item.cursoId ?? item.courseId ?? item.id_curso ?? item.id ?? null;
+  const tareaId = item.tarea_id ?? item.id ?? item.taskId ?? null;
+  const submissionId = item.submission_id ?? item.submissionId ?? item.submission ?? null;
+
+  const normalized = {
+    ...item,
+    curso_id: cursoId,
+    tarea_id: tareaId,
+    submission_id: submissionId,
+  };
+
+  console.log('Tarea seleccionada (normalizada):', normalized);
+
+  const nombreDocente = item.docente ?? item.nombre_docente ?? '';
+  const emailDocente = item.email ?? item.correo_docente ?? item.correo ?? '';
+  const nombreCurso = item.curso ?? item.nombre_curso ?? '';
+
+  setDocenteSeleccionado({ nombre: nombreDocente, email: emailDocente, curso: nombreCurso });
+  setTareaSeleccionada(normalized);
+  setAsunto(`Consulta sobre ${item.tareaTitulo ?? item.titulo ?? ''}`);
+};
+  // Aplana las tareas pendientes para mostrar una card por tarea
+  const tareasDocentes = tareasPendientes.flatMap(curso => {
+    const cursoId = curso.curso_id ;
+    return curso.tareas_pendientes.map(tarea => ({
+      foto: curso.foto_docente,
+      docente: curso.docente,
+      email: curso.correo_docente,
+      curso: curso.nombre_curso,
+      tareaTitulo: tarea.titulo,
+      tareaDescripcion: tarea.descripcion,
+      tareaFecha: tarea.fecha_entrega,
+      tareaEstado: tarea.estado,
+      curso_id: cursoId,
+      tarea_id: tarea.tarea_id,
+      submission_id: tarea.submission_id ,
+    }));
+  });
+
 
   return (
     <div className="mensajeria-container">
       <TituloPage titulo="Mensajería" />
 
       <div className="mensajeria-content">
-        {/* Sección izquierda: Lista de docentes */}
+        {/* Sección izquierda: Cards de tareas por docente */}
         <div className="mensajeria-sidebar">
           <Card>
             <div className="sidebar-header">
-              <h3 className="sidebar-titulo">Tus Docentes</h3>
-              <span className="badge-contador">{docentes.length}</span>
+              <h3 className="sidebar-titulo">Tareas y Docentes</h3>
+              <span className="badge-contador">{tareasDocentes.length}</span>
             </div>
-            
             <div className="docentes-lista">
-              {docentes.map((docente, index) => (
-                <div
-                  key={index}
-                  className={`docente-item ${docenteSeleccionado?.email === docente.email ? 'active' : ''}`}
-                  onClick={() => enviarMensajeRapido(docente)}
-                >
-                  <div className="docente-avatar">
-                    <img src={docente.imagen} alt={docente.nombre} />
-                  </div>
-                  <div className="docente-info">
-                    <p className="docente-nombre">{docente.nombre}</p>
-                    <p className="docente-curso">{docente.curso}</p>
-                    <p className="docente-email">{docente.email}</p>
-                  </div>
-                  <div className="docente-accion">
-                    <button
-                      className="btn-mensaje-rapido"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        abrirGmail(docente);
-                      }}
-                      title="Enviar mensaje vía Gmail"
-                    >
-                      <PaperAirplaneIcon className="icon-mensaje" />
-                    </button>
-                  </div>
+              {loadingDocentes ? (
+               <div className="loader-container">
+                  <div className="loader"></div>
+                  <p className="loader-text">Cargando Tareas...</p>
                 </div>
-              ))}
+              ) : tareasDocentes.length === 0 ? (
+                <div className="no-docentes">No hay tareas pendientes.</div>
+              ) : (
+                tareasDocentes.map((item, index) => (
+                  <div
+                    key={index}
+                    className={`docente-item ${tareaSeleccionada?.tarea_id === item.tarea_id ? 'active' : ''}`}
+                    onClick={() => seleccionarTarea(item)} // <-- Cambia esto
+                  >
+                    <div className="docente-avatar">
+                      {item.foto ? (
+                        <img src={item.foto} alt={item.docente} className="foto-docente" />
+                      ) : (
+                        <UserIcon className="input-icon" />
+                      )}
+                    </div>
+                    <div className="docente-info">
+                      <p className="docente-nombre">{item.docente}</p>
+                      <p className="docente-curso">{item.curso}</p>
+                      <p className="docente-tarea"><b>{item.tareaTitulo}</b></p>
+                      <p className="docente-tarea-desc">{item.tareaDescripcion}</p>
+                      <p className="docente-tarea-fecha">Entrega: {item.tareaFecha} </p>
+                    </div>
+                    <div className="docente-accion">
+                      <button
+                        className="btn-mensaje-rapido"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          abrirGmail({ nombre: item.docente, email: item.email, curso: item.curso });
+                        }}
+                        title="Enviar mensaje vía Gmail"
+                      >
+                        <PaperAirplaneIcon className="icon-mensaje" />
+                      </button>
+                    </div>
+                  </div>
+                ))
+              )}
             </div>
           </Card>
         </div>
@@ -187,7 +241,7 @@ const Mensajeria = () => {
           {/* Card informativo */}
           <div className="info-card">
             <div className="info-header">
-              📧 ¿Cómo funciona?
+               ¿Cómo funciona?
             </div>
             <div className="info-body">
               <ul>

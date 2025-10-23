@@ -5,9 +5,14 @@ import '../css/TareaCard.css';
 interface ArchivoEntrega {
   id: string;
   nombre: string;
-  tipo: string;
-  tamaño: number;
-  fechaSubida: string;
+  tipo?: string;
+  url?: string;
+  link?: string;
+  drive_id?: string;
+  tamaño?: number | string; // puede venir como número (MB) o string "1.23 MB"
+  tamano?: number | string;
+  size_bytes?: number;
+  fechaSubida?: string;
 }
 
 interface Tarea {
@@ -26,6 +31,7 @@ interface Tarea {
   formatosPermitidos?: string[];
   tamanosMaximo?: number;
   permitirEntregaTardia?: boolean;
+  link_tarea?: string; // <-- opcional
 }
 
 interface TareaCardProps {
@@ -165,28 +171,64 @@ export default function TareaCard({ tarea }: TareaCardProps) {
         {tarea.archivosEntregados && tarea.archivosEntregados.length > 0 && (
           <div className="archivos-entregados">
             <h5>Archivos Entregados</h5>
-            {tarea.archivosEntregados.map((archivo) => (
-              <div key={archivo.id} className="archivo-entregado">
-                <FaFile className="file-icon" />
-                <div className="archivo-info">
-                  <span className="archivo-nombre">{archivo.nombre}</span>
-                  <span className="archivo-detalles">
-                    {formatearTamaño(archivo.tamaño * 1024 * 1024)} • {archivo.fechaSubida}
-                  </span>
+            {tarea.archivosEntregados.map((archivo) => {
+              const href = archivo.url ?? archivo.link ?? null;
+              return (
+                <div key={archivo.id} className="archivo-entregado">
+                  <FaFile className="file-icon" />
+                  <div className="archivo-info">
+                    {href ? (
+                      <a href={href} target="_blank" rel="noreferrer" className="archivo-nombre">
+                        {archivo.nombre}
+                      </a>
+                    ) : (
+                      <span className="archivo-nombre">{archivo.nombre}</span>
+                    )}
+
+                    <div className="archivo-meta" style={{ fontSize: 12, color: '#666', marginTop: 4 }}>
+                      <span className="archivo-size">
+                        {(() => {
+                          // Priorizar el texto ya proporcionado por el backend
+                          const s = archivo.tamano ?? archivo.tamaño;
+                          if (typeof s === 'string' && s.trim()) return s.trim();
+                          if (typeof s === 'number') return `${s} MB`;
+                          // si viene size_bytes, mostrarlo en formato legible
+                          if (archivo.size_bytes && typeof archivo.size_bytes === 'number') return formatearTamaño(archivo.size_bytes);
+                          return 'Sin tamaño';
+                        })()}
+                      </span>
+                      {archivo.fechaSubida ? <span style={{ marginLeft: 8 }}>• {archivo.fechaSubida}</span> : null}
+                    </div>
+                  </div>
+
+                  <button
+                    className="btn-ver-archivo"
+                    onClick={() => {
+                      if (href) window.open(href, '_blank', 'noopener');
+                    }}
+                    disabled={!href}
+                    title={href ? 'Ver archivo' : 'Enlace no disponible'}
+                  >
+                    <FaEye />
+                  </button>
                 </div>
-                <button className="btn-ver-archivo">
-                  <FaEye />
-                </button>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
       </div>
 
-      <div className="tarea-acciones">
+     <div className="tarea-acciones">
         
-        <button className="btn-detalles" onClick={() => navigate(`/estudiante/tareas/${tarea.id}`)}>Ver Detalles</button>
-      </div>
+      
+          <button
+            className="btn-detalles btn-classroom"
+            onClick={() => window.open(tarea.link_tarea, '_blank', 'noopener,noreferrer')}
+            title="Abrir en Classroom"
+          >
+            Abrir en Classroom
+          </button>
+       </div> 
     </div>
   );
 }

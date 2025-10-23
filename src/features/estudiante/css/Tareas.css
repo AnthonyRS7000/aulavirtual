@@ -255,8 +255,8 @@
 
 .filter-group select:focus {
   border-color: var(--pantone-zomp);
-  box-shadow: none !important;    /* ✅ quita la sombra azul fantasmal */
-  outline: none !important;       /* ✅ fuerza que NO se muestre contorno */
+  box-shadow: none !important;   
+  outline: none !important;      
 }
 
 .tareas-lista {
@@ -268,9 +268,7 @@
 .light .stat-card {
   background-color: var(--bg-secondary);
   color: var(--text-primary);
-  /* No redefinir border-radius aquí si ya lo definiste antes */
-  box-shadow: 0 2px 8px var(--shadow); /* igual que en modo oscuro */
-  border-left: 7px solid transparent; /* mantener la anchura de 7px en modo claro */
+  box-shadow: 0 2px 8px var(--shadow);
   transition: all 0.3s ease;
 }
 
