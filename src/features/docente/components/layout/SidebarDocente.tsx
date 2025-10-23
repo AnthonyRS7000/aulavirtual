@@ -5,6 +5,8 @@ import {
   FaUsers,
   FaChevronRight,
   FaEnvelope,
+  FaBook,
+  FaCalendar,
 } from 'react-icons/fa';
 import './SidebarDocente.css';
 
@@ -29,10 +31,22 @@ const menuItems = [
     path: '/docente/cursos'
   },
   {
+    id: 'horario',
+    label: 'Horario',
+    icon: FaCalendar,
+    path: '/docente/horario'
+  },
+  {
     id: 'estudiantes',
     label: 'Estudiantes',
     icon: FaUsers,
     path: '/docente/estudiantes'
+  },
+  {
+    id: 'biblioteca',
+    label: 'Biblioteca',
+    icon: FaBook,
+    path: '/docente/biblioteca'
   },
   {
     id: 'mensajeria',
