@@ -121,18 +121,17 @@ const ArrowIcon = () => (
 export default function GestionCursos() {
   return (
     <main className="gestion-cursos-page">
+
+      <div className="mensajeria-docente-header">
+        <h1 className="mensajeria-docente-titulo">Mis Cursos</h1>
+        <p className="mensajeria-docente-subtitulo">
+          Estos son tus cursos asignados. Cada clase es una nueva oportunidad para inspirar, guiar y transformar el aprendizaje.
+        </p>
+      </div>
+
       <div className="gestion-cursos-wrapper">
         <div className="gestion-cursos-panel">
-        <section className="docente-banner">
-          <div className="docente-banner__avatar">
-            <img alt={`Avatar de ${docenteInfo.nombre}`} src={docenteInfo.avatar} />
-          </div>
-          <div className="docente-banner__content">
-            <h2>{docenteInfo.saludo}</h2>
-            <p>{docenteInfo.mensaje}</p>
-          </div>
-        </section>
-
+        
         <section className="gestion-cursos-grid">
           {cursos.map((curso) => {
             return (
