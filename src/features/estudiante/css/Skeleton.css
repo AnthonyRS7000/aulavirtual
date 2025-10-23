@@ -1,0 +1,249 @@
+/* ============================================
+   PALETA DE COLORES - MODO CLARO
+   ============================================ */
+
+:root {
+  /* Skeleton backgrounds - Light */
+  --skeleton-base: #f0f0f0;
+  --skeleton-shimmer: #e0e0e0;
+  --skeleton-highlight: #f5f5f5;
+  
+  /* Borders - Light */
+  --skeleton-border: #e8e8e8;
+  
+  /* Card backgrounds - Light */
+  --skeleton-card-bg: #ffffff;
+  
+  /* Text placeholder - Light */
+  --skeleton-text: #d0d0d0;
+}
+
+/* ============================================
+   PALETA DE COLORES - MODO OSCURO
+   ============================================ */
+
+.dark {
+  /* Skeleton backgrounds - Dark */
+  --skeleton-base: #0f172a;
+  --skeleton-shimmer: #334155;
+  --skeleton-highlight: #252525;
+  
+  /* Borders - Dark */
+  --skeleton-border: #2a2a2a;
+  
+  /* Card backgrounds - Dark */
+  --skeleton-card-bg: #161616;
+  
+  /* Text placeholder - Dark */
+  --skeleton-text: #333333;
+}
+
+/* ============================================
+   SKELETON LOADING STYLES
+   ============================================ */
+
+.skeleton-card {
+  opacity: 0.9;
+  pointer-events: none;
+  margin-bottom: 16px;
+  animation: fadeIn 0.3s ease-in;
+  background-color: var(--skeleton-card-bg);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 0.9;
+    transform: translateY(0);
+  }
+}
+
+/* Base skeleton element with shimmer effect */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--skeleton-base) 0%,
+    var(--skeleton-shimmer) 20%,
+    var(--skeleton-base) 40%,
+    var(--skeleton-base) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+  border-radius: 6px;
+  display: inline-block;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Header section */
+.skeleton-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 16px;
+  gap: 16px;
+}
+
+.skeleton-title-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.skeleton-title {
+  height: 20px;
+  width: 70%;
+  max-width: 300px;
+}
+
+.skeleton-subtitle {
+  height: 14px;
+  width: 50%;
+  max-width: 200px;
+}
+
+.skeleton-badge {
+  height: 28px;
+  width: 90px;
+  flex-shrink: 0;
+}
+
+/* Content section */
+.skeleton-content {
+  padding: 0 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.skeleton-text {
+  height: 12px;
+}
+
+.skeleton-text-full {
+  width: 100%;
+}
+
+.skeleton-text-medium {
+  width: 85%;
+}
+
+.skeleton-text-short {
+  width: 60%;
+}
+
+/* Footer section */
+.skeleton-footer {
+  display: flex;
+  gap: 24px;
+  padding: 12px 16px;
+  border-top: 1px solid var(--skeleton-border);
+}
+
+.skeleton-meta-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.skeleton-icon {
+  height: 16px;
+  width: 16px;
+  border-radius: 4px;
+}
+
+.skeleton-meta-text {
+  height: 12px;
+  width: 80px;
+}
+
+/* Actions section */
+.skeleton-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding: 12px 16px;
+  border-top: 1px solid var(--skeleton-border);
+}
+
+.skeleton-button {
+  height: 36px;
+  width: 120px;
+  border-radius: 6px;
+}
+
+/* ============================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================ */
+
+@media (max-width: 768px) {
+  .skeleton-header {
+    padding: 12px;
+  }
+  
+  .skeleton-content {
+    padding: 0 12px 12px;
+  }
+  
+  .skeleton-footer {
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px;
+  }
+  
+  .skeleton-actions {
+    padding: 12px;
+  }
+  
+  .skeleton-button {
+    width: 100%;
+  }
+  
+  .skeleton-title {
+    width: 85%;
+  }
+  
+  .skeleton-subtitle {
+    width: 65%;
+  }
+}
+
+/* ============================================
+   VARIANTES DE SKELETON (OPCIONAL)
+   ============================================ */
+
+/* Skeleton circular para avatares */
+.skeleton-circle {
+  border-radius: 50%;
+}
+
+/* Skeleton con menos altura para textos pequeños */
+.skeleton-text-sm {
+  height: 10px;
+}
+
+/* Skeleton con más altura para títulos */
+.skeleton-text-lg {
+  height: 16px;
+}
+
+/* Skeleton con animación más lenta */
+.skeleton-slow {
+  animation: shimmer 2.5s ease-in-out infinite;
+}
+
+/* Skeleton sin animación */
+.skeleton-static {
+  animation: none;
+  background: var(--skeleton-base);
+}

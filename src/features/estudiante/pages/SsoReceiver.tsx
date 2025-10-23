@@ -23,7 +23,6 @@ export default function SsoReceiver() {
       // Guardar google_token si está disponible (crítico para Google Classroom)
       if (google_token) {
         localStorage.setItem("google_token", google_token);
-        console.log("✅ google_token guardado");
       }
 
       // Guardar datos del usuario
@@ -40,8 +39,6 @@ export default function SsoReceiver() {
       if (datos_udh) {
         localStorage.setItem("datos_udh", JSON.stringify(datos_udh));
       }
-
-      console.log("✅ Datos SSO guardados en localStorage");
 
       // Llamar función de login del contexto
       login(token, usuario);
@@ -84,7 +81,6 @@ export default function SsoReceiver() {
     if (stored) {
       try {
         const p = JSON.parse(stored);
-        console.log("📦 Usando datos de localStorage");
         parseAndLogin(p);
         return;
       } catch (e) {
@@ -96,7 +92,6 @@ export default function SsoReceiver() {
     const hash = window.location.hash.substring(1);
     if (hash) {
       try {
-        console.log("🔐 Decodificando datos del hash...");
         const decoded = JSON.parse(atob(hash));
         parseAndLogin(decoded);
         return;
@@ -123,7 +118,6 @@ export default function SsoReceiver() {
       const data = e.data?.payload ?? e.data;
       if (!data) return;
       
-      console.log("📨 Datos recibidos por postMessage");
       parseAndLogin(data);
     };
 

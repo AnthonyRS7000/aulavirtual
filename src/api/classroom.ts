@@ -11,6 +11,12 @@ export interface Tarea {
   estado: string;
   fecha_entrega?: string;
 }
+export interface ConteoTareas {
+  pendientes: number;
+  entregadas: number;
+  en_revision: number;
+  calificadas: number;
+}
 
 export interface Evento {
   id: string;
@@ -18,7 +24,34 @@ export interface Evento {
   inicio: string;
   descripcion?: string;
 }
+export interface CursoBasico {
+  id: string;
+  nombre: string;
+  codigo: string;
+  seccion: string;
+  docente: string;
+  foto_docente: string | null;
+  num_tareas: number;
+  num_anuncios: number;
+  link: string;
+}
 
+interface TareaPendientePorCurso {
+  curso_id: string;
+  nombre_curso: string;
+  docente_id: string;
+  docente: string;
+  foto_docente: string;
+  correo_docente: string;
+  tareas_pendientes: {
+    tarea_id: string;
+    titulo: string;
+    descripcion: string;
+    fecha_entrega: string;
+    estado: string;
+    submission_id: string; // ← Asegúrate de que esto venga del backend
+  }[];
+}
 const apiBase = import.meta.env.VITE_API_URL;
 
 async function apiCall<T>(endpoint: string): Promise<T> {
@@ -58,32 +91,20 @@ export async function getEventos(): Promise<{ eventos: Evento[] }> {
   return apiCall('/calendar/eventos');
 }
 
-/**
- * Devuelve { perfil?, cursos }
- * Intenta llamar a /classroom/datos-completos si existe en el backend,
- * si no, hace fallback a getCursos() y a /classroom/perfil cuando esté disponible.
- */
-export async function getDatosCompletos(): Promise<{ perfil?: any; cursos: any[] }> {
-  try {
-    const resp: any = await apiCall('/classroom/datos-completos');
-    return {
-      perfil: resp.perfil ?? resp.data?.perfil ?? resp.user ?? resp.userInfo,
-      cursos: resp.cursos ?? resp.courses ?? resp.data?.cursos ?? resp.data?.courses ?? []
-    };
-  } catch (err) {
-    // fallback: pedir cursos y opcionalmente perfil
-    try {
-      const cursosResp: any = await getCursos();
-      let perfil: any = undefined;
-      try {
-        const p: any = await apiCall('/classroom/perfil');
-        perfil = p.perfil ?? p;
-      } catch {
-        // perfil no disponible
-      }
-      return { perfil, cursos: cursosResp.cursos ?? cursosResp.courses ?? cursosResp.data ?? [] };
-    } catch (e) {
-      throw e;
-    }
-  }
+// Nuevo método
+export async function getCursosBasicos(): Promise<CursoBasico[]> {
+  return apiCall('/classroom/cursos-basicos');
+}
+export async function getTareasPendientes(): Promise<Tarea[]> {
+  return apiCall('/classroom/tareas-pendientes');
+}
+
+export async function getConteoTareas(): Promise<ConteoTareas> {
+  return apiCall('/classroom/tareas-contar');
+}
+export async function getTodasLasTareas(estado?: string): Promise<Tarea[]> {
+  const endpoint = estado
+    ? `/classroom/tareas?estado=${encodeURIComponent(estado)}`
+    : '/classroom/tareas';
+  return apiCall(endpoint);
 }
