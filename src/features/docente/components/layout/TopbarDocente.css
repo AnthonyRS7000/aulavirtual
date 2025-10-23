@@ -121,32 +121,43 @@
 }
 
 .user-avatar {
-  cursor: pointer;
+  cursor: default; /* no pointer change */
   border-radius: 50%;
   overflow: hidden;
   width: 40px;
   height: 40px;
-  border: 2px solid var(--accent-color);
-  transition: border-color 0.2s, box-shadow 0.2s;
+  border: 2px solid transparent; /* quitar color por defecto */
+  transition: none; /* eliminar transiciones de hover */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
 }
 
-.user-avatar:hover {
-  border-color: var(--highlight-color);
-  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+/* Eliminar cualquier efecto hover/active en avatar */
+.user-avatar:hover,
+.user-avatar:active,
+.user-avatar:focus {
+  border-color: transparent !important;
+  box-shadow: none !important;
 }
 
-/* Dark mode avatar tweak */
-.dark .user-avatar {
-  border-color: transparent;
-}
-.dark .user-avatar:hover {
-  border-color: rgba(255,255,255,0.08);
-}
-
+/* Forzar imagen centrada y sin distorsión */
 .avatar-img {
-  width: 100%;
-  height: 100%;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
   object-fit: cover;
+  display: block;
+  margin: 0 auto;
+  transform: none !important;
+}
+
+/* Dark mode: mantener sin cambios visuales */
+.dark .user-avatar,
+.dark .user-avatar:hover {
+  border-color: transparent;
+  box-shadow: none;
 }
 
 /* Responsive */
@@ -202,6 +213,7 @@
   padding: 0;
   width: 60px;
   height: 30px;
+  margin-right: 6px; /* acercar el switch al avatar */
 }
 
 /* Input checkbox oculto */
@@ -289,9 +301,9 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Focus para accesibilidad */
+/* Focus para accesibilidad: reemplazar outline azul por uno neutral */
 .theme-checkbox:focus + .theme-slider {
-  outline: 2px solid #3b82f6;
+  outline: 2px solid rgba(255,255,255,0.06);
   outline-offset: 2px;
 }
 
@@ -356,8 +368,15 @@
 
 /* Estados focus (accesibilidad) */
 .nav-btn:focus {
-    outline: 2px solid #3b82f6; /* blue-500 */
+    /* Reemplazamos el outline azul por un ring neutro para evitar cambio de color */
+    outline: 2px solid rgba(255,255,255,0.06);
     outline-offset: 2px;
+}
+
+/* Usar focus-visible para que usuarios de teclado vean el foco sin afectar clicks con mouse */
+.nav-btn:focus-visible {
+  outline: 2px solid rgba(255,255,255,0.12);
+  outline-offset: 2px;
 }
 
 /* Estados active */
@@ -371,6 +390,33 @@
     align-items: center;
     white-space: nowrap;
     font-weight: 600;
+}
+
+/* Acercar botón 'Guía' al switch de tema (reducir espacio a la derecha) */
+.nav-btn.guia-btn {
+  margin-right: 2px;
+}
+
+/* Icono Calendario y Guía */
+.calendario-icon,
+.guia-icon {
+  width: 18px;
+  height: 18px;
+  margin-right: 8px;
+  display: inline-block;
+}
+
+/* Soporte modo oscuro: invertir colores si es SVG con stroke black */
+
+/* Cuando el SVG se carga vía <img>, no es parte del DOM; usamos filtros para aproximar un icono blanco en dark mode */
+.dark .calendario-icon {
+  filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(180deg) brightness(120%);
+  opacity: 0.95;
+}
+
+/* Preserve original colors for guia icon (do not apply filter) */
+.guia-icon {
+  filter: none !important;
 }
 
 /* Iconos (si los agregamos después) */
@@ -557,6 +603,21 @@
 
 .dark .user-avatar:hover .avatar-img {
     border-color: #60a5fa; /* blue-400 */
+}
+
+/* Local overrides: acercar el switch de tema al avatar y evitar borde azul en hover */
+.theme-toggle {
+  margin-right: 2px; /* acercar el switch al avatar */
+}
+
+.user-avatar:hover .avatar-img,
+.dark .user-avatar:hover .avatar-img {
+  border-color: transparent !important; /* quitar borde azul al hover */
+  box-shadow: none !important;
+}
+
+.avatar-img {
+  transform: translateX(2px); /* pequeño ajuste visual hacia la derecha */
 }
 
 /* Responsive */

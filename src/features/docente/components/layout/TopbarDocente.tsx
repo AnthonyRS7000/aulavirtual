@@ -1,6 +1,8 @@
 import { FaCalendarAlt, FaBook, FaSun, FaMoon } from 'react-icons/fa';
 import { useState, useEffect } from 'react';
 import logoUDH from '../../../../assets/UDH.webp';
+import pdfIcon from '../../../../components/icons/pdf.svg';
+import calendarioIcon from '../../../../components/icons/calendario.svg';
 import './TopbarDocente.css';
 
 interface TopbarDocenteProps {
@@ -56,6 +58,7 @@ export default function TopbarDocente(props: TopbarDocenteProps) {
         {/* Botón Calendario */}
         <div className="relative group">
           <button className="nav-btn calendario-btn">
+            <img src={calendarioIcon} alt="Calendario" className="calendario-icon" />
             <span className="btn-text">Calendario</span>
             <span className="nav-badge">¡Ver!</span>
           </button>
@@ -64,10 +67,10 @@ export default function TopbarDocente(props: TopbarDocenteProps) {
         {/* Botón Guía */}
         <div className="relative group">
           <button className="nav-btn guia-btn">
+            <img src={pdfIcon} alt="PDF" className="guia-icon" />
             <span className="btn-text">Guía</span>
             <span className="nav-badge">¡Ver!</span>
           </button>
-          
         </div>
 
          {/* Toggle tema personalizado */}
