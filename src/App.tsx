@@ -23,6 +23,7 @@ import GestionEstudiantes from "./features/docente/pages/GestionEstudiantes";
 import MensajeriaDocente from "./features/docente/pages/MensajeriaDocente";
 import BibliotecaDocente from "./features/docente/pages/BibliotecaDocente";
 import HorarioDocente from "./features/docente/pages/HorarioDocente";
+import CarpetaDigital from "./features/docente/pages/CarpetaDigital";
 
 function App() {
   return (
@@ -56,6 +57,7 @@ function App() {
             <Route path="/docente/estudiantes" element={<GestionEstudiantes />} />
             <Route path="/docente/biblioteca" element={<BibliotecaDocente />} />
             <Route path="/docente/mensajeria" element={<MensajeriaDocente />} />
+            <Route path="/docente/carpeta-digital" element={<CarpetaDigital />} />
             
             
             

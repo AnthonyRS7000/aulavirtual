@@ -7,6 +7,7 @@ import {
   FaEnvelope,
   FaBook,
   FaCalendar,
+  FaFolder,
 } from 'react-icons/fa';
 import './SidebarDocente.css';
 
@@ -53,6 +54,12 @@ const menuItems = [
     label: 'Mensajería',
     icon: FaEnvelope,
     path: '/docente/mensajeria'
+  },
+  {
+    id: 'carpeta-digital',
+    label: 'Carpeta Digital',
+    icon: FaFolder,
+    path: '/docente/carpeta-digital'
   },
   
 ];

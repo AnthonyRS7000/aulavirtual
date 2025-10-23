@@ -1,6 +1,7 @@
 import { FaCalendarAlt, FaBook, FaSun, FaMoon } from 'react-icons/fa';
 import { useState, useEffect } from 'react';
 import logoUDH from '../../../../assets/UDH.webp';
+import logoUDHLight from '../../../../assets/UDHlight.png';
 import pdfIcon from '../../../../components/icons/pdf.svg';
 import calendarioIcon from '../../../../components/icons/calendario.svg';
 import './TopbarDocente.css';
@@ -42,7 +43,7 @@ export default function TopbarDocente(props: TopbarDocenteProps) {
         {/* Logo UDH */}
         <div className="topbar-logo">
           <img
-            src={logoUDH}
+            src={isDarkTheme ? logoUDH : logoUDHLight}
             alt="Universidad de Huánuco"
             className="logo-image"
           />
