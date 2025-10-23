@@ -1,0 +1,85 @@
+/* Contenedor principal */
+.biblioteca-docente-container {
+    width: auto;
+    margin: 20px 0px;
+    padding: 12px 20px; /* menos padding superior para acercar el título */
+    /* Force transparent so it inherits the page background immediately when theme changes */
+    background-color: transparent !important;
+    /* Avoid animating background-color here to prevent 'sticky' dark blocks when toggling theme */
+    transition: color 0.12s linear; /* only animate text color */
+}
+
+/* Reduce el espacio arriba del título para esta página en particular */
+.biblioteca-docente-container .titulo-page-container {
+    margin-top: 4px; /* título casi pegado arriba */
+    margin-bottom: 20px;
+    padding-top: 0; /* asegurar que no haya padding extra */
+}
+
+/* Modo Dark */
+.dark .biblioteca-docente-container {
+    background-color: transparent !important;
+}
+
+/* Card principal */
+.biblioteca-docente-card {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.dark .biblioteca-docente-card {
+    background-color: transparent !important;
+}
+
+/* Card items */
+.biblioteca-docente-card-items {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 28px; /* aumentar espacio entre tarjetas para mejor separación */
+}
+
+.biblioteca-docente-card-items {
+    /* Ensure grid wrapper is transparent and doesn't form a dark block */
+    background-color: transparent !important;
+    /* Prevent background-color animation on the wrapper */
+    transition: none !important;
+}
+
+/* Modo responsive */
+@media (max-width: 1024px) {
+    .biblioteca-docente-card-items {
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Ajustar tamaño de los items */
+        gap: 20px; /* mantener espacio cómodo en pantallas medianas */
+    }
+}
+
+@media (max-width: 768px) {
+    .biblioteca-docente-container {
+        padding: 15px; /* Reducir padding para pantallas medianas */
+    }
+
+    .biblioteca-docente-card-items {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Ajustar tamaño de los items */
+        gap: 18px; /* ajustar espacio */
+    }
+}
+
+/* Forzar 1 tarjeta por fila en dispositivos pequeños (<= 550px) */
+@media (max-width: 550px) {
+    .biblioteca-docente-container {
+        padding: 10px; /* Reducir padding para pantallas pequeñas */
+    }
+
+    .biblioteca-docente-card-items {
+        grid-template-columns: 1fr; /* 1 tarjeta por fila */
+        gap: 14px; /* Espacio vertical entre tarjetas */
+    }
+}
+
+/* Centrar el grid y limitar ancho en pantallas muy anchas para mayor contraste lateral */
+.biblioteca-docente-card-items {
+    max-width: 1200px;
+    margin: 0 auto;
+}

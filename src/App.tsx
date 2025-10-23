@@ -21,6 +21,8 @@ import DashboardDocente from "./features/docente/pages/DashboardDocente";
 import GestionCursos from "./features/docente/pages/GestionCursos";
 import GestionEstudiantes from "./features/docente/pages/GestionEstudiantes";
 import MensajeriaDocente from "./features/docente/pages/MensajeriaDocente";
+import BibliotecaDocente from "./features/docente/pages/BibliotecaDocente";
+import HorarioDocente from "./features/docente/pages/HorarioDocente";
 
 function App() {
   return (
@@ -50,7 +52,9 @@ function App() {
           <Route element={<LayoutDocente />}>
             <Route path="/docente/dashboard" element={<DashboardDocente />} />
             <Route path="/docente/cursos" element={<GestionCursos />} />
+            <Route path="/docente/horario" element={<HorarioDocente />} />
             <Route path="/docente/estudiantes" element={<GestionEstudiantes />} />
+            <Route path="/docente/biblioteca" element={<BibliotecaDocente />} />
             <Route path="/docente/mensajeria" element={<MensajeriaDocente />} />
             
             
