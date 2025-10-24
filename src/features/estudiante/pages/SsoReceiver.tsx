@@ -7,6 +7,7 @@ export default function SsoReceiver() {
   const { login } = useAuth();
 
   useEffect(() => {
+    // Función para parsear el payload y hacer login
     const parseAndLogin = (payload: any) => {
       if (!payload) return;
 
@@ -17,7 +18,7 @@ export default function SsoReceiver() {
         return;
       }
 
-      // Guardar tokens y datos del usuario
+      // Guardar tokens y datos en localStorage
       localStorage.setItem("auth_token", token);
       if (google_token) localStorage.setItem("google_token", google_token);
       localStorage.setItem("usuario", JSON.stringify(usuario));
@@ -28,26 +29,28 @@ export default function SsoReceiver() {
       // Login en contexto
       login(token, usuario);
 
-      // Notificar a otras pestañas
+      // Notificar a otras pestañas mediante BroadcastChannel
       try {
         const ch = new BroadcastChannel("auth_channel");
-        ch.postMessage({
-          type: "login",
-          payload: { token, google_token, usuario, foto, rol, datos_udh }
-        });
+        ch.postMessage({ type: "login", payload: { token, google_token, usuario, foto, rol, datos_udh } });
         ch.close();
       } catch (e) {
         console.warn("BroadcastChannel no disponible:", e);
       }
 
-      // Redirigir según rol y limpiar URL
+      // Redirigir según rol
       const rolLower = (rol || usuario?.rol || "estudiante").toLowerCase();
       let targetPath = "/inicio"; // ruta por defecto
-
       switch (rolLower) {
-        case "estudiante": targetPath = "/estudiante/inicio"; break;
-        case "docente": targetPath = "/docente/inicio"; break;
-        case "admin": targetPath = "/admin/inicio"; break;
+        case "estudiante":
+          targetPath = "/estudiante/inicio";
+          break;
+        case "docente":
+          targetPath = "/docente/inicio";
+          break;
+        case "admin":
+          targetPath = "/admin/inicio";
+          break;
       }
 
       // Limpiar URL y navegar
@@ -80,16 +83,17 @@ export default function SsoReceiver() {
     }
 
     // 3️⃣ Verificar query string
-    const queryPayload = new URLSearchParams(window.location.search).get("auth_payload");
-    if (queryPayload) {
-      try {
-        const decoded = JSON.parse(atob(queryPayload));
-        parseAndLogin(decoded);
-        return;
-      } catch (e) {
-        console.warn("Error parseando query auth_payload:", e);
-      }
-    }
+const queryPayload = new URLSearchParams(window.location.search).get("auth_payload");
+if (queryPayload) {
+  try {
+    const decodedStr = decodeURIComponent(queryPayload); // ✅ decodifica caracteres %3D, %2F, etc.
+    const decoded = JSON.parse(atob(decodedStr));        // ✅ convierte base64 a JSON
+    parseAndLogin(decoded);
+    return;
+  } catch (e) {
+    console.warn("Error parseando query auth_payload:", e);
+  }
+}
 
     // 4️⃣ Escuchar postMessage
     const onMessage = (e: MessageEvent) => {
@@ -106,10 +110,9 @@ export default function SsoReceiver() {
 
       parseAndLogin(data);
     };
-
     window.addEventListener("message", onMessage);
 
-    // 5️⃣ Si no encontró datos, redirigir a login
+    // 5️⃣ Redirigir a login si no se encontró SSO
     const timer = setTimeout(() => {
       console.warn("No se encontraron datos SSO, redirigiendo a login...");
       navigate("/login", { replace: true });
@@ -131,6 +134,7 @@ export default function SsoReceiver() {
           }
         `}
       </style>
+
       <div style={styles.spinner}></div>
       <p style={styles.text}>Procesando inicio de sesión...</p>
       <p style={styles.subtext}>Por favor espera...</p>
