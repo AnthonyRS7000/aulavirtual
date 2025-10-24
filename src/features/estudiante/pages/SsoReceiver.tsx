@@ -9,7 +9,7 @@ export default function SsoReceiver() {
   useEffect(() => {
     const parseAndLogin = (payload: any) => {
       if (!payload) return;
-      
+
       const { token, google_token, usuario, foto, rol, datos_udh } = payload;
 
       if (!token || !usuario) {
@@ -17,66 +17,45 @@ export default function SsoReceiver() {
         return;
       }
 
-      // Guardar tokens
+      // Guardar tokens y datos del usuario
       localStorage.setItem("auth_token", token);
-      
-      // Guardar google_token si está disponible (crítico para Google Classroom)
-      if (google_token) {
-        localStorage.setItem("google_token", google_token);
-      }
-
-      // Guardar datos del usuario
+      if (google_token) localStorage.setItem("google_token", google_token);
       localStorage.setItem("usuario", JSON.stringify(usuario));
-      
-      if (foto) {
-        localStorage.setItem("foto", foto);
-      }
-      
-      if (rol) {
-        localStorage.setItem("rol", rol);
-      }
-      
-      if (datos_udh) {
-        localStorage.setItem("datos_udh", JSON.stringify(datos_udh));
-      }
+      if (foto) localStorage.setItem("foto", foto);
+      if (rol) localStorage.setItem("rol", rol);
+      if (datos_udh) localStorage.setItem("datos_udh", JSON.stringify(datos_udh));
 
-      // Llamar función de login del contexto
+      // Login en contexto
       login(token, usuario);
 
-      // Notificar a otras pestañas (BroadcastChannel)
+      // Notificar a otras pestañas
       try {
         const ch = new BroadcastChannel("auth_channel");
-        ch.postMessage({ 
-          type: "login", 
-          payload: { token, google_token, usuario, foto, rol, datos_udh } 
+        ch.postMessage({
+          type: "login",
+          payload: { token, google_token, usuario, foto, rol, datos_udh }
         });
         ch.close();
       } catch (e) {
         console.warn("BroadcastChannel no disponible:", e);
       }
 
-      // Limpiar hash de la URL
-      window.history.replaceState({}, document.title, window.location.pathname);
-
-      // Redirigir según rol
+      // Redirigir según rol y limpiar URL
       const rolLower = (rol || usuario?.rol || "estudiante").toLowerCase();
-      
+      let targetPath = "/inicio"; // ruta por defecto
+
       switch (rolLower) {
-        case "estudiante":
-          navigate("/estudiante/inicio", { replace: true });
-          break;
-        case "docente":
-          navigate("/docente/inicio", { replace: true });
-          break;
-        case "admin":
-          navigate("/admin/inicio", { replace: true });
-          break;
-        default:
-          navigate("/inicio", { replace: true });
+        case "estudiante": targetPath = "/estudiante/inicio"; break;
+        case "docente": targetPath = "/docente/inicio"; break;
+        case "admin": targetPath = "/admin/inicio"; break;
       }
+
+      // Limpiar URL y navegar
+      window.history.replaceState({}, document.title, targetPath);
+      navigate(targetPath, { replace: true });
     };
 
-    // Prioridad 1: Verificar localStorage (sesión anterior)
+    // 1️⃣ Verificar localStorage
     const stored = localStorage.getItem("auth_payload");
     if (stored) {
       try {
@@ -88,7 +67,7 @@ export default function SsoReceiver() {
       }
     }
 
-    // Prioridad 2: Verificar hash en URL (SSO desde otro dominio)
+    // 2️⃣ Verificar hash en URL
     const hash = window.location.hash.substring(1);
     if (hash) {
       try {
@@ -100,30 +79,37 @@ export default function SsoReceiver() {
       }
     }
 
-    // Prioridad 3: Escuchar postMessage (comunicación entre ventanas)
+    // 3️⃣ Verificar query string
+    const queryPayload = new URLSearchParams(window.location.search).get("auth_payload");
+    if (queryPayload) {
+      try {
+        const decoded = JSON.parse(atob(queryPayload));
+        parseAndLogin(decoded);
+        return;
+      } catch (e) {
+        console.warn("Error parseando query auth_payload:", e);
+      }
+    }
+
+    // 4️⃣ Escuchar postMessage
     const onMessage = (e: MessageEvent) => {
-      // Validar origen si es necesario
       const allowedOrigins = [
         "http://localhost:5173",
         "http://127.0.0.1:5173",
         "https://lms.sistemasudh.com",
         "https://lmsback.sistemasudh.com"
       ];
-
-      if (!allowedOrigins.includes(e.origin)) {
-        console.warn("Origen no permitido:", e.origin);
-        return;
-      }
+      if (!allowedOrigins.includes(e.origin)) return;
 
       const data = e.data?.payload ?? e.data;
       if (!data) return;
-      
+
       parseAndLogin(data);
     };
 
     window.addEventListener("message", onMessage);
 
-    // Si no encontró datos, redirigir a login
+    // 5️⃣ Si no encontró datos, redirigir a login
     const timer = setTimeout(() => {
       console.warn("No se encontraron datos SSO, redirigiendo a login...");
       navigate("/login", { replace: true });
@@ -139,13 +125,12 @@ export default function SsoReceiver() {
     <div style={styles.container}>
       <style>
         {`
-        @keyframes spin {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-      `}
+          @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+          }
+        `}
       </style>
-
       <div style={styles.spinner}></div>
       <p style={styles.text}>Procesando inicio de sesión...</p>
       <p style={styles.subtext}>Por favor espera...</p>
