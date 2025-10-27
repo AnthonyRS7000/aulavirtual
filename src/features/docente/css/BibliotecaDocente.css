@@ -69,12 +69,12 @@
 /* Forzar 1 tarjeta por fila en dispositivos pequeños (<= 550px) */
 @media (max-width: 550px) {
     .biblioteca-docente-container {
-        padding: 10px; /* Reducir padding para pantallas pequeñas */
+        padding: 20px; /* Reducir padding para pantallas pequeñas */
     }
 
     .biblioteca-docente-card-items {
         grid-template-columns: 1fr; /* 1 tarjeta por fila */
-        gap: 14px; /* Espacio vertical entre tarjetas */
+        gap: 30px; /* Espacio vertical entre tarjetas */
     }
 }
 
@@ -82,4 +82,24 @@
 .biblioteca-docente-card-items {
     max-width: 1200px;
     margin: 0 auto;
+}
+
+/* Mantener botones en fila cuando hay 2 botones (Ingresar y Tutorial) en pantallas <= 449px */
+@media (max-width: 449px) {
+    .biblioteca-docente-card-items .card-item-buttons {
+        flex-direction: row !important; /* Forzar fila en lugar de columna */
+        gap: 8px; /* Espacio más ajustado entre botones */
+    }
+
+    .biblioteca-docente-card-items .card-item-button {
+        flex: 1; /* Cada botón ocupa espacio igual */
+        min-width: 0; /* Permitir que se compriman si es necesario */
+        font-size: 12px; /* Reducir tamaño de fuente para que quepan mejor */
+        padding: 8px 10px; /* Padding más compacto */
+    }
+
+    .biblioteca-docente-card-items .card-item-button-icon {
+        width: 16px; /* Iconos más pequeños */
+        height: 16px;
+    }
 }

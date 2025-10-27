@@ -9,7 +9,7 @@
 /* Filtros */
 .mi-horario-filters {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   flex-wrap: nowrap;
   gap: 20px;
@@ -26,6 +26,20 @@
 .mi-horario-filters .filter-group label {
   font-weight: 600;
   color: #3d3c3b;
+}
+
+/* Nuevo estilo para mostrar el ciclo como texto */
+.mi-horario-ciclo-display {
+  padding: 8px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  background-color: #f9fafb;
+  color: #111827;
+  font-size: 0.95rem;
+  font-weight: 600;
+  box-sizing: border-box;
+  min-width: 110px;
+  text-align: center;
 }
 
 .mi-horario-input {
@@ -141,6 +155,12 @@
 /* Modo oscuro */
 .dark .mi-horario-filters .filter-group label {
   color: #cfe8e2;
+}
+
+.dark .mi-horario-ciclo-display {
+  background-color: #0f1720;
+  color: #e6eef0;
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .dark .mi-horario-input {

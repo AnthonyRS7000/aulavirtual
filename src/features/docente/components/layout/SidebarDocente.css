@@ -271,11 +271,21 @@
     transform: translateX(0);
     width: 15rem; /* 240px en móvil */
   }
+
+  /* Ajustar posición del botón toggle para 240px de ancho */
+  .sidebar-docente.expanded .toggle-btn-float {
+    left: calc(15rem - 1.25rem); /* 240px - 20px = 220px */
+  }
 }
 
 @media (max-width: 768px) {
   .sidebar-docente.expanded {
     width: 14rem; /* 224px */
+  }
+
+  /* Ajustar posición del botón toggle para 224px de ancho */
+  .sidebar-docente.expanded .toggle-btn-float {
+    left: calc(14rem - 1.25rem); /* 224px - 20px = 204px */
   }
   
   .nav-item {

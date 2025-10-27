@@ -7,8 +7,6 @@ import Loading from "../../../components/pages/Loading";
 import Tablas from "../../../components/pages/Tablas";
 import Titulo from "../../../components/pages/TituloPage";
 import Card from "../../../components/pages/Card";
-import ButtonPrincipal from "../../../components/pages/ButtonPrincipal";
-import { EyeIcon } from "@heroicons/react/24/outline";
 
 const calcularSemestre = (): string => {
     const fechaActual = new Date();
@@ -68,7 +66,7 @@ const MiHorario: React.FC = () => {
                 fetchHorario();
             }
         }
-    }, [udhData, isHorarioFetched]);
+    }, [udhData, isHorarioFetched, semestre]);
 
     const fetchHorario = async () => {
         if (!udhData || !udhData.codigo || !semestre) {
@@ -115,16 +113,6 @@ const MiHorario: React.FC = () => {
             setError(true);
         } finally {
             setLoading(false);
-        }
-    };
-
-    const handleVerClick = () => {
-        const cachedData = cache.get(CACHE_KEY) as HorarioRegistro[] | null;
-        if (cachedData && Array.isArray(cachedData) && cachedData.length > 0) {
-            setMiHorario(cachedData);
-            setError(false);
-        } else {
-            fetchHorario();
         }
     };
 
@@ -182,22 +170,11 @@ const MiHorario: React.FC = () => {
             <Card>
                 <div className="mi-horario-filters">
                     <div className="filter-group">
-                        <label htmlFor="ciclo-input">Ciclo:</label>
-                        <input
-                            id="ciclo-input"
-                            type="text"
-                            value={semestre}
-                            onChange={(e) => setSemestre(e.target.value)}
-                            className="mi-horario-input"
-                            placeholder="2025-2"
-                        />
+                        <label htmlFor="ciclo-display">Ciclo:</label>
+                        <span id="ciclo-display" className="mi-horario-ciclo-display">
+                            {semestre}
+                        </span>
                     </div>
-                    <ButtonPrincipal
-                        icon={<EyeIcon />}
-                        text="Ver"
-                        onClick={handleVerClick}
-                        disabled={loading}
-                    />
                 </div>
                 {loading ? (
                     <Loading />
