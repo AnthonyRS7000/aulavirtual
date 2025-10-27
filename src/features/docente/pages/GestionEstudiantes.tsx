@@ -204,7 +204,7 @@ export default function GestionEstudiantes() {
   return (
     <div className="estudiantes-page">
       {/* Título */}
-      <TituloPage titulo="👥 Gestión de Estudiantes" />
+      <TituloPage titulo="Gestión de Estudiantes" />
       <p className="page-subtitle">Administra y monitorea el progreso de tus estudiantes por curso</p>
 
       {/* Filtros por Curso */}
