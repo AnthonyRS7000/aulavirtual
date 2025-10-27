@@ -1,0 +1,523 @@
+/* Variables CSS para temas del perfil docente - Usando los mismos colores del ThemeToggle */
+:root {
+  /* Tema claro - coincide exactamente con ThemeToggle */
+  --profile-docente-bg-primary: #f9fafb;
+  --profile-docente-bg-secondary: #ffffff;
+  --profile-docente-bg-tertiary: #f3f4f6;
+  --profile-docente-bg-input: #ffffff;
+  --profile-docente-bg-input-readonly: #f3f4f6;
+  --profile-docente-bg-hover: #f9fafb;
+  --profile-docente-bg-active: #06b6d4;
+  --profile-docente-bg-sidebar: #ffffff;
+  
+  --profile-docente-text-primary: #111827;
+  --profile-docente-text-secondary: #374151;
+  --profile-docente-text-tertiary: #6b7280;
+  --profile-docente-text-muted: #9ca3af;
+  --profile-docente-text-on-accent: #ffffff;
+  --profile-docente-text-error: #dc2626;
+  
+  --profile-docente-border-primary: #d1d5db;
+  --profile-docente-border-secondary: #e5e7eb;
+  --profile-docente-border-accent: #06b6d4;
+  --profile-docente-border-active: #0891b2;
+  
+  --profile-docente-shadow-primary: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --profile-docente-shadow-focus: 0 0 0 3px rgba(6, 182, 212, 0.1);
+  /* Branding colors (user provided) */
+  --brand-green: #5A9E8D; /* Pantone 3275 U */
+  --brand-gold: #ECC138;  /* Pantone 122 U */
+}
+
+/* Tema oscuro - coincide exactamente con ThemeToggle */
+.dark {
+  --profile-docente-bg-primary: #111827;
+  --profile-docente-bg-secondary: #374151;
+  --profile-docente-bg-tertiary: #4b5563;
+  --profile-docente-bg-input: #374151;
+  --profile-docente-bg-input-readonly: #111827;
+  --profile-docente-bg-hover: #4b5563;
+  --profile-docente-bg-active: #2a9d8f;
+  --profile-docente-bg-sidebar: #374151;
+  
+  --profile-docente-text-primary: #ffffff;
+  --profile-docente-text-secondary: #f9fafb;
+  --profile-docente-text-tertiary: #d1d5db;
+  --profile-docente-text-muted: #9ca3af;
+  --profile-docente-text-on-accent: #ffffff;
+  --profile-docente-text-error: #f87171;
+  
+  --profile-docente-border-primary: #4b5563;
+  --profile-docente-border-secondary: #374151;
+  --profile-docente-border-accent: #2a9d8f;
+  --profile-docente-border-active: #238f7f;
+  
+  --profile-docente-shadow-primary: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --profile-docente-shadow-focus: 0 0 0 3px rgba(42, 157, 143, 0.1);
+}
+
+/* Contenedor principal del perfil */
+.profile-docente-container {
+  display: flex;
+  min-height: 100vh;
+  /* Dejar transparente para que el fondo azul global sea visible */
+  background-color: transparent;
+  color: var(--profile-docente-text-secondary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Permite posicionar el título en la parte superior centrada */
+.profile-docente-container { position: relative; }
+
+/* Contenido principal */
+.profile-docente-content {
+  flex: 1;
+  padding: 40px;
+  overflow-y: auto;
+  /* transparente para eliminar la capa gris oscura intermedia */
+  background-color: transparent;
+  transition: background-color 0.3s ease;
+}
+
+.profile-docente-form-container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* Card wrapper to visually separate the form */
+.profile-docente-card {
+  /* Mantener la tarjeta del formulario con fondo gris claro para contraste */
+  background: var(--profile-docente-bg-secondary, #4b5563);
+  border: 1px solid rgba(0,0,0,0.06);
+  border-radius: 12px;
+  padding: 28px;
+  box-shadow: 0 8px 26px rgba(2,6,23,0.32);
+}
+
+/* Inputs inside the card adopt a darker filled style */
+.profile-docente-card .profile-docente-form-input {
+  background: var(--panel-contrast, rgba(2,6,23,0.12));
+  border: 1px solid var(--border-soft, rgba(255,255,255,0.04));
+  color: var(--profile-docente-text-primary);
+  padding: 14px 16px;
+  border-radius: 8px;
+  box-shadow: inset 0 2px 6px rgba(0,0,0,0.16);
+}
+
+/* Editable input: default = light theme appearance */
+.profile-docente-card .profile-docente-form-input.editable {
+  background: rgba(255,255,255,0.95); /* light background by default */
+  color: var(--profile-docente-text-primary);
+  border: 1px solid rgba(0,0,0,0.08);
+}
+
+/* Placeholder for default (light) theme */
+.profile-docente-card .profile-docente-form-input.editable::placeholder {
+  color: rgba(17,24,39,0.45);
+}
+
+/* Focus style (light) */
+.profile-docente-card .profile-docente-form-input.editable:focus {
+  outline: none;
+  box-shadow: 0 4px 14px rgba(2,6,23,0.06);
+  border-color: rgba(16,24,40,0.12);
+}
+
+/* Dark theme override: ensure inputs are dark and legible when .dark is present */
+.dark .profile-docente-card .profile-docente-form-input.editable {
+  background: rgba(2,6,23,0.28) !important;
+  color: var(--profile-docente-text-on-accent, #e6eef6) !important;
+  border: 1px solid rgba(255,255,255,0.06) !important;
+}
+
+.dark .profile-docente-card .profile-docente-form-input.editable::placeholder {
+  color: rgba(255,255,255,0.6) !important;
+}
+
+.dark .profile-docente-card .profile-docente-form-input.editable:focus {
+  outline: none !important;
+  box-shadow: 0 4px 18px rgba(23,160,134,0.08), inset 0 2px 6px rgba(0,0,0,0.18) !important;
+  border-color: var(--profile-docente-border-accent, rgba(23,160,134,0.75)) !important;
+}
+
+.profile-docente-card .profile-docente-form-label {
+  color: var(--profile-docente-text-tertiary);
+  font-weight: 600;
+  text-transform: none;
+  margin-bottom: 8px;
+}
+
+.profile-docente-card .profile-docente-form-row { gap: 22px; }
+
+@media (max-width: 768px) {
+  .profile-docente-card { padding: 18px; }
+}
+
+/* Título principal en la parte superior */
+.profile-docente-root { 
+  text-align: center; 
+  margin-bottom: 6px; 
+  position: absolute; 
+  left: 50%; 
+  transform: translateX(-50%); 
+  top: 28px; 
+  width: min(1100px, 94%); 
+  z-index: 30; 
+}
+
+.profile-docente-title { 
+  font-size: 2.2rem; 
+  font-weight: 700; 
+  text-align: center; 
+  margin: 0 0 28px 0; 
+  color: var(--title-color, var(--profile-docente-text-primary)); 
+}
+
+/* Empuja el contenido para dejar espacio al título superior */
+.profile-docente-content { padding-top: 88px; }
+
+/* Ajustes finos para pantallas grandes */
+@media (min-width: 1200px) {
+  .profile-docente-root { top: 36px; }
+  .profile-docente-content { padding-top: 96px; }
+  .profile-docente-title { margin-bottom: 32px; }
+}
+
+@media (min-width: 1400px) {
+  .profile-docente-root { top: 40px; width: min(1200px, 94%); }
+  .profile-docente-content { padding-top: 104px; }
+  .profile-docente-title { margin-bottom: 34px; }
+}
+
+@media (min-width: 1400px) {
+  .profile-docente-root { top: 56px; width: min(1200px, 94%); }
+  .profile-docente-content { padding-top: 100px; }
+}
+
+@media (min-width: 1800px) {
+  .profile-docente-root { top: 48px; width: min(1400px, 94%); }
+  .profile-docente-content { padding-top: 96px; }
+}
+
+/* Filas del formulario */
+.profile-docente-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  margin-bottom: 25px;
+}
+
+/* Grupos de campos */
+.profile-docente-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Labels */
+.profile-docente-form-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--profile-docente-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: color 0.3s ease;
+}
+
+/* Campos de input */
+.profile-docente-form-input {
+  padding: 12px 16px;
+  background-color: var(--profile-docente-bg-input);
+  border: 1px solid var(--profile-docente-border-primary);
+  border-radius: 6px;
+  color: var(--profile-docente-text-secondary);
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.profile-docente-form-input:focus {
+  outline: none;
+  border-color: var(--profile-docente-border-accent);
+  box-shadow: var(--profile-docente-shadow-focus);
+}
+
+.profile-docente-form-input:read-only {
+  cursor: default;
+  background-color: var(--profile-docente-bg-input-readonly);
+}
+
+/* Campo editable */
+.profile-docente-form-input.editable {
+  background-color: var(--profile-docente-bg-input);
+  cursor: text;
+}
+
+.profile-docente-form-input.editable:hover {
+  border-color: var(--profile-docente-border-accent);
+}
+
+/* Asterisco requerido */
+.required-asterisk {
+  color: var(--profile-docente-text-error);
+  margin-left: 4px;
+  transition: color 0.3s ease;
+}
+
+/* Texto de ayuda */
+.profile-docente-help-text {
+  font-size: 12px;
+  color: var(--profile-docente-text-tertiary);
+  font-style: italic;
+  margin-top: 4px;
+  transition: color 0.3s ease;
+}
+
+/* Botón guardar junto al campo */
+.profile-docente-save-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.profile-docente-save-btn {
+  background: var(--brand-gold) !important;
+  color: #0b0b0b !important;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.12) !important;
+  transition: box-shadow 0.2s ease;
+}
+
+.profile-docente-save-btn:hover {
+  box-shadow: 0 8px 20px rgba(0,0,0,0.14) !important;
+}
+
+.profile-docente-save-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.profile-docente-save-note { 
+  font-size: 12px; 
+  color: var(--profile-docente-text-muted); 
+}
+
+/* Modal para subir foto (estilo tarjeta centrada) */
+.modal-overlay { 
+  position: fixed; 
+  inset:0; 
+  display:flex; 
+  align-items:center; 
+  justify-content:center; 
+  background: rgba(0,0,0,0.45); 
+  z-index:1200; 
+}
+
+.photo-modal { 
+  width: 520px; 
+  max-width:94%; 
+  background: var(--profile-docente-bg-secondary); 
+  border-radius:12px; 
+  box-shadow: 0 12px 40px rgba(2,6,23,0.45); 
+  padding:18px; 
+  border:1px solid var(--profile-docente-border-primary); 
+}
+
+.photo-modal-header { 
+  display:flex; 
+  justify-content:space-between; 
+  align-items:center; 
+  gap:12px; 
+}
+
+.photo-modal-header h3 { 
+  margin:0; 
+  color: var(--title-color, var(--profile-docente-text-primary)); 
+}
+
+.close-modal { 
+  background:transparent; 
+  border:none; 
+  font-size:20px; 
+  cursor:pointer; 
+  color: var(--profile-docente-text-primary);
+}
+
+.photo-modal-body { 
+  display:flex; 
+  gap:18px; 
+  margin-top:12px; 
+}
+
+.photo-preview { 
+  width:220px; 
+  height:264px; 
+  display:flex; 
+  align-items:center; 
+  justify-content:center; 
+  border-radius:8px; 
+  background: #fff; 
+  box-shadow: 0 6px 18px rgba(2,6,23,0.15); 
+  border:1px solid rgba(0,0,0,0.06); 
+}
+
+.photo-preview img { 
+  max-width:100%; 
+  max-height:100%; 
+  border-radius:6px; 
+}
+
+.photo-placeholder { 
+  color:var(--profile-docente-text-tertiary); 
+  font-size:14px; 
+}
+
+.photo-controls { 
+  flex:1; 
+  display:flex; 
+  flex-direction:column; 
+  gap:8px; 
+}
+
+.photo-hint { 
+  font-size:12px; 
+  color:var(--profile-docente-text-muted); 
+}
+
+.photo-actions { 
+  display:flex; 
+  gap:10px; 
+  margin-top:8px; 
+}
+
+.btn-primary { 
+  background: linear-gradient(180deg, var(--brand-green), #4F9580); 
+  color:#fff; 
+  padding:8px 12px; 
+  border-radius:8px; 
+  border:none; 
+  cursor:pointer; 
+  font-weight: 600;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(90, 158, 141, 0.2);
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-secondary { 
+  background: transparent; 
+  color: var(--profile-docente-text-primary); 
+  border:1px solid var(--profile-docente-border-primary); 
+  padding:8px 12px; 
+  border-radius:8px; 
+  cursor:pointer; 
+  transition: background 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background: var(--profile-docente-bg-hover);
+}
+
+.photo-error { 
+  color: var(--profile-docente-text-error); 
+  font-size:12px; 
+  margin-top:6px; 
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .profile-docente-container {
+    flex-direction: column;
+  }
+  
+  .profile-docente-content {
+    padding: 20px;
+  }
+  
+  .profile-docente-form-row {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 600px) {
+  /* On small screens keep the title in-flow so it doesn't overlap form fields */
+  .profile-docente-root {
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+    width: 100%;
+    padding: 18px 12px;
+    margin: 0 auto 8px;
+    z-index: 1;
+    text-align: center;
+  }
+
+  /* Pull content up under the title (smaller top padding) */
+  .profile-docente-content {
+    padding-top: 12px;
+  }
+
+  .profile-docente-title {
+    font-size: 1.6rem;
+    text-align: center;
+    margin: 0;
+    line-height: 1.1;
+  }
+  
+  .photo-modal-body {
+    flex-direction: column;
+  }
+  
+  .photo-preview {
+    width: 100%;
+    height: 200px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .profile-docente-save-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 0.75rem;
+  }
+
+  .profile-docente-save-btn {
+    padding: 0.6rem 1rem;
+  }
+
+  .profile-docente-save-note {
+    font-size: 0.95rem;
+    min-width: 160px;
+  }
+  
+  .profile-docente-form-row {
+    gap: 20px;
+  }
+  
+  .profile-docente-content {
+    padding: 30px;
+  }
+}
+
+/* Transiciones suaves para el cambio de tema */
+* {
+  transition-property: background-color, border-color, color, box-shadow, opacity;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+}
