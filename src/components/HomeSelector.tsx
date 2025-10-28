@@ -3,11 +3,13 @@ import { useNavigate } from "react-router-dom";
 export default function HomeSelector() {
   const navigate = useNavigate();
 
-  const handleSelect = (role: "estudiante" | "docente") => {
+  const handleSelect = (role: "estudiante" | "docente" | "admin") => {
     if (role === "estudiante") {
       navigate("/estudiante/inicio");
-    } else {
+    } else if (role === "docente") {
       navigate("/docente/dashboard");
+    } else {
+      navigate("/admin/dashboard");
     }
   };
 
@@ -19,6 +21,9 @@ export default function HomeSelector() {
       </button>
       <button onClick={() => handleSelect("docente")} style={{ padding: "10px 20px" }}>
         Ingresar como Docente
+      </button>
+      <button onClick={() => handleSelect("admin")} style={{ padding: "10px 20px" }}>
+        Ingresar como Administrador
       </button>
     </div>
   );
