@@ -68,7 +68,7 @@ export default function SsoReceiver() {
       const roleLower = (rol || usuario?.rol || "estudiante").toLowerCase();
       let targetPath = "/estudiante/inicio";
       switch (roleLower) {
-        case "docente": targetPath = "/docente/inicio"; break;
+        case "docente": targetPath = "/docente/dashboard"; break;
         case "admin": targetPath = "/admin"; break;
         case "estudiante":
         default: targetPath = "/estudiante/inicio"; break;
