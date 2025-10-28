@@ -35,15 +35,15 @@
 /* Estadísticas principales */
 .dashboard-admin-stats {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 24px;
-  margin-bottom: 40px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 32px;
 }
 
 .stat-card {
   background: white;
   border-radius: 12px;
-  padding: 24px;
+  padding: 18px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   border: 1px solid rgba(0, 0, 0, 0.05);
@@ -67,23 +67,23 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
 .stat-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 24px;
+  font-size: 20px;
 }
 
 .stat-change {
-  font-size: 0.875rem;
+  font-size: 0.8rem;
   font-weight: 600;
-  padding: 4px 8px;
+  padding: 3px 8px;
   border-radius: 6px;
 }
 
@@ -100,14 +100,15 @@
 .stat-card-body {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
 }
 
 .stat-value {
-  font-size: 2rem;
+  font-size: 1.75rem;
   font-weight: 700;
   color: #111827;
   margin: 0;
+  line-height: 1.1;
 }
 
 .dark .stat-value {
@@ -115,7 +116,7 @@
 }
 
 .stat-title {
-  font-size: 0.875rem;
+  font-size: 0.85rem;
   color: #6b7280;
   margin: 0;
 }
@@ -247,8 +248,12 @@
   }
   
   .dashboard-admin-stats {
-    grid-template-columns: 1fr;
-    gap: 16px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  
+  .stat-card {
+    padding: 14px;
   }
   
   .quick-actions-grid {
@@ -258,10 +263,6 @@
   .dashboard-admin-info {
     grid-template-columns: 1fr;
   }
-  
-  .stat-card {
-    padding: 20px;
-  }
 }
 
 @media (max-width: 480px) {
@@ -269,8 +270,18 @@
     margin-bottom: 24px;
   }
   
+  .dashboard-admin-stats {
+    grid-template-columns: 1fr;
+  }
+  
   .stat-value {
-    font-size: 1.75rem;
+    font-size: 1.5rem;
+  }
+  
+  .stat-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
   }
   
   .action-button {
