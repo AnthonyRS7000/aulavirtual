@@ -4,6 +4,7 @@ import logoUDH from '../../../../assets/UDH.webp';
 import logoUDHLight from '../../../../assets/UDHlight.png';
 import pdfIcon from '../../../../components/icons/pdf.svg';
 import calendarioIcon from '../../../../components/icons/calendario.svg';
+import PerfilDropdownDocente from '../../../../components/PerfilDropdownDocente';
 import './TopbarDocente.css';
 
 interface TopbarDocenteProps {
@@ -15,6 +16,7 @@ interface TopbarDocenteProps {
 
 export default function TopbarDocente(props: TopbarDocenteProps) {
   const [isDarkTheme, setIsDarkTheme] = useState(props.isDarkMode);
+  const [perfilOpen, setPerfilOpen] = useState(false);
 
   const toggleTheme = () => {
     setIsDarkTheme(!isDarkTheme);
@@ -90,13 +92,24 @@ export default function TopbarDocente(props: TopbarDocenteProps) {
         </label>
 
         {/* Avatar del usuario */}
-        <div className="user-avatar" title="Aldo Ramirez - Docente">
+        <div 
+          className="user-avatar" 
+          title="Aldo Ramirez - Docente"
+          onClick={() => setPerfilOpen(!perfilOpen)}
+          style={{ cursor: 'pointer' }}
+        >
           <img
             src="/unnamed.png"
             alt="Avatar de usuario"
             className="avatar-img"
           />
         </div>
+        
+        {/* Dropdown de perfil */}
+        <PerfilDropdownDocente 
+          isOpen={perfilOpen} 
+          onClose={() => setPerfilOpen(false)} 
+        />
       </div>
     </header>
   );

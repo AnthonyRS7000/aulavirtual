@@ -121,17 +121,20 @@
 }
 
 .user-avatar {
-  cursor: default; /* no pointer change */
-  border-radius: 50%;
-  overflow: hidden;
+  cursor: pointer;
+  border-radius: 50% !important;
+  overflow: hidden !important;
   width: 40px;
   height: 40px;
-  border: 2px solid transparent; /* quitar color por defecto */
-  transition: none; /* eliminar transiciones de hover */
+  border: 2px solid transparent;
+  transition: border-color 0.2s ease;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   background: transparent;
+  flex-shrink: 0;
+  /* Forzar forma circular perfecta */
+  clip-path: circle(50%);
 }
 
 /* Eliminar cualquier efecto hover/active en avatar */
@@ -142,15 +145,16 @@
   box-shadow: none !important;
 }
 
-/* Forzar imagen centrada y sin distorsión */
+/* Forzar imagen completamente redonda y sin distorsión */
 .avatar-img {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  object-fit: cover;
-  display: block;
-  margin: 0 auto;
-  transform: none !important;
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  display: block !important;
+  /* Asegurar que no haya márgenes ni padding */
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 /* Dark mode: mantener sin cambios visuales */
