@@ -31,6 +31,7 @@ import PerfilDocente from "./features/docente/pages/PerfilDocente";
 
 // Admin
 import DashboardAdmin from "./features/admin/pages/DashboardAdmin";
+import GestionEstudiantesAdmin from "./features/admin/pages/GestionEstudiantesAdmin";
 
 function App() {
   return (
@@ -70,7 +71,7 @@ function App() {
 
           <Route element={<LayoutAdmin />}>
             <Route path="/admin/dashboard" element={<DashboardAdmin />} />
-            <Route path="/admin/estudiantes" element={<div>Gestión de Estudiantes</div>} />
+            <Route path="/admin/estudiantes" element={<GestionEstudiantesAdmin />} />
             <Route path="/admin/docentes" element={<div>Gestión de Docentes</div>} />
             <Route path="/admin/cursos" element={<div>Gestión de Cursos</div>} />
             <Route path="/admin/reportes" element={<div>Reportes</div>} />

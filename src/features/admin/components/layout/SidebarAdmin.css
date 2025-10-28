@@ -27,7 +27,7 @@
 /* Temas */
 .sidebar-admin.dark {
   background: rgb(31, 41, 55); /* Color unificado modo oscuro */
-  border-right-color: #4b5563;
+  border-right: 1px solid rgba(75, 85, 99, 0.3); /* Borde más oscuro y sutil */
 }
 
 /* Backdrop para móvil */
