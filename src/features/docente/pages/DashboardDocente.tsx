@@ -15,7 +15,7 @@ export default function DashboardDocente() {
   return (
     <div className="dashboard-docente">
       {/* Título estilizado */}
-      <TituloPage titulo="📊 Panel Docente" />
+      <TituloPage titulo="📚 Inicio" />
 
       <p className="page-subtitle">Bienvenido(a) al Panel de Gestión Docente.</p>
       <p className="page-subtitle">Tu espacio digital para enseñar, organizar y gestionar tus cursos de manera efectiva.</p>

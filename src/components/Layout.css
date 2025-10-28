@@ -99,13 +99,13 @@
 
 /* Modo oscuro para sidebar - TRANSICIÓN RÁPIDA */
 .dark .admin-sidebar {
-  background-color: #1f2937;
+  background-color: #071022;
   box-shadow: 2px 0px 8px rgba(0, 0, 0, 0.3);
 }
 
 /* CLASES ESPECÍFICAS PARA FORZAR TEMA INMEDIATO */
 .admin-sidebar.theme-dark {
-  background-color: #1f2937 !important;
+  background-color: #071022 !important;
   box-shadow: 2px 0px 8px rgba(0, 0, 0, 0.3) !important;
 }
 
@@ -129,12 +129,12 @@
   }
   
   .dark .admin-sidebar-desktop {
-    background-color: #1f2937;
+    background-color: #071022;
     box-shadow: 2px 0px 8px rgba(0, 0, 0, 0.3);
   }
 
   .admin-sidebar-desktop.theme-dark {
-    background-color: #1f2937 !important;
+    background-color: #071022 !important;
     box-shadow: 2px 0px 8px rgba(0, 0, 0, 0.3) !important;
   }
 
@@ -390,32 +390,36 @@
   height: 30px;
   border-radius: 50%;
   border: none;
-  background-color: #576e8f; /* fondo circular azul suave */
+  background-color: #e5e7eb; /* gris claro suave en modo claro */
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: left 0.3s ease, transform 0.3s ease;
-  box-shadow: none;  /* elimina cualquier sombra */
+  transition: left 0.3s ease, transform 0.3s ease, background-color 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);  /* sombra sutil */
   padding: 0;
+  cursor: pointer;
 }
 
 .flecha-icon {
   width: 20px;
   height: 18px;
-  filter: invert(1); /* blanco */
-  transition: transform 0.3s ease;
+  filter: invert(0.3); /* gris oscuro en modo claro */
+  transition: transform 0.3s ease, filter 0.2s ease;
 }
 
 .sidebar-collapse-button:hover {
-  background-color: #3e5070;
+  background-color: #d1d5db; /* gris un poco más oscuro al hover */
   transform: scale(1.05);
-  box-shadow: none; /* evita contorno blanco */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.sidebar-collapse-button:hover .flecha-icon {
+  filter: invert(0.1); /* más oscuro al hover */
 }
 
 .sidebar-collapse-button img {
   width: 22px;
   height: 25px;
-  filter: invert(1); /* color blanco */
 }
 
 .sidebar-collapse-button:focus {
@@ -438,6 +442,15 @@
 .dark .sidebar-collapse-button {
   background: #576e8f !important;
   color: #f3f4f6 !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3) !important;
+}
+
+.dark .flecha-icon {
+  filter: invert(1) !important; /* blanco en modo oscuro */
+}
+
+.dark .sidebar-collapse-button:hover {
+  background: #3e5070 !important;
 }
 
 /* ===================================== */
