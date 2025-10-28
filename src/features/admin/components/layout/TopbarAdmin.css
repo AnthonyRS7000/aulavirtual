@@ -22,7 +22,7 @@
 
 /* Modo oscuro del topbar */
 .dark .topbar-admin {
-  background: #374151;
+  background: rgb(31, 41, 55); /* Color unificado modo oscuro */
   color: #d1d5db;
   border-bottom: 1px solid rgba(255,255,255,0.03);
 }

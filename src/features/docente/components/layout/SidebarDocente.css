@@ -26,8 +26,8 @@
 
 /* Temas */
 .sidebar-docente.dark {
-  background: #374151;
-  border-right-color: #4b5563;
+  background: rgb(31, 41, 55); /* Color unificado modo oscuro */
+  border-right: 1px solid rgba(75, 85, 99, 0.3); /* Borde más oscuro y sutil */
 }
 
 /* Backdrop para móvil */
