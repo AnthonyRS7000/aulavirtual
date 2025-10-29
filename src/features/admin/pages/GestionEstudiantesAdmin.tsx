@@ -571,28 +571,34 @@ export default function GestionEstudiantesAdmin() {
                     <div className="modal-stat-icon">
                       <FaTrophy />
                     </div>
-                    <div className="modal-stat-value">
-                      {estudianteSeleccionado.promedio.toFixed(1)}
+                    <div className="modal-stat-content">
+                      <div className="modal-stat-value">
+                        {estudianteSeleccionado.promedio.toFixed(1)}
+                      </div>
+                      <div className="modal-stat-label">Promedio</div>
                     </div>
-                    <div className="modal-stat-label">Promedio</div>
                   </div>
                   <div className="modal-stat-card">
                     <div className="modal-stat-icon">
                       <FaCheckCircle />
                     </div>
-                    <div className="modal-stat-value">
-                      {estudianteSeleccionado.asistencia}%
+                    <div className="modal-stat-content">
+                      <div className="modal-stat-value">
+                        {estudianteSeleccionado.asistencia}%
+                      </div>
+                      <div className="modal-stat-label">Asistencia</div>
                     </div>
-                    <div className="modal-stat-label">Asistencia</div>
                   </div>
                   <div className="modal-stat-card">
                     <div className="modal-stat-icon">
                       <FaBook />
                     </div>
-                    <div className="modal-stat-value">
-                      {estudianteSeleccionado.tareasEntregadas}/{estudianteSeleccionado.tareasTotal}
+                    <div className="modal-stat-content">
+                      <div className="modal-stat-value">
+                        {estudianteSeleccionado.tareasEntregadas}/{estudianteSeleccionado.tareasTotal}
+                      </div>
+                      <div className="modal-stat-label">Tareas</div>
                     </div>
-                    <div className="modal-stat-label">Tareas</div>
                   </div>
                 </div>
               </div>

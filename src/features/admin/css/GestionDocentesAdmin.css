@@ -1,6 +1,6 @@
-/* GestionEstudiantesAdmin.css */
+/* GestionDocentesAdmin.css */
 
-.estudiantes-admin-page {
+.docentes-admin-page {
   padding: 24px;
   max-width: 1800px;
   margin: 0 auto;
@@ -8,7 +8,7 @@
   box-sizing: border-box;
 }
 
-.estudiantes-admin-header {
+.docentes-admin-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -101,7 +101,7 @@
   background: #4b5563;
 }
 
-/* Filter Section - Nuevo diseño jerárquico */
+/* Filter Section */
 .filter-section {
   background: white;
   border-radius: 16px;
@@ -109,6 +109,8 @@
   margin-bottom: 24px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   border: 1px solid #f3f4f6;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .dark .filter-section {
@@ -288,34 +290,29 @@
 .programa-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  border-color: var(--programa-color);
+  border-color: #9ca3af;
 }
 
 .programa-card.active {
-  border-color: var(--programa-color);
+  border-color: #1f2937;
   border-width: 3px;
-  background: linear-gradient(135deg, var(--programa-color)10 0%, var(--programa-color)20 100%);
+  background: #f9fafb;
 }
 
 .dark .programa-card.active {
-  background: linear-gradient(135deg, var(--programa-color)20 0%, var(--programa-color)30 100%);
+  background: #374151;
+  border-color: #6b7280;
 }
 
 .programa-bar {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 4px;
-  height: 100%;
-  background: var(--programa-color);
-  border-radius: 10px 0 0 10px;
+  display: none;
 }
 
 .programa-content {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  padding-left: 8px;
+  padding-left: 0;
 }
 
 .programa-nombre {
@@ -346,59 +343,49 @@
   color: var(--programa-color);
 }
 
-/* Ciclos Grid */
-.ciclos-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.ciclo-btn {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-width: 70px;
-  height: 70px;
+/* Filtros en línea */
+.filter-section-inline {
   background: white;
-  border: 2px solid #e5e7eb;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  padding: 8px;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border: 1px solid #f3f4f6;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
-.dark .ciclo-btn {
-  background: #111827;
+.dark .filter-section-inline {
+  background: #1f2937;
   border-color: #374151;
 }
 
-.ciclo-btn:hover:not(:disabled) {
-  transform: scale(1.05);
-  border-color: #2EBAA0;
-  box-shadow: 0 4px 8px rgba(46, 186, 160, 0.2);
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.ciclo-btn.active {
-  background: linear-gradient(135deg, #2EBAA0 0%, #259b85 100%);
-  border-color: #2EBAA0;
-  color: white;
+.filter-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #1f2937;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 2px;
 }
 
-.ciclo-btn:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
+.dark .filter-label {
+  color: #f9fafb;
 }
 
-.ciclo-roman {
-  font-size: 1.1rem;
-  font-weight: 700;
-}
-
-.ciclo-count {
-  font-size: 0.75rem;
-  margin-top: 2px;
-  opacity: 0.8;
+.filter-label-icon {
+  color: #2EBAA0;
+  font-size: 1rem;
 }
 
 /* Estado Filter */
@@ -406,15 +393,6 @@
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
-  background: white;
-  border-radius: 12px;
-  padding: 16px;
-  margin-bottom: 24px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-}
-
-.dark .estado-filter {
-  background: #1f2937;
 }
 
 .estado-btn {
@@ -459,9 +437,83 @@
   border-color: #f59e0b;
 }
 
-.estado-btn.suspendido.active {
-  background: #ef4444;
-  border-color: #ef4444;
+/* Select Wrapper - Dropdowns elegantes */
+.select-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.select-icon {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #2EBAA0;
+  font-size: 1.1rem;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.select-arrow {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%) rotate(90deg);
+  color: #9ca3af;
+  font-size: 0.875rem;
+  pointer-events: none;
+  transition: transform 0.3s ease;
+}
+
+.filter-select {
+  width: 100%;
+  padding: 14px 44px 14px 50px;
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #1f2937;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  outline: none;
+  text-indent: 0;
+  padding-inline-start: 50px;
+}
+
+.dark .filter-select {
+  background: #111827;
+  border-color: #374151;
+  color: #f9fafb;
+}
+
+.filter-select:hover {
+  border-color: #2EBAA0;
+  box-shadow: 0 4px 12px rgba(46, 186, 160, 0.1);
+}
+
+.filter-select:focus {
+  border-color: #2EBAA0;
+  box-shadow: 0 0 0 3px rgba(46, 186, 160, 0.1);
+}
+
+.dark .filter-select:hover,
+.dark .filter-select:focus {
+  border-color: #2EBAA0;
+}
+
+.filter-select option {
+  padding: 12px;
+  font-weight: 500;
+}
+
+/* Animación del arrow al hacer focus */
+.filter-select:focus + .select-arrow {
+  transform: translateY(-50%) rotate(270deg);
+  color: #2EBAA0;
 }
 
 /* Stats Grid */
@@ -470,6 +522,8 @@
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 16px;
   margin-bottom: 24px;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .stat-card-admin {
@@ -481,6 +535,7 @@
   padding: 20px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   transition: transform 0.2s ease;
+  box-sizing: border-box;
 }
 
 .dark .stat-card-admin {
@@ -534,6 +589,8 @@
 .search-container-admin {
   position: relative;
   margin-bottom: 24px;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .search-icon-admin {
@@ -554,6 +611,7 @@
   background: white;
   color: #1f2937;
   transition: all 0.2s ease;
+  box-sizing: border-box;
 }
 
 .dark .search-input-admin {
@@ -579,6 +637,8 @@
   border-radius: 16px;
   border: 2px dashed #e5e7eb;
   margin: 40px 0;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .dark .no-selection-message {
@@ -628,6 +688,8 @@
   background: white;
   border-radius: 12px;
   margin: 20px 0;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .dark .no-results-admin {
@@ -664,16 +726,17 @@
   color: #6b7280;
 }
 
-/* Lista de Estudiantes */
-.estudiantes-list-admin {
+/* Lista de Docentes */
+.docentes-list-admin {
   display: grid;
   gap: 12px;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
-.estudiante-card-admin {
+.docente-card-admin {
   background: white;
   border: 1px solid #e5e7eb;
-  border-left: 4px solid var(--programa-color);
   border-radius: 10px;
   padding: 16px 20px;
   display: flex;
@@ -681,20 +744,21 @@
   align-items: center;
   gap: 20px;
   transition: all 0.3s ease;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
-.dark .estudiante-card-admin {
+.dark .docente-card-admin {
   background: #1f2937;
   border-color: #374151;
-  border-left-color: var(--programa-color);
 }
 
-.estudiante-card-admin:hover {
+.docente-card-admin:hover {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   transform: translateY(-2px);
 }
 
-.estudiante-main-info {
+.docente-main-info {
   display: flex;
   gap: 14px;
   align-items: center;
@@ -702,28 +766,29 @@
   min-width: 0;
 }
 
-.estudiante-avatar-admin {
-  width: 50px;
-  height: 50px;
+.docente-avatar-admin {
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
+  background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   color: white;
   flex-shrink: 0;
 }
 
-.estudiante-details-admin {
+.docente-details-admin {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 8px;
   min-width: 0;
   flex: 1;
 }
 
-.estudiante-nombre-completo {
-  font-size: 1rem;
+.docente-nombre-completo {
+  font-size: 1.05rem;
   font-weight: 600;
   color: #1f2937;
   display: flex;
@@ -734,7 +799,7 @@
   text-overflow: ellipsis;
 }
 
-.dark .estudiante-nombre-completo {
+.dark .docente-nombre-completo {
   color: #f9fafb;
 }
 
@@ -755,45 +820,113 @@
   box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.2);
 }
 
-.estado-indicator.suspendido {
+.estado-indicator.licencia {
   background: #ef4444;
   box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2);
 }
 
-.estudiante-email {
+/* Estilos comentados - no se usan más */
+/*
+.docente-meta-info {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
   font-size: 0.85rem;
   color: #6b7280;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
-.dark .estudiante-email {
+.dark .docente-meta-info {
   color: #9ca3af;
 }
 
-.estudiante-email svg {
+.docente-especialidad,
+.docente-grado {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.docente-especialidad svg,
+.docente-grado svg {
+  color: #2EBAA0;
+  font-size: 0.85rem;
+}
+*/
+
+.docente-email {
+  font-size: 0.9rem;
+  color: #6b7280;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dark .docente-email {
+  color: #9ca3af;
+}
+
+.docente-email svg {
   flex-shrink: 0;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   color: #2EBAA0;
 }
 
-.estudiante-meta {
-  display: none;
+/* Mini estadísticas - ya no se usan */
+/*
+.docente-stats-mini {
+  display: flex;
+  gap: 16px;
+  margin-right: 16px;
 }
 
-.estudiante-contacto {
-  display: none;
+.stat-mini {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #f9fafb;
+  padding: 8px 12px;
+  border-radius: 8px;
 }
 
-.estudiante-metricas {
-  display: none;
+.dark .stat-mini {
+  background: #111827;
 }
 
-.estudiante-acciones {
+.stat-mini-icon {
+  font-size: 1.1rem;
+  color: #2EBAA0;
+}
+
+.stat-mini-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.stat-mini-value {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1f2937;
+  line-height: 1;
+}
+
+.dark .stat-mini-value {
+  color: #f9fafb;
+}
+
+.stat-mini-label {
+  font-size: 0.7rem;
+  color: #6b7280;
+  line-height: 1;
+}
+
+.dark .stat-mini-label {
+  color: #9ca3af;
+}
+*/
+
+/* Acciones de los docentes */
+.docente-acciones {
   display: flex;
   gap: 8px;
   flex-shrink: 0;
@@ -868,7 +1001,7 @@
   box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
 }
 
-/* Modal de Detalles del Estudiante */
+/* Modal de Detalles del Docente */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -914,12 +1047,12 @@
 
 @keyframes slideUp {
   from {
-    transform: translateY(30px);
     opacity: 0;
+    transform: translateY(20px);
   }
   to {
-    transform: translateY(0);
     opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -991,7 +1124,7 @@
 }
 
 .dark .modal-close-btn:hover {
-  background: #ef4444;
+  background: #4b5563;
 }
 
 .modal-body {
@@ -1000,17 +1133,17 @@
   flex: 1;
 }
 
-.modal-student-header {
+.modal-docente-header {
   display: flex;
   align-items: center;
-  gap: 20px;
-  padding: 2px;
+  gap: 16px;
+  padding: 16px;
   background: linear-gradient(135deg, var(--programa-color)10 0%, var(--programa-color)05 100%);
   border-radius: 12px;
   margin-bottom: 24px;
 }
 
-.dark .modal-student-header {
+.dark .modal-docente-header {
   background: linear-gradient(135deg, var(--programa-color)20 0%, var(--programa-color)10 100%);
 }
 
@@ -1027,12 +1160,12 @@
   flex-shrink: 0;
 }
 
-.modal-student-info {
+.modal-docente-info {
   flex: 1;
   min-width: 0;
 }
 
-.modal-student-name {
+.modal-docente-name {
   font-size: 1.25rem;
   font-weight: 700;
   color: #1f2937;
@@ -1043,17 +1176,17 @@
   flex-wrap: wrap;
 }
 
-.dark .modal-student-name {
+.dark .modal-docente-name {
   color: #f9fafb;
 }
 
-.modal-student-codigo {
+.modal-docente-codigo {
   font-size: 0.9rem;
   color: #6b7280;
   font-weight: 500;
 }
 
-.dark .modal-student-codigo {
+.dark .modal-docente-codigo {
   color: #9ca3af;
 }
 
@@ -1069,7 +1202,7 @@
   font-size: 0.95rem;
   font-weight: 600;
   color: #1f2937;
-  margin: 0 0 12px 0;
+  margin-bottom: 12px;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -1094,7 +1227,6 @@
   background: #f9fafb;
   padding: 10px 12px;
   border-radius: 8px;
-  border: 1px solid #e5e7eb;
 }
 
 .dark .modal-info-item {
@@ -1129,63 +1261,10 @@
   color: #f9fafb;
 }
 
-
 .modal-info-value svg {
   color: #2EBAA0;
   font-size: 0.85rem;
   flex-shrink: 0;
-}
-
-.modal-stats-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-}
-
-.modal-stat-card {
-  background: white;
-  border: 2px solid #e5e7eb;
-  border-radius: 10px;
-  padding: 14px;
-  text-align: center;
-  transition: all 0.2s ease;
-}
-
-.dark .modal-stat-card {
-  background: #111827;
-  border-color: #374151;
-}
-
-.modal-stat-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.modal-stat-icon {
-  font-size: 1.3rem;
-  margin-bottom: 6px;
-  color: #2EBAA0;
-}
-
-.modal-stat-value {
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: #1f2937;
-  margin-bottom: 4px;
-}
-
-.dark .modal-stat-value {
-  color: #f9fafb;
-}
-
-.modal-stat-label {
-  font-size: 0.75rem;
-  color: #6b7280;
-  font-weight: 500;
-}
-
-.dark .modal-stat-label {
-  color: #9ca3af;
 }
 
 .modal-stats-grid {
@@ -1289,12 +1368,12 @@
   color: #fef3c7;
 }
 
-.estado-badge.suspendido {
+.estado-badge.licencia {
   background: #fee2e2;
   color: #991b1b;
 }
 
-.dark .estado-badge.suspendido {
+.dark .estado-badge.licencia {
   background: #991b1b;
   color: #fee2e2;
 }
@@ -1305,8 +1384,8 @@
   display: flex;
   justify-content: flex-end;
   gap: 14px;
-  background: white;
   flex-shrink: 0;
+  background: white;
 }
 
 .dark .modal-footer {
@@ -1318,31 +1397,27 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 9px 18px;
+  padding: 10px 20px;
   border: none;
-  border-radius: 8px;
-  font-size: 0.875rem;
+  border-radius: 10px;
+  font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
-  white-space: nowrap;
 }
 
 .modal-btn-secondary {
-  background: white;
-  color: #6b7280;
-  border: 2px solid #e5e7eb;
+  background: #f3f4f6;
+  color: #374151;
 }
 
 .dark .modal-btn-secondary {
   background: #374151;
-  color: #9ca3af;
-  border-color: #4b5563;
+  color: #f9fafb;
 }
 
 .modal-btn-secondary:hover {
-  background: #f3f4f6;
-  border-color: #d1d5db;
+  background: #e5e7eb;
 }
 
 .dark .modal-btn-secondary:hover {
@@ -1361,22 +1436,22 @@
 
 /* Responsive Design */
 @media (max-width: 1200px) {
-  .modal-info-grid {
-    grid-template-columns: 1fr;
+  .facultades-grid {
+    grid-template-columns: repeat(3, 1fr);
   }
 
-  .modal-stats-grid {
-    grid-template-columns: repeat(3, 1fr);
+  .docente-stats-mini {
+    gap: 12px;
   }
 }
 
 @media (max-width: 992px) {
   .facultades-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .programas-grid {
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .stats-grid-admin {
@@ -1385,13 +1460,23 @@
 }
 
 @media (max-width: 768px) {
-  .estudiantes-admin-page {
+  .docentes-admin-page {
     padding: 16px;
   }
 
-  .estudiantes-admin-header {
+  .docentes-admin-header {
     flex-direction: column;
     align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .header-info {
+    min-width: 100%;
+  }
+
+  .page-title {
+    font-size: 1.5rem;
   }
 
   .header-actions {
@@ -1404,16 +1489,19 @@
     justify-content: center;
   }
 
-  .page-title {
-    font-size: 1.5rem;
-  }
-
-  .filter-section {
+  .filter-section,
+  .filter-section-inline {
     padding: 16px;
   }
 
+  .filter-section-inline {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
   .facultades-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
+    gap: 10px;
   }
 
   .programas-grid {
@@ -1424,212 +1512,113 @@
     grid-template-columns: 1fr;
   }
 
-  .estudiante-card-admin {
+  .docente-card-admin {
     flex-direction: column;
     align-items: flex-start;
-    gap: 12px;
+    gap: 16px;
+    padding: 16px;
   }
 
-  .estudiante-main-info {
+  .docente-main-info {
     width: 100%;
   }
 
-  .estudiante-card-admin {
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .estudiante-main-info {
-    width: 100%;
-  }
-
-  .estudiante-acciones {
+  .docente-acciones {
     width: 100%;
     justify-content: flex-end;
-    gap: 6px;
     margin-left: 0;
   }
 
-  .btn-accion {
-    width: 34px;
-    height: 34px;
-    font-size: 1.1rem;
-  }
-
-  .btn-accion svg {
-    width: 15px !important;
-    height: 15px !important;
-    min-width: 15px !important;
-    min-height: 15px !important;
-  }
-
-  /* Modal responsive */
   .modal-overlay {
-    padding: 0;
-    align-items: stretch;
+    padding: 16px;
   }
 
   .modal-container {
     max-width: 100%;
-    max-height: 100vh;
-    height: 100vh;
-    border-radius: 0;
-    margin: 0;
-  }
-
-  .modal-header {
-    padding: 16px;
-    border-radius: 0;
-  }
-
-  .modal-title {
-    font-size: 1.1rem;
+    max-height: calc(100vh - 32px);
   }
 
   .modal-body {
-    padding: 16px;
+    padding: 20px 24px;
   }
 
-  .modal-student-header {
-    flex-direction: column;
-    text-align: center;
-    padding: 16px;
+  .modal-header {
+    padding: 20px 24px;
   }
 
-  .modal-avatar {
-    width: 60px;
-    height: 60px;
-    font-size: 1.8rem;
-  }
-
-  .modal-student-name {
-    font-size: 1.1rem;
-    justify-content: center;
-  }
-
-  .modal-student-info {
-    width: 100%;
-  }
-
-  .modal-section {
-    margin-bottom: 16px;
-  }
-
-  .modal-section-title {
-    font-size: 0.95rem;
+  .modal-footer {
+    padding: 16px 24px;
   }
 
   .modal-info-grid {
     grid-template-columns: 1fr;
-    gap: 10px;
-  }
-
-  .modal-info-item {
-    padding: 10px;
   }
 
   .modal-stats-grid {
     grid-template-columns: 1fr;
-    gap: 10px;
   }
 
-  .modal-stat-card {
-    padding: 12px;
+  .estado-filter,
+  .grado-filter {
+    flex-wrap: wrap;
+  }
+
+  .estado-btn,
+  .grado-btn {
+    flex: 1;
+    min-width: calc(50% - 6px);
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-title {
+    font-size: 1.25rem;
+  }
+
+  .btn-action-primary span,
+  .btn-action-secondary span {
+    display: none;
+  }
+
+  .docente-acciones {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .btn-accion {
+    width: calc(50% - 3px);
+  }
+
+  .modal-overlay {
+    padding: 8px;
+  }
+
+  .modal-container {
+    border-radius: 16px;
+  }
+
+  .modal-body {
+    padding: 16px 20px;
+  }
+
+  .modal-header {
+    padding: 16px 20px;
+  }
+
+  .modal-docente-header {
+    flex-direction: column;
+    text-align: center;
+    padding: 20px;
   }
 
   .modal-footer {
-    padding: 12px 16px;
-    flex-direction: column-reverse;
-    gap: 8px;
+    flex-direction: column;
+    padding: 16px 20px;
   }
 
   .modal-btn {
     width: 100%;
     justify-content: center;
-    padding: 10px 16px;
-  }
-}
-
-@media (max-width: 480px) {
-  .facultades-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .facultad-card {
-    flex-direction: row;
-    justify-content: flex-start;
-    text-align: left;
-    padding: 14px;
-  }
-
-  .facultad-info {
-    align-items: flex-start;
-    text-align: left;
-  }
-
-  .modal-student-name {
-    font-size: 1rem;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .estado-badge {
-    font-size: 0.75rem;
-    padding: 4px 8px;
-  }
-}
-
-/* Media query para tablets */
-@media (max-width: 768px) and (min-width: 481px) {
-  .modal-overlay {
-    padding: 12px;
-  }
-
-  .modal-container {
-    max-height: calc(100vh - 24px);
-  }
-
-  .modal-header {
-    padding: 18px 20px;
-  }
-
-  .modal-body {
-    padding: 20px;
-  }
-
-  .modal-student-header {
-    padding: 18px;
-  }
-
-  .modal-avatar {
-    width: 65px;
-    height: 65px;
-    font-size: 1.9rem;
-  }
-
-  .modal-student-name {
-    font-size: 1.15rem;
-  }
-
-  .modal-stats-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-  }
-
-  .modal-stat-card {
-    padding: 12px 8px;
-  }
-
-  .modal-stat-value {
-    font-size: 1.2rem;
-  }
-
-  .modal-footer {
-    flex-direction: row;
-    padding: 14px 20px;
-  }
-
-  .modal-btn {
-    flex: 1;
   }
 }
