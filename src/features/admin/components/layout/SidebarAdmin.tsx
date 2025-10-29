@@ -7,6 +7,7 @@ import {
   FaBullhorn,
   FaChartBar,
   FaCog,
+  FaLifeRing,
   FaChevronRight,
 } from 'react-icons/fa';
 import './SidebarAdmin.css';
@@ -48,6 +49,12 @@ const menuItems = [
     label: 'Anuncios',
     icon: FaBullhorn,
     path: '/admin/anuncios'
+  },
+  {
+    id: 'soporte',
+    label: 'Soporte Classroom',
+    icon: FaLifeRing,
+    path: '/admin/soporte-classroom'
   },
   {
     id: 'reportes',
