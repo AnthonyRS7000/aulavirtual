@@ -4,6 +4,7 @@ import {
   FaUsers,
   FaChalkboardTeacher,
   FaBook,
+  FaBullhorn,
   FaChartBar,
   FaCog,
   FaChevronRight,
@@ -41,6 +42,12 @@ const menuItems = [
     label: 'Cursos',
     icon: FaBook,
     path: '/admin/cursos'
+  },
+  {
+    id: 'anuncios',
+    label: 'Anuncios',
+    icon: FaBullhorn,
+    path: '/admin/anuncios'
   },
   {
     id: 'reportes',
