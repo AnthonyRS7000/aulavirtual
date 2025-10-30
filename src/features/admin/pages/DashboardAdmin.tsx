@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { FaUsers, FaChalkboardTeacher, FaBook, FaChartLine } from 'react-icons/fa';
 import '../css/DashboardAdmin.css';
 import TituloPage from '../../../components/pages/TituloPage';
@@ -14,6 +15,7 @@ import usuarioImg from '../../../assets/usuario.png';
 import configuracionImg from '../../../assets/configuracion.png';
 
 const DashboardAdmin: React.FC = () => {
+  const navigate = useNavigate();
   // Datos simulados para las estadísticas
   const stats = [
     {
@@ -85,35 +87,35 @@ const DashboardAdmin: React.FC = () => {
       <div className="dashboard-admin-quick-actions">
         <h2 className="section-title">Gestiones Rápidas</h2>
         <div className="quick-actions-grid">
-          <button className="action-button">
+          <button className="action-button" onClick={() => navigate('/admin/estudiantes')}>
             <img src={graduadoImg} alt="Estudiantes" className="action-icon" />
             <span>Estudiantes</span>
           </button>        
-          <button className="action-button">
+          <button className="action-button" onClick={() => navigate('/admin/cursos')}>
             <img src={cursoImg} alt="Cursos" className="action-icon" />
             <span>Cursos</span>
           </button>
-          <button className="action-button">
+          <button className="action-button" onClick={() => navigate('/admin/docentes')}>
             <img src={profesorImg} alt="Docentes" className="action-icon" />
             <span>Docentes</span>
           </button>
-          <button className="action-button">
+          <button className="action-button" onClick={() => navigate('/admin/anuncios')}>
             <img src={anuncioImg} alt="Anuncio" className="action-icon" />
             <span>Anuncio</span>
           </button>
-          <button className="action-button">
+          <button className="action-button" onClick={() => navigate('/admin/soporte-classroom')}>
             <img src={classroomImg} alt="Soporte Classroom" className="action-icon" />
             <span>Soporte Classroom</span>
           </button>
-          <button className="action-button">
+          <button className="action-button" onClick={() => navigate('/admin/reportes')}>
             <img src={reporteImg} alt="Reportes" className="action-icon" />
             <span>Reportes</span>
           </button>
-          <button className="action-button">
+          <button className="action-button" onClick={() => navigate('/admin/perfil')}>
             <img src={usuarioImg} alt="Mi Perfil" className="action-icon" />
             <span>Mi Perfil</span>
           </button>
-          <button className="action-button">
+          <button className="action-button" onClick={() => navigate('/admin/configuracion')}>
             <img src={configuracionImg} alt="Configuración" className="action-icon" />
             <span>Configuración</span>
           </button>

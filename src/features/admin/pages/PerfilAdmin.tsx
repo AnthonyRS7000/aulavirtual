@@ -330,14 +330,6 @@ const PerfilAdmin = () => {
             )}
           </div>
         </div>
-
-        {/* Mensaje informativo */}
-        <div className="profile-info-message">
-          <div className="info-icon">ℹ️</div>
-          <div className="info-text">
-            <strong>Información importante:</strong> Los datos personales mostrados provienen del sistema de recursos humanos de la UDH. Si encuentras algún error, contacta con la oficina de RRHH.
-          </div>
-        </div>
       </div>
     </div>
   );
