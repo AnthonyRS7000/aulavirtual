@@ -2,6 +2,7 @@ import { FaSun, FaMoon } from 'react-icons/fa';
 import { useState, useEffect } from 'react';
 import logoUDH from '../../../../assets/UDH.webp';
 import logoUDHLight from '../../../../assets/UDHlight.png';
+import PerfilDropdownAdmin from '../../../../components/PerfilDropdownAdmin';
 import './TopbarAdmin.css';
 
 interface TopbarAdminProps {
@@ -13,6 +14,7 @@ interface TopbarAdminProps {
 
 export default function TopbarAdmin(props: TopbarAdminProps) {
   const [isDarkTheme, setIsDarkTheme] = useState(props.isDarkMode);
+  const [perfilOpen, setPerfilOpen] = useState(false);
 
   const toggleTheme = () => {
     setIsDarkTheme(!isDarkTheme);
@@ -73,11 +75,18 @@ export default function TopbarAdmin(props: TopbarAdminProps) {
           className="user-avatar" 
           title="Administrador"
           style={{ cursor: 'pointer' }}
+          onClick={() => setPerfilOpen(!perfilOpen)}
         >
           <div className="avatar-placeholder">
             A
           </div>
         </div>
+
+        {/* Dropdown del perfil */}
+        <PerfilDropdownAdmin 
+          isOpen={perfilOpen}
+          onClose={() => setPerfilOpen(false)}
+        />
       </div>
     </header>
   );

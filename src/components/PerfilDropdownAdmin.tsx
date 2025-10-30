@@ -1,27 +1,30 @@
-// src/components/PerfilDropdownDocente.tsx
+// src/components/PerfilDropdownAdmin.tsx
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { HiOutlineUser, HiOutlineLogout } from 'react-icons/hi';
 import { useTheme } from '../hooks/useTheme';
 import { useAuth } from '../context/AuthContext';
 
-import './PerfilDropdownDocente.css';
+import './PerfilDropdownAdmin.css';
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
 }
   
-export default function PerfilDropdownDocente({ isOpen, onClose }: Props) {
+export default function PerfilDropdownAdmin({ isOpen, onClose }: Props) {
   const dropdownRef = useRef(null);
   const { theme } = useTheme();
   const { logout } = useAuth();
-  // Detección robusta: combinar el hook con la clase en <html> y observar cambios
+  // Hacemos la detección más robusta: si el hook indica dark O el <html> tiene la clase 'dark'
+  // además observamos cambios en el atributo `class` para reaccionar cuando otro componente
+  // (ej. Topbar) modifica directamente document.documentElement.className
   const [isDarkState, setIsDarkState] = useState<boolean>(
     theme === 'dark' || (typeof document !== 'undefined' && document.documentElement.classList.contains('dark'))
   );
 
   useEffect(() => {
+    // Mantener sincronizado con el valor del hook
     if (theme === 'dark') setIsDarkState(true);
     if (theme === 'light') setIsDarkState(false);
   }, [theme]);
@@ -65,14 +68,14 @@ export default function PerfilDropdownDocente({ isOpen, onClose }: Props) {
   if (!isOpen) return null;
 
   return (
-    <div ref={dropdownRef} className={`perfil-dropdown-docente ${isDark ? 'dark' : ''}`}>
-      <Link to="/docente/perfil" className="dropdown-item-docente" onClick={onClose}>
+    <div ref={dropdownRef} className={`perfil-dropdown-admin ${isDark ? 'dark' : ''}`}>
+      <Link to="/admin/perfil" className="dropdown-item-admin" onClick={onClose}>
         <HiOutlineUser
           style={{ marginRight: '8px', width: '20px', height: '20px', color: isDark ? '#f8fafc' : '#0f172a' }}
         />
         Mi perfil
       </Link>
-      <button onClick={cerrarSesion} className="dropdown-item-docente">
+      <button onClick={cerrarSesion} className="dropdown-item-admin">
         <HiOutlineLogout
           style={{ marginRight: '8px', width: '20px', height: '20px', color: isDark ? '#f8fafc' : '#0f172a' }}
         />
