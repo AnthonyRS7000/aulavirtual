@@ -36,6 +36,7 @@ import GestionDocentesAdmin from "./features/admin/pages/GestionDocentesAdmin";
 import SubirAnuncios from "./features/admin/pages/SubirAnuncios";
 import SoporteClassroom from "./features/admin/pages/SoporteClassroom";
 import GestionCursosAdmin from "./features/admin/pages/GestionCursos";
+import PerfilAdmin from "./features/admin/pages/PerfilAdmin";
 
 function App() {
   return (
@@ -80,6 +81,7 @@ function App() {
             <Route path="/admin/cursos" element={<GestionCursosAdmin />} />
             <Route path="/admin/anuncios" element={<SubirAnuncios />} />
             <Route path="/admin/soporte-classroom" element={<SoporteClassroom />} />
+            <Route path="/admin/perfil" element={<PerfilAdmin />} />
             <Route path="/admin/reportes" element={<div>Reportes</div>} />
             <Route path="/admin/configuracion" element={<div>Configuración</div>} />
           </Route>
