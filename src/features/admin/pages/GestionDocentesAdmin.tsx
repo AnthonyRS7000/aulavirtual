@@ -26,6 +26,7 @@ import {
   FaChevronRight
 } from 'react-icons/fa';
 import '../css/GestionDocentesAdmin.css';
+import TituloPage from '../../../components/pages/TituloPage';
 import { 
   docentes as docentesData,
   type Docente
@@ -128,25 +129,10 @@ export default function GestionDocentesAdmin() {
   return (
     <div className="docentes-admin-page">
       <div className="docentes-admin-header">
-        <div className="header-info">
-          <h1 className="page-title">
-            <FaChalkboardTeacher className="title-icon" />
-            Gestión de Docentes
-          </h1>
-          <p className="page-subtitle">
-            Administra y gestiona el personal docente de la institución
-          </p>
-        </div>
-        <div className="header-actions">
-          <button className="btn-action-secondary">
-            <FaFileExport />
-            <span>Exportar</span>
-          </button>
-          <button className="btn-action-primary">
-            <FaPlus />
-            <span>Nuevo Docente</span>
-          </button>
-        </div>
+        <TituloPage
+          titulo="👨‍🏫 Gestión de Docentes"
+          subtitle="Administra y gestiona el personal docente de la institución"
+        />
       </div>
 
       {/* Filtro nivel 1: Facultades */}
@@ -409,6 +395,18 @@ export default function GestionDocentesAdmin() {
           })}
         </div>
       )}
+
+      {/* Botones de acción flotantes */}
+      <div className="floating-actions">
+        <button className="floating-btn floating-btn-secondary" title="Exportar lista de docentes">
+          <FaFileExport />
+          <span>Exportar</span>
+        </button>
+        <button className="floating-btn floating-btn-primary" title="Agregar nuevo docente">
+          <FaPlus />
+          <span>Nuevo Docente</span>
+        </button>
+      </div>
 
       {/* Modal de detalles */}
       {mostrarModal && docenteSeleccionado && (

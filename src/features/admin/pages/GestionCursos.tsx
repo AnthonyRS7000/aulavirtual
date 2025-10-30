@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from "react";
 import "../css/GestionCursos.css";
+import TituloPage from '../../../components/pages/TituloPage';
 import {
   FaBook,
   FaUniversity,
@@ -247,25 +248,10 @@ export default function GestionCursos() {
     <div className="cursos-admin-page">
       {/* Header */}
       <div className="cursos-admin-header">
-        <div className="header-info">
-          <h1 className="page-title">
-            <FaBook className="title-icon" />
-            Gestión de Cursos
-          </h1>
-          <p className="page-subtitle">
-            Administra los cursos académicos por facultad y programa
-          </p>
-        </div>
-        <div className="header-actions">
-          <button className="btn-action-secondary">
-            <FaFileExport />
-            <span>Exportar</span>
-          </button>
-          <button className="btn-action-primary">
-            <FaPlus />
-            <span>Nuevo Curso</span>
-          </button>
-        </div>
+        <TituloPage
+          titulo="📚 Gestión de Cursos"
+          subtitle="Administra los cursos académicos por facultad y programa"
+        />
       </div>
 
       {/* Filtro nivel 1: Facultades */}
@@ -567,6 +553,18 @@ export default function GestionCursos() {
           })}
         </div>
       )}
+
+      {/* Botones de acción flotantes */}
+      <div className="floating-actions">
+        <button className="floating-btn floating-btn-secondary" title="Exportar lista de cursos">
+          <FaFileExport />
+          <span>Exportar</span>
+        </button>
+        <button className="floating-btn floating-btn-primary" title="Agregar nuevo curso">
+          <FaPlus />
+          <span>Nuevo Curso</span>
+        </button>
+      </div>
     </div>
   );
 }
