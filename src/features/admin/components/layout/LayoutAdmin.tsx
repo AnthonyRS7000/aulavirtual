@@ -57,8 +57,10 @@ export const LayoutAdmin = () => {
         />
 
         {/* Contenido principal */}
-        <main className={`main-content ${sidebarOpen ? 'sidebar-open' : 'sidebar-closed'}`}>
-          <Outlet />
+        <main className={`main-content ${isDarkMode ? 'dark-theme' : ''} ${sidebarOpen ? 'sidebar-expanded' : 'sidebar-collapsed'}`}>
+          <div className={`content-wrapper ${isDarkMode ? 'dark-theme' : ''}`}>
+            <Outlet />
+          </div>
         </main>
       </div>
     </div>
