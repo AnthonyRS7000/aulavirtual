@@ -7,7 +7,7 @@
   background-color: var(--bg-primary);
   color: var(--text-primary);
   font-family: 'Roboto', 'Poppins', sans-serif;
-  /* Avoid animating background-color to prevent stuck dark blocks when toggling theme. Animate visual properties only. */
+  /* NO animar background-color para cambio instantáneo de tema */
   transition: color 0.12s linear, border-color 0.12s linear, box-shadow 0.12s linear, transform 0.12s linear;
 }
 
@@ -22,7 +22,7 @@
   overflow-y: auto;
   background-color: var(--sidebar-bg);
   color: var(--sidebar-text);
-  /* Keep sidebar width/transform transitions but avoid background-color animation */
+  /* Solo animar width/transform, NO background-color */
   transition: width 0.3s ease, transform 0.12s linear, box-shadow 0.12s linear, color 0.12s linear;
   box-shadow: 2px 0px 8px var(--shadow);
 }
@@ -122,7 +122,7 @@
     height: 100vh;
     background-color: #ffffff;
     box-shadow: 2px 0px 8px rgba(0, 0, 0, 0.1);
-    /* Avoid animating background-color here to make theme toggle instant */
+    /* Solo animar width y propiedades visuales, NO background-color */
     transition: width 0.3s ease-in-out, border-color 0.15s ease, box-shadow 0.15s ease;
     overflow-y: auto;
     flex-shrink: 0;
@@ -188,6 +188,7 @@
   margin-left: 0; /* por defecto no desplazamos el contenido (mobile-first) */
   background-color: var(--bg-secondary);
   color: var(--text-primary);
+  /* NO animar background-color para cambio instantáneo */
 }
 
 /* En desktop reservamos espacio para el sidebar desplazando el contenido */
@@ -209,7 +210,8 @@
   padding: 1.5rem;
   max-width: 100%;
   box-sizing: border-box;
-  transition: all 0.3s ease;
+  /* Solo animar propiedades visuales, NO background-color */
+  transition: padding 0.3s ease, margin 0.3s ease;
 }
 
 /* Topbar styles - EXACTOS COMO UDH */
@@ -237,7 +239,8 @@
   background-color: transparent;
   border: none;
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
+  /* Solo animar propiedades visuales, NO background-color */
+  transition: color 0.2s ease-in-out, transform 0.2s ease-in-out;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -349,7 +352,8 @@
   gap: 0.5rem;
   padding: 0.25rem 0.5rem;
   border-radius: 0.5rem;
-  transition: background-color 0.1s ease;
+  /* NO animar background-color */
+  transition: transform 0.1s ease;
 }
 
 .topbar-user:hover {
@@ -394,7 +398,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: left 0.3s ease, transform 0.3s ease, background-color 0.2s ease;
+  /* Solo animar left y transform, NO background-color */
+  transition: left 0.3s ease, transform 0.3s ease, box-shadow 0.2s ease;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);  /* sombra sutil */
   padding: 0;
   cursor: pointer;
@@ -550,7 +555,8 @@
   border-radius: 0.375rem;
   border: none;
   background: transparent;
-  transition: background-color 0.15s ease, color 0.15s ease;
+  /* Solo animar color, NO background-color */
+  transition: color 0.15s ease, transform 0.15s ease;
 }
 
 .nav-section-header-copiloto:hover {
@@ -654,7 +660,8 @@
   font-size: 0.875rem;
   border-radius: 0.375rem;
   text-decoration: none;
-  transition: background-color 0.15s ease, color 0.15s ease;
+  /* Solo animar color y transform, NO background-color */
+  transition: color 0.15s ease, transform 0.15s ease;
   gap: 0.25rem;
   margin: 0;
   box-sizing: border-box;
