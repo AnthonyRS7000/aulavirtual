@@ -9,97 +9,14 @@
 }
 
 .cursos-admin-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   margin-bottom: 32px;
-  gap: 20px;
-  flex-wrap: wrap;
 }
 
-.header-info {
-  flex: 1;
-  min-width: 300px;
-}
+/* Ya no necesitamos estos estilos porque usamos TituloPage */
+/* .header-info, .page-title, .title-icon, .page-subtitle removidos */
 
-.page-title {
-  font-size: 2rem;
-  font-weight: 700;
-  color: #1f2937;
-  margin: 0 0 8px 0;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.dark .page-title {
-  color: #f9fafb;
-}
-
-.title-icon {
-  font-size: 1.75rem;
-  color: #2EBAA0;
-}
-
-.page-subtitle {
-  font-size: 0.95rem;
-  color: #6b7280;
-  margin: 0;
-}
-
-.dark .page-subtitle {
-  color: #9ca3af;
-}
-
-.header-actions {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.btn-action-primary,
-.btn-action-secondary {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px 20px;
-  border: none;
-  border-radius: 10px;
-  font-size: 0.95rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  white-space: nowrap;
-}
-
-.btn-action-primary {
-  background: linear-gradient(135deg, #2EBAA0 0%, #259b85 100%);
-  color: white;
-}
-
-.btn-action-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(46, 186, 160, 0.3);
-}
-
-.btn-action-secondary {
-  background: #f3f4f6;
-  color: #374151;
-}
-
-.dark .btn-action-secondary {
-  background: #374151;
-  color: #f9fafb;
-}
-
-.btn-action-secondary:hover {
-  background: #e5e7eb;
-  transform: translateY(-2px);
-}
-
-.dark .btn-action-secondary:hover {
-  background: #4b5563;
-}
+/* Los botones ahora son flotantes, estos estilos ya no se usan */
+/* .header-actions, .btn-action-primary, .btn-action-secondary removidos */
 
 /* Filter Section */
 .filter-section {
@@ -213,18 +130,15 @@
 
 .facultad-icon {
   font-size: 2rem;
-  width: 48px;
-  height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: white;
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, var(--facultad-color)20 0%, var(--facultad-color)30 100%);
   border-radius: 10px;
+  color: var(--facultad-color);
   flex-shrink: 0;
-}
-
-.facultad-card.active .facultad-icon {
-  background: rgba(255, 255, 255, 0.2);
 }
 
 .facultad-info {

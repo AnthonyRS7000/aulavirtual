@@ -24,6 +24,7 @@ import {
   FaMapMarkerAlt
 } from 'react-icons/fa';
 import '../css/GestionEstudiantesAdmin.css';
+import TituloPage from '../../../components/pages/TituloPage';
 import { 
   estudiantes as estudiantesData, 
   facultades, 
@@ -159,25 +160,10 @@ export default function GestionEstudiantesAdmin() {
   return (
     <div className="estudiantes-admin-page">
       <div className="estudiantes-admin-header">
-        <div className="header-info">
-          <h1 className="page-title">
-            <FaUserGraduate className="title-icon" />
-            Gestión de Estudiantes
-          </h1>
-          <p className="page-subtitle">
-            Administra, monitorea y gestiona todos los estudiantes de la institución
-          </p>
-        </div>
-        <div className="header-actions">
-          <button className="btn-action-secondary">
-            <FaFileExport />
-            <span>Exportar</span>
-          </button>
-          <button className="btn-action-primary">
-            <FaPlus />
-            <span>Nuevo Estudiante</span>
-          </button>
-        </div>
+        <TituloPage
+          titulo="🎓 Gestión de Estudiantes"
+          subtitle="Administra, monitorea y gestiona todos los estudiantes de la institución"
+        />
       </div>
 
       {/* Filtro nivel 1: Facultades */}
@@ -474,6 +460,18 @@ export default function GestionEstudiantesAdmin() {
           })}
         </div>
       )}
+
+      {/* Botones de acción flotantes */}
+      <div className="floating-actions">
+        <button className="floating-btn floating-btn-secondary" title="Exportar lista de estudiantes">
+          <FaFileExport />
+          <span>Exportar</span>
+        </button>
+        <button className="floating-btn floating-btn-primary" title="Agregar nuevo estudiante">
+          <FaPlus />
+          <span>Nuevo Estudiante</span>
+        </button>
+      </div>
 
       {/* Modal de detalles */}
       {mostrarModal && estudianteSeleccionado && (

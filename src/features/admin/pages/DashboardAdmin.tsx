@@ -1,6 +1,17 @@
 import React from 'react';
 import { FaUsers, FaChalkboardTeacher, FaBook, FaChartLine } from 'react-icons/fa';
 import '../css/DashboardAdmin.css';
+import TituloPage from '../../../components/pages/TituloPage';
+
+// Importar imágenes de assets
+import graduadoImg from '../../../assets/graduado.png';
+import profesorImg from '../../../assets/profesor.png';
+import cursoImg from '../../../assets/curso.png';
+import anuncioImg from '../../../assets/anuncio.png';
+import classroomImg from '../../../assets/classroom.png';
+import reporteImg from '../../../assets/reporte.png';
+import usuarioImg from '../../../assets/usuario.png';
+import configuracionImg from '../../../assets/configuracion.png';
 
 const DashboardAdmin: React.FC = () => {
   // Datos simulados para las estadísticas
@@ -47,10 +58,10 @@ const DashboardAdmin: React.FC = () => {
     <div className="dashboard-admin-container">
       {/* Header */}
       <div className="dashboard-admin-header">
-        <h1 className="dashboard-admin-title">Dashboard Administrativo</h1>
-        <p className="dashboard-admin-subtitle">
-          Bienvenido al panel de administración de la UDH
-        </p>
+        <TituloPage
+          titulo={`📚 Dashboard Administrativo`}
+          
+        />
       </div>
 
       {/* Estadísticas principales */}
@@ -61,9 +72,6 @@ const DashboardAdmin: React.FC = () => {
               <div className="stat-icon" style={{ backgroundColor: `${stat.color}20`, color: stat.color }}>
                 {stat.icon}
               </div>
-              <span className={`stat-change ${stat.changeType}`}>
-                {stat.change}
-              </span>
             </div>
             <div className="stat-card-body">
               <h3 className="stat-value">{stat.value}</h3>
@@ -75,23 +83,39 @@ const DashboardAdmin: React.FC = () => {
 
       {/* Sección de acciones rápidas */}
       <div className="dashboard-admin-quick-actions">
-        <h2 className="section-title">Acciones Rápidas</h2>
+        <h2 className="section-title">Gestiones Rápidas</h2>
         <div className="quick-actions-grid">
           <button className="action-button">
-            <FaUsers className="action-icon" />
-            <span>Gestionar Estudiantes</span>
+            <img src={graduadoImg} alt="Estudiantes" className="action-icon" />
+            <span>Estudiantes</span>
+          </button>        
+          <button className="action-button">
+            <img src={cursoImg} alt="Cursos" className="action-icon" />
+            <span>Cursos</span>
           </button>
           <button className="action-button">
-            <FaChalkboardTeacher className="action-icon" />
-            <span>Gestionar Docentes</span>
+            <img src={profesorImg} alt="Docentes" className="action-icon" />
+            <span>Docentes</span>
           </button>
           <button className="action-button">
-            <FaBook className="action-icon" />
-            <span>Gestionar Cursos</span>
+            <img src={anuncioImg} alt="Anuncio" className="action-icon" />
+            <span>Anuncio</span>
           </button>
           <button className="action-button">
-            <FaChartLine className="action-icon" />
-            <span>Ver Reportes</span>
+            <img src={classroomImg} alt="Soporte Classroom" className="action-icon" />
+            <span>Soporte Classroom</span>
+          </button>
+          <button className="action-button">
+            <img src={reporteImg} alt="Reportes" className="action-icon" />
+            <span>Reportes</span>
+          </button>
+          <button className="action-button">
+            <img src={usuarioImg} alt="Mi Perfil" className="action-icon" />
+            <span>Mi Perfil</span>
+          </button>
+          <button className="action-button">
+            <img src={configuracionImg} alt="Configuración" className="action-icon" />
+            <span>Configuración</span>
           </button>
         </div>
       </div>
