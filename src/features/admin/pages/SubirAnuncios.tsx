@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaBullhorn, FaUpload, FaPaperclip, FaTimes, FaSave, FaEye, FaTrash, FaEdit, FaCalendarAlt, FaUser } from 'react-icons/fa';
 import '../css/SubirAnuncios.css';
+import { createAnuncio, getAnuncios, updateAnuncio, deleteAnuncio } from '../../../api/anuncio';
 
 interface ArchivoAdjunto {
   id: string;
@@ -8,21 +9,20 @@ interface ArchivoAdjunto {
   tipo: string;
   tamaño: number;
   url?: string;
+  file?: File;
 }
 
 interface Anuncio {
-  id: string;
+  id: number;
   titulo: string;
-  contenido: string;
-  autor: {
-    nombre: string;
-    rol: 'profesor' | 'administrativo';
-  };
-  facultades: string[];
-  programas: string[];
-  fechaPublicacion: string;
-  archivosAdjuntos: ArchivoAdjunto[];
-  estadoPublicacion: 'borrador' | 'publicado';
+  descripcion: string;
+  fecha: string;
+  tipo: string;
+  imagen?: string | null;
+  archivo_adjunto?: string | null;
+  link_redireccion?: string | null;
+  created_at?: string;
+  updated_at?: string;
 }
 
 export default function SubirAnuncios() {
@@ -31,61 +31,82 @@ export default function SubirAnuncios() {
   const [facultadesSeleccionadas, setFacultadesSeleccionadas] = useState<string[]>([]);
   const [programasSeleccionados, setProgramasSeleccionados] = useState<string[]>([]);
   const [archivosAdjuntos, setArchivosAdjuntos] = useState<ArchivoAdjunto[]>([]);
+  const [imagenFile, setImagenFile] = useState<File | null>(null);
+  const [imagenPreview, setImagenPreview] = useState<string | null>(null);
+  const [linkRedireccion, setLinkRedireccion] = useState('');
   const [modoEdicion, setModoEdicion] = useState(false);
-  const [anuncioEditando, setAnuncioEditando] = useState<string | null>(null);
+  const [anuncioEditando, setAnuncioEditando] = useState<number | null>(null);
   const [vistaPrevia, setVistaPrevia] = useState(false);
-
-  // Datos simulados
-  const [anunciosGuardados, setAnunciosGuardados] = useState<Anuncio[]>([
-    {
-      id: '1',
-      titulo: 'Inicio del Semestre Académico 2025-I',
-      contenido: 'Estimados estudiantes, les informamos que el inicio del semestre académico 2025-I será el próximo lunes 10 de marzo. Por favor revisen sus horarios en el sistema.',
-      autor: {
-        nombre: 'Administración UDH',
-        rol: 'administrativo'
-      },
-      facultades: ['Todas'],
-      programas: ['Todos'],
-      fechaPublicacion: '2025-01-15T10:00:00Z',
-      archivosAdjuntos: [],
-      estadoPublicacion: 'publicado'
-    },
-    {
-      id: '2',
-      titulo: 'Actualización del Sistema de Matrícula',
-      contenido: 'El sistema de matrícula estará en mantenimiento el día sábado 20 de enero de 8:00 AM a 2:00 PM. Durante este periodo no se podrán realizar inscripciones.',
-      autor: {
-        nombre: 'Oficina de Sistemas',
-        rol: 'administrativo'
-      },
-      facultades: ['Ciencias Empresariales'],
-      programas: ['Administración de Empresas'],
-      fechaPublicacion: '2025-01-14T14:30:00Z',
-      archivosAdjuntos: [],
-      estadoPublicacion: 'publicado'
-    }
-  ]);
+  const [anunciosGuardados, setAnunciosGuardados] = useState<Anuncio[]>([]);
+  const [cargando, setCargando] = useState(false);
 
   const facultades = ['Todas', 'Ciencias Empresariales', 'Ingeniería', 'Ciencias de la Salud', 'Derecho'];
   const programas = ['Todos', 'Administración de Empresas', 'Contabilidad', 'Marketing', 'Turismo'];
+  const apiBase = import.meta.env.VITE_API_URL;
 
-  const handleAgregarArchivo = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const archivos = e.target.files;
-    if (archivos) {
-      const nuevosArchivos: ArchivoAdjunto[] = Array.from(archivos).map(archivo => ({
-        id: Date.now().toString() + Math.random(),
-        nombre: archivo.name,
-        tipo: archivo.type,
-        tamaño: archivo.size,
-        url: URL.createObjectURL(archivo)
-      }));
-      setArchivosAdjuntos([...archivosAdjuntos, ...nuevosArchivos]);
+  useEffect(() => {
+    cargarAnuncios();
+  }, []);
+
+  const cargarAnuncios = async () => {
+    setCargando(true);
+    try {
+      const datos = await getAnuncios();
+      // Validar que datos sea un array
+      if (Array.isArray(datos)) {
+        setAnunciosGuardados(datos);
+      } else {
+        console.warn('Los datos recibidos no son un array:', datos);
+        setAnunciosGuardados([]);
+      }
+    } catch (err) {
+      console.error('Error al cargar anuncios:', err);
+      setAnunciosGuardados([]);
+    } finally {
+      setCargando(false);
     }
   };
 
+  const handleAgregarArchivo = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const archivos = e.target.files;
+    if (!archivos) return;
+
+    const nuevosArchivos: ArchivoAdjunto[] = Array.from(archivos).map(archivo => ({
+      id: `${Date.now()}-${Math.random()}`,
+      nombre: archivo.name,
+      tipo: archivo.type,
+      tamaño: archivo.size,
+      url: URL.createObjectURL(archivo),
+      file: archivo
+    }));
+    setArchivosAdjuntos(prev => [...prev, ...nuevosArchivos]);
+  };
+
+  const handleAgregarImagen = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (imagenPreview) {
+      try { URL.revokeObjectURL(imagenPreview); } catch {}
+    }
+    setImagenFile(file);
+    setImagenPreview(URL.createObjectURL(file));
+  };
+
   const handleEliminarArchivo = (id: string) => {
-    setArchivosAdjuntos(archivosAdjuntos.filter(a => a.id !== id));
+    const archivo = archivosAdjuntos.find(x => x.id === id);
+    if (archivo?.url) {
+      try { URL.revokeObjectURL(archivo.url); } catch {}
+    }
+    setArchivosAdjuntos(prev => prev.filter(a => a.id !== id));
+  };
+
+  const handleEliminarImagen = () => {
+    if (imagenPreview) {
+      try { URL.revokeObjectURL(imagenPreview); } catch {}
+    }
+    setImagenFile(null);
+    setImagenPreview(null);
   };
 
   const handleToggleFacultad = (facultad: string) => {
@@ -111,66 +132,84 @@ export default function SubirAnuncios() {
     }
   };
 
-  const handleGuardarBorrador = () => {
-    if (!titulo.trim() || !contenido.trim()) {
-      alert('Por favor completa el título y contenido del anuncio');
-      return;
+  const construirFormData = (estado: string) => {
+    const form = new FormData();
+    form.append('titulo', titulo);
+    form.append('descripcion', contenido);
+    form.append('fecha', new Date().toISOString());
+    form.append('tipo', estado);
+
+    if (imagenFile) {
+      form.append('imagen', imagenFile);
     }
 
-    const nuevoAnuncio: Anuncio = {
-      id: anuncioEditando || Date.now().toString(),
-      titulo,
-      contenido,
-      autor: {
-        nombre: 'Administración UDH',
-        rol: 'administrativo'
-      },
-      facultades: facultadesSeleccionadas,
-      programas: programasSeleccionados,
-      fechaPublicacion: new Date().toISOString(),
-      archivosAdjuntos,
-      estadoPublicacion: 'borrador'
-    };
-
-    if (anuncioEditando) {
-      setAnunciosGuardados(anunciosGuardados.map(a => a.id === anuncioEditando ? nuevoAnuncio : a));
-    } else {
-      setAnunciosGuardados([nuevoAnuncio, ...anunciosGuardados]);
+    if (linkRedireccion.trim()) {
+      form.append('link_redireccion', linkRedireccion);
     }
 
-    limpiarFormulario();
-    alert('Anuncio guardado como borrador');
+    archivosAdjuntos.forEach((archivo) => {
+      if (archivo.file) {
+        form.append('archivo_adjunto', archivo.file);
+      }
+    });
+
+    return form;
   };
 
-  const handlePublicar = () => {
+  const handleGuardarBorrador = async () => {
     if (!titulo.trim() || !contenido.trim()) {
       alert('Por favor completa el título y contenido del anuncio');
       return;
     }
 
-    const nuevoAnuncio: Anuncio = {
-      id: anuncioEditando || Date.now().toString(),
-      titulo,
-      contenido,
-      autor: {
-        nombre: 'Administración UDH',
-        rol: 'administrativo'
-      },
-      facultades: facultadesSeleccionadas,
-      programas: programasSeleccionados,
-      fechaPublicacion: new Date().toISOString(),
-      archivosAdjuntos,
-      estadoPublicacion: 'publicado'
-    };
+    setCargando(true);
+    try {
+      const form = construirFormData('borrador');
 
-    if (anuncioEditando) {
-      setAnunciosGuardados(anunciosGuardados.map(a => a.id === anuncioEditando ? nuevoAnuncio : a));
-    } else {
-      setAnunciosGuardados([nuevoAnuncio, ...anunciosGuardados]);
+      if (modoEdicion && anuncioEditando !== null) {
+        await updateAnuncio(anuncioEditando, form);
+        alert('Borrador actualizado exitosamente');
+      } else {
+        await createAnuncio(form);
+        alert('Anuncio guardado como borrador');
+      }
+
+      limpiarFormulario();
+      await cargarAnuncios();
+    } catch (err: any) {
+      console.error(err);
+      alert('Error al guardar borrador: ' + (err?.message || String(err)));
+    } finally {
+      setCargando(false);
+    }
+  };
+
+  const handlePublicar = async () => {
+    if (!titulo.trim() || !contenido.trim()) {
+      alert('Por favor completa el título y contenido del anuncio');
+      return;
     }
 
-    limpiarFormulario();
-    alert('Anuncio publicado exitosamente');
+    setCargando(true);
+    try {
+      const form = construirFormData('publicado');
+
+      if (modoEdicion && anuncioEditando !== null) {
+        await updateAnuncio(anuncioEditando, form);
+        alert('Anuncio actualizado y publicado exitosamente');
+      } else {
+        await createAnuncio(form);
+        alert('Anuncio publicado exitosamente');
+      }
+
+      limpiarFormulario();
+      await cargarAnuncios();
+    } catch (err: any) {
+      console.error(err);
+      alert('Error al publicar anuncio: ' + (err?.message || String(err)));
+    } finally {
+      setCargando(false);
+    }
   };
 
   const limpiarFormulario = () => {
@@ -179,6 +218,9 @@ export default function SubirAnuncios() {
     setFacultadesSeleccionadas([]);
     setProgramasSeleccionados([]);
     setArchivosAdjuntos([]);
+    setImagenFile(null);
+    setImagenPreview(null);
+    setLinkRedireccion('');
     setModoEdicion(false);
     setAnuncioEditando(null);
     setVistaPrevia(false);
@@ -186,18 +228,31 @@ export default function SubirAnuncios() {
 
   const handleEditarAnuncio = (anuncio: Anuncio) => {
     setTitulo(anuncio.titulo);
-    setContenido(anuncio.contenido);
-    setFacultadesSeleccionadas(anuncio.facultades);
-    setProgramasSeleccionados(anuncio.programas);
-    setArchivosAdjuntos(anuncio.archivosAdjuntos);
+    setContenido(anuncio.descripcion);
+    setLinkRedireccion(anuncio.link_redireccion || '');
     setModoEdicion(true);
     setAnuncioEditando(anuncio.id);
+
+    if (anuncio.imagen) {
+      setImagenPreview(anuncio.imagen);
+    }
+
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleEliminarAnuncio = (id: string) => {
-    if (confirm('¿Estás seguro de eliminar este anuncio?')) {
-      setAnunciosGuardados(anunciosGuardados.filter(a => a.id !== id));
+  const handleEliminarAnuncio = async (id: number) => {
+    if (!confirm('¿Estás seguro de eliminar este anuncio?')) return;
+
+    setCargando(true);
+    try {
+      await deleteAnuncio(id);
+      alert('Anuncio eliminado exitosamente');
+      await cargarAnuncios();
+    } catch (err: any) {
+      console.error(err);
+      alert('Error al eliminar anuncio: ' + (err?.message || String(err)));
+    } finally {
+      setCargando(false);
     }
   };
 
@@ -220,7 +275,6 @@ export default function SubirAnuncios() {
 
   return (
     <div className="subir-anuncios-page">
-      {/* Header */}
       <div className="anuncios-admin-header">
         <div className="header-info">
           <h1 className="page-title">
@@ -233,11 +287,9 @@ export default function SubirAnuncios() {
         </div>
       </div>
 
-      {/* Formulario de Anuncio */}
       <div className="anuncio-form-card">
         <h2 className="form-section-title">Información del Anuncio</h2>
         
-        {/* Título */}
         <div className="form-group">
           <label className="form-label">
             Título del Anuncio <span className="required">*</span>
@@ -253,7 +305,6 @@ export default function SubirAnuncios() {
           <span className="char-counter">{titulo.length}/150</span>
         </div>
 
-        {/* Contenido */}
         <div className="form-group">
           <label className="form-label">
             Contenido del Anuncio <span className="required">*</span>
@@ -268,7 +319,6 @@ export default function SubirAnuncios() {
           <span className="char-counter">{contenido.length} caracteres</span>
         </div>
 
-        {/* Destinatarios */}
         <h2 className="form-section-title">Destinatarios</h2>
         
         <div className="form-group">
@@ -303,10 +353,46 @@ export default function SubirAnuncios() {
           </div>
         </div>
 
-        {/* Archivos Adjuntos */}
-        <h2 className="form-section-title">Archivos Adjuntos (Opcional)</h2>
-        
+        <h2 className="form-section-title">Contenido Multimedia</h2>
+
         <div className="form-group">
+          <label className="form-label">Imagen Destacada (opcional)</label>
+          <label className="file-upload-area">
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleAgregarImagen}
+              style={{ display: 'none' }}
+            />
+            <FaUpload className="upload-icon" />
+            <span className="upload-text">Subir imagen destacada</span>
+            <span className="upload-hint">JPG/PNG (recomendado 1200x600)</span>
+          </label>
+
+          {imagenPreview && (
+            <div className="imagen-preview-row">
+              <img src={imagenPreview} alt="preview" className="imagen-preview" />
+              <button type="button" className="btn-eliminar-archivo" onClick={handleEliminarImagen}>
+                <FaTimes />
+              </button>
+            </div>
+          )}
+        </div>
+
+        <div className="form-group">
+          <label className="form-label">Link de Redirección (opcional)</label>
+          <input
+            type="url"
+            className="form-input"
+            placeholder="https://ejemplo.com/mas-info"
+            value={linkRedireccion}
+            onChange={(e) => setLinkRedireccion(e.target.value)}
+          />
+          <span className="upload-hint">Si agregas un link, los usuarios podrán acceder desde el anuncio</span>
+        </div>
+
+        <div className="form-group">
+          <label className="form-label">Archivos Adjuntos (opcional)</label>
           <label className="file-upload-area">
             <input
               type="file"
@@ -343,16 +429,7 @@ export default function SubirAnuncios() {
           )}
         </div>
 
-        {/* Botones de Acción */}
         <div className="form-actions">
-          <button
-            type="button"
-            className="btn-action btn-secondary"
-            onClick={() => setVistaPrevia(!vistaPrevia)}
-          >
-            <FaEye />
-            {vistaPrevia ? 'Ocultar Vista Previa' : 'Vista Previa'}
-          </button>
           
           <div className="form-actions-right">
             {modoEdicion && (
@@ -364,26 +441,19 @@ export default function SubirAnuncios() {
                 Cancelar
               </button>
             )}
-            <button
-              type="button"
-              className="btn-action btn-draft"
-              onClick={handleGuardarBorrador}
-            >
-              <FaSave />
-              Guardar Borrador
-            </button>
+           
             <button
               type="button"
               className="btn-action btn-publish"
               onClick={handlePublicar}
+              disabled={cargando}
             >
               <FaUpload />
-              Publicar Anuncio
+              {cargando ? 'Publicando...' : 'Publicar Anuncio'}
             </button>
           </div>
         </div>
 
-        {/* Vista Previa */}
         {vistaPrevia && (
           <div className="vista-previa-container">
             <h3 className="vista-previa-title">Vista Previa del Anuncio</h3>
@@ -403,14 +473,30 @@ export default function SubirAnuncios() {
               </div>
               
               <h2 className="preview-titulo">{titulo || 'Título del anuncio'}</h2>
+              
+              {imagenPreview && (
+                <div className="preview-imagen">
+                  <img src={imagenPreview} alt="Vista previa" />
+                </div>
+              )}
+              
               <p className="preview-contenido">{contenido || 'Contenido del anuncio...'}</p>
+              
+              {linkRedireccion && (
+                <div className="preview-link">
+                  <strong>🔗 Link:</strong>
+                  <a href={linkRedireccion} target="_blank" rel="noopener noreferrer">
+                    {linkRedireccion}
+                  </a>
+                </div>
+              )}
               
               {archivosAdjuntos.length > 0 && (
                 <div className="preview-archivos">
-                  <h4>Archivos adjuntos:</h4>
+                  <h4>📎 Archivos adjuntos:</h4>
                   {archivosAdjuntos.map(archivo => (
                     <div key={archivo.id} className="preview-archivo">
-                      📎 {archivo.nombre}
+                      {archivo.nombre}
                     </div>
                   ))}
                 </div>
@@ -425,11 +511,14 @@ export default function SubirAnuncios() {
         )}
       </div>
 
-      {/* Lista de Anuncios Guardados */}
       <div className="anuncios-guardados-section">
-        <h2 className="section-title">Anuncios Publicados y Borradores</h2>
+        <h2 className="section-title">Anuncios Publicados</h2>
         
-        {anunciosGuardados.length === 0 ? (
+        {cargando ? (
+          <div className="sin-anuncios">
+            <p>Cargando anuncios...</p>
+          </div>
+        ) : anunciosGuardados.length === 0 ? (
           <div className="sin-anuncios">
             <FaBullhorn className="icon-empty" />
             <p>No hay anuncios guardados</p>
@@ -441,20 +530,20 @@ export default function SubirAnuncios() {
                 <div className="anuncio-guardado-header">
                   <div className="anuncio-guardado-info">
                     <h3>{anuncio.titulo}</h3>
-                    <span className={`estado-badge ${anuncio.estadoPublicacion}`}>
-                      {anuncio.estadoPublicacion === 'publicado' ? 'Publicado' : 'Borrador'}
+                    <span className={`estado-badge ${anuncio.tipo}`}>
+                      {anuncio.tipo === 'publicado' ? 'Publicado' : 'Borrador'}
                     </span>
                   </div>
                   <div className="anuncio-guardado-acciones">
                     <button
-                      className="btn-icon btn-edit"
+                      className="btn-icon-a btn-edit"
                       onClick={() => handleEditarAnuncio(anuncio)}
                       title="Editar"
                     >
                       <FaEdit />
                     </button>
                     <button
-                      className="btn-icon btn-delete"
+                      className="btn-icon-a btn-delete"
                       onClick={() => handleEliminarAnuncio(anuncio.id)}
                       title="Eliminar"
                     >
@@ -463,22 +552,30 @@ export default function SubirAnuncios() {
                   </div>
                 </div>
                 
+                {anuncio.imagen && (
+                  <img src={anuncio.imagen} alt={anuncio.titulo} className="anuncio-guardado-imagen" />
+                )}
+                
                 <p className="anuncio-guardado-contenido">
-                  {anuncio.contenido.substring(0, 150)}
-                  {anuncio.contenido.length > 150 && '...'}
+                  {anuncio.descripcion.substring(0, 150)}
+                  {anuncio.descripcion.length > 150 && '...'}
                 </p>
                 
                 <div className="anuncio-guardado-meta">
                   <span className="meta-item">
                     <FaCalendarAlt />
-                    {formatearFecha(anuncio.fechaPublicacion)}
+                    {formatearFecha(anuncio.fecha)}
                   </span>
-                  <span className="meta-item">
-                    📁 {anuncio.archivosAdjuntos.length} archivo(s)
-                  </span>
-                  <span className="meta-item">
-                    👥 {anuncio.facultades.join(', ')}
-                  </span>
+                  {anuncio.archivo_adjunto && (
+                    <span className="meta-item">
+                      📎 Archivo adjunto
+                    </span>
+                  )}
+                  {anuncio.link_redireccion && (
+                    <span className="meta-item">
+                      🔗 Con enlace
+                    </span>
+                  )}
                 </div>
               </div>
             ))}
