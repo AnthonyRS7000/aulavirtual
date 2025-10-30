@@ -101,6 +101,22 @@ const programas: Programa[] = [
   { id: 14, nombre: "Educación Básica: Inicial y Primaria", facultadId: 5 },
 ];
 
+// Función para convertir números a romanos
+const numeroARomano = (num: number): string => {
+  const valores = [10, 9, 5, 4, 1];
+  const simbolos = ['X', 'IX', 'V', 'IV', 'I'];
+  let resultado = '';
+  
+  for (let i = 0; i < valores.length; i++) {
+    while (num >= valores[i]) {
+      resultado += simbolos[i];
+      num -= valores[i];
+    }
+  }
+  
+  return resultado;
+};
+
 // Datos de cursos de prueba
 const cursosData: Curso[] = [
   // Ingeniería de Sistemas
@@ -146,6 +162,7 @@ const cursosData: Curso[] = [
 export default function GestionCursos() {
   const [facultadSeleccionada, setFacultadSeleccionada] = useState<number>(0);
   const [programaSeleccionado, setProgramaSeleccionado] = useState<number>(0);
+  const [cicloSeleccionado, setCicloSeleccionado] = useState<number>(0);
   const [busqueda, setBusqueda] = useState("");
   const [cursos] = useState<Curso[]>(cursosData);
 
@@ -154,6 +171,23 @@ export default function GestionCursos() {
     if (facultadSeleccionada === 0) return [];
     return programas.filter((p) => p.facultadId === facultadSeleccionada);
   }, [facultadSeleccionada]);
+
+  // Ciclos disponibles según el programa seleccionado
+  const ciclosDisponibles = useMemo(() => {
+    if (programaSeleccionado === 0) return [];
+    
+    // Obtener ciclos únicos de los cursos del programa seleccionado
+    const ciclosUnicos = Array.from(
+      new Set(
+        cursos
+          .filter(c => c.programaId === programaSeleccionado)
+          .map(c => c.ciclo)
+      )
+    );
+    
+    // Ordenar ciclos en números romanos
+    return ciclosUnicos.sort((a, b) => a - b);
+  }, [programaSeleccionado, cursos]);
 
   // Cursos filtrados
   const cursosFiltrados = useMemo(() => {
@@ -166,10 +200,12 @@ export default function GestionCursos() {
         facultadSeleccionada === 0 || curso.facultadId === facultadSeleccionada;
       const coincidePrograma =
         programaSeleccionado === 0 || curso.programaId === programaSeleccionado;
+      const coincideCiclo =
+        cicloSeleccionado === 0 || curso.ciclo === cicloSeleccionado;
 
-      return coincideBusqueda && coincideFacultad && coincidePrograma;
+      return coincideBusqueda && coincideFacultad && coincidePrograma && coincideCiclo;
     });
-  }, [cursos, busqueda, facultadSeleccionada, programaSeleccionado]);
+  }, [cursos, busqueda, facultadSeleccionada, programaSeleccionado, cicloSeleccionado]);
 
   // Estadísticas
   const estadisticas = useMemo(() => {
@@ -197,6 +233,7 @@ export default function GestionCursos() {
   const handleFacultadChange = (facultadId: number) => {
     setFacultadSeleccionada(facultadId);
     setProgramaSeleccionado(0);
+    setCicloSeleccionado(0);
   };
 
   const handleEliminarCurso = (id: number) => {
@@ -324,6 +361,47 @@ export default function GestionCursos() {
                     </div>
                   )}
                 </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* Filtro nivel 3: Ciclos Académicos */}
+      {programaSeleccionado !== 0 && ciclosDisponibles.length > 0 && (
+        <div className="filter-section">
+          <div className="filter-header">
+            <FaBook className="filter-header-icon" />
+            <h3 className="filter-title">
+              3. Filtra por Ciclo Académico
+              <span className="filter-subtitle">
+                (opcional)
+              </span>
+            </h3>
+            {cicloSeleccionado !== 0 && (
+              <button
+                className="btn-reset-filter"
+                onClick={() => setCicloSeleccionado(0)}
+              >
+                Ver todos
+              </button>
+            )}
+          </div>
+          <div className="ciclos-grid">
+            {ciclosDisponibles.map((ciclo: number) => {
+              const countCursos = cursos.filter(
+                c => c.programaId === programaSeleccionado && c.ciclo === ciclo
+              ).length;
+              return (
+                <button
+                  key={ciclo}
+                  className={`ciclo-btn ${cicloSeleccionado === ciclo ? 'active' : ''}`}
+                  onClick={() => setCicloSeleccionado(ciclo)}
+                  disabled={countCursos === 0}
+                >
+                  <span className="ciclo-roman">{numeroARomano(ciclo)}</span>
+                  <span className="ciclo-count">{countCursos}</span>
+                </button>
               );
             })}
           </div>

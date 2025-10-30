@@ -355,6 +355,62 @@
   flex-shrink: 0;
 }
 
+/* Ciclos Grid */
+.ciclos-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.ciclo-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 70px;
+  height: 70px;
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 8px;
+}
+
+.dark .ciclo-btn {
+  background: #111827;
+  border-color: #374151;
+}
+
+.ciclo-btn:hover:not(:disabled) {
+  transform: scale(1.05);
+  border-color: #2EBAA0;
+  box-shadow: 0 4px 8px rgba(46, 186, 160, 0.2);
+}
+
+.ciclo-btn.active {
+  background: linear-gradient(135deg, #2EBAA0 0%, #259b85 100%);
+  border-color: #2EBAA0;
+  color: white;
+  box-shadow: 0 4px 12px rgba(46, 186, 160, 0.3);
+}
+
+.ciclo-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.ciclo-roman {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.ciclo-count {
+  font-size: 0.75rem;
+  margin-top: 2px;
+  opacity: 0.8;
+}
+
 /* Stats Grid */
 .stats-grid-admin {
   display: grid;
@@ -783,6 +839,10 @@
     grid-template-columns: 1fr;
   }
 
+  .ciclos-grid {
+    justify-content: center;
+  }
+
   .stats-grid-admin {
     grid-template-columns: 1fr;
   }
@@ -829,5 +889,18 @@
   .curso-meta {
     flex-direction: column;
     gap: 6px;
+  }
+
+  .ciclo-btn {
+    min-width: 60px;
+    height: 60px;
+  }
+
+  .ciclo-roman {
+    font-size: 1rem;
+  }
+
+  .ciclo-count {
+    font-size: 0.7rem;
   }
 }

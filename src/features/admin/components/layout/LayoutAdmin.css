@@ -1,50 +1,130 @@
+/* Variables UDH siguiendo la guía de estilos */
+:root {
+  --sidebar-width-open: 16rem;
+  --sidebar-width-closed: 4rem;
+  --topbar-height: 64px;
+  --color-primario: #0C0E2B;
+  --color-secundario: #2EBAA0;
+  --color-terciario: #FBBE1D;
+}
+
 /* Layout Admin */
 .layout-admin {
-  min-height: 100vh;
-  background: var(--bg-primary);
-  transition: background-color 0.3s ease;
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  background: #f1f5f9; /* Fondo gris claro/opaco para contraste */
+  color: #1f2937;
+  font-family: 'Roboto', 'Poppins', sans-serif;
+  transition: all 0.3s ease;
 }
 
+/* Modo oscuro */
 .layout-admin.dark-theme {
-  background: var(--bg-primary);
+  /* Azul más intenso para fondo general en modo oscuro (imagen referencia) */
+  background: #152135; /* azul profundo */
+  color: #e6eef8; /* texto claro */
 }
 
+/* Contenido del layout */
 .layout-content {
   display: flex;
   position: fixed;
-  top: 64px; /* Altura del topbar */
+  top: 64px;
   left: 0;
   right: 0;
   bottom: 0;
   overflow: hidden;
 }
 
+/* Contenido principal */
 .main-content {
   flex: 1;
-  margin-left: 64px; /* Ancho del sidebar colapsado */
-  transition: margin-left 300ms cubic-bezier(0.4, 0, 0.2, 1);
-  padding: 1.5rem; /* 24px - Márgenes apropiados */
+  display: flex;
+  flex-direction: column;
   overflow-y: auto;
   overflow-x: hidden;
+  transition: margin-left 0.3s ease-in-out;
+  background: #f1f5f9; /* Fondo gris claro/opaco */
+  padding: 1.5rem; /* Padding para mantener márgenes apropiados */
 }
 
-.main-content.sidebar-open {
-  margin-left: 256px; /* Ancho del sidebar expandido */
+.main-content.dark-theme {
+  background: linear-gradient(180deg, #121c2e 0%, #0e1825 100%);
 }
 
+/* Estados del sidebar - siguiendo la guía */
+.main-content.sidebar-expanded {
+  margin-left: var(--sidebar-width-open);
+}
+
+.main-content.sidebar-collapsed {
+  margin-left: var(--sidebar-width-closed);
+}
+
+/* Wrapper del contenido */
+.content-wrapper {
+  flex: 1;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.content-wrapper.dark-theme {
+  color: #e6eef8;
+}
+
+/* RESPONSIVE - Sidebar se superpone en móvil */
 @media (max-width: 1024px) {
-  .main-content {
-    margin-left: 0;
-    padding: 1.25rem; /* 20px */
+  .main-content.sidebar-expanded,
+  .main-content.sidebar-collapsed {
+    margin-left: 0; /* Sin margen - sidebar se superpone */
   }
   
-  .main-content.sidebar-open {
-    margin-left: 0;
+  .main-content {
+    padding: 1.25rem;
   }
 }
 
 @media (max-width: 768px) {
   .main-content {
-    padding: 1rem; /* 16px */
+    padding: 1rem;
   }
 }
+
+/* Scrollbar personalizado siguiendo la guía */
+.main-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.main-content::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+.main-content::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+.main-content::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Modo oscuro para scrollbar */
+.main-content.dark-theme::-webkit-scrollbar-track {
+  background: #374151;
+}
+
+.main-content.dark-theme::-webkit-scrollbar-thumb {
+  background: #6b7280;
+}
+
+.main-content.dark-theme::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
+/* Animaciones suaves */
+* {
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+

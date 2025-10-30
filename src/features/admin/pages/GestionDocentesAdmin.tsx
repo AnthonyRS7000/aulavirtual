@@ -334,7 +334,6 @@ export default function GestionDocentesAdmin() {
 
           {/* Búsqueda */}
           <div className="search-container-admin">
-            <FaSearch className="search-icon-admin" />
             <input
               type="text"
               className="search-input-admin"
