@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import { ClasesProvider } from "./context/ClasesContext";
 import Layout from "./components/Layout";
 import LayoutDocente from './features/docente/components/layout/LayoutDocente';
+import LayoutAdmin from './features/admin/components/layout/LayoutAdmin';
 import HomeSelector from "./components/HomeSelector";
 
 // Estudiante
@@ -20,13 +21,21 @@ import SsoReceiver from "./features/estudiante/pages/SsoReceiver";
 
 // Docente
 import DashboardDocente from "./features/docente/pages/DashboardDocente";
-import GestionCursos from "./features/docente/pages/GestionCursos";
+import GestionCursosDocente from "./features/docente/pages/GestionCursos";
 import GestionEstudiantes from "./features/docente/pages/GestionEstudiantes";
 import MensajeriaDocente from "./features/docente/pages/MensajeriaDocente";
 import BibliotecaDocente from "./features/docente/pages/BibliotecaDocente";
 import HorarioDocente from "./features/docente/pages/HorarioDocente";
 import CarpetaDigital from "./features/docente/pages/CarpetaDigital";
 import PerfilDocente from "./features/docente/pages/PerfilDocente";
+
+// Admin
+import DashboardAdmin from "./features/admin/pages/DashboardAdmin";
+import GestionEstudiantesAdmin from "./features/admin/pages/GestionEstudiantesAdmin";
+import GestionDocentesAdmin from "./features/admin/pages/GestionDocentesAdmin";
+import SubirAnuncios from "./features/admin/pages/SubirAnuncios";
+import SoporteClassroom from "./features/admin/pages/SoporteClassroom";
+import GestionCursosAdmin from "./features/admin/pages/GestionCursos";
 
 function App() {
   return (
@@ -52,7 +61,7 @@ function App() {
 
           <Route element={<LayoutDocente />}>
             <Route path="/docente/dashboard" element={<DashboardDocente />} />
-            <Route path="/docente/cursos" element={<GestionCursos />} />
+            <Route path="/docente/cursos" element={<GestionCursosDocente />} />
             <Route path="/docente/horario" element={<HorarioDocente />} />
             <Route path="/docente/estudiantes" element={<GestionEstudiantes />} />
             <Route path="/docente/biblioteca" element={<BibliotecaDocente />} />
@@ -62,6 +71,17 @@ function App() {
             <Route path="/docente/notas/parciales" element={<div>Notas Parciales</div>} />
             <Route path="/docente/notas/finales" element={<div>Notas Finales</div>} />
             <Route path="/docente/notas/reportes" element={<div>Reportes</div>} />
+          </Route>
+
+          <Route element={<LayoutAdmin />}>
+            <Route path="/admin/dashboard" element={<DashboardAdmin />} />
+            <Route path="/admin/estudiantes" element={<GestionEstudiantesAdmin />} />
+            <Route path="/admin/docentes" element={<GestionDocentesAdmin />} />
+            <Route path="/admin/cursos" element={<GestionCursosAdmin />} />
+            <Route path="/admin/anuncios" element={<SubirAnuncios />} />
+            <Route path="/admin/soporte-classroom" element={<SoporteClassroom />} />
+            <Route path="/admin/reportes" element={<div>Reportes</div>} />
+            <Route path="/admin/configuracion" element={<div>Configuración</div>} />
           </Route>
 
           <Route path="*" element={<Navigate to="/" replace />} />

@@ -8,9 +8,9 @@
   left: 0 !important;
   width: 240px !important;
   height: 100vh !important;
-  background-color: #f3fbf9 !important; /* tono claro tipo intranet */
+  background-color: #ffffff !important; /* blanco igual que el topbar */
   color: #0f172a !important; /* texto oscuro */
-  box-shadow: 1px 0px 8px rgba(15,23,42,0.06) !important;
+  box-shadow: 1px 0px 8px rgba(15,23,42,0.08) !important;
   z-index: 60 !important; /* encima del contenido */
   /* permitir que el avatar sobresalga y no quede recortado por overflow */
   overflow: visible !important;

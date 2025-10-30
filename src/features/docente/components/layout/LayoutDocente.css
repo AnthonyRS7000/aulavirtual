@@ -2,7 +2,7 @@
 :root {
   --sidebar-width-open: 16rem;
   --sidebar-width-closed: 4rem;
-  --topbar-height: 4rem; /* Volver a 4rem como especifica la guía */
+  --topbar-height: 64px;
   --color-primario: #0C0E2B;
   --color-secundario: #2EBAA0;
   --color-terciario: #FBBE1D;
@@ -29,9 +29,11 @@
 /* Contenido del layout */
 .layout-content {
   display: flex;
-  flex: 1;
-  height: calc(100vh - var(--topbar-height));
-  margin-top: var(--topbar-height);
+  position: fixed;
+  top: 64px;
+  left: 0;
+  right: 0;
+  bottom: 0;
   overflow: hidden;
 }
 
@@ -40,9 +42,11 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
   transition: margin-left 0.3s ease-in-out;
   background: #f1f5f9; /* Fondo gris claro/opaco */
+  padding: 1.5rem; /* Padding para mantener márgenes apropiados */
 }
 
 .main-content.dark-theme {
@@ -61,17 +65,12 @@
 /* Wrapper del contenido */
 .content-wrapper {
   flex: 1;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding: 2rem;
-  background: #f1f5f9; /* Fondo gris claro/opaco para contraste con tarjetas blancas */
-  color: #1f2937;
+  width: 100%;
   max-width: 100%;
   box-sizing: border-box;
 }
 
 .content-wrapper.dark-theme {
-  background: transparent; /* dejar que el main-content muestre el gradiente */
   color: #e6eef8;
 }
 
@@ -82,49 +81,45 @@
     margin-left: 0; /* Sin margen - sidebar se superpone */
   }
   
-  .content-wrapper {
-    padding: 1rem;
-  }
-  
-  .layout-content {
-    margin-top: var(--topbar-height);
+  .main-content {
+    padding: 1.25rem;
   }
 }
 
 @media (max-width: 768px) {
-  .content-wrapper {
-    padding: 0.75rem;
+  .main-content {
+    padding: 1rem;
   }
 }
 
 /* Scrollbar personalizado siguiendo la guía */
-.content-wrapper::-webkit-scrollbar {
+.main-content::-webkit-scrollbar {
   width: 6px;
 }
 
-.content-wrapper::-webkit-scrollbar-track {
+.main-content::-webkit-scrollbar-track {
   background: #f1f5f9;
 }
 
-.content-wrapper::-webkit-scrollbar-thumb {
+.main-content::-webkit-scrollbar-thumb {
   background: #cbd5e1;
   border-radius: 3px;
 }
 
-.content-wrapper::-webkit-scrollbar-thumb:hover {
+.main-content::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
 }
 
 /* Modo oscuro para scrollbar */
-.content-wrapper.dark-theme::-webkit-scrollbar-track {
+.main-content.dark-theme::-webkit-scrollbar-track {
   background: #374151;
 }
 
-.content-wrapper.dark-theme::-webkit-scrollbar-thumb {
+.main-content.dark-theme::-webkit-scrollbar-thumb {
   background: #6b7280;
 }
 
-.content-wrapper.dark-theme::-webkit-scrollbar-thumb:hover {
+.main-content.dark-theme::-webkit-scrollbar-thumb:hover {
   background: #9ca3af;
 }
 
