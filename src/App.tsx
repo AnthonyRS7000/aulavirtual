@@ -37,6 +37,8 @@ import SubirAnuncios from "./features/admin/pages/SubirAnuncios";
 import SoporteClassroom from "./features/admin/pages/SoporteClassroom";
 import GestionCursosAdmin from "./features/admin/pages/GestionCursos";
 import PerfilAdmin from "./features/admin/pages/PerfilAdmin";
+import Reportes from "./features/admin/pages/Reportes";
+import Configuracion from "./features/admin/pages/Configuracion";
 
 function App() {
   return (
@@ -82,8 +84,8 @@ function App() {
             <Route path="/admin/anuncios" element={<SubirAnuncios />} />
             <Route path="/admin/soporte-classroom" element={<SoporteClassroom />} />
             <Route path="/admin/perfil" element={<PerfilAdmin />} />
-            <Route path="/admin/reportes" element={<div>Reportes</div>} />
-            <Route path="/admin/configuracion" element={<div>Configuración</div>} />
+            <Route path="/admin/reportes" element={<Reportes />} />
+            <Route path="/admin/configuracion" element={<Configuracion />} />
           </Route>
 
           <Route path="*" element={<Navigate to="/" replace />} />

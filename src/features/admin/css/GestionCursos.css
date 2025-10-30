@@ -818,3 +818,95 @@
     font-size: 0.7rem;
   }
 }
+
+/* =====================================================
+   FLOATING ACTION BUTTONS
+   ===================================================== */
+
+.floating-actions {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 900;
+}
+
+.floating-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 20px;
+  border: none;
+  border-radius: 50px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: transform 0.12s linear, box-shadow 0.12s linear;
+  white-space: nowrap;
+}
+
+.floating-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.floating-btn svg {
+  font-size: 1.125rem;
+}
+
+.floating-btn-primary {
+  background: linear-gradient(135deg, #2EBAA0 0%, #259b85 100%);
+  color: white;
+}
+
+.floating-btn-secondary {
+  background: white;
+  color: #1f2937;
+  border: 1px solid #e5e7eb;
+}
+
+.dark .floating-btn-secondary {
+  background: #1f2937;
+  color: #f9fafb;
+  border-color: #374151;
+}
+
+/* Responsive - Floating Buttons Mobile */
+@media (max-width: 768px) {
+  .floating-actions {
+    bottom: 20px;
+    right: 20px;
+    gap: 10px;
+  }
+
+  .floating-btn {
+    width: 52px;
+    height: 52px;
+    padding: 0;
+    justify-content: center;
+    border-radius: 50%;
+  }
+
+  .floating-btn span {
+    display: none;
+  }
+
+  .floating-btn svg {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .floating-actions {
+    bottom: 16px;
+    right: 16px;
+  }
+
+  .floating-btn {
+    width: 48px;
+    height: 48px;
+  }
+}
