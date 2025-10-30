@@ -14,45 +14,47 @@ const PerfilDocente = () => {
   const [photo, setPhoto] = useState<string | null>(null);
 
   useEffect(() => {
-    // Datos simulados del docente - En producción estos vendrán de la API
-    const usuarioSimulado = {
-      nombres: 'Aldo Fernando',
-      apellidos: 'Ramírez García',
-      email: 'aldo.ramirez@udh.edu.pe',
-      foto: null
-    };
+    // Intentar leer los datos de sesión / localStorage (claves comunes)
+    const usuarioRaw =
+      localStorage.getItem('usuario') ||
+      localStorage.getItem('user') ||
+      localStorage.getItem('usuario_docente') ||
+      '{}';
+    const datosDocenteRaw =
+      localStorage.getItem('datos_udh') ||
+      localStorage.getItem('datos_docente') ||
+      localStorage.getItem('datos_docente_udh') ||
+      '{}';
 
-    const datosDocenteSimulado = {
-      codigo: 'D00123456',
-      documento: '43521876',
-      dni: '43521876',
-      facultad: 'FACULTAD DE INGENIERÍA',
-      departamento: 'DEPARTAMENTO ACADÉMICO DE INGENIERÍA DE SISTEMAS',
-      especialidad: 'Ingeniería de Software',
-      categoria: 'Docente Ordinario - Asociado',
-      regimen: 'Dedicación Exclusiva',
-      telefono: '962123456',
-      celular: '962123456',
-      sedalu: 1, // 1 = Huánuco, 2 = Tingo María
-      grado_academico: 'Doctor en Ingeniería de Sistemas',
-      email_personal: 'aldo.ramirez@gmail.com'
-    };
+    let usuario: any = {};
+    let datosDocente: any = {};
 
-    // En producción, estos datos vendrán del localStorage o API
-    // const usuario = JSON.parse(localStorage.getItem('usuario_docente') || '{}');
-    // const datosDocente = JSON.parse(localStorage.getItem('datos_docente') || '{}');
-
-    setUserData(usuarioSimulado);
-    setDocenteData(datosDocenteSimulado);
-    
-    // Inicializar foto si existe
-    const foto = usuarioSimulado?.foto || null;
-    if (foto) setPhoto(foto);
-    
-    // Inicializar número telefónico si existe
-    if (datosDocenteSimulado && (datosDocenteSimulado.telefono || datosDocenteSimulado.celular)) {
-      setPhoneNumber(datosDocenteSimulado.telefono || datosDocenteSimulado.celular);
+    try {
+      usuario = JSON.parse(usuarioRaw);
+    } catch {
+      usuario = {};
     }
+
+    try {
+      datosDocente = JSON.parse(datosDocenteRaw);
+    } catch {
+      datosDocente = {};
+    }
+
+    // Si no hay datos en localStorage, no sobreescribir (mantener null para mostrar "Cargando..." o puedes poner simulados)
+    if (Object.keys(usuario).length === 0 && Object.keys(datosDocente).length === 0) {
+      // opcional: mantener simulados si quieres siempre ver algo; aquí dejamos con datos vacíos para evitar confusión
+    }
+
+    setUserData(Object.keys(usuario).length ? usuario : null);
+    setDocenteData(Object.keys(datosDocente).length ? datosDocente : null);
+
+    // Inicializar foto y teléfono si vienen
+    const foto = usuario?.google_avatar || usuario?.foto || usuario?.image || datosDocente?.foto || null;
+    if (foto) setPhoto(foto);
+
+    const telefono = datosDocente?.telefono || datosDocente?.celular || '';
+    if (telefono) setPhoneNumber(telefono);
   }, []);
 
   const navigate = useNavigate();
@@ -109,11 +111,11 @@ const PerfilDocente = () => {
     // Actualizar estado local (en producción se enviaría a la API)
     const datos = { ...(docenteData || {}), telefono: cleaned, celular: cleaned };
     try {
-      // localStorage.setItem('datos_docente', JSON.stringify(datos));
+      // Guardar localmente (en producción llamar API)
+      localStorage.setItem('datos_udh', JSON.stringify(datos));
       setDocenteData(datos);
       setSaveMessage('Número actualizado');
       setTimeout(() => setSaveMessage(null), 3000);
-      console.log('Número actualizado:', cleaned);
     } catch (err) {
       console.error(err);
       setSaveMessage('Error al guardar');
@@ -126,6 +128,9 @@ const PerfilDocente = () => {
   const apellido_paterno = apellidosArray.length > 0 ? apellidosArray[0] : '';
   const apellido_materno = apellidosArray.length > 1 ? apellidosArray.slice(1).join(' ') : '';
 
+  // Fuente de foto preferida
+  const avatarSrc = photoPreview || photo || userData?.google_avatar || userData?.foto || '/unnamed.png';
+
   return (
     <div className="profile-docente-container">
       <div className="profile-docente-root">
@@ -136,179 +141,191 @@ const PerfilDocente = () => {
       <div className="profile-docente-content">
         <div className="profile-docente-form-container">
           <div className="profile-docente-card">
-
-          {/* Fila 1: Nombres y Apellido Paterno */}
-          <div className="profile-docente-form-row">
-            <div className="profile-docente-form-group">
-              <label className="profile-docente-form-label">Nombres</label>
-              <input 
-                type="text" 
-                className="profile-docente-form-input" 
-                value={userData.nombres || ""}
-                readOnly
-              />
-            </div>
-            <div className="profile-docente-form-group">
-              <label className="profile-docente-form-label">Apellido Paterno</label>
-              <input 
-                type="text" 
-                className="profile-docente-form-input" 
-                value={apellido_paterno || ""}
-                readOnly
-              />
-            </div>
-          </div>
-
-          {/* Fila 2: Apellido Materno y DNI */}
-          <div className="profile-docente-form-row">
-            <div className="profile-docente-form-group">
-              <label className="profile-docente-form-label">Apellido Materno</label>
-              <input 
-                type="text" 
-                className="profile-docente-form-input" 
-                value={apellido_materno || ""}
-                readOnly
-              />
-            </div>
-            <div className="profile-docente-form-group">
-              <label className="profile-docente-form-label">DNI</label>
-              <input 
-                type="text" 
-                className="profile-docente-form-input" 
-                value={docenteData.documento || docenteData.dni || ""}
-                readOnly
-              />
-            </div>
-          </div>
-
-          {/* Fila 3: Facultad y Departamento Académico */}
-          <div className="profile-docente-form-row">
-            <div className="profile-docente-form-group">
-              <label className="profile-docente-form-label">Facultad</label>
-              <input 
-                type="text" 
-                className="profile-docente-form-input" 
-                value={docenteData.facultad || ""}
-                readOnly
-              />
-            </div>
-            <div className="profile-docente-form-group">
-              <label className="profile-docente-form-label">Departamento Académico</label>
-              <input 
-                type="text" 
-                className="profile-docente-form-input" 
-                value={docenteData.departamento || ""}
-                readOnly
-              />
-            </div>
-          </div>
-
-          {/* Fila 4: Especialidad y Categoría */}
-          <div className="profile-docente-form-row">
-            <div className="profile-docente-form-group">
-              <label className="profile-docente-form-label">Especialidad</label>
-              <input 
-                type="text" 
-                className="profile-docente-form-input" 
-                value={docenteData.especialidad || ""}
-                readOnly
-              />
-            </div>
-            <div className="profile-docente-form-group">
-              <label className="profile-docente-form-label">Categoría</label>
-              <input 
-                type="text" 
-                className="profile-docente-form-input" 
-                value={docenteData.categoria || ""}
-                readOnly
-              />
-            </div>
-          </div>
-
-          {/* Fila 5: Régimen y Grado Académico */}
-          <div className="profile-docente-form-row">
-            <div className="profile-docente-form-group">
-              <label className="profile-docente-form-label">Régimen</label>
-              <input 
-                type="text" 
-                className="profile-docente-form-input" 
-                value={docenteData.regimen || ""}
-                readOnly
-              />
-            </div>
-            <div className="profile-docente-form-group">
-              <label className="profile-docente-form-label">Grado Académico</label>
-              <input 
-                type="text" 
-                className="profile-docente-form-input" 
-                value={docenteData.grado_academico || ""}
-                readOnly
-              />
-            </div>
-          </div>
-
-          {/* Fila 6: Código y Correo Institucional */}
-          <div className="profile-docente-form-row">
-            <div className="profile-docente-form-group">
-              <label className="profile-docente-form-label">Código Docente</label>
-              <input 
-                type="text" 
-                className="profile-docente-form-input" 
-                value={docenteData.codigo || ""}
-                readOnly
-              />
-            </div>
-            <div className="profile-docente-form-group">
-              <label className="profile-docente-form-label">Correo Institucional</label>
-              <input 
-                type="email" 
-                className="profile-docente-form-input" 
-                value={userData.email || ""}
-                readOnly
-              />
-            </div>
-          </div>
-
-          {/* Fila 7: Sede y Número Celular */}
-          <div className="profile-docente-form-row">
-            <div className="profile-docente-form-group">
-              <label className="profile-docente-form-label">Sede</label>
-              <input 
-                type="text" 
-                className="profile-docente-form-input" 
-                value={docenteData.sedalu === 1 ? "HUÁNUCO" : docenteData.sedalu === 2 ? "TINGO MARÍA" : ""}
-                readOnly
-              />
-            </div>
-            <div className="profile-docente-form-group">
-              <label className="profile-docente-form-label">
-                Número Celular <span className="required-asterisk">*</span>
-              </label>
-              <input 
-                type="tel" 
-                className="profile-docente-form-input editable" 
-                value={phoneNumber}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPhoneNumber(e.target.value)}
-                onBlur={handlePhoneSubmit}
-                onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => e.key === 'Enter' && handlePhoneSubmit()}
-              />
-              <div className="profile-docente-help-text">
-                Puedes modificar este campo
+            {/* Fila 1: Nombres y Apellido Paterno */}
+            <div className="profile-docente-form-row">
+              <div className="profile-docente-form-group">
+                <label className="profile-docente-form-label">Nombres</label>
+                <input 
+                  type="text" 
+                  className="profile-docente-form-input" 
+                  value={userData.nombres || ""}
+                  readOnly
+                />
               </div>
-              <div className="profile-docente-save-row">
-                <button 
-                  className="profile-docente-save-btn" 
-                  onClick={handlePhoneSubmit} 
-                  disabled={phoneNumber === (docenteData && (docenteData.telefono || docenteData.celular))}
-                >
-                  Actualizar
-                </button>
-                <div className="profile-docente-save-note">{saveMessage}</div>
+              <div className="profile-docente-form-group">
+                <label className="profile-docente-form-label">Apellido Paterno</label>
+                <input 
+                  type="text" 
+                  className="profile-docente-form-input" 
+                  value={apellido_paterno || ""}
+                  readOnly
+                />
               </div>
             </div>
+
+            {/* Fila 2: Apellido Materno y DNI */}
+            <div className="profile-docente-form-row">
+              <div className="profile-docente-form-group">
+                <label className="profile-docente-form-label">Apellido Materno</label>
+                <input 
+                  type="text" 
+                  className="profile-docente-form-input" 
+                  value={apellido_materno || ""}
+                  readOnly
+                />
+              </div>
+              <div className="profile-docente-form-group">
+                <label className="profile-docente-form-label">DNI</label>
+                <input 
+                  type="text" 
+                  className="profile-docente-form-input" 
+                  value={docenteData.documento || docenteData.dni || ""}
+                  readOnly
+                />
+              </div>
+            </div>
+
+            {/* Fila 3: Facultad y Departamento Académico */}
+            <div className="profile-docente-form-row">
+              <div className="profile-docente-form-group">
+                <label className="profile-docente-form-label">Facultad</label>
+                <input 
+                  type="text" 
+                  className="profile-docente-form-input" 
+                  value={docenteData.facultad || ""}
+                  readOnly
+                />
+              </div>
+              <div className="profile-docente-form-group">
+                <label className="profile-docente-form-label">Departamento Académico</label>
+                <input 
+                  type="text" 
+                  className="profile-docente-form-input" 
+                  value={docenteData.departamento || ""}
+                  readOnly
+                />
+              </div>
+            </div>
+
+            {/* Fila 4: Especialidad y Categoría */}
+            <div className="profile-docente-form-row">
+              <div className="profile-docente-form-group">
+                <label className="profile-docente-form-label">Especialidad</label>
+                <input 
+                  type="text" 
+                  className="profile-docente-form-input" 
+                  value={docenteData.especialidad || ""}
+                  readOnly
+                />
+              </div>
+              <div className="profile-docente-form-group">
+                <label className="profile-docente-form-label">Categoría</label>
+                <input 
+                  type="text" 
+                  className="profile-docente-form-input" 
+                  value={docenteData.categoria || ""}
+                  readOnly
+                />
+              </div>
+            </div>
+
+            {/* Fila 5: Régimen y Grado Académico */}
+            <div className="profile-docente-form-row">
+              <div className="profile-docente-form-group">
+                <label className="profile-docente-form-label">Régimen</label>
+                <input 
+                  type="text" 
+                  className="profile-docente-form-input" 
+                  value={docenteData.regimen || ""}
+                  readOnly
+                />
+              </div>
+              <div className="profile-docente-form-group">
+                <label className="profile-docente-form-label">Grado Académico</label>
+                <input 
+                  type="text" 
+                  className="profile-docente-form-input" 
+                  value={docenteData.grado_academico || ""}
+                  readOnly
+                />
+              </div>
+            </div>
+
+            {/* Fila 6: Código y Correo Institucional */}
+            <div className="profile-docente-form-row">
+              <div className="profile-docente-form-group">
+                <label className="profile-docente-form-label">Código Docente</label>
+                <input 
+                  type="text" 
+                  className="profile-docente-form-input" 
+                  value={docenteData.codigo || ""}
+                  readOnly
+                />
+              </div>
+              <div className="profile-docente-form-group">
+                <label className="profile-docente-form-label">Correo Institucional</label>
+                <input 
+                  type="email" 
+                  className="profile-docente-form-input" 
+                  value={userData.email || ""}
+                  readOnly
+                />
+              </div>
+            </div>
+
+            {/* Fila 7: Sede y Número Celular */}
+            <div className="profile-docente-form-row">
+              <div className="profile-docente-form-group">
+                <label className="profile-docente-form-label">Sede</label>
+                <input 
+                  type="text" 
+                  className="profile-docente-form-input" 
+                  value={docenteData.sedalu === 1 ? "HUÁNUCO" : docenteData.sedalu === 2 ? "TINGO MARÍA" : ""}
+                  readOnly
+                />
+              </div>
+              <div className="profile-docente-form-group">
+                <label className="profile-docente-form-label">
+                  Número Celular <span className="required-asterisk">*</span>
+                </label>
+                <input 
+                  type="tel" 
+                  className="profile-docente-form-input editable" 
+                  value={phoneNumber}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPhoneNumber(e.target.value)}
+                  onBlur={handlePhoneSubmit}
+                  onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => e.key === 'Enter' && handlePhoneSubmit()}
+                />
+                <div className="profile-docente-help-text">
+                  Puedes modificar este campo
+                </div>
+                <div className="profile-docente-save-row">
+                  <button 
+                    className="profile-docente-save-btn" 
+                    onClick={handlePhoneSubmit} 
+                    disabled={phoneNumber === (docenteData && (docenteData.telefono || docenteData.celular))}
+                  >
+                    Actualizar
+                  </button>
+                  <div className="profile-docente-save-note">{saveMessage}</div>
+                </div>
+              </div>
+            </div>
+
           </div>
 
-          {/* Modal para subir foto */}
+          {/* Foto y modal */}
+          <div className="profile-docente-photo-section">
+            <div className="profile-docente-photo-card">
+              <div className="photo-preview-large">
+                <img src={avatarSrc} alt="Foto perfil" onError={(e)=> (e.currentTarget.src = '/unnamed.png')} />
+              </div>
+              <div className="photo-actions">
+                <button className="btn-primary" onClick={() => setPhotoModalOpen(true)}>Subir Fotografía</button>
+              </div>
+            </div>
+          </div>
+
           {photoModalOpen && (
             <div className="modal-overlay" role="dialog" aria-modal="true">
               <div className="photo-modal">
@@ -333,30 +350,31 @@ const PerfilDocente = () => {
                     <div className="photo-actions">
                       <button className="btn-primary" onClick={() => {
                         if (!photoFile) return;
-                        // Simular subida (en producción se enviaría a la API)
+                        // Simular subida: en producción subir al backend y actualizar localStorage
                         console.log('Subiendo foto', photoFile);
                         if (photoPreview) URL.revokeObjectURL(photoPreview);
+                        setPhoto(photoPreview);
                         setPhotoPreview(null);
                         setPhotoFile(null);
                         setPhotoModalOpen(false);
+                        // guardar en localStorage como ejemplo
+                        try {
+                          const usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
+                          usuario.foto = photo;
+                          localStorage.setItem('usuario', JSON.stringify(usuario));
+                        } catch {}
                       }} disabled={!photoFile}>Guardar</button>
-                      <button className="btn-secondary" onClick={() => { 
-                        if (photoPreview) URL.revokeObjectURL(photoPreview); 
-                        setPhotoModalOpen(false); 
-                        setPhotoPreview(null); 
-                        setPhotoFile(null); 
-                        setPhotoError(null); 
-                      }}>Cancelar</button>
+                      <button className="btn-secondary" onClick={() => { if (photoPreview) URL.revokeObjectURL(photoPreview); setPhotoModalOpen(false); setPhotoPreview(null); setPhotoFile(null); setPhotoError(null); }}>Cancelar</button>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           )}
+
         </div>
       </div>
     </div>
-  </div>
   );
 };
 

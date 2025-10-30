@@ -20,8 +20,8 @@ interface ArchivoEntrega {
   url?: string;
   link?: string;
   drive_id?: string;
-  tamaño?: number;
-  tamano?: number;
+  tamaño?: string;
+  tamano?: string;
   size_bytes?: number;
   fechaSubida?: string;
 }
@@ -63,9 +63,9 @@ const mapApiToTarea = (item: any): Tarea => {
     const url = pickFirst(f, ['url', 'link', 'alternateLink', 'downloadUrl', 'webViewLink', 'webContentLink'], undefined);
     const driveId = pickFirst(f, ['drive_id', 'driveId'], undefined);
 
-    const sizeMbField = pickFirst(f, ['tamaño', 'tamano', 'size_mb', 'sizeMb'], undefined);
+      const sizeMbField = pickFirst(f, ['tamaño', 'tamano', 'size_mb', 'sizeMb'], undefined);
     const sizeBytesField = pickFirst(f, ['size_bytes', 'sizeBytes', 'bytes'], undefined);
-    let sizeMb: number | string | undefined;
+   let sizeMb: string | undefined = sizeMbField ? String(sizeMbField) : undefined;
 
     const fechaSubida = pickFirst(f, ['fechaSubida', 'submitted_at', 'uploaded_at', 'fecha_subida'], '');
 

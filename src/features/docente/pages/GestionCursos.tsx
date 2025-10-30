@@ -1,51 +1,14 @@
 import '../css/GestionCursos.css';
-
-type EstadoSilabo = 'registrado' | 'pendiente';
+import { useEffect, useState } from 'react';
+import { getCursosDocente } from '../../../api/classroom';
 
 interface Curso {
-  id: number;
+  id: string;
   codigo: string;
   nombre: string;
-  ciclo: string;
-  creditos: number;
-  estudiantes: number;
+  seccion: string;
+  link: string;
 }
-
-const cursos: Curso[] = [
-  {
-    id: 62108052,
-    codigo: '062108052',
-    nombre: 'Seminarios de Tesis I',
-    ciclo: '8',
-    creditos: 3,
-    estudiantes: 32
-  },
-  {
-    id: 62110052,
-    codigo: '062110052',
-    nombre: 'Seminario de Tesis III',
-    ciclo: '10',
-    creditos: 3,
-    estudiantes: 28
-  },
-  {
-    id: 62110072,
-    codigo: '062110072',
-    nombre: 'Trabajo de Investigación',
-    ciclo: '10',
-    creditos: 3,
-    estudiantes: 30
-  }
-];
-
-const docenteInfo = {
-  nombre: 'Aldo Enrique',
-  saludo: '¡Bienvenido, ALDO ENRIQUE!',
-  mensaje: 'Estos son tus cursos asignados. Cada clase es una nueva oportunidad para inspirar, guiar y transformar el aprendizaje.',
-  avatar: 'https://i.pravatar.cc/160?img=52'
-};
-
-// estadoConfig removed — not tracking estado in cards anymore
 
 const LibraryIcon = () => (
   <svg
@@ -119,9 +82,25 @@ const ArrowIcon = () => (
 );
 
 export default function GestionCursos() {
+  const [cursos, setCursos] = useState<Curso[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function cargarCursos() {
+      try {
+        const data = await getCursosDocente();
+        setCursos(data);
+      } catch (error) {
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    cargarCursos();
+  }, []);
+
   return (
     <main className="gestion-cursos-page">
-
       <div className="mensajeria-docente-header">
         <h1 className="mensajeria-docente-titulo">Mis Cursos</h1>
         <p className="mensajeria-docente-subtitulo">
@@ -131,49 +110,60 @@ export default function GestionCursos() {
 
       <div className="gestion-cursos-wrapper">
         <div className="gestion-cursos-panel">
-        
-        <section className="gestion-cursos-grid">
-          {cursos.map((curso) => {
-            return (
-              <article className="curso-card" key={curso.id}>
-                <div className="curso-card__header">
-                  <LibraryIcon />
-                </div>
-
-                <div className="curso-card__body">
-                  <span className="curso-card__codigo">{curso.codigo}</span>
-                  <h3 className="curso-card__titulo">{curso.nombre}</h3>
-
-                  <div className="curso-card__meta">
-                    <div className="curso-card__meta-item">
-                      <CalendarIcon />
-                      <span>Ciclo: {curso.ciclo}</span>
-                    </div>
-                    <div className="curso-card__meta-item">
-                      <BookIcon />
-                      <span>Créditos: {curso.creditos}</span>
-                    </div>
-                    {/* Estado removed */}
+          {loading ? (
+            <div className="gestion-cursos-empty">
+              <h3>Cargando cursos...</h3>
+            </div>
+          ) : cursos.length === 0 ? (
+            <div className="gestion-cursos-empty">
+              <h3>No tienes sílabos asignados</h3>
+              <p>Cuando la coordinación te asigne cursos, aparecerán aquí automáticamente.</p>
+            </div>
+          ) : (
+            <section className="gestion-cursos-grid">
+              {cursos.map((curso) => (
+                <article className="curso-card" key={curso.id}>
+                  <div className="curso-card__header">
+                    <LibraryIcon />
                   </div>
-                </div>
 
-                <footer className="curso-card__footer">
-                  <button className="curso-card__cta" type="button">
-                    <span>Ver Detalles</span>
-                    <ArrowIcon />
-                  </button>
-                </footer>
-              </article>
-            );
-          })}
-        </section>
+                  <div className="curso-card__body">
+                    <span className="curso-card__codigo">{curso.codigo}</span>
+                    <h3 className="curso-card__titulo">{curso.nombre}</h3>
 
-        {cursos.length === 0 && (
-          <div className="gestion-cursos-empty">
-            <h3>No tienes sílabos asignados</h3>
-            <p>Cuando la coordinación te asigne cursos, aparecerán aquí automáticamente.</p>
-          </div>
-        )}
+                    <div className="curso-card__meta">
+                      <div className="curso-card__meta-item">
+                        <CalendarIcon />
+                        <span>Sección: {curso.seccion}</span>
+                      </div>
+                      <div className="curso-card__meta-item">
+                        <BookIcon />
+                        <a
+                          href={curso.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          Ir al curso
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+
+                  <footer className="curso-card__footer">
+                    <a
+                      href={curso.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="curso-card__cta"
+                    >
+                      <span>Ver en Classroom</span>
+                      <ArrowIcon />
+                    </a>
+                  </footer>
+                </article>
+              ))}
+            </section>
+          )}
         </div>
       </div>
     </main>

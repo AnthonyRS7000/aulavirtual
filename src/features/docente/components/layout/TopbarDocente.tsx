@@ -1,4 +1,4 @@
-import { FaCalendarAlt, FaBook, FaSun, FaMoon } from 'react-icons/fa';
+import { FaSun, FaMoon } from 'react-icons/fa';
 import { useState, useEffect } from 'react';
 import logoUDH from '../../../../assets/UDH.webp';
 import logoUDHLight from '../../../../assets/UDHlight.png';
@@ -17,43 +17,66 @@ interface TopbarDocenteProps {
 export default function TopbarDocente(props: TopbarDocenteProps) {
   const [isDarkTheme, setIsDarkTheme] = useState(props.isDarkMode);
   const [perfilOpen, setPerfilOpen] = useState(false);
+  const [usuario, setUsuario] = useState<any>(null);
+  const [avatar, setAvatar] = useState<string>('/UDH 1.png');
+  const [nombreCompleto, setNombreCompleto] = useState<string>('Docente');
 
-  const toggleTheme = () => {
-    setIsDarkTheme(!isDarkTheme);
+  // --- Obtener usuario desde localStorage ---
+  useEffect(() => {
+    try {
+      const storedUsuario = localStorage.getItem('usuario');
+      const fotoLocal = localStorage.getItem('foto');
+      if (storedUsuario) {
+        const parsed = JSON.parse(storedUsuario);
+        setUsuario(parsed);
 
-    if (!isDarkTheme) {
-      document.documentElement.className = 'dark';  // Cambiar a clase
-      localStorage.setItem('theme', 'dark');
-    } else {
-      document.documentElement.className = 'light'; // Cambiar a clase
-      localStorage.setItem('theme', 'light');
+        // Nombre
+        const nombre =
+          parsed.nombres && parsed.apellidos
+            ? `${parsed.nombres} ${parsed.apellidos}`
+            : parsed.name || 'Docente';
+        setNombreCompleto(nombre);
+
+        // Foto
+        setAvatar(parsed.foto || parsed.avatar || fotoLocal || '/UDH 1.png');
+      } else if (fotoLocal) {
+        setAvatar(fotoLocal);
+      }
+    } catch (error) {
+      console.error('Error al leer datos del usuario:', error);
     }
+  }, []);
+
+  // --- Manejo de tema (oscuro/claro) ---
+  const toggleTheme = () => {
+    const newTheme = isDarkTheme ? 'light' : 'dark';
+    setIsDarkTheme(!isDarkTheme);
+    document.documentElement.className = newTheme;
+    localStorage.setItem('theme', newTheme);
   };
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme) {
       setIsDarkTheme(savedTheme === 'dark');
-      document.documentElement.className = savedTheme; // Cambiar a clase
+      document.documentElement.className = savedTheme;
     }
   }, []);
 
   return (
     <header className="topbar-docente">
-      {/* Sección izquierda - Solo logo */}
+      {/* Sección izquierda - Logo */}
       <div className="topbar-left">
-        {/* Logo UDH */}
         <div className="topbar-logo">
           <img
             src={isDarkTheme ? logoUDH : logoUDHLight}
             alt="Universidad de Huánuco"
             className="logo-image"
           />
-          
         </div>
       </div>
 
-      {/* Sección central - vacía */}
+      {/* Centro vacío (puedes poner buscador o título si quieres) */}
       <div className="topbar-center"></div>
 
       {/* Sección derecha */}
@@ -76,39 +99,33 @@ export default function TopbarDocente(props: TopbarDocenteProps) {
           </button>
         </div>
 
-         {/* Toggle tema personalizado */}
+        {/* Toggle tema */}
         <label className="theme-toggle">
-          <input 
-            type="checkbox" 
+          <input
+            type="checkbox"
             className="theme-checkbox"
             checked={isDarkTheme}
             onChange={toggleTheme}
           />
           <div className="theme-slider"></div>
-          
-          {/* Iconos del sol y luna */}
           <FaSun className="sun-icon" />
           <FaMoon className="moon-icon" />
         </label>
 
         {/* Avatar del usuario */}
-        <div 
-          className="user-avatar" 
-          title="Aldo Ramirez - Docente"
+        <div
+          className="user-avatar"
+          title={`${nombreCompleto} - Docente`}
           onClick={() => setPerfilOpen(!perfilOpen)}
           style={{ cursor: 'pointer' }}
         >
-          <img
-            src="/unnamed.png"
-            alt="Avatar de usuario"
-            className="avatar-img"
-          />
+          <img src={avatar} alt="Avatar de usuario" className="avatar-img" />
         </div>
-        
+
         {/* Dropdown de perfil */}
-        <PerfilDropdownDocente 
-          isOpen={perfilOpen} 
-          onClose={() => setPerfilOpen(false)} 
+        <PerfilDropdownDocente
+          isOpen={perfilOpen}
+          onClose={() => setPerfilOpen(false)}
         />
       </div>
     </header>

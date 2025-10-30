@@ -52,6 +52,13 @@ interface TareaPendientePorCurso {
     submission_id: string; // ← Asegúrate de que esto venga del backend
   }[];
 }
+export interface CursoDocente {
+  id: string;
+  nombre: string;
+  codigo: string;
+  seccion: string;
+  link: string;
+}
 const apiBase = import.meta.env.VITE_API_URL;
 
 async function apiCall<T>(endpoint: string): Promise<T> {
@@ -107,4 +114,8 @@ export async function getTodasLasTareas(estado?: string): Promise<Tarea[]> {
     ? `/classroom/tareas?estado=${encodeURIComponent(estado)}`
     : '/classroom/tareas';
   return apiCall(endpoint);
+}
+// DOCENTE
+export async function getCursosDocente(): Promise<CursoDocente[]> {
+  return apiCall('/classroom/docente/cursos');
 }

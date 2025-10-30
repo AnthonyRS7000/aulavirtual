@@ -9,8 +9,8 @@ interface ArchivoEntrega {
   url?: string;
   link?: string;
   drive_id?: string;
-  tamaño?: number | string; // puede venir como número (MB) o string "1.23 MB"
-  tamano?: number | string;
+  tamaño?:  string; 
+  tamano?: string;
   size_bytes?: number;
   fechaSubida?: string;
 }
@@ -62,15 +62,6 @@ export default function TareaCard({ tarea }: TareaCardProps) {
   };
 
   
-
-    const formatearTamaño = (bytes: number) => {
-    if (bytes === 0) return '0 Bytes';
-    const k = 1024;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-  };
-
   // Nota: la lógica de subida/entrega se realiza en la vista de detalles.
 
   const esFechaVencida = () => {
@@ -187,15 +178,7 @@ export default function TareaCard({ tarea }: TareaCardProps) {
 
                     <div className="archivo-meta" style={{ fontSize: 12, color: '#666', marginTop: 4 }}>
                       <span className="archivo-size">
-                        {(() => {
-                          // Priorizar el texto ya proporcionado por el backend
-                          const s = archivo.tamano ?? archivo.tamaño;
-                          if (typeof s === 'string' && s.trim()) return s.trim();
-                          if (typeof s === 'number') return `${s} MB`;
-                          // si viene size_bytes, mostrarlo en formato legible
-                          if (archivo.size_bytes && typeof archivo.size_bytes === 'number') return formatearTamaño(archivo.size_bytes);
-                          return 'Sin tamaño';
-                        })()}
+                        {archivo.tamano || archivo.tamaño || 'sin tamaño'}
                       </span>
                       {archivo.fechaSubida ? <span style={{ marginLeft: 8 }}>• {archivo.fechaSubida}</span> : null}
                     </div>
